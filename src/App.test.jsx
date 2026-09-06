@@ -11,9 +11,11 @@ describe('ROOT site', () => {
 
     expect(screen.getByRole('heading', { name: /find the friction/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /book a revenue diagnostic/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /ROOT carries the business load/i })).toBeTruthy();
+    expect(screen.getByText(/PHI-capable Management Services Organization platform/i)).toBeTruthy();
   });
 
-  it('requires the no-PHI acknowledgement before preparing an inquiry', () => {
+  it('requires the no-PHI and secure-channel acknowledgement before preparing an inquiry', () => {
     render(<App />);
 
     fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Alex Rivera' } });
@@ -25,7 +27,7 @@ describe('ROOT site', () => {
 
     expect(screen.getByRole('button', { name: /prepare inquiry/i }).disabled).toBe(true);
 
-    fireEvent.click(screen.getByLabelText(/protected health information/i));
+    fireEvent.click(screen.getByLabelText(/approved secure channel and BAA/i));
     fireEvent.click(screen.getByRole('button', { name: /prepare inquiry/i }));
 
     const emailLink = screen.getByRole('link', { name: /open email/i });
@@ -41,7 +43,8 @@ describe('ROOT site', () => {
       focus: 'Denials and aging A/R are rising.',
     });
 
-    expect(decodeURIComponent(href)).toContain('ROOT diagnostic inquiry - Northstar Clinic');
-    expect(decodeURIComponent(href)).toContain('deidentified operational context only');
+    expect(decodeURIComponent(href)).toContain('ROOT MSO platform inquiry - Northstar Clinic');
+    expect(decodeURIComponent(href)).toContain('ROOT PHI-capable MSO platform inquiry');
+    expect(decodeURIComponent(href)).toContain('A BAA, access control, and approved secure channel');
   });
 });
