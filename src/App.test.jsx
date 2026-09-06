@@ -1,0 +1,1 @@
+import{render,screen}from'@testing-library/react';import{describe,expect,it}from'vitest';import App from'./App.jsx';describe('ROOT site',()=>{it('renders revenue journey',()=>{render(<App/>);expect(screen.getByRole('heading',{name:/find the friction/i})).toBeTruthy();expect(screen.getByRole('link',{name:/book a revenue diagnostic/i})).toBeTruthy()})})

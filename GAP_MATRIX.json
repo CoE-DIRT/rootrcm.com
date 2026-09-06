@@ -1,0 +1,12 @@
+{
+  "generated_at":"2026-09-06T00:00:00Z",
+  "source_of_truth":"origin/main",
+  "baseline":{"existing_files":["README.md"],"existing_application":false},
+  "gaps":[
+    {"id":"G01","gap":"No web runtime","resolution":"React + Vite static application","status":"filled"},
+    {"id":"G02","gap":"No public conversion journey","resolution":"Diagnostic inquiry vertical slice","status":"filled"},
+    {"id":"G03","gap":"No scoped design system","resolution":".glass-theme token scope","status":"filled"},
+    {"id":"G04","gap":"No CI or Pages deployment","resolution":"Non-destructive GitHub Actions workflows","status":"filled"},
+    {"id":"G05","gap":"No approved lead-capture backend or BAA","resolution":"Local confirmation only; production integration blocked","status":"blocked"}
+  ]
+}
