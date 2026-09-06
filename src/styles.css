@@ -338,7 +338,7 @@
   border-top: 1px solid #cdd6d0;
 }
 
-.glass-theme article {
+.glass-theme .serviceList article {
   display: grid;
   grid-template-columns: 55px 1fr 1.4fr 28px;
   gap: 24px;
@@ -347,14 +347,85 @@
   border-bottom: 1px solid #cdd6d0;
 }
 
-.glass-theme article h3 {
+.glass-theme .serviceList article h3 {
   font-size: 23px;
   margin: 0;
 }
 
-.glass-theme article p {
+.glass-theme .serviceList article p {
   color: #68766f;
   font-size: 13px;
+  line-height: 1.6;
+}
+
+.glass-theme .mso {
+  background: #f4f7f2;
+}
+
+.glass-theme .msoIntro {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 8vw;
+  align-items: start;
+}
+
+.glass-theme .msoIntro p:last-child {
+  color: #5e6e66;
+  font-size: 17px;
+  line-height: 1.75;
+  padding-top: 30px;
+}
+
+.glass-theme .msoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 64px;
+}
+
+.glass-theme .msoGrid article {
+  border-radius: 10px;
+  padding: 26px;
+}
+
+.glass-theme .msoGrid h3 {
+  font-size: 22px;
+  margin: 0 0 14px;
+}
+
+.glass-theme .msoGrid p {
+  color: #5f6e66;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.glass-theme .benefitStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 20px;
+  background: #cad4cd;
+  border: 1px solid #cad4cd;
+}
+
+.glass-theme .benefitStrip div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #10261e;
+  color: #dcebe3;
+  padding: 24px;
+}
+
+.glass-theme .benefitStrip strong {
+  color: var(--lime);
+  font: 400 23px Georgia;
+}
+
+.glass-theme .benefitStrip span {
+  color: #aabdb3;
+  font-size: 12px;
   line-height: 1.6;
 }
 
@@ -576,8 +647,14 @@
 
   .glass-theme .hero,
   .glass-theme .services,
+  .glass-theme .msoIntro,
   .glass-theme .method,
   .glass-theme .contact {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-theme .msoGrid,
+  .glass-theme .benefitStrip {
     grid-template-columns: 1fr;
   }
 
@@ -632,11 +709,11 @@
     padding: 80px 20px;
   }
 
-  .glass-theme article {
+  .glass-theme .serviceList article {
     grid-template-columns: 36px 1fr 20px;
   }
 
-  .glass-theme article p {
+  .glass-theme .serviceList article p {
     grid-column: 2 / 4;
   }
 

@@ -7,6 +7,7 @@
     {"id":"G02","gap":"No public conversion journey","resolution":"Diagnostic inquiry vertical slice","status":"filled"},
     {"id":"G03","gap":"No scoped design system","resolution":".glass-theme token scope","status":"filled"},
     {"id":"G04","gap":"No CI or Pages deployment","resolution":"Non-destructive GitHub Actions workflows","status":"filled"},
-    {"id":"G05","gap":"No approved lead-capture backend or BAA","resolution":"Static no-PHI inquiry handoff added; production backend integration remains blocked","status":"guarded"}
+    {"id":"G05","gap":"No approved lead-capture backend or BAA","resolution":"Static no-PHI inquiry handoff added; production backend integration remains blocked","status":"guarded"},
+    {"id":"G06","gap":"MSO and PHI-platform positioning incomplete","resolution":"ROOT is now positioned across the site as a PHI-capable healthcare MSO platform with CPOM-aware, non-clinical administration scope","status":"filled"}
   ]
 }
