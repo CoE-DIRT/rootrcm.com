@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 
@@ -33,12 +33,10 @@ function getAttribution() {
 
 export default function InquiryForm({ variant = 'contact' }) {
   const [form, setForm] = useState(initialState);
-  const [attribution, setAttribution] = useState({});
+  const [attribution] = useState(getAttribution);
   const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
   const endpoint = import.meta.env.VITE_FORM_ENDPOINT;
-
-  useEffect(() => setAttribution(getAttribution()), []);
 
   const payload = useMemo(() => ({ ...form, ...attribution, inquiryType: variant }), [form, attribution, variant]);
   const mailto = useMemo(() => buildInquiryMailto(payload), [payload]);
