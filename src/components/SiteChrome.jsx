@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, ChevronDown, MessageCircle, Menu, Phone, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, MessageCircle, Menu, Phone, X } from 'lucide-react';
 import { brandAssets, companyInfo, footerGroups, outreachChannels, siteNav } from '../siteData.js';
 
 export function Brand({ compact = false }) {
@@ -197,32 +197,45 @@ export function FloatingContactCta() {
   );
 }
 
+function FooterWordmark() {
+  return (
+    <a className="footerWordmark" href="/" aria-label="ROOT home">
+      <strong>ROOT</strong>
+      <span>Revenue Operations & Outcomes Technology</span>
+    </a>
+  );
+}
+
 export function SiteFooter({ minimal = false }) {
   if (minimal) {
     return (
       <footer className="siteFooter minimalFooter">
-        <Brand compact />
-        <p>No PHI is collected through this public website.</p>
-        <a href="/legal/privacy/">Privacy</a>
+        <FooterWordmark />
+        <div className="footerMeta">
+          <span>No PHI is collected through this public website.</span>
+          <a href="/legal/privacy/">Privacy</a>
+        </div>
       </footer>
     );
   }
 
   return (
     <footer className="siteFooter">
-      <div className="footerGrid">
-        <div className="footerBrand">
-          <Brand />
-          <p>One operating partner for the business side of medicine: RCM, credentialing, practice operations, healthcare technology, automation, analytics, and DIRT intelligence.</p>
-          <span className="securityNote"><ShieldCheck size={15} /> Public website: no PHI intake.</span>
-          <address>
-            <strong>{companyInfo.legalName}</strong>
-            {companyInfo.addressLines.map((line) => <span key={line}>{line}</span>)}
-            <a href={companyInfo.phoneHref}>{companyInfo.phone}</a>
-            <a href={companyInfo.emailHref}>{companyInfo.email}</a>
-          </address>
-          <ChannelButtons location="footer-outreach" compact />
+      <div className="footerTop">
+        <div className="footerIdentity">
+          <FooterWordmark />
+          <p>One operating partner for the business side of medicine — RCM + Operations + Technology for independent medical practices.</p>
         </div>
+        <div className="footerAction">
+          <span>Start with evidence</span>
+          <strong>$2,500 Revenue Optimization Diagnostic</strong>
+          <a className="button primary" href="/diagnostic/" data-cta="book-diagnostic" data-location="footer" data-destination="/diagnostic/" data-engagement-type="diagnostic">
+            Book a Diagnostic <ArrowRight size={14} />
+          </a>
+        </div>
+      </div>
+
+      <div className="footerLinks" aria-label="Footer navigation">
         {footerGroups.map((group) => (
           <div className="footerGroup" key={group.title}>
             <h3>{group.title}</h3>
@@ -232,11 +245,18 @@ export function SiteFooter({ minimal = false }) {
           </div>
         ))}
       </div>
-      <div className="footerBottom">
-        <span>© 2026 ROOT Revenue Operations & Outcomes Technology.</span>
-        <a href="/diagnostic/" data-cta="book-diagnostic" data-location="footer" data-destination="/diagnostic/" data-engagement-type="diagnostic">
-          Book a Diagnostic <ArrowRight size={14} />
-        </a>
+
+      <div className="footerMeta">
+        <div>
+          <span>© 2026 ROOT Revenue Operations & Outcomes Technology.</span>
+          <span>Public website: no PHI intake.</span>
+        </div>
+        <div className="footerContact">
+          <a href={companyInfo.phoneHref}>{companyInfo.phone}</a>
+          <a href={companyInfo.emailHref}>{companyInfo.email}</a>
+          <a href="/legal/privacy/">Privacy</a>
+          <a href="/legal/terms/">Terms</a>
+        </div>
       </div>
     </footer>
   );

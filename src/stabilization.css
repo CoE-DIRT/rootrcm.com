@@ -1,0 +1,392 @@
+/*
+ * ROOT launch stabilization layer.
+ * This file intentionally wins after the existing Clinical Glass stylesheet.
+ * Scope: compact spacing, remove overworked decorative treatment, and provide
+ * one coherent footer layout without re-platforming or re-theming the site.
+ */
+
+:root {
+  --section-y: 64px;
+  --section-y-mobile: 46px;
+}
+
+/* One vertical rhythm across the site. */
+.contentSection,
+.splitSection,
+.featureBand,
+.carouselSection,
+.contactMethods,
+.sectionCta {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
+}
+
+.contentSection,
+.splitSection,
+.featureBand,
+.carouselSection,
+.contactMethods,
+.sectionCta,
+.pageHero,
+.diagnosticHero,
+.contactPage,
+.diagnosticBanner {
+  padding-left: clamp(24px, 7%, 110px);
+  padding-right: clamp(24px, 7%, 110px);
+}
+
+.sectionHeading {
+  margin-bottom: 34px;
+}
+
+.sectionHeading > p:last-child {
+  font-size: 16px;
+}
+
+.splitSection,
+.featureBand,
+.carouselSection {
+  gap: clamp(30px, 6vw, 72px);
+}
+
+.homeHero {
+  min-height: 650px;
+  padding-top: 72px;
+  padding-bottom: 64px;
+  gap: clamp(34px, 5vw, 72px);
+}
+
+.trustBand {
+  min-height: 76px;
+}
+
+.trustBand span {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.pageHero {
+  padding-top: 70px;
+  padding-bottom: 54px;
+}
+
+.breadcrumbs {
+  margin-bottom: 28px;
+}
+
+.diagnosticHero,
+.contactPage {
+  padding-top: 64px;
+  padding-bottom: 68px;
+}
+
+.diagnosticBanner {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.articlePage {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.legalPage {
+  padding-top: 68px;
+  padding-bottom: 78px;
+}
+
+/* Reduce excessive card height introduced during the visual-assembly pass. */
+.symptomRail article,
+.modelSteps article,
+.pipelineGrid article,
+.inputChecklist {
+  min-height: 220px;
+}
+
+.proofShell {
+  min-height: 430px;
+}
+
+.diagnosticPages article {
+  min-height: 220px;
+}
+
+.heroWorkstation {
+  min-height: 470px;
+  position: relative;
+  overflow: hidden;
+}
+
+.workspaceBody {
+  min-height: 365px;
+}
+
+/* Preserve card inset inside resource articles despite the generic article
+ * section rule that otherwise removes horizontal padding. */
+.articlePage .resourceProof {
+  padding: 20px;
+}
+
+.credentialingHeader {
+  background: rgba(117,215,255,.055) !important;
+}
+
+.credentialingHeader span,
+.credentialingHeader b,
+.credentialingHeader em,
+.credentialingHeader small {
+  color: #a9bbb2;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+/* The paper-stack illustration was decorative and visually noisy. Keep the
+ * content but remove the pseudo-image treatment for the launch state. */
+.billingSection {
+  grid-template-columns: minmax(0, 1fr);
+  background: rgba(12,25,21,.52);
+}
+
+.paperStackVisual {
+  display: none;
+}
+
+.billingSection > div:last-child {
+  max-width: 980px;
+}
+
+/* Footer: compact brand/offer strip, navigation, then legal/contact metadata. */
+.siteFooter {
+  padding: 44px clamp(24px, 7%, 110px) 24px;
+  background: #050d0a;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.footerTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.footerIdentity p {
+  max-width: 560px;
+  margin: 12px 0 0;
+  font-size: 13px;
+}
+
+.footerWordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.footerWordmark strong {
+  color: #f3faf6;
+  font-size: 1.7rem;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.footerWordmark span {
+  color: #8fa198;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.footerAction {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 5px;
+  text-align: right;
+}
+
+.footerAction > span {
+  grid-column: 1;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.footerAction > strong {
+  grid-column: 1;
+  color: #edf5f1;
+  font-size: 13px;
+}
+
+.footerAction .button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.footerLinks {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px;
+  padding: 30px 0 28px;
+}
+
+.footerGroup {
+  gap: 8px;
+}
+
+.footerGroup h3 {
+  margin-bottom: 5px;
+}
+
+.footerGroup a {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.footerMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: #64786e;
+  font-size: 10px;
+}
+
+.footerMeta > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.footerContact a,
+.footerMeta > a {
+  color: #91a59b;
+}
+
+.footerContact a:hover,
+.footerMeta > a:hover {
+  color: #edf5f1;
+}
+
+.minimalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.minimalFooter .footerMeta {
+  padding: 0;
+  border: 0;
+}
+
+/* Keep the mobile layout dense. Remove the extra bottom padding introduced for
+ * floating CTAs; the CTA is already suppressed on Diagnostic and Contact. */
+@media (max-width: 980px) {
+  .footerTop {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .footerAction {
+    width: 100%;
+    grid-template-columns: 1fr auto;
+    text-align: left;
+  }
+
+  .footerLinks {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .contentSection,
+  .splitSection,
+  .featureBand,
+  .carouselSection,
+  .contactMethods,
+  .sectionCta {
+    padding-top: var(--section-y-mobile);
+    padding-bottom: var(--section-y-mobile);
+  }
+
+  .homeHero {
+    padding-top: 54px;
+    padding-bottom: 50px;
+  }
+
+  .pageHero {
+    padding-top: 52px;
+    padding-bottom: 44px;
+  }
+
+  .diagnosticHero,
+  .contactPage {
+    padding-top: 48px;
+    padding-bottom: 52px;
+  }
+
+  .sectionHeading {
+    margin-bottom: 28px;
+  }
+
+  .clinicalGlass {
+    padding-bottom: 0;
+  }
+
+  .footerTop,
+  .footerAction,
+  .footerMeta,
+  .minimalFooter {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .footerAction .button,
+  .footerAction > span,
+  .footerAction > strong {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .footerAction .button {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .footerLinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
+    padding: 26px 0 24px;
+  }
+
+  .footerMeta > div,
+  .footerContact {
+    display: flex;
+    gap: 9px 14px;
+  }
+
+  .minimalFooter .footerMeta {
+    display: flex;
+  }
+}
+
+@media (max-width: 430px) {
+  .footerLinks {
+    grid-template-columns: 1fr;
+  }
+
+  .footerWordmark {
+    display: grid;
+    gap: 7px;
+  }
+}

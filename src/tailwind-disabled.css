@@ -1,0 +1,4 @@
+/* Tailwind is intentionally disabled for the stabilized G1 launch.
+ * Packages remain installed for deliberate later use, but no Tailwind preflight
+ * or utility generation participates in the production render path tonight.
+ */

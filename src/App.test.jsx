@@ -21,7 +21,9 @@ describe('ROOT commercial site', () => {
 
     expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
     expect(screen.getByText(/one operating partner for the business side of medicine/i)).toBeTruthy();
-    expect(screen.getByRole('link', { name: /explore ROOT/i }).getAttribute('data-cta')).toBe('explore-root');
+    const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Revenue Optimization Diagnostic/i });
+    expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
+    expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-fallback-mark.svg"]')).toBeTruthy();
     expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
@@ -31,6 +33,8 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Built toward future certification discipline/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /proof of work, rebuilt as public-safe demonstrations/i })).toBeTruthy();
+    expect(screen.getAllByText(/fictional practice/i).length).toBeGreaterThan(0);
   });
 
   it('renders platform architecture with clinical practice at the center', () => {
@@ -55,6 +59,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /intelligence layer inside ROOT/i })).toBeTruthy();
     expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /raw signals become prioritized management intelligence/i })).toBeTruthy();
 
     cleanup();
     renderRoute('/pricing/');
@@ -83,7 +88,7 @@ describe('ROOT commercial site', () => {
 
     const ctaEvents = [];
     window.addEventListener('root:cta', (event) => ctaEvents.push(event.detail), { once: true });
-    const diagnosticLink = screen.getByRole('link', { name: /Book Diagnostic/i });
+    const diagnosticLink = screen.getAllByRole('link', { name: /Start the \$2,500 Revenue Optimization Diagnostic/i })[0];
     diagnosticLink.addEventListener('click', (event) => event.preventDefault(), { once: true });
     fireEvent.click(diagnosticLink);
 
@@ -100,6 +105,8 @@ describe('ROOT commercial site', () => {
     renderRoute('/diagnostic/');
 
     expect(screen.getByRole('heading', { name: /see where your revenue system is leaking/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeTruthy();
+    expect(screen.getAllByText(/Willowbend Physician Group/i).length).toBeGreaterThan(0);
 
     fireEvent.change(screen.getByLabelText(/^name$/i), { target: { value: 'Alex Rivera' } });
     fireEvent.change(screen.getByLabelText(/work email/i), { target: { value: 'alex@northstar.example' } });
