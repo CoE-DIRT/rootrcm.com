@@ -15,15 +15,17 @@ function Read-OptionalSecret([string]$Prompt) {
 
 function Upsert-EnvValue([string[]]$Lines, [string]$Key, [string]$Value) {
     $found = $false
-    $updated = foreach ($line in $Lines) {
-        if ($line -match "^$([regex]::Escape($Key))=") {
-            $found = $true
-            "$Key=$Value"
+    [string[]]$updated = @(
+        foreach ($line in $Lines) {
+            if ($line -match "^$([regex]::Escape($Key))=") {
+                $found = $true
+                "$Key=$Value"
+            }
+            else {
+                $line
+            }
         }
-        else {
-            $line
-        }
-    }
+    )
     if (-not $found) {
         $updated += "$Key=$Value"
     }
@@ -45,7 +47,7 @@ if ([string]::IsNullOrWhiteSpace($pexels) -and [string]::IsNullOrWhiteSpace($pix
 
 $lines = @()
 if (Test-Path $envFile) {
-    $lines = Get-Content $envFile
+    $lines = @(Get-Content $envFile)
 }
 
 $lines = Upsert-EnvValue $lines 'PEXELS_API_KEY' $pexels
