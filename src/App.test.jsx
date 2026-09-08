@@ -20,7 +20,7 @@ describe('ROOT commercial site', () => {
     const { container } = renderRoute('/');
 
     expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
-    expect(screen.getByText(/healthcare MSO, RCM, operations, technology, automation, analytics, and DIRT/i)).toBeTruthy();
+    expect(screen.getByText(/one operating partner for the business side of medicine/i)).toBeTruthy();
     expect(screen.getByRole('link', { name: /explore ROOT/i }).getAttribute('data-cta')).toBe('explore-root');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-fallback-mark.svg"]')).toBeTruthy();
@@ -109,15 +109,17 @@ describe('ROOT commercial site', () => {
     expect(submit.disabled).toBe(false);
   });
 
-  it('renders launch contact details and coming-soon outreach channels', () => {
+  it('renders launch contact details and only live outreach channels', () => {
     renderRoute('/contact/');
 
     expect(screen.getAllByText(/ROOT RCM LLC/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/2803 Philadelphia Pike/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/\+1 \(302\) 506 4685/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/info@rootrcm.com/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/LinkedIn/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Coming soon/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /WhatsApp/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /^Call/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /^Email/i }).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/^LinkedIn$/i)).toBeNull();
     expect(screen.getByRole('heading', { name: /Chatbot and virtual front desk/i })).toBeTruthy();
   });
 
