@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resourceArticles, servicePages, solutionPages } from './src/siteData.js';
@@ -51,7 +50,12 @@ function commercialPricingGuard() {
 }
 
 export default defineConfig({
-  plugins: [commercialPricingGuard(), tailwindcss(), react()],
+  plugins: [commercialPricingGuard(), react()],
+  resolve: {
+    alias: {
+      tailwindcss: resolve(rootDir, 'src/tailwind-disabled.css'),
+    },
+  },
   base: '/',
   server: {
     watch: {
