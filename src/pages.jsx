@@ -1,4 +1,17 @@
-import { Activity, ArrowRight, BarChart3, Check, Database, FileSearch, Layers3, ShieldCheck, Workflow } from 'lucide-react';
+import {
+  Activity,
+  ArrowRight,
+  BarChart3,
+  CalendarCheck,
+  Check,
+  Database,
+  FileSearch,
+  Layers3,
+  LockKeyhole,
+  ShieldCheck,
+  TrendingUp,
+  Workflow,
+} from 'lucide-react';
 import InquiryForm from './components/InquiryForm.jsx';
 import { Breadcrumbs, GlassCard, SectionCta } from './components/SiteChrome.jsx';
 import { diagnosticDeliverables, diagnosticFaq, rcmCapabilities } from './siteData.js';
@@ -7,6 +20,13 @@ const problems = [
   ['High / Aging A/R', 'Cash remains trapped in older aging buckets when payer follow-up, ownership, and escalation are inconsistent.'],
   ['Denial Backlogs', 'Denials accumulate when teams work transactions without correcting the upstream workflow creating them.'],
   ['Operational Blind Spots', 'Disconnected reports make it difficult to see which payer, process, location, or workflow is constraining cash.'],
+];
+
+const trustSignals = [
+  ['Independent Practice Focused', 'Built for the realities of 1-20 provider practices.'],
+  ['No Long-Term Contract', 'Start with a fixed-scope diagnostic before larger decisions.'],
+  ['No-PHI Public Intake', 'Commercial inquiries stay deidentified by design.'],
+  ['Operationally Embedded', 'Recommendations connect to ownership, workflow, and follow-through.'],
 ];
 
 function PageHero({ breadcrumbs, title, copy, cta = true, eyebrow }) {
@@ -36,7 +56,7 @@ export function HomePage() {
           <p className="trustLine"><ShieldCheck size={16} /> Public website inquiries are deidentified. PHI is accepted only through an approved secure channel after required agreements and controls are in place.</p>
         </div>
         <div className="signalPanel glassCard" aria-label="Illustrative ROOT revenue intelligence view">
-          <div className="signalTop"><span>Revenue intelligence</span><span className="signalState">Illustrative view</span></div>
+          <div className="signalTop"><span>Revenue intelligence overview</span><span className="signalState">Illustrative view</span></div>
           <div className="signalTitle">From backlog to prioritized action.</div>
           <div className="signalFlow">
             <span><Database size={18} /> Source data</span>
@@ -44,6 +64,23 @@ export function HomePage() {
             <span><FileSearch size={18} /> Root cause</span>
             <ArrowRight size={16} />
             <span><Activity size={18} /> Next action</span>
+          </div>
+          <div className="opportunityDeck" aria-label="Diagnostic signal categories">
+            <div>
+              <small>A/R aging</small>
+              <strong>Segment</strong>
+              <span>Value, payer, age, recoverability</span>
+            </div>
+            <div>
+              <small>Denials</small>
+              <strong>Pattern</strong>
+              <span>Preventability and upstream cause</span>
+            </div>
+            <div>
+              <small>Underpayments</small>
+              <strong>Variance</strong>
+              <span>Contract signal and review priority</span>
+            </div>
           </div>
           <div className="signalRows">
             <div><b>A/R aging</b><span>Segment by value, payer, age, recoverability</span></div>
@@ -54,7 +91,17 @@ export function HomePage() {
       </section>
 
       <section className="trustBand" aria-label="ROOT operating principles">
-        <span>Data-driven</span><span>Independent-practice focus</span><span>No-PHI public intake</span><span>Decision-grade reporting</span>
+        {trustSignals.map(([title, copy], index) => {
+          const icons = [ShieldCheck, CalendarCheck, LockKeyhole, TrendingUp];
+          const Icon = icons[index];
+          return (
+            <span key={title}>
+              <Icon size={20} />
+              <b>{title}</b>
+              <small>{copy}</small>
+            </span>
+          );
+        })}
       </section>
 
       <section className="contentSection">

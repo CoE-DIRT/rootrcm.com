@@ -58,6 +58,14 @@ export const diagnosticDeliverables = [
   'Executive findings presentation',
 ];
 
+export const brandAssets = {
+  fallbackMark: '/brand/logos/root/root-fallback-mark.svg',
+  fallbackWordmark: '/brand/logos/root/root-fallback-wordmark.svg',
+  favicon: '/brand/favicon/favicon.svg',
+  webManifest: '/brand/favicon/site.webmanifest',
+  fallbackOg: 'https://rootrcm.com/brand/social/og-root-fallback.svg',
+};
+
 export const diagnosticFaq = [
   ['What data do you need?', 'We begin with deidentified operational and revenue-cycle exports such as aging, denial, rejection, and payment reports. If patient-level data becomes necessary, ROOT first establishes an approved secure channel and the required agreements.'],
   ['Do we have to sign a long-term RCM contract?', 'No. The Revenue Optimization Diagnostic is a standalone, fixed-fee engagement. Any managed-service recommendation is separate and optional.'],
@@ -69,29 +77,36 @@ export const routeMeta = {
   '/': {
     title: 'ROOT | Revenue Cycle Management & Practice Operations',
     description: 'ROOT is the RCM, operations, and technology partner for independent medical practices. Find revenue leakage and build scalable operations.',
+    image: brandAssets.fallbackOg,
   },
   '/services/rcm': {
     title: 'Medical Billing & A/R Recovery Services | ROOT',
     description: 'Managed revenue cycle services for independent practices: billing, denial management, A/R recovery, credentialing, posting, and revenue intelligence.',
+    image: brandAssets.fallbackOg,
   },
   '/services/practice-ops': {
     title: 'Practice Management Consulting & Automation | ROOT',
     description: 'Improve medical-practice workflows, reporting, technology, controls, and operating visibility with ROOT Practice Operations.',
+    image: brandAssets.fallbackOg,
   },
   '/technology/dirt': {
     title: 'Revenue Cycle Analytics & Intelligence | DIRT by ROOT',
     description: 'DIRT is ROOT’s revenue-intelligence layer for leakage detection, denial analysis, payer patterns, workflow prioritization, and practice analytics.',
+    image: brandAssets.fallbackOg,
   },
   '/diagnostic': {
     title: 'Revenue Cycle Assessment | ROOT Revenue Diagnostic',
     description: 'A fixed-fee Revenue Optimization Diagnostic for independent practices: A/R analysis, denial root causes, opportunity register, and a 90-day roadmap.',
+    image: brandAssets.fallbackOg,
   },
   '/company/about': {
     title: 'About ROOT | RCM, Operations & Technology',
     description: 'ROOT combines healthcare operations, revenue-cycle execution, analytics, and technology for independent physician practices.',
+    image: brandAssets.fallbackOg,
   },
   '/contact': {
     title: 'Contact ROOT | Revenue Cycle & Practice Operations',
     description: 'Talk with ROOT about revenue cycle management, A/R recovery, denial management, practice operations, credentialing, or analytics.',
+    image: brandAssets.fallbackOg,
   },
 };

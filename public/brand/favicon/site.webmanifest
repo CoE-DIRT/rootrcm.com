@@ -1,0 +1,16 @@
+{
+  "name": "ROOT Revenue Operations & Outcomes Technology",
+  "short_name": "ROOT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07110e",
+  "theme_color": "#07110e",
+  "icons": [
+    {
+      "src": "/brand/favicon/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

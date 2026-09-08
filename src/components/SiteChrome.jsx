@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, ShieldCheck, X } from 'lucide-react';
-import { footerGroups, siteNav } from '../siteData.js';
+import { brandAssets, footerGroups, siteNav } from '../siteData.js';
 
 export function Brand({ compact = false }) {
   return (
     <a className="brand" href="/" aria-label="ROOT home">
-      <span className="brandMark">R</span>
+      <span className="brandMark" aria-hidden="true">
+        <img src={brandAssets.fallbackMark} alt="" width="38" height="38" />
+      </span>
       <span className="brandText">
         ROOT
         {!compact && <small>Revenue Operations & Outcomes Technology</small>}
@@ -26,7 +28,7 @@ export function SiteHeader({ minimal = false }) {
             {siteNav.map((item) =>
               item.children ? (
                 <div className="navGroup" key={item.label}>
-                  <button type="button" className="navLabel">
+                  <button type="button" className="navLabel" aria-haspopup="true">
                     {item.label} <ChevronDown size={14} />
                   </button>
                   <div className="navDropdown">
