@@ -74,7 +74,7 @@ export const proofWorkAssets = {
     insight: '182 synthetic denial events reconcile to six categories and separate recoverable work from upstream prevention.',
     categories: [
       ['Eligibility', 56, 64000, 'Front-end verification'],
-      ['Authorization', 42, 52500, 'Referral and auth workflow'],
+      ['Authorization', 42, 52000, 'Referral and auth workflow'],
       ['Coding edit', 31, 37000, 'Documentation/coding review'],
       ['Medical necessity', 22, 29000, 'Evidence packet'],
       ['Credentialing', 18, 22000, 'Enrollment status'],
