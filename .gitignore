@@ -4,3 +4,4 @@ dist-staging/
 .env*
 !.env.example
 .cache/
+.codex-qa/
