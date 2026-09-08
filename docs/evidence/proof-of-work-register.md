@@ -40,7 +40,7 @@ Synthetic profile:
 - A/R buckets reconcile to total A/R: `$242K + $154K + $119K + $101K + $164K = $780K`.
 - A/R over 90 days reconciles to `$265K`, or 34% of total A/R.
 - Denial events reconcile to 182 events.
-- Denied value reconciles to `$214.5K` across denial categories.
+- Denied value reconciles to `$214K` across denial categories.
 - Payer mix totals 100%.
 
 Exact-name web search found existing results for proposed names `Northstar Family Medicine`, `Harborlight Family Medicine`, and `Cedarline Family Medicine`, so those names were rejected for this mission. `Willowbend Physician Group` was selected as a more neutral fictional demonstration name.
