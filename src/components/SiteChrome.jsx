@@ -224,7 +224,7 @@ export function SiteFooter({ minimal = false }) {
       <div className="footerTop">
         <div className="footerIdentity">
           <FooterWordmark />
-          <p>RCM + Operations + Technology for independent medical practices.</p>
+          <p>One operating partner for the business side of medicine — RCM + Operations + Technology for independent medical practices.</p>
         </div>
         <div className="footerAction">
           <span>Start with evidence</span>
