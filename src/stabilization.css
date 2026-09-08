@@ -121,6 +121,27 @@
   min-height: 365px;
 }
 
+/* Preserve card inset inside resource articles despite the generic article
+ * section rule that otherwise removes horizontal padding. */
+.articlePage .resourceProof {
+  padding: 20px;
+}
+
+.credentialingHeader {
+  background: rgba(117,215,255,.055) !important;
+}
+
+.credentialingHeader span,
+.credentialingHeader b,
+.credentialingHeader em,
+.credentialingHeader small {
+  color: #a9bbb2;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 /* The paper-stack illustration was decorative and visually noisy. Keep the
  * content but remove the pseudo-image treatment for the launch state. */
 .billingSection {
