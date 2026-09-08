@@ -1,15 +1,46 @@
 # Sitemap
 
-Path | Purpose
---- | ---
-`/` | Homepage and commercial overview.
-`/diagnostic/` | Primary fixed-fee Diagnostic conversion page.
-`/services/rcm/` | Revenue cycle management services.
-`/services/practice-ops/` | Practice operations, IT, reporting, workflow, and automation.
-`/technology/dirt/` | DIRT revenue intelligence positioning.
-`/company/about/` | ROOT operating philosophy and company positioning.
-`/contact/` | Deidentified contact inquiry.
-`/legal/privacy/` | Public website privacy and no-PHI notice.
-`/legal/terms/` | Terms, no guarantees, and public-channel limits.
-`/thank-you/` | Future endpoint success route.
-`/404.html` | Static not-found route.
+Generated static routes:
+
+- `/`
+- `/platform/`
+- `/solutions/`
+- `/solutions/revenue-leakage/`
+- `/solutions/aging-ar/`
+- `/solutions/denials/`
+- `/solutions/credentialing-bottlenecks/`
+- `/solutions/operational-efficiency/`
+- `/solutions/reporting-visibility/`
+- `/solutions/scaling-practice-ops/`
+- `/services/`
+- `/services/rcm/`
+- `/services/medical-billing/`
+- `/services/ar-recovery/`
+- `/services/denial-management/`
+- `/services/payment-posting/`
+- `/services/patient-balances/`
+- `/services/credentialing/`
+- `/services/practice-ops/`
+- `/services/healthcare-it/`
+- `/services/workflow-automation/`
+- `/services/reporting-analytics/`
+- `/services/operational-consulting/`
+- `/technology/`
+- `/technology/dirt/`
+- `/pricing/`
+- `/resources/`
+- `/resources/revenue-leakage-guide/`
+- `/resources/aging-ar-playbook/`
+- `/resources/denial-management-root-cause/`
+- `/resources/credentialing-operations-checklist/`
+- `/resources/practice-ops-kpi-model/`
+- `/resources/healthcare-automation-readiness/`
+- `/diagnostic/`
+- `/company/about/`
+- `/contact/`
+- `/legal/privacy/`
+- `/legal/terms/`
+- `/thank-you/`
+- `/404.html`
+
+`public/sitemap.xml` is generated from the same route list used to create route entry files.

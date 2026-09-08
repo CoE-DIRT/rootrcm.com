@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
-import { brandAssets, routeMeta } from './siteData.js';
+import { FloatingContactCta, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
+import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import {
   AboutPage,
   ContactPage,
@@ -8,18 +8,29 @@ import {
   DirtPage,
   HomePage,
   NotFoundPage,
-  PracticeOpsPage,
+  PlatformPage,
   PrivacyPage,
-  RcmPage,
+  PricingPage,
+  ResourceArticlePage,
+  ResourcesHubPage,
+  ServicePage,
+  ServicesHubPage,
+  SolutionPage,
+  SolutionsHubPage,
   TermsPage,
+  TechnologyHubPage,
   ThankYouPage,
 } from './pages.jsx';
 
 const routes = {
   '/': HomePage,
-  '/services/rcm': RcmPage,
-  '/services/practice-ops': PracticeOpsPage,
+  '/platform': PlatformPage,
+  '/solutions': SolutionsHubPage,
+  '/services': ServicesHubPage,
+  '/technology': TechnologyHubPage,
   '/technology/dirt': DirtPage,
+  '/pricing': PricingPage,
+  '/resources': ResourcesHubPage,
   '/diagnostic': DiagnosticPage,
   '/company/about': AboutPage,
   '/contact': ContactPage,
@@ -27,6 +38,18 @@ const routes = {
   '/legal/terms': TermsPage,
   '/thank-you': ThankYouPage,
 };
+
+solutionPages.forEach((page) => {
+  routes[`/solutions/${page.slug}`] = () => <SolutionPage page={page} />;
+});
+
+servicePages.forEach((service) => {
+  routes[`/services/${service.slug}`] = () => <ServicePage service={service} />;
+});
+
+resourceArticles.forEach((article) => {
+  routes[`/resources/${article.slug}`] = () => <ResourceArticlePage article={article} />;
+});
 
 function normalizePath(pathname) {
   if (!pathname || pathname === '/') return '/';
@@ -75,15 +98,56 @@ export default function App() {
   const path = normalizePath(window.location.pathname);
   const Page = routes[path] || NotFoundPage;
   const minimal = path === '/diagnostic' || path === '/thank-you';
+  const quietContact = path === '/thank-you';
 
   useEffect(() => {
     syncDocumentMeta(path);
+  }, [path]);
+
+  useEffect(() => {
+    const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (!('IntersectionObserver' in window)) {
+      reveals.forEach((element) => element.classList.add('is-visible'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    reveals.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [path]);
+
+  useEffect(() => {
+    function handleCtaClick(event) {
+      const target = event.target.closest('[data-cta]');
+      if (!target) return;
+      window.dispatchEvent(new CustomEvent('root:cta', {
+        detail: {
+          cta: target.dataset.cta,
+          location: target.dataset.location,
+          destination: target.dataset.destination,
+          engagementType: target.dataset.engagementType,
+          page: path,
+        },
+      }));
+    }
+
+    document.addEventListener('click', handleCtaClick);
+    return () => document.removeEventListener('click', handleCtaClick);
   }, [path]);
 
   return (
     <main className="clinicalGlass">
       <SiteHeader minimal={minimal} />
       <Page />
+      {!quietContact && <FloatingContactCta />}
       <SiteFooter minimal={minimal} />
     </main>
   );

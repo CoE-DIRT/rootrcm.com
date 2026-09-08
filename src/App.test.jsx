@@ -1,29 +1,99 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 import { buildInquiryMailto, buildInquirySummary } from './modules/glass-core/inquiryTemplate.js';
+
+function renderRoute(path = '/') {
+  window.history.pushState({}, '', path);
+  return render(<App />);
+}
 
 afterEach(() => {
   cleanup();
   window.history.pushState({}, '', '/');
   sessionStorage.clear();
+  vi.restoreAllMocks();
 });
 
 describe('ROOT commercial site', () => {
-  it('renders the homepage revenue journey', () => {
-    window.history.pushState({}, '', '/');
-    render(<App />);
+  it('renders full MSO homepage positioning and primary navigation', () => {
+    const { container } = renderRoute('/');
 
-    expect(screen.getByRole('heading', { name: /stop revenue leakage/i })).toBeTruthy();
-    expect(screen.getByRole('link', { name: /book a revenue diagnostic/i })).toBeTruthy();
-    expect(screen.getByText(/independent physician practices/i)).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
+    expect(screen.getByText(/healthcare MSO, RCM, operations, technology, automation, analytics, and DIRT/i)).toBeTruthy();
+    expect(screen.getByRole('link', { name: /explore ROOT/i }).getAttribute('data-cta')).toBe('explore-root');
+    expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
+    expect(container.querySelector('img[src="/brand/logos/root/root-fallback-mark.svg"]')).toBeTruthy();
+    expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
+    expect(screen.getAllByText(/^Platform$/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/^Solutions$/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/^Services$/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Built toward future certification discipline/i).length).toBeGreaterThan(0);
+  });
+
+  it('renders platform architecture with clinical practice at the center', () => {
+    renderRoute('/platform/');
+
+    expect(screen.getByRole('heading', { name: /one operating layer/i })).toBeTruthy();
+    expect(screen.getAllByText(/Clinical Practice/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/DIRT Intelligence/i).length).toBeGreaterThan(0);
+  });
+
+  it('renders solution, service, technology, pricing, and resource routes', () => {
+    renderRoute('/solutions/denials/');
+    expect(screen.getByRole('heading', { name: /^Denials$/i })).toBeTruthy();
+    expect(screen.getAllByText(/preventable patterns/i).length).toBeGreaterThan(0);
+
+    cleanup();
+    renderRoute('/services/credentialing/');
+    expect(screen.getByRole('heading', { name: /^Credentialing$/i })).toBeTruthy();
+    expect(screen.getByText(/\$750-\$1,500 per provider/i)).toBeTruthy();
+
+    cleanup();
+    renderRoute('/technology/dirt/');
+    expect(screen.getByRole('heading', { name: /intelligence layer inside ROOT/i })).toBeTruthy();
+    expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
+
+    cleanup();
+    renderRoute('/pricing/');
+    expect(screen.getAllByText(/Full MSO Partnership/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/\$2,500 fixed fee/i)).toBeTruthy();
+    expect(screen.getByText(/No public guarantee claims/i)).toBeTruthy();
+
+    cleanup();
+    renderRoute('/resources/denial-management-root-cause/');
+    expect(screen.getByRole('heading', { name: /denial management root-cause guide/i })).toBeTruthy();
+    expect(screen.getByText(/X12 Claim Adjustment Reason Codes/i)).toBeTruthy();
+  });
+
+  it('supports accessible carousel controls and dispatches CTA events without form content', () => {
+    renderRoute('/');
+    expect(screen.getByRole('heading', { name: /^Diagnostic$/i })).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /next engagement model/i }));
+    expect(screen.getByRole('heading', { name: /Managed RCM/i })).toBeTruthy();
+
+    const ctaEvents = [];
+    window.addEventListener('root:cta', (event) => ctaEvents.push(event.detail), { once: true });
+    const diagnosticLink = screen.getByRole('link', { name: /Book Diagnostic/i });
+    diagnosticLink.addEventListener('click', (event) => event.preventDefault(), { once: true });
+    fireEvent.click(diagnosticLink);
+
+    expect(ctaEvents[0]).toMatchObject({
+      cta: 'book-diagnostic',
+      location: 'home-hero',
+      destination: '/diagnostic/',
+      page: '/',
+    });
+    expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
   });
 
   it('renders the diagnostic route and enforces the no-PHI acknowledgement', () => {
-    window.history.pushState({}, '', '/diagnostic/');
-    render(<App />);
+    renderRoute('/diagnostic/');
 
-    expect(screen.getByRole('heading', { name: /see where your revenue is leaking/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /see where your revenue system is leaking/i })).toBeTruthy();
 
     fireEvent.change(screen.getByLabelText(/^name$/i), { target: { value: 'Alex Rivera' } });
     fireEvent.change(screen.getByLabelText(/work email/i), { target: { value: 'alex@northstar.example' } });
@@ -33,9 +103,22 @@ describe('ROOT commercial site', () => {
 
     const submit = screen.getByRole('button', { name: /request diagnostic/i });
     expect(submit.disabled).toBe(true);
+    expect(submit.getAttribute('data-cta')).toBe('request-diagnostic');
 
-    fireEvent.click(screen.getByLabelText(/will not submit protected health information/i));
+    fireEvent.click(screen.getByLabelText(/will not submit Protected Health Information/i));
     expect(submit.disabled).toBe(false);
+  });
+
+  it('renders launch contact details and coming-soon outreach channels', () => {
+    renderRoute('/contact/');
+
+    expect(screen.getAllByText(/ROOT RCM LLC/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/2803 Philadelphia Pike/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/\+1 \(302\) 506 4685/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/info@rootrcm.com/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/LinkedIn/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Coming soon/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /Chatbot and virtual front desk/i })).toBeTruthy();
   });
 
   it('builds a deidentified fallback inquiry with attribution', () => {
@@ -58,5 +141,12 @@ describe('ROOT commercial site', () => {
     expect(summary).toContain('Source: linkedin');
     expect(summary).toContain('Do not send PHI');
     expect(href).toContain('mailto:hello@rootrcm.com');
+  });
+
+  it('renders the 404 fallback route', () => {
+    renderRoute('/does-not-exist/');
+
+    expect(screen.getByText('404')).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Revenue Diagnostic/i }).getAttribute('data-cta')).toBe('book-diagnostic');
   });
 });

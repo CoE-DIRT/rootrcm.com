@@ -4,6 +4,8 @@ OFFICIAL ASSET IMPORT BLOCKED.
 
 The approved ChatGPT shared asset URL resolved to an unauthenticated ChatGPT shell in browser/web access and did not expose downloadable original assets. A local search found `C:\Users\aasha\Downloads\ROOT_Gemini_NotebookLM_Source_Package.zip`, but that archive contains markdown context files only and no logo, favicon, cover, or image media assets.
 
+Phase 2 repeated the available workspace, attachment, and local asset sweep. No official ROOT or DIRT logo/media package was available in the repository or attachments. The broad recursive Desktop/Downloads search was stopped after the known ZIP result was already confirmed, to avoid wasting time on the same blocked path.
+
 ## Current Repository Assets
 
 Original filename | Repository filename | Type | Dimensions | Usage | Source | Optimization | Used by
@@ -24,6 +26,7 @@ Unavailable | `public/brand/favicon/site.webmanifest` | Web manifest | n/a | Sta
 - Open Graph image: temporary fallback SVG.
 - GitHub README cover: temporary fallback SVG.
 - DIRT identifier: blocked until official DIRT asset is available.
+- Phase 2 visuals: original CSS/SVG interface visuals only; no external stock imagery shipped.
 
 ## Needed Official Assets
 

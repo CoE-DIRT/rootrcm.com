@@ -1,19 +1,26 @@
 # Conversion Architecture
 
-## Objective
+## Primary Paths
 
-Generate qualified Diagnostic and discovery opportunities from independent US physician practices.
+- Explore ROOT: platform education for buyers who need the full MSO story.
+- Book a Diagnostic: fixed-fee entry offer for practices ready to assess revenue leakage.
+- Talk to ROOT: consultative path for broader MSO, project, or service needs.
+- WhatsApp instant chat: immediate deidentified commercial conversation path.
+- Call and email: direct launch-ready contact options for ROOT RCM LLC.
+- Social/outreach buttons: visible launch surfaces; profile links remain `Coming soon` until official URLs are verified.
+- Chatbot and virtual front desk: `Coming soon` until secure workflow, privacy, and governance requirements are met.
 
-## Sequence
+## CTA Instrumentation
 
-1. Homepage establishes ROOT as RCM + operations + technology.
-2. Service pages clarify operational scope.
-3. DIRT page explains the intelligence layer without overclaiming platform maturity.
-4. Diagnostic page presents the $2,500 fixed-fee entry product.
-5. Contact and Diagnostic forms collect only deidentified commercial context.
+All reusable CTAs should include:
 
-## Guardrails
+- `data-cta`
+- `data-location`
+- `data-destination`
+- `data-engagement-type`
 
-- Do not request PHI.
-- Do not invent customer proof.
-- Do not over-index on technology at the expense of revenue and client acquisition.
+`root:cta` events are browser-only in this branch. No analytics vendor is connected.
+
+## No-PHI Boundary
+
+Public inquiry forms require acknowledgement that the user will not submit PHI. No patient names, clinical details, dates of birth, insurance identifiers, medical record numbers, or free-text PHI should be requested or sent to analytics.

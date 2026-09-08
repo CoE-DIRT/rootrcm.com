@@ -83,7 +83,7 @@ export default function InquiryForm({ variant = 'contact' }) {
         <h3>Your deidentified inquiry is ready.</h3>
         <p>The secure form endpoint is not active yet, so nothing was stored by this website. Continue by email or copy the summary.</p>
         <div className="formActions">
-          <a className="button primary" href={mailto}><Mail size={16} /> Open email</a>
+          <a className="button primary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto" data-engagement-type={variant}><Mail size={16} /> Open email</a>
           <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
         </div>
         <button className="textButton" type="button" onClick={() => setStatus('idle')}>Edit inquiry</button>
@@ -148,7 +148,7 @@ export default function InquiryForm({ variant = 'contact' }) {
         <span>I understand this is a commercial inquiry. I have not included and will not submit Protected Health Information (PHI) through this form.</span>
       </label>
 
-      <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'}>
+      <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination={endpoint ? '/thank-you/' : 'fallback'} data-engagement-type={variant}>
         {status === 'sending' ? 'Sending…' : variant === 'diagnostic' ? 'Request Diagnostic' : 'Start the Conversation'} <ArrowRight size={17} />
       </button>
       <small className="formNote">Public-site inquiries must remain deidentified. PHI moves only through an approved secure channel after required agreements and controls are in place.</small>

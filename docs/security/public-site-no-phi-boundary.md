@@ -22,3 +22,5 @@ The inquiry form must preserve:
 ## Future Secure Intake
 
 Patient-level or protected data requires approved agreements, secure transfer, access controls, audit logging, storage, retention, and operational ownership outside this static site.
+
+Phase 2 adds WhatsApp, phone, email, social/outreach buttons, and future virtual front desk positioning. These channels inherit the same boundary: public outreach must remain commercial and deidentified until ROOT establishes required agreements, secure channels, approved storage, access controls, and documented safeguards.
