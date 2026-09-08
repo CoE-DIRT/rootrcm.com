@@ -5,8 +5,8 @@ Pricing language is intentionally directional and must avoid unsupported guarant
 ## Published Models
 
 - Revenue Optimization Diagnostic: `$2,500 fixed fee`.
-- Managed RCM: monthly plus performance-aligned where appropriate.
-- DIRT/Data Intelligence: `$2,500-$7,500/month`.
+- Managed RCM: onboarding from `$1,500`; approximately `5% of collections` where appropriate, with final pricing dependent on specialty, volume, payer mix, systems, and operating scope.
+- DIRT/Data Intelligence: `$1,500-$2,500/month` depending on scope and data environment.
 - Projects and Automation: `$5,000-$25,000 scoped projects`.
 - Credentialing: `$750-$1,500/provider initial`; `$150-$300/provider/month maintenance` when scoped.
 - Full MSO Partnership: custom.
