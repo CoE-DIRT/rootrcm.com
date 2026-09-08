@@ -161,9 +161,11 @@ export function SectionCta({
 }
 
 export function ChannelButtons({ location = 'contact-panel', compact = false }) {
+  const liveChannels = outreachChannels.filter((channel) => channel.href);
+
   return (
     <div className={`channelButtons ${compact ? 'compact' : ''}`}>
-      {outreachChannels.map((channel) => channel.href ? (
+      {liveChannels.map((channel) => (
         <a
           key={channel.label}
           href={channel.href}
@@ -177,19 +179,6 @@ export function ChannelButtons({ location = 'contact-panel', compact = false }) 
           <span>{channel.label}</span>
           <small>{channel.status}</small>
         </a>
-      ) : (
-        <button
-          key={channel.label}
-          type="button"
-          disabled
-          data-cta={channel.cta}
-          data-location={location}
-          data-destination="coming-soon"
-          data-engagement-type={channel.engagementType}
-        >
-          <span>{channel.label}</span>
-          <small>{channel.status}</small>
-        </button>
       ))}
     </div>
   );
@@ -224,7 +213,7 @@ export function SiteFooter({ minimal = false }) {
       <div className="footerGrid">
         <div className="footerBrand">
           <Brand />
-          <p>ROOT is the healthcare MSO, RCM, operations, technology, automation, analytics, and DIRT intelligence partner for modern medical practices.</p>
+          <p>One operating partner for the business side of medicine: RCM, credentialing, practice operations, healthcare technology, automation, analytics, and DIRT intelligence.</p>
           <span className="securityNote"><ShieldCheck size={15} /> Public website: no PHI intake.</span>
           <address>
             <strong>{companyInfo.legalName}</strong>
