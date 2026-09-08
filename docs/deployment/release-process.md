@@ -10,3 +10,4 @@
 8. Commit logically.
 9. Push only to the approved feature branch.
 10. Review and merge by PR when approved.
+11. Keep production platform writes, DNS changes, social account linking, scheduling tools, CRM/task creation, chatbot storage, and ClickUp-style task updates blocked unless explicitly approved for release.

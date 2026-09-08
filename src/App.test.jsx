@@ -140,7 +140,7 @@ describe('ROOT commercial site', () => {
     expect(summary).toContain('Providers: 6-10');
     expect(summary).toContain('Source: linkedin');
     expect(summary).toContain('Do not send PHI');
-    expect(href).toContain('mailto:hello@rootrcm.com');
+    expect(href).toContain('mailto:info@rootrcm.com');
   });
 
   it('renders the 404 fallback route', () => {

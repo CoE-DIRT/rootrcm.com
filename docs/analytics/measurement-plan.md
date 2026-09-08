@@ -29,6 +29,9 @@ Clickable CTAs include:
 - `request-diagnostic`
 - `start-conversation`
 - `open-email`
+- `whatsapp-instant-chat`
+- `call-root`
+- `social-coming-soon`
 
 ## Rules
 
@@ -37,3 +40,4 @@ Clickable CTAs include:
 - Do not place sensitive values in URLs.
 - Do not send patient identifiers, clinical details, insurance identifiers, or free-text inquiry contents to analytics.
 - Review UTM capture before production analytics are enabled.
+- Keep analytics vendor integrations read-only until an approved production data-protection review exists.

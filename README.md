@@ -155,6 +155,7 @@ Start with [docs/README.md](docs/README.md). Key areas:
 - [Technical SEO](docs/seo/technical-seo.md)
 - [No-PHI security boundary](docs/security/public-site-no-phi-boundary.md)
 - [Quality and data protection readiness](docs/security/quality-data-protection-readiness.md)
+- [Platform readiness register](docs/integrations/platform-readiness.md)
 - [Browser QA checklist](docs/qa/browser-qa-checklist.md)
 
 ## Branch And PR Workflow

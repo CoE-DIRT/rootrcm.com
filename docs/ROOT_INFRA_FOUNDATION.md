@@ -40,7 +40,7 @@ DNS records:
 | GitHub Pages | Static site hosting | Requires Pages source + custom domain settings |
 | Domain `rootrcm.com` | Production brand domain | Requires DNS records |
 | Google Cloud organization/project | Future secure platform services | To create |
-| Google Workspace / email | `hello@rootrcm.com` and operating inboxes | To create |
+| Google Workspace / email | `info@rootrcm.com` and operating inboxes | To create |
 
 ## Required GCP Project Structure
 
@@ -57,7 +57,8 @@ Recommended project IDs:
 | Gate | Requirement | Release Status |
 |---|---|---|
 | Public website | Static Pages build and no-PHI inquiry handoff | Allowed |
-| Contact email | Working `hello@rootrcm.com` alias or mailbox | Required before outbound traffic |
+| Contact email | Working `info@rootrcm.com` alias or mailbox | Required before outbound traffic |
+| Project-management integrations | ClickUp or similar task platforms remain read-only from the public website and this launch branch | Blocked for writes until explicitly approved |
 | Secure intake | BAA-backed provider, access control, audit logging | Blocked |
 | PHI analytics | BAA, data classification, encryption, retention policy | Blocked |
 | Production backend | Approved cloud architecture and secrets handling | Blocked |
@@ -68,5 +69,5 @@ Recommended project IDs:
 2. Set custom domain to `rootrcm.com`.
 3. Add DNS records for apex and `www`.
 4. Enable HTTPS after DNS verification.
-5. Create `hello@rootrcm.com`.
+5. Create `info@rootrcm.com`.
 6. Keep public inquiries deidentified until secure intake is implemented.

@@ -11,6 +11,7 @@ This documentation describes the actual `rootrcm.com` repository: a React/Vite s
 - `website/` - sitemap, navigation, content, and conversion architecture.
 - `seo/` - metadata, keyword map, and technical SEO baseline.
 - `security/` - public-site no-PHI boundary.
+- `integrations/` - platform readiness, external surfaces, and read-only boundaries.
 - `accessibility/` - WCAG 2.1 AA baseline.
 - `performance/` - static-site performance budget.
 - `analytics/` - deidentified measurement plan.

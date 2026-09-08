@@ -1,4 +1,4 @@
-const ROOT_INQUIRY_EMAIL = 'hello@rootrcm.com';
+const ROOT_INQUIRY_EMAIL = 'info@rootrcm.com';
 
 export function buildInquirySummary({
   name,
