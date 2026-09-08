@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { FloatingContactCta, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
-import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
+import { brandAssets, pricingModels, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import {
   AboutPage,
   ContactPage,
@@ -21,6 +21,31 @@ import {
   TechnologyHubPage,
   ThankYouPage,
 } from './pages.jsx';
+
+const APPROVED_LAUNCH_TERMS = {
+  managedRcm: 'Onboarding from $1,500; approximately 5% of collections where appropriate',
+  dirt: '$1,500-$2,500/month',
+};
+
+function applyApprovedLaunchPricing() {
+  const managedRcm = pricingModels.find((model) => model.name === 'Managed RCM');
+  if (managedRcm) managedRcm.price = APPROVED_LAUNCH_TERMS.managedRcm;
+
+  const dirt = pricingModels.find((model) => model.name === 'DIRT / Data Intelligence');
+  if (dirt) dirt.price = APPROVED_LAUNCH_TERMS.dirt;
+
+  const rcmService = servicePages.find((service) => service.slug === 'rcm');
+  if (rcmService) {
+    rcmService.pricing = `${APPROVED_LAUNCH_TERMS.managedRcm}. Final pricing depends on specialty, volume, payer mix, systems, and operating scope.`;
+  }
+
+  const reportingAnalytics = servicePages.find((service) => service.slug === 'reporting-analytics');
+  if (reportingAnalytics) {
+    reportingAnalytics.pricing = `${APPROVED_LAUNCH_TERMS.dirt} for DIRT/Data Intelligence when scoped as an ongoing layer.`;
+  }
+}
+
+applyApprovedLaunchPricing();
 
 const routes = {
   '/': HomePage,
@@ -99,6 +124,13 @@ export default function App() {
   const Page = routes[path] || NotFoundPage;
   const minimal = path === '/diagnostic' || path === '/thank-you';
   const quietContact = path === '/thank-you';
+
+  useLayoutEffect(() => {
+    const carouselPrice = document.querySelector('.engagementCarousel .eyebrow');
+    if (carouselPrice?.textContent?.includes('$2,500-$7,500/month')) {
+      carouselPrice.textContent = '$1,500-$2,500/month when scoped';
+    }
+  }, [path]);
 
   useEffect(() => {
     syncDocumentMeta(path);

@@ -135,7 +135,7 @@ Phone: +1 (302) 506 4685
 Email: info@rootrcm.com  
 WhatsApp: https://wa.me/13025064685
 
-Social/outreach surfaces are present in the UI with coming-soon states until official profile URLs are verified.
+Only verified live outreach channels are rendered publicly. Unverified social/profile destinations remain hidden until official URLs are available.
 
 ## Documentation Index
 
@@ -168,10 +168,10 @@ Preserve React/Vite, static routing, npm, accessibility, no-PHI boundaries, cons
 
 ## Current Status
 
-Phase 2 platform expansion branch for PR #5. Official brand asset import is blocked until the ChatGPT asset collection files are accessible as original downloadable assets. Fallback assets are clearly marked and replaceable.
+Phase 2 platform expansion is merged to `main`. PR #6 contains launch-polish changes for client-facing contact surfaces and approved commercial pricing alignment. Official brand asset import remains a follow-up until the original ChatGPT asset collection files are accessible locally or through the approved asset workflow.
 
 ## Useful Links
 
 - Production domain: https://rootrcm.com/
 - Repository: https://github.com/CoE-DIRT/rootrcm.com
-- Draft PR: https://github.com/CoE-DIRT/rootrcm.com/pull/5
+- Launch polish PR: https://github.com/CoE-DIRT/rootrcm.com/pull/6

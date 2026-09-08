@@ -7,7 +7,7 @@
 - Talk to ROOT: consultative path for broader MSO, project, or service needs.
 - WhatsApp instant chat: immediate deidentified commercial conversation path.
 - Call and email: direct launch-ready contact options for ROOT RCM LLC.
-- Social/outreach buttons: visible launch surfaces; profile links remain `Coming soon` until official URLs are verified.
+- Social/profile destinations: hidden until official URLs are verified; do not render placeholder or `Coming soon` buttons on the client-facing launch site.
 - Chatbot and virtual front desk: `Coming soon` until secure workflow, privacy, and governance requirements are met.
 
 ## CTA Instrumentation

@@ -26,7 +26,8 @@ ROOT service pages are generated from `src/siteData.js`.
 ## Pricing Boundaries
 
 - Diagnostic: `$2,500 fixed fee`.
+- Managed RCM: onboarding from `$1,500`; approximately `5% of collections` where appropriate, subject to specialty, volume, payer mix, systems, and operating scope.
 - Credentialing: `$750-$1,500/provider initial`; `$150-$300/provider/month maintenance` when scoped.
-- DIRT/Data Intelligence: `$2,500-$7,500/month`.
+- DIRT/Data Intelligence: `$1,500-$2,500/month` depending on scope and data environment.
 - Projects: `$5,000-$25,000` when scoped.
-- Managed RCM and Full MSO: custom by scope.
+- Full MSO Partnership: custom by scope.
