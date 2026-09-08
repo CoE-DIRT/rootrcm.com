@@ -25,6 +25,9 @@ export const proofWorkAssets = {
     title: 'Revenue-cycle KPI control view',
     label: 'Synthetic demonstration',
     capability: 'RCM operating controls',
+    seeing: 'Charges, collections, denials, clean-claim quality, and active follow-up in one control view.',
+    meaning: 'Leadership can see whether the revenue engine is controlled or simply busy.',
+    action: 'Tighten queue ownership, review cadence, payer follow-up, and exception escalation.',
     insight: 'Charges, collections, aging, denial rate, clean-claim rate, and queue ownership are shown together so the operating question is clear.',
     metrics: [
       ['Monthly charges', '$1.12M'],
@@ -43,6 +46,9 @@ export const proofWorkAssets = {
     title: 'A/R aging and recovery priority',
     label: 'Illustrative practice data',
     capability: 'A/R recovery analysis',
+    seeing: 'Aging buckets, high-value segments, recoverability, payer friction, and next action.',
+    meaning: 'A/R is not one backlog; it is several different workflows competing for attention.',
+    action: 'Rank recoverable balances by value, owner, payer status, and escalation path.',
     insight: '$780K total A/R reconciles across aging buckets; $265K is over 90 days and is split by recoverability, payer behavior, and next action.',
     buckets: [
       ['0-30', 242000],
@@ -62,6 +68,9 @@ export const proofWorkAssets = {
     title: 'Denial root-cause Pareto',
     label: 'Sample analytical output',
     capability: 'Denial management',
+    seeing: 'Denial events grouped into cause families with value-at-risk context.',
+    meaning: 'Recurring denial categories point to workflow defects, not only claim-level rework.',
+    action: 'Recover what is collectible and close the upstream loop on preventable sources.',
     insight: '182 synthetic denial events reconcile to six categories and separate recoverable work from upstream prevention.',
     categories: [
       ['Eligibility', 56, 64000, 'Front-end verification'],
@@ -76,6 +85,9 @@ export const proofWorkAssets = {
     title: 'Credentialing command view',
     label: 'De-identified workflow example',
     capability: 'Credentialing operations',
+    seeing: 'Enrollment status, payer, aging task, owner, and bottleneck in one workflow table.',
+    meaning: 'Credentialing delay can become revenue timing risk before leadership sees it in cash.',
+    action: 'Assign follow-up ownership, missing-document cleanup, and payer escalation cadence.',
     insight: 'Provider enrollment is managed as a revenue-timing workflow with payer status, missing documents, aging tasks, and escalation owners.',
     rows: [
       ['Dr. Avery Lane', 'Commercial Plus', 'In committee', '18 days', 'Credentialing'],
@@ -88,6 +100,9 @@ export const proofWorkAssets = {
     title: 'Practice operations scorecard',
     label: 'Representative workflow based on RCM operating experience',
     capability: 'Practice operations',
+    seeing: 'Backlog, overdue escalations, posting exceptions, credentialing blockers, and queue priority.',
+    meaning: 'Operational drag shows up as revenue-cycle noise unless the workflow is visible.',
+    action: 'Create owner-based work queues, leadership cadence, and process cleanup sequence.',
     insight: 'Backlog, ownership, queue aging, and leadership cadence are tied to the same revenue-cycle signal set.',
     metrics: [
       ['Unworked claim actions', '74'],
@@ -106,6 +121,9 @@ export const proofWorkAssets = {
     title: 'DIRT management intelligence view',
     label: 'Demonstration dataset',
     capability: 'DIRT intelligence',
+    seeing: 'Revenue leakage, A/R concentration, payer risk, and workflow priority signals.',
+    meaning: 'DIRT turns scattered operational exports into management intelligence.',
+    action: 'Move from signal to ranked decision, assigned owner, next action, and review rhythm.',
     insight: 'Raw operational signals are converted into ranked management decisions with evidence, owner, and next action.',
     signals: [
       ['Revenue leakage', '$214K value at risk', 'Denials and aging concentration'],

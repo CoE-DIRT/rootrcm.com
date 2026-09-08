@@ -21,6 +21,11 @@ function ProofShell({ asset, children, className = '' }) {
         <h3>{asset.title}</h3>
       </div>
       {children}
+      <div className="proofAnswerGrid">
+        <span><b>Seeing</b><small>{asset.seeing}</small></span>
+        <span><b>Meaning</b><small>{asset.meaning}</small></span>
+        <span><b>Action</b><small>{asset.action}</small></span>
+      </div>
       <p className="proofInsight">{asset.insight}</p>
     </div>
   );

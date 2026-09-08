@@ -2,15 +2,22 @@ import { useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
+  Activity,
   Blocks,
   CalendarCheck,
   Check,
+  ClipboardCheck,
+  CircleDollarSign,
+  Database,
   FileSearch,
   Gauge,
   Layers3,
+  LineChart,
+  ListChecks,
   LockKeyhole,
   Network,
   Radar,
+  SearchCheck,
   ShieldCheck,
   Target,
   TrendingUp,
@@ -59,7 +66,7 @@ const carouselItems = [
   },
   {
     title: 'DIRT Intelligence',
-    eyebrow: '$2,500-$7,500/month when scoped',
+    eyebrow: '$1,500-$2,500/month when scoped',
     copy: 'The intelligence layer for revenue leakage, denial patterns, A/R priority, payer behavior, and PracticeOps signals.',
     href: '/technology/dirt/',
   },
@@ -69,6 +76,42 @@ const carouselItems = [
     copy: 'A broader operating partnership across revenue operations, practice operations, technology, automation, analytics, and leadership visibility.',
     href: '/pricing/',
   },
+];
+
+const operatingSymptoms = [
+  ['A/R keeps aging', 'Backlog grows because queues are worked by age alone, not recoverability, payer behavior, or owner accountability.'],
+  ['Denials repeat', 'Teams fix transactions while eligibility, authorization, coding, credentialing, or payer-specific workflow keeps recreating failure.'],
+  ['Reports do not decide', 'Leadership sees exports and dashboards, but not the ranked action, owner, cadence, or operating constraint.'],
+  ['Credentialing slows growth', 'Provider enrollment and payer status become revenue-timing risks when they are not managed as an operating workflow.'],
+];
+
+const billingFailurePoints = [
+  ['Billing is transactional', 'It can submit and follow up claims without fixing the workflow that created the leakage.'],
+  ['Denials need prevention', 'Recovery work matters, but preventable patterns have to feed back into front-end operations.'],
+  ['A/R needs triage', 'Highest-value recovery rarely matches the oldest line on a generic aging report.'],
+  ['Owners need cadence', 'Work improves when priority, owner, escalation, and review rhythm are visible together.'],
+];
+
+const rootOperatingSteps = [
+  ['Diagnose', 'Read A/R, denials, workflow, credentialing, payer, and reporting signals together.'],
+  ['Prioritize', 'Separate value at risk from noise and sequence work by recoverability, urgency, and owner.'],
+  ['Operate', 'Install revenue-cycle controls, escalation paths, service ownership, and weekly management rhythm.'],
+  ['Instrument', 'Use DIRT to keep leakage, denial, A/R, and PracticeOps signals visible after the first push.'],
+];
+
+const diagnosticInputs = [
+  'A/R aging and payer balance exports',
+  'Denial, rejection, and adjustment summaries',
+  'Charge lag, posting, and unresolved work queues',
+  'Credentialing status and payer participation context',
+  'Existing KPI reports or dashboards leadership uses',
+];
+
+const dirtPipeline = [
+  ['Raw exports', 'Aging, denials, posting, credentialing, queue, payer, and workflow reports.'],
+  ['Validated signals', 'Field lineage, reconciliation checks, recurring patterns, and synthetic demonstration logic.'],
+  ['Revenue intelligence', 'Leakage, preventability, payer risk, recoverability, and workflow constraint.'],
+  ['Prioritized action', 'Ranked queue with owner, evidence, next step, review cadence, and management decision.'],
 ];
 
 function PageHero({ breadcrumbs, title, copy, eyebrow, cta = true }) {
@@ -131,6 +174,133 @@ function DirtCommandVisual() {
         ))}
       </div>
     </div>
+  );
+}
+
+function HeroWorkstationVisual() {
+  return (
+    <div className="heroWorkstation glassCard relative overflow-hidden" aria-label="Revenue operations command workspace illustration">
+      <div className="workspaceToolbar">
+        <span>ROOT operating view</span>
+        <small>Synthetic signals</small>
+      </div>
+      <div className="workspaceBody">
+        <div className="workspaceSidebar" aria-hidden="true">
+          {['AR', 'DEN', 'PAY', 'OPS'].map((item) => <span key={item}>{item}</span>)}
+        </div>
+        <div className="workspaceMain">
+          <div className="workspaceMetrics">
+            <span><small>Value at risk</small><b>$214K</b></span>
+            <span><small>A/R over 90</small><b>$265K</b></span>
+            <span><small>Denial events</small><b>182</b></span>
+          </div>
+          <div className="workspaceChart" aria-hidden="true">
+            {[42, 68, 54, 79, 61, 88, 72].map((height, index) => <i key={index} style={{ '--height': `${height}%` }} />)}
+          </div>
+          <div className="workspaceQueue">
+            {['Commercial follow-up', 'Authorization appeal', 'Credentialing exposure'].map((item, index) => (
+              <div key={item}>
+                <b>{item}</b>
+                <em>{index === 0 ? 'High' : index === 1 ? 'High' : 'Watch'}</em>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OperatingPainSection() {
+  return (
+    <section className="contentSection painSection" data-reveal>
+      <div className="sectionHeading splitHeading">
+        <div>
+          <p className="eyebrow">Operating pain</p>
+          <h2>Excellent care can still sit on a strained business system.</h2>
+        </div>
+        <p>Independent practices often feel the symptom before they can see the system: cash slows, denials repeat, reports disagree, and the team works harder without cleaner control.</p>
+      </div>
+      <div className="symptomRail">
+        {operatingSymptoms.map(([title, copy], index) => {
+          const icons = [TrendingUp, ShieldCheck, LineChart, CalendarCheck];
+          const Icon = icons[index];
+          return (
+            <article key={title}>
+              <Icon size={22} />
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function BillingAloneSection() {
+  return (
+    <section className="splitSection billingSection" data-reveal>
+      <div className="paperStackVisual" aria-label="Billing alone limitation illustration">
+        {['Claims', 'Denials', 'Appeals', 'Follow up', 'Patient balances', 'Reporting'].map((item) => <span key={item}>{item}</span>)}
+        <strong>Billing is necessary. It is not enough.</strong>
+      </div>
+      <div>
+        <p className="eyebrow">Why current approaches fail</p>
+        <h2>ROOT is not a commodity billing wrapper.</h2>
+        <p>Revenue cycle management is critical, but lasting improvement comes from connecting billing execution to operations, credentialing, technology, analytics, and management cadence.</p>
+        <div className="insightList">
+          {billingFailurePoints.map(([title, copy]) => (
+            <div key={title}>
+              <Check size={16} />
+              <span><b>{title}</b><small>{copy}</small></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OperatingModelSection() {
+  return (
+    <section className="operatingModelSection contentSection" data-reveal>
+      <div className="sectionHeading">
+        <p className="eyebrow">How ROOT operates</p>
+        <h2>A more connected way to run the practice business layer.</h2>
+        <p>ROOT starts with evidence, then turns it into ownership, rhythm, and visible work. DIRT keeps the signal alive so decisions do not disappear back into exports.</p>
+      </div>
+      <div className="modelSteps">
+        {rootOperatingSteps.map(([title, copy], index) => (
+          <article key={title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DiagnosticOfferPreview() {
+  return (
+    <section className="diagnosticOfferSection contentSection" data-reveal>
+      <div className="diagnosticOfferCopy">
+        <p className="eyebrow">Revenue Optimization Diagnostic</p>
+        <h2>The $2,500 paid entry offer should feel tangible before the first call.</h2>
+        <p>ROOT reviews deidentified operating and revenue-cycle material, then packages the findings into an executive-ready view of leakage, priority, workflow, and next action.</p>
+        <TrackedLink href="/diagnostic/" cta="book-diagnostic" location="home-diagnostic-preview" engagementType="diagnostic">
+          Start the $2,500 Revenue Optimization Diagnostic <ArrowRight size={17} />
+        </TrackedLink>
+      </div>
+      <div className="diagnosticArtifact glassCard">
+        <span>Representative deliverable</span>
+        {diagnosticDeliverables.slice(0, 5).map((item) => (
+          <div key={item}><ClipboardCheck size={17} /><b>{item}</b></div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -290,20 +460,19 @@ export function HomePage() {
     <>
       <section className="homeHero fullBleedHero" data-reveal>
         <div className="heroCopy">
-          <p className="eyebrow">Healthcare MSO + RCM + Operations + Technology</p>
           <h1>Run the business side of medicine better.</h1>
           <p className="lede">ROOT brings RCM, credentialing, practice operations, healthcare technology, automation, analytics, and DIRT intelligence into one partnership for independent medical practices.</p>
           <div className="actions">
-            <TrackedLink href="/platform/" cta="explore-root" location="home-hero" engagementType="platform">
-              Explore ROOT <ArrowRight size={17} />
+            <TrackedLink href="/diagnostic/" cta="book-diagnostic" location="home-hero" engagementType="diagnostic">
+              Start the $2,500 Revenue Optimization Diagnostic <ArrowRight size={17} />
             </TrackedLink>
-            <TrackedLink className="button secondary" href="/diagnostic/" cta="book-diagnostic" location="home-hero" engagementType="diagnostic">
-              Book Diagnostic
+            <TrackedLink className="button secondary" href="/technology/dirt/" cta="explore-dirt" location="home-hero" engagementType="technology">
+              Explore DIRT
             </TrackedLink>
           </div>
           <p className="trustLine"><ShieldCheck size={16} /> Public website inquiries are deidentified. PHI is accepted only through an approved secure channel after required agreements and controls are in place.</p>
         </div>
-        <PlatformOrbit compact />
+        <HeroWorkstationVisual />
       </section>
 
       <section className="trustBand" aria-label="ROOT operating principles" data-reveal>
@@ -320,14 +489,9 @@ export function HomePage() {
         })}
       </section>
 
-      <section className="contentSection" data-reveal>
-        <div className="sectionHeading">
-          <p className="eyebrow">Platform first</p>
-          <h2>ROOT is the operating layer around the clinical practice.</h2>
-          <p>Clinical care remains the practice. ROOT supports the business system around it: revenue, credentialing, operations, technology, automation, analytics, and intelligence.</p>
-        </div>
-        <PlatformOrbit />
-      </section>
+      <OperatingPainSection />
+      <BillingAloneSection />
+      <OperatingModelSection />
 
       <section className="splitSection darkBand" data-reveal>
         <div>
@@ -342,6 +506,15 @@ export function HomePage() {
       </section>
 
       <ProofLibrarySection />
+
+      <section className="contentSection platformShowcase" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">Platform first</p>
+          <h2>ROOT is the operating layer around the clinical practice.</h2>
+          <p>Clinical care remains the practice. ROOT supports the business system around it: revenue, credentialing, operations, technology, automation, analytics, and intelligence.</p>
+        </div>
+        <PlatformOrbit />
+      </section>
 
       <section className="contentSection" data-reveal>
         <div className="sectionHeading">
@@ -361,7 +534,7 @@ export function HomePage() {
       </section>
 
       <EngagementCarousel />
-      <ComplianceReadiness compact />
+      <DiagnosticOfferPreview />
 
       <section className="diagnosticBanner" data-reveal>
         <div>
@@ -376,6 +549,8 @@ export function HomePage() {
           See Diagnostic <ArrowRight size={17} />
         </TrackedLink>
       </section>
+
+      <ComplianceReadiness compact />
 
       <section className="contentSection" data-reveal>
         <div className="sectionHeading">
@@ -501,6 +676,27 @@ export function DirtPage() {
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Technology', href: '/technology/' }, { label: 'DIRT Intelligence' }]} eyebrow="Data Intelligence for Revenue Transformation" title="The intelligence layer inside ROOT." copy="DIRT helps ROOT detect leakage, understand denial patterns, prioritize A/R recovery, expose PracticeOps signals, and turn data into operating decisions." />
+      <section className="contentSection dirtPipelineSection" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">DIRT operating logic</p>
+          <h2>Raw operational information becomes ranked management action.</h2>
+          <p>DIRT is visually and commercially tied to ROOT: it supports the Diagnostic, managed service delivery, and leadership control rather than standing apart as another generic dashboard.</p>
+        </div>
+        <div className="pipelineGrid">
+          {dirtPipeline.map(([title, copy], index) => {
+            const icons = [Database, SearchCheck, CircleDollarSign, ListChecks];
+            const Icon = icons[index];
+            return (
+              <article key={title}>
+                <Icon size={23} />
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
       <section className="splitSection darkBand" data-reveal>
         <DirtCommandVisual />
         <div><p className="eyebrow">Command center</p><h2>Radar for the revenue system.</h2><p>DIRT is presented as ROOT's intelligence capability, not as an unsupported finished SaaS claim. It supports service delivery, Diagnostic analysis, and operating visibility.</p></div>
@@ -521,6 +717,11 @@ export function PricingPage() {
     <>
       <PageHero breadcrumbs={[{ label: 'Pricing' }]} eyebrow="Engagement models" title="Clear ways to start. Room to expand." copy="ROOT pricing depends on the kind of operating relationship you need: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, or full MSO partnership." />
       <section className="contentSection" data-reveal>
+        <div className="sectionHeading narrow">
+          <p className="eyebrow">Main launch offer</p>
+          <h2>Start with the Diagnostic when the right next step is unclear.</h2>
+          <p>The $2,500 Diagnostic is the primary conversion path for practices that want evidence before committing to managed RCM, DIRT, automation, or a broader MSO relationship.</p>
+        </div>
         <div className="pricingGrid">
           {pricingModels.map((model) => (
             <GlassCard className="pricingCard" key={model.name}>
@@ -578,6 +779,27 @@ export function DiagnosticPage() {
           <p className="trustLine"><ShieldCheck size={16} /> Start with deidentified reports. PHI-enabled exchange opens only after the required agreement and secure channel are active.</p>
         </div>
         <div><InquiryForm variant="diagnostic" /></div>
+      </section>
+      <section className="contentSection diagnosticInputsSection" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">What ROOT reviews</p>
+          <h2>Inputs become analysis, analysis becomes an operating decision.</h2>
+          <p>The Diagnostic is designed to make the business problem legible without turning the public website into a data intake portal.</p>
+        </div>
+        <div className="diagnosticFlowGrid">
+          <div className="glassCard inputChecklist">
+            <h3>Deidentified inputs</h3>
+            {diagnosticInputs.map((item) => <span key={item}><Check size={16} /> {item}</span>)}
+          </div>
+          <div className="glassCard inputChecklist">
+            <h3>ROOT analysis</h3>
+            {['Leakage and aging concentration', 'Denial root-cause and preventability', 'Payer and workflow constraints', 'Credentialing visibility and revenue timing', 'Prioritized opportunity register'].map((item) => <span key={item}><Activity size={16} /> {item}</span>)}
+          </div>
+          <div className="glassCard inputChecklist">
+            <h3>What you receive</h3>
+            {diagnosticDeliverables.slice(2).map((item) => <span key={item}><ClipboardCheck size={16} /> {item}</span>)}
+          </div>
+        </div>
       </section>
       <DiagnosticSampleSection />
       <section className="contentSection faqSection" data-reveal><div className="sectionHeading narrow"><h2>Frequently asked questions</h2></div>{diagnosticFaq.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}</section>

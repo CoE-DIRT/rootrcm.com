@@ -148,7 +148,7 @@ export const servicePages = [
     buyer: 'Independent practices that need a partner to run and improve the revenue engine.',
     deliverables: ['Charge and claim workflow review', 'Denial and rejection management', 'A/R follow-up and recovery', 'Payment posting controls', 'Leadership reporting cadence'],
     engagement: 'Managed monthly service, often preceded by the Diagnostic.',
-    pricing: 'Custom by volume, specialty, system complexity, and operating scope.',
+    pricing: 'Onboarding from $1,500; approximately 5% of collections where appropriate. Final pricing depends on specialty, volume, payer mix, systems, and operating scope.',
     dirt: 'DIRT supports queue prioritization, payer-pattern visibility, and root-cause analysis.',
     related: '/solutions/revenue-leakage/',
   },
@@ -268,7 +268,7 @@ export const servicePages = [
     buyer: 'Practices that have data exports but lack a reliable operating view.',
     deliverables: ['KPI definition', 'Source-data review', 'Dashboard design', 'Operating cadence', 'Decision register'],
     engagement: 'Diagnostic, project, or monthly intelligence layer.',
-    pricing: '$2,500-$7,500/month for DIRT/Data Intelligence when scoped as an ongoing layer.',
+    pricing: '$1,500-$2,500/month for DIRT/Data Intelligence when scoped as an ongoing layer.',
     dirt: 'DIRT is the analytics engine behind leakage detection, denial intelligence, A/R priority, and PracticeOps signals.',
     related: '/solutions/reporting-visibility/',
   },
@@ -288,8 +288,8 @@ export const servicePages = [
 
 export const pricingModels = [
   { name: 'Revenue Optimization Diagnostic', price: '$2,500 fixed fee', bestFor: 'Practices that want evidence before changing vendors, systems, staffing, or operating model.', includes: ['A/R and denial review', 'Revenue opportunity register', 'Workflow and reporting assessment', '90-day roadmap'], cta: 'Book Diagnostic', href: '/diagnostic/' },
-  { name: 'Managed RCM', price: 'Monthly + performance-aligned where appropriate', bestFor: 'Practices that need ROOT to own revenue-cycle execution and continuous improvement.', includes: ['Billing and follow-up', 'Denial management', 'A/R recovery', 'Leadership reporting'], cta: 'Talk to ROOT', href: '/contact/' },
-  { name: 'DIRT / Data Intelligence', price: '$2,500-$7,500/month', bestFor: 'Practices that need revenue-cycle and operations intelligence without buying another static dashboard.', includes: ['Leakage analysis', 'Denial intelligence', 'A/R prioritization', 'PracticeOps signals'], cta: 'Explore DIRT', href: '/technology/dirt/' },
+  { name: 'Managed RCM', price: 'Onboarding from $1,500; approximately 5% of collections where appropriate', bestFor: 'Practices that need ROOT to own revenue-cycle execution and continuous improvement.', includes: ['Billing and follow-up', 'Denial management', 'A/R recovery', 'Leadership reporting'], cta: 'Talk to ROOT', href: '/contact/' },
+  { name: 'DIRT / Data Intelligence', price: '$1,500-$2,500/month', bestFor: 'Practices that need revenue-cycle and operations intelligence without buying another static dashboard.', includes: ['Leakage analysis', 'Denial intelligence', 'A/R prioritization', 'PracticeOps signals'], cta: 'Explore DIRT', href: '/technology/dirt/' },
   { name: 'Projects & Automation', price: '$5,000-$25,000 scoped projects', bestFor: 'Specific cleanup, automation, reporting, technology, or operating-system improvement needs.', includes: ['Defined scope', 'Implementation roadmap', 'Workflow controls', 'Measured handoff'], cta: 'Discuss Project', href: '/contact/' },
   { name: 'Credentialing', price: '$750-$1,500/provider initial; $150-$300/provider/month maintenance', bestFor: 'Provider enrollment, revalidation, roster maintenance, and payer-status visibility.', includes: ['Enrollment support', 'Payer follow-up', 'Status tracking', 'Maintenance cadence'], cta: 'Review Credentialing', href: '/services/credentialing/' },
   { name: 'Full MSO Partnership', price: 'Custom', bestFor: 'Practices that want one operating partner across revenue, operations, technology, analytics, and growth support.', includes: ['Revenue operations', 'Practice operations', 'Technology', 'DIRT intelligence'], cta: 'Talk to ROOT', href: '/contact/' },
