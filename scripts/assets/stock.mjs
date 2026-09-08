@@ -195,8 +195,8 @@ async function searchUnsplash({ query, orientation, limit }) {
   };
 }
 
-function cacheKey({ provider, query, orientation, limit }) {
-  return crypto.createHash('sha256').update(JSON.stringify({ provider, query, orientation, limit })).digest('hex').slice(0, 16);
+function cacheKey({ provider, query, orientation, limit, readiness }) {
+  return crypto.createHash('sha256').update(JSON.stringify({ provider, query, orientation, limit, readiness })).digest('hex').slice(0, 16);
 }
 
 async function readFreshCache(file) {
@@ -215,6 +215,18 @@ async function writeJson(file, value) {
   await fs.writeFile(file, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }
 
+async function runProviderSearch(name, options) {
+  try {
+    let result;
+    if (name === 'pexels') result = await searchPexels(options);
+    else if (name === 'pixabay') result = await searchPixabay(options);
+    else if (name === 'unsplash') result = await searchUnsplash(options);
+    return { provider: name, ...result };
+  } catch (error) {
+    return { provider: name, error: error.message, results: [] };
+  }
+}
+
 async function runSearch(args) {
   const query = String(args.query || '').trim();
   if (!query) throw new Error('Missing --query. Example: npm run assets:search -- --query="healthcare analytics dashboard"');
@@ -222,7 +234,13 @@ async function runSearch(args) {
   const provider = String(args.provider || 'all').toLowerCase();
   const orientation = String(args.orientation || 'landscape').toLowerCase();
   const limit = clampLimit(args.limit);
-  const key = cacheKey({ provider, query, orientation, limit });
+  const requested = provider === 'all' ? ['pexels', 'pixabay'] : [provider];
+  for (const name of requested) {
+    if (!PROVIDERS[name]) throw new Error(`Unknown provider: ${name}`);
+  }
+
+  const readiness = requested.map((name) => `${name}:${Boolean(process.env[PROVIDERS[name].key])}`).join('|');
+  const key = cacheKey({ provider, query, orientation, limit, readiness });
   const cacheFile = path.join(CACHE_DIR, `search-${key}.json`);
   const latestFile = path.join(CACHE_DIR, 'latest.json');
   const cached = await readFreshCache(cacheFile);
@@ -232,18 +250,9 @@ async function runSearch(args) {
     return;
   }
 
-  const requested = provider === 'all' ? ['pexels', 'pixabay'] : [provider];
-  for (const name of requested) {
-    if (!PROVIDERS[name]) throw new Error(`Unknown provider: ${name}`);
-  }
-
   const providerResults = [];
   for (const name of requested) {
-    let result;
-    if (name === 'pexels') result = await searchPexels({ query, orientation, limit });
-    else if (name === 'pixabay') result = await searchPixabay({ query, orientation, limit });
-    else if (name === 'unsplash') result = await searchUnsplash({ query, orientation, limit });
-    providerResults.push({ provider: name, ...result });
+    providerResults.push(await runProviderSearch(name, { query, orientation, limit }));
   }
 
   const results = providerResults.flatMap((entry) => entry.results).filter((item) => item.width >= 1200);
@@ -252,18 +261,31 @@ async function runSearch(args) {
     query,
     orientation,
     requestedProvider: provider,
-    providers: providerResults.map(({ provider: name, skipped }) => ({ provider: name, skipped: skipped || null })),
+    providers: providerResults.map(({ provider: name, skipped, error }) => ({
+      provider: name,
+      skipped: skipped || null,
+      error: error || null,
+    })),
     results,
   };
-  await writeJson(cacheFile, output);
-  await writeJson(latestFile, output);
-  printSearch(output, cacheFile, false);
+
+  const hasSuccessfulProvider = providerResults.some((entry) => !entry.skipped && !entry.error);
+  if (hasSuccessfulProvider) {
+    await writeJson(cacheFile, output);
+    await writeJson(latestFile, output);
+  }
+  printSearch(output, cacheFile, false, !hasSuccessfulProvider);
 }
 
-function printSearch(output, file, fromCache) {
+function printSearch(output, file, fromCache, notCached = false) {
   console.log(`\nStock search: ${output.query}`);
   console.log(`Results: ${output.results.length}${fromCache ? ' (24h cache)' : ''}`);
-  console.log(`Saved: ${path.relative(ROOT, file)}`);
+  if (notCached) console.log('Not cached: no configured provider completed successfully.');
+  else console.log(`Saved: ${path.relative(ROOT, file)}`);
+  for (const provider of output.providers ?? []) {
+    if (provider.skipped) console.log(`Provider ${provider.provider}: skipped (${provider.skipped})`);
+    if (provider.error) console.log(`Provider ${provider.provider}: failed (${provider.error})`);
+  }
   for (const [index, item] of output.results.entries()) {
     console.log(`\n[${index}] ${item.provider.toUpperCase()} ${item.width}x${item.height}`);
     console.log(`    by ${item.author || 'Unknown'} | ${item.sourceUrl}`);
@@ -306,7 +328,10 @@ async function runFetch(args) {
   const slug = slugify(String(args.slug || `${item.provider}-${item.providerId}`));
   if (!slug) throw new Error('Provide a usable --slug.');
   const destDir = path.resolve(ROOT, String(args.dest || 'public/brand/graphics'));
-  if (!destDir.startsWith(ROOT)) throw new Error('Destination must stay inside the repository.');
+  const relativeDest = path.relative(ROOT, destDir);
+  if (path.isAbsolute(relativeDest) || relativeDest === '..' || relativeDest.startsWith(`..${path.sep}`)) {
+    throw new Error('Destination must stay inside the repository.');
+  }
 
   const response = await fetch(item.downloadUrl);
   if (!response.ok) throw new Error(`Download failed: ${response.status} ${response.statusText}`);
