@@ -16,6 +16,13 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import InquiryForm from './components/InquiryForm.jsx';
+import {
+  CapabilityProofSection,
+  DiagnosticSampleSection,
+  DirtDemonstrationSection,
+  ProofLibrarySection,
+  ResourceProofCallout,
+} from './components/ProofWork.jsx';
 import { Breadcrumbs, ChannelButtons, GlassCard, SectionCta, TrackedLink } from './components/SiteChrome.jsx';
 import {
   companyInfo,
@@ -28,6 +35,7 @@ import {
   servicePages,
   solutionPages,
 } from './siteData.js';
+import { proofPlacementByResourceSlug, proofPlacementByServiceSlug, proofPlacementBySolutionSlug } from './proofData.js';
 
 const trustSignals = [
   ['Full MSO Scope', 'Revenue, operations, technology, automation, analytics, and DIRT in one operating partnership.'],
@@ -195,6 +203,25 @@ function ServiceCards({ limit }) {
   );
 }
 
+function ServiceProofCopy({ service }) {
+  const copy = {
+    rcm: 'A representative control view shows how ROOT connects charge review, claim quality, payer follow-up, denial rate, collections, and A/R into one operating rhythm.',
+    'medical-billing': 'A representative clean-claim view shows how billing work moves from charge review through scrub, submission, warning cleanup, and payer follow-up.',
+    'ar-recovery': 'A synthetic aging analysis shows how ROOT segments backlog by value, age, payer behavior, recoverability, owner, and next action.',
+    'payment-posting': 'A representative revenue-cycle control view keeps posting exceptions connected to cash, adjustments, A/R accuracy, and leadership reporting.',
+    'patient-balances': 'A synthetic A/R view separates payer-side backlog from patient-responsibility balances so the right workflow receives the right follow-up.',
+    'denial-management': 'A synthetic denial Pareto shows how recurring denial events become root-cause categories, value-at-risk signals, and prevention priorities.',
+    credentialing: 'A de-identified command view shows payer enrollment as an operating workflow with status, age, owner, missing document, and escalation signals.',
+    'practice-ops': 'A synthetic scorecard links workflow backlog, ownership, queue aging, and leadership cadence to revenue-cycle operating priorities.',
+    'healthcare-it': 'A DIRT-style signal view shows why system workflow, source-data reliability, access governance, and reporting architecture matter operationally.',
+    'workflow-automation': 'A synthetic operations scorecard separates stable repeatable workflows from process issues that need cleanup before automation.',
+    'reporting-analytics': 'A DIRT management view shows how raw exports become governed metrics, root-cause signals, and prioritized decision support.',
+    'operational-consulting': 'A synthetic PracticeOps view shows how consulting output becomes owner-based action, operating cadence, and a 30/60/90 implementation sequence.',
+  };
+
+  return copy[service.slug];
+}
+
 function ResourceCards({ limit }) {
   const articles = typeof limit === 'number' ? resourceArticles.slice(0, limit) : resourceArticles;
   return (
@@ -314,6 +341,8 @@ export function HomePage() {
         <DirtCommandVisual />
       </section>
 
+      <ProofLibrarySection />
+
       <section className="contentSection" data-reveal>
         <div className="sectionHeading">
           <p className="eyebrow">Solve the operating constraint</p>
@@ -391,6 +420,7 @@ export function SolutionsHubPage() {
 }
 
 export function SolutionPage({ page }) {
+  const proofAsset = proofPlacementBySolutionSlug[page.slug];
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Solutions', href: '/solutions/' }, { label: page.title }]} eyebrow="Solution" title={page.title} copy={page.summary} />
@@ -406,6 +436,7 @@ export function SolutionPage({ page }) {
         <DirtCommandVisual />
         <div><p className="eyebrow">DIRT contribution</p><h2>Intelligence makes the work more precise.</h2><p>{page.dirt}</p></div>
       </section>
+      <CapabilityProofSection assetKey={proofAsset} heading={`${page.title} example output`} copy="This synthetic preview shows what ROOT analyzes, how the operating issue is structured, and how the work becomes a prioritized action view without using client data." />
       <SectionCta title={page.cta} copy="Start with the fixed-fee Diagnostic or talk with ROOT about a broader managed operating need." />
     </>
   );
@@ -422,6 +453,7 @@ export function ServicesHubPage() {
 }
 
 export function ServicePage({ service }) {
+  const proofAsset = proofPlacementByServiceSlug[service.slug];
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Services', href: '/services/' }, { label: service.title }]} eyebrow={service.family} title={service.title} copy={service.summary} />
@@ -437,6 +469,7 @@ export function ServicePage({ service }) {
         <div><p className="eyebrow">DIRT advantage</p><h2>Service work informed by better signals.</h2></div>
         <p>{service.dirt}</p>
       </section>
+      <CapabilityProofSection assetKey={proofAsset} heading={`${service.title} work product preview`} copy={ServiceProofCopy({ service })} />
       <SectionCta title={`Talk to ROOT about ${service.title}.`} copy="Share deidentified commercial context and ROOT will route the conversation to the right next step." label="Talk to ROOT" href="/contact/" cta="talk-to-root" engagementType="consultation" />
     </>
   );
@@ -477,6 +510,7 @@ export function DirtPage() {
           {['Revenue leakage detection', 'Aging landscape', 'Denial intelligence', 'Recovery prioritization', 'PracticeOps signals', 'Leadership command view'].map((item) => <GlassCard key={item}><Gauge size={22} /><h3>{item}</h3><p>Signal, context, owner, and next action made easier to see.</p></GlassCard>)}
         </div>
       </section>
+      <DirtDemonstrationSection />
       <SectionCta title="Want DIRT applied to your revenue cycle?" copy="The Diagnostic is the fastest path from current data to a prioritized opportunity register." />
     </>
   );
@@ -515,6 +549,7 @@ export function ResourcesHubPage() {
 }
 
 export function ResourceArticlePage({ article }) {
+  const proofAsset = proofPlacementByResourceSlug[article.slug];
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Resources', href: '/resources/' }, { label: article.title }]} eyebrow="Guide" title={article.title} copy={article.summary} cta={false} />
@@ -524,6 +559,7 @@ export function ResourceArticlePage({ article }) {
           <h2>Further reading</h2>
           <div className="sourceList">{article.sources.map(([label, href]) => <a key={href} href={href}>{label} <ArrowRight size={14} /></a>)}</div>
         </section>
+        <ResourceProofCallout assetKey={proofAsset} />
       </article>
       <SectionCta title="Turn the guide into a plan." copy="ROOT can apply this thinking to deidentified practice data through the Revenue Optimization Diagnostic." />
     </>
@@ -543,6 +579,7 @@ export function DiagnosticPage() {
         </div>
         <div><InquiryForm variant="diagnostic" /></div>
       </section>
+      <DiagnosticSampleSection />
       <section className="contentSection faqSection" data-reveal><div className="sectionHeading narrow"><h2>Frequently asked questions</h2></div>{diagnosticFaq.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}</section>
     </>
   );

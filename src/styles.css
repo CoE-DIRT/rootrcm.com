@@ -423,6 +423,282 @@ address a { color: var(--accent); font-weight: 800; }
 .commandRows small { color: #8fa399; margin-top: 5px; }
 .commandRows i { display: block; width: var(--level); height: 4px; margin-top: 13px; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--data-blue), var(--signal-amber)); }
 
+.proofLibrary { background: rgba(5,13,10,.34); }
+.proofFeatureGrid, .dirtDemoGrid, .diagnosticProofRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.proofShell {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px;
+  overflow: hidden;
+}
+.proofHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.proofHeader span, .roadmapPreview > span {
+  color: var(--signal-amber);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+.proofHeader strong {
+  max-width: 48%;
+  color: #edf5f1;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: right;
+}
+.proofTitle p {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+.proofTitle h3 { margin-bottom: 0; font-size: 2rem; }
+.proofInsight {
+  margin: auto 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-size: 13px;
+}
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.metricStrip span, .paretoSummary span, .priorityMatrix span {
+  min-height: 84px;
+  padding: 15px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+}
+.metricStrip small, .paretoSummary small, .priorityMatrix small, .proofTable small, .signalBoard small {
+  display: block;
+  color: #8fa399;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.metricStrip b, .paretoSummary b {
+  display: block;
+  margin-top: 8px;
+  color: #edf5f1;
+  font-size: 1.28rem;
+}
+.workflowRail, .paretoList, .signalBoard {
+  display: grid;
+  gap: 11px;
+}
+.workflowRail div, .proofTable div, .signalBoard div, .intelligenceFlow div {
+  display: grid;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+}
+.workflowRail div {
+  grid-template-columns: 22px 1fr auto;
+  padding: 13px;
+}
+.workflowRail svg, .intelligenceFlow svg { color: var(--accent); }
+.workflowRail b, .proofTable span, .signalBoard b, .intelligenceFlow b {
+  display: block;
+  color: #edf5f1;
+  font-size: 13px;
+}
+.workflowRail em, .proofTable em, .paretoList em, .signalBoard em {
+  color: var(--signal-amber);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+  text-align: right;
+}
+.arBars {
+  display: grid;
+  gap: 14px;
+}
+.arBars div {
+  display: grid;
+  grid-template-columns: 54px 1fr 58px;
+  gap: 12px;
+  align-items: center;
+  color: #c7d8cf;
+  font-size: 12px;
+}
+.arBars i, .paretoList i {
+  display: block;
+  width: var(--width);
+  min-width: 18px;
+  height: 11px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--data-blue), var(--signal-amber));
+}
+.arBars b {
+  color: #edf5f1;
+  font-size: 12px;
+  text-align: right;
+}
+.proofTable {
+  display: grid;
+  gap: 9px;
+}
+.proofTable div {
+  grid-template-columns: minmax(0, 1.2fr) 72px 52px minmax(0, 1fr);
+  padding: 12px;
+}
+.proofTable b {
+  color: #edf5f1;
+  font-size: 12px;
+}
+.credentialingTable div { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr) minmax(0, .95fr) minmax(0, .8fr); }
+.paretoSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.paretoList div {
+  display: grid;
+  grid-template-columns: minmax(0, 160px) 1fr 84px;
+  align-items: center;
+  gap: 12px;
+}
+.paretoList b {
+  display: block;
+  color: #edf5f1;
+  font-size: 12px;
+}
+.paretoList small {
+  display: block;
+  margin-top: 4px;
+  color: #8fa399;
+  font-size: 10px;
+}
+.priorityMatrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.priorityMatrix b {
+  display: block;
+  margin-top: 8px;
+  color: #edf5f1;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.signalBoard div {
+  grid-template-columns: 26px minmax(0, .8fr) minmax(0, 1fr);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.signalBoard div::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  width: var(--signal);
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--data-blue));
+}
+.signalBoard svg { color: var(--data-blue); }
+.syntheticNote {
+  padding: 15px;
+  border: 1px solid rgba(216,189,122,.18);
+  border-radius: 8px;
+  background: rgba(216,189,122,.055);
+  color: #d6c79d;
+  font-size: 12px;
+}
+.diagnosticSample { background: rgba(12,25,21,.56); border-block: 1px solid rgba(255,255,255,.08); }
+.diagnosticPages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.diagnosticPages article {
+  min-height: 265px;
+  padding: 24px;
+  box-shadow: none;
+}
+.diagnosticPages article > span {
+  display: inline-block;
+  margin-bottom: 30px;
+  color: var(--data-blue);
+  font-size: 12px;
+  font-weight: 900;
+}
+.diagnosticPages svg { color: var(--accent); margin-bottom: 16px; }
+.diagnosticPages h3 { font-size: 1.45rem; }
+.diagnosticPages p { font-size: 13px; }
+.roadmapPreview {
+  display: grid;
+  align-content: start;
+  gap: 15px;
+  padding: 28px;
+}
+.roadmapPreview div {
+  padding: 17px 0;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.roadmapPreview b {
+  color: var(--accent);
+  font-size: 13px;
+}
+.roadmapPreview p { margin: 6px 0 0; font-size: 13px; }
+.intelligenceFlow {
+  display: grid;
+  align-content: center;
+  gap: 13px;
+  padding: 28px;
+}
+.intelligenceFlow div {
+  grid-template-columns: 28px 1fr;
+  padding: 16px;
+}
+.resourceProof {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 20px;
+}
+.resourceProof svg { color: var(--accent); }
+.resourceProof b {
+  display: block;
+  color: #edf5f1;
+  font-size: 14px;
+}
+.resourceProof small {
+  display: block;
+  margin-top: 5px;
+  color: #8fa399;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.resourceProof a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
 .carouselSection {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(380px, .78fr);
@@ -572,7 +848,9 @@ address a { color: var(--accent); font-weight: 800; }
   .homeHero, .diagnosticHero, .contactPage, .splitSection, .featureBand, .twoColumnCopy, .carouselSection { grid-template-columns: 1fr; }
   .contactMethods { grid-template-columns: 1fr; }
   .homeHero { min-height: auto; }
-  .cardGrid, .pricingGrid { grid-template-columns: repeat(2, 1fr); }
+  .cardGrid, .pricingGrid, .proofFeatureGrid, .dirtDemoGrid, .diagnosticProofRow { grid-template-columns: repeat(2, 1fr); }
+  .diagnosticPages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metricStrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .diagnosticBanner { grid-template-columns: 1fr; }
   .platformOrbit { min-height: 680px; }
 }
@@ -587,7 +865,7 @@ address a { color: var(--accent); font-weight: 800; }
   .actions { flex-direction: column; }
   .actions .button { width: 100%; }
   .trustBand { overflow-x: auto; grid-template-columns: repeat(4, minmax(245px, 1fr)); padding-inline: 0; }
-  .cardGrid, .pricingGrid, .fieldRow { grid-template-columns: 1fr; }
+  .cardGrid, .pricingGrid, .fieldRow, .proofFeatureGrid, .dirtDemoGrid, .diagnosticProofRow, .diagnosticPages, .metricStrip, .paretoSummary, .priorityMatrix { grid-template-columns: 1fr; }
   .contentSection { padding-block: 82px; }
   .splitSection, .featureBand, .carouselSection { padding-block: 80px; }
   .sectionCta { align-items: stretch; flex-direction: column; padding-block: 65px; }
@@ -599,6 +877,15 @@ address a { color: var(--accent); font-weight: 800; }
   .orbitNode { width: 44%; }
   .platformOrbit.compact .orbitNode { width: 40%; }
   .dirtVisual { grid-template-columns: 1fr; }
+  .proofShell { min-height: auto; padding: 22px; }
+  .proofHeader, .resourceProof { grid-template-columns: 1fr; }
+  .proofHeader { display: grid; }
+  .proofHeader strong { max-width: none; text-align: left; }
+  .workflowRail div, .proofTable div, .credentialingTable div, .signalBoard div, .paretoList div, .resourceProof {
+    grid-template-columns: 1fr;
+  }
+  .workflowRail em, .proofTable em, .paretoList em, .signalBoard em { text-align: left; }
+  .arBars div { grid-template-columns: 46px 1fr 54px; }
   .diagnosticBanner h2 { font-size: 2.35rem; }
   .footerGrid { grid-template-columns: 1fr 1fr; }
   .footerBrand { grid-column: 1 / -1; }
