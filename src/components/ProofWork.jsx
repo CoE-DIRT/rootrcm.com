@@ -2,7 +2,8 @@ import { ArrowRight, BarChart3, CheckCircle2, ClipboardList, FileText, Workflow 
 import { diagnosticSample, proofWorkAssets, syntheticPractice } from '../proofData.js';
 
 function currency(value) {
-  return `$${Math.round(value / 1000)}K`;
+  const thousands = value / 1000;
+  return `$${Number.isInteger(thousands) ? thousands : thousands.toFixed(1)}K`;
 }
 
 function getPercent(value, total) {
@@ -113,13 +114,19 @@ function DenialParetoPreview({ asset }) {
 function CredentialingPreview({ asset }) {
   return (
     <ProofShell asset={asset}>
-      <div className="proofTable credentialingTable">
+      <div className="proofTable credentialingTable" role="table" aria-label="Credentialing status preview">
+        <div className="credentialingHeader" role="row">
+          <span role="columnheader">Provider</span>
+          <b role="columnheader">Payer</b>
+          <em role="columnheader">Status</em>
+          <small role="columnheader">Age / owner</small>
+        </div>
         {asset.rows.map(([provider, payer, status, age, owner]) => (
-          <div key={`${provider}-${payer}`}>
-            <span>{provider}</span>
-            <b>{payer}</b>
-            <em>{status}</em>
-            <small>{age} | {owner}</small>
+          <div role="row" key={`${provider}-${payer}`}>
+            <span role="cell">{provider}</span>
+            <b role="cell">{payer}</b>
+            <em role="cell">{status}</em>
+            <small role="cell">{age} | {owner}</small>
           </div>
         ))}
       </div>
@@ -286,7 +293,15 @@ export function ResourceProofCallout({ assetKey }) {
         <b>Example output: {asset.title}</b>
         <small>{asset.label}. Built from fictional practice data to show the operating method, not a client result.</small>
       </span>
-      <a href="/diagnostic/">Apply this through the Diagnostic <ArrowRight size={14} /></a>
+      <a
+        href="/diagnostic/"
+        data-cta="book-diagnostic"
+        data-location="resource-proof"
+        data-destination="/diagnostic/"
+        data-engagement-type="diagnostic"
+      >
+        Apply this through the Diagnostic <ArrowRight size={14} />
+      </a>
     </section>
   );
 }
