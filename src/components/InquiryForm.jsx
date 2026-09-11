@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
+import { getExperimentContext } from '../experiments.js';
+import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   challenge: '',
   focus: '',
   noPhi: false,
+  _honey: '',
 };
 
 function getAttribution() {
@@ -34,11 +37,19 @@ function getAttribution() {
 export default function InquiryForm({ variant = 'contact' }) {
   const [form, setForm] = useState(initialState);
   const [attribution] = useState(getAttribution);
+  const [experiment] = useState(() => getExperimentContext(typeof window === 'undefined' ? '' : window.location.pathname));
   const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
-  const endpoint = import.meta.env.VITE_FORM_ENDPOINT;
+  const configuredEndpoint = import.meta.env.VITE_FORM_ENDPOINT || '';
+  const endpoint = getInquiryEndpoint(configuredEndpoint);
 
-  const payload = useMemo(() => ({ ...form, ...attribution, inquiryType: variant }), [form, attribution, variant]);
+  const payload = useMemo(() => ({
+    ...form,
+    ...attribution,
+    ...experiment,
+    inquiryType: variant,
+    form_provider: configuredEndpoint ? 'configured-endpoint' : 'formsubmit-relay',
+  }), [form, attribution, experiment, variant, configuredEndpoint]);
   const mailto = useMemo(() => buildInquiryMailto(payload), [payload]);
   const summary = useMemo(() => buildInquirySummary(payload), [payload]);
   const canSubmit = form.name && form.email && form.organization && form.noPhi && (variant === 'contact' ? form.focus : form.providers && form.challenge);
@@ -50,21 +61,24 @@ export default function InquiryForm({ variant = 'contact' }) {
 
   const submit = async (event) => {
     event.preventDefault();
-    if (!canSubmit) return;
-    if (!endpoint) {
-      setStatus('fallback');
-      return;
-    }
+    if (!canSubmit || form._honey) return;
 
     setStatus('sending');
     try {
+      const deliveryPayload = buildDeliveryPayload(
+        payload,
+        typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.href,
+      );
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(deliveryPayload),
       });
       if (!response.ok) throw new Error('Submission failed');
-      window.location.assign('/thank-you/');
+      window.location.assign('/thank-you/?delivery=form');
     } catch {
       setStatus('fallback');
     }
@@ -81,9 +95,9 @@ export default function InquiryForm({ variant = 'contact' }) {
       <div className="glassCard formFallback" role="status">
         <ShieldCheck size={28} />
         <h3>Your deidentified inquiry is ready.</h3>
-        <p>The secure form endpoint is not active yet, so nothing was stored by this website. Continue by email or copy the summary.</p>
+        <p>The form relay could not complete this submission. Nothing sensitive was stored by ROOT's public site. Continue by email or copy the summary.</p>
         <div className="formActions">
-          <a className="button primary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto" data-engagement-type={variant}><Mail size={16} /> Open email</a>
+          <a className="button primary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto:info@rootrcm.com" data-engagement-type={variant}><Mail size={16} /> Email info@rootrcm.com</a>
           <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
         </div>
         <button className="textButton" type="button" onClick={() => setStatus('idle')}>Edit inquiry</button>
@@ -93,6 +107,12 @@ export default function InquiryForm({ variant = 'contact' }) {
 
   return (
     <form className="glassCard inquiryForm" onSubmit={submit}>
+      <div className="formHoney" aria-hidden="true">
+        <label>
+          Website
+          <input tabIndex="-1" autoComplete="off" value={form._honey} onChange={update('_honey')} />
+        </label>
+      </div>
       <div className="fieldRow">
         <label>
           Name
@@ -148,10 +168,10 @@ export default function InquiryForm({ variant = 'contact' }) {
         <span>I understand this is a commercial inquiry. I have not included and will not submit Protected Health Information (PHI) through this form.</span>
       </label>
 
-      <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination={endpoint ? '/thank-you/' : 'fallback'} data-engagement-type={variant}>
+      <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination="info@rootrcm.com" data-engagement-type={variant}>
         {status === 'sending' ? 'Sending…' : variant === 'diagnostic' ? 'Request Diagnostic' : 'Start the Conversation'} <ArrowRight size={17} />
       </button>
-      <small className="formNote">Public-site inquiries must remain deidentified. PHI moves only through an approved secure channel after required agreements and controls are in place.</small>
+      <small className="formNote">Commercial inquiry only. Submission is relayed to info@rootrcm.com. Do not include PHI; sensitive data moves only through an approved secure channel after required agreements and controls are in place.</small>
     </form>
   );
 }
