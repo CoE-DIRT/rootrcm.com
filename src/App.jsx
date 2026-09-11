@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { FloatingContactCta, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
+import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import {
   AboutPage,
@@ -102,6 +103,8 @@ export default function App() {
 
   useEffect(() => {
     syncDocumentMeta(path);
+    applyPageExperiment(path);
+    applyOperationalCopy(path);
   }, [path]);
 
   useEffect(() => {
@@ -135,6 +138,7 @@ export default function App() {
           destination: target.dataset.destination,
           engagementType: target.dataset.engagementType,
           page: path,
+          ...getExperimentContext(path),
         },
       }));
     }
