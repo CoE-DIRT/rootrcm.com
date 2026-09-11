@@ -1,0 +1,134 @@
+/* Revenue-unblock layer: form reliability, controlled experiments, and selected
+ * DIRT command-view language adapted into ROOT Clinical Glass. No framework change. */
+
+.formHoney {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+/* DIRT contributes intelligence accents; ROOT remains the parent visual system. */
+.heroWorkstation,
+.dirtVisual {
+  border-color: rgba(117, 215, 255, .18);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(99, 102, 241, .15), transparent 35%),
+    radial-gradient(circle at 12% 92%, rgba(14, 165, 233, .09), transparent 36%),
+    linear-gradient(180deg, rgba(11, 20, 26, .96), rgba(6, 15, 12, .98));
+  box-shadow: 0 28px 85px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .03);
+}
+
+.workspaceToolbar {
+  border-bottom-color: rgba(117, 215, 255, .12);
+}
+
+.workspaceToolbar small,
+.dirtVisual .eyebrow {
+  color: #75d7ff;
+}
+
+.workspaceSidebar span {
+  border-color: rgba(117, 215, 255, .1);
+  background: rgba(14, 165, 233, .045);
+}
+
+.workspaceMetrics span,
+.workspaceQueue div {
+  border-color: rgba(255, 255, 255, .085);
+  background: rgba(7, 11, 18, .64);
+}
+
+.workspaceMetrics span:first-child {
+  border-color: rgba(112, 224, 173, .22);
+  box-shadow: inset 3px 0 #70e0ad;
+}
+
+.workspaceChart {
+  border-color: rgba(99, 102, 241, .11);
+  background:
+    linear-gradient(rgba(117, 215, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(117, 215, 255, .035) 1px, transparent 1px),
+    rgba(7, 11, 18, .5);
+  background-size: 28px 28px;
+}
+
+.workspaceChart i {
+  background: linear-gradient(180deg, #75d7ff, #6366f1 58%, #70e0ad);
+  box-shadow: 0 0 16px rgba(14, 165, 233, .12);
+}
+
+.workspaceQueue em {
+  border-color: rgba(244, 63, 94, .18);
+  background: rgba(244, 63, 94, .07);
+  color: #f6a6b4;
+}
+
+.dirtVisual {
+  position: relative;
+  overflow: hidden;
+}
+
+.dirtVisual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 15%, rgba(99, 102, 241, .035) 50%, transparent 82%);
+}
+
+.radarFace {
+  border-color: rgba(117, 215, 255, .2);
+  background: radial-gradient(circle, rgba(14, 165, 233, .09), rgba(99, 102, 241, .025) 50%, transparent 70%);
+}
+
+.radarFace svg {
+  color: #75d7ff;
+}
+
+.commandRows > div {
+  border-color: rgba(255, 255, 255, .08);
+  background: rgba(7, 11, 18, .58);
+}
+
+.commandRows i {
+  background: linear-gradient(90deg, #70e0ad, #75d7ff, #6366f1);
+}
+
+/* Variant B is intentionally subtle: message changes, not a second design system. */
+.experimentRevenueDirect {
+  --experiment-accent: #75d7ff;
+}
+
+.experimentRevenueDirect .heroCopy h1,
+.experimentRevenueDirect > div:first-child h1 {
+  max-width: 15ch;
+}
+
+.experimentRevenueDirect .heroWorkstation,
+.diagnosticHero.experimentRevenueDirect .inquiryForm {
+  border-color: rgba(117, 215, 255, .26);
+}
+
+.inquiryForm:focus-within {
+  border-color: rgba(112, 224, 173, .3);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .26), 0 0 0 1px rgba(112, 224, 173, .08);
+}
+
+.formNote {
+  display: block;
+  line-height: 1.45;
+}
+
+@media (max-width: 680px) {
+  .heroWorkstation {
+    min-height: 420px;
+  }
+
+  .workspaceMetrics {
+    grid-template-columns: 1fr;
+  }
+}

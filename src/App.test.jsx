@@ -1,6 +1,8 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
+import { getExperimentAssignment, resetExperimentAssignments } from './experiments.js';
+import { buildDeliveryPayload, getInquiryEndpoint, ROOT_FORM_RELAY } from './modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from './modules/glass-core/inquiryTemplate.js';
 
 function renderRoute(path = '/') {
@@ -12,6 +14,8 @@ afterEach(() => {
   cleanup();
   window.history.pushState({}, '', '/');
   sessionStorage.clear();
+  localStorage.clear();
+  resetExperimentAssignments();
   vi.restoreAllMocks();
 });
 
@@ -97,6 +101,8 @@ describe('ROOT commercial site', () => {
       location: 'home-hero',
       destination: '/diagnostic/',
       page: '/',
+      experiment: 'home-hero-revenue-framing-v1',
+      experiment_variant: 'a',
     });
     expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
   });
@@ -117,6 +123,7 @@ describe('ROOT commercial site', () => {
     const submit = screen.getByRole('button', { name: /request diagnostic/i });
     expect(submit.disabled).toBe(true);
     expect(submit.getAttribute('data-cta')).toBe('request-diagnostic');
+    expect(submit.getAttribute('data-destination')).toBe('info@rootrcm.com');
 
     fireEvent.click(screen.getByLabelText(/will not submit Protected Health Information/i));
     expect(submit.disabled).toBe(false);
@@ -156,6 +163,35 @@ describe('ROOT commercial site', () => {
     expect(summary).toContain('Source: linkedin');
     expect(summary).toContain('Do not send PHI');
     expect(href).toContain('mailto:info@rootrcm.com');
+  });
+
+  it('uses the ROOT inbox relay by default and preserves endpoint override support', () => {
+    expect(ROOT_FORM_RELAY).toBe('https://formsubmit.co/ajax/info@rootrcm.com');
+    expect(getInquiryEndpoint()).toBe(ROOT_FORM_RELAY);
+    expect(getInquiryEndpoint('https://forms.example.test/root')).toBe('https://forms.example.test/root');
+
+    const delivery = buildDeliveryPayload({
+      name: 'Alex Rivera',
+      email: 'alex@northstar.example',
+      organization: 'Northstar Clinic',
+      inquiryType: 'diagnostic',
+      noPhi: true,
+      experiment: 'diagnostic-hero-value-framing-v1',
+      experiment_variant: 'a',
+    }, 'https://rootrcm.com/diagnostic/');
+
+    expect(delivery._subject).toContain('Revenue Optimization Diagnostic');
+    expect(delivery._replyto).toBe('alex@northstar.example');
+    expect(delivery._url).toBe('https://rootrcm.com/diagnostic/');
+    expect(delivery.experiment_variant).toBe('a');
+  });
+
+  it('supports deterministic experiment overrides for QA', () => {
+    window.history.pushState({}, '', '/?exp_homeHero=b');
+    expect(getExperimentAssignment('homeHero')).toBe('b');
+    render(<App />);
+    expect(screen.getByRole('heading', { name: /find where your practice is losing revenue/i })).toBeTruthy();
+    expect(document.querySelector('.homeHero')?.dataset.variant).toBe('b');
   });
 
   it('renders the 404 fallback route', () => {
