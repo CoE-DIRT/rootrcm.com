@@ -1,9 +1,11 @@
 export const brandAssets = {
-  fallbackMark: '/brand/logos/root/root-fallback-mark.svg',
-  fallbackWordmark: '/brand/logos/root/root-fallback-wordmark.svg',
-  favicon: '/brand/favicon/favicon.svg',
+  mark: '/brand/logos/root/root-mark.png',
+  horizontalLockup: '/brand/logos/root/root-lockup-horizontal-white.png',
+  stackedLockup: '/brand/logos/root/root-lockup-stacked.png',
+  favicon: '/brand/favicon/favicon-32.png',
+  appleTouchIcon: '/brand/favicon/apple-touch-icon.png',
   webManifest: '/brand/favicon/site.webmanifest',
-  fallbackOg: 'https://rootrcm.com/brand/social/og-root-fallback.svg',
+  og: 'https://rootrcm.com/brand/social/og-root.png',
 };
 
 export const companyInfo = {
@@ -461,71 +463,71 @@ export const routeMeta = {
   '/': {
     title: 'ROOT | Healthcare MSO, RCM, Operations & Technology',
     description: 'ROOT is a healthcare MSO platform for independent practices, combining RCM, credentialing, practice operations, technology, automation, analytics, and DIRT intelligence.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/platform': {
     title: 'ROOT Platform | Healthcare MSO Operating Layer',
     description: 'See how ROOT integrates revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/solutions': {
     title: 'Healthcare Practice Solutions | ROOT',
     description: 'Solutions for revenue leakage, aging A/R, denials, credentialing bottlenecks, operational efficiency, reporting visibility, and scaling practice operations.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/services': {
     title: 'Healthcare MSO Services | ROOT',
     description: 'ROOT services include medical billing, A/R recovery, denial management, credentialing, practice operations, healthcare IT, automation, analytics, and consulting.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/technology': {
     title: 'Healthcare Operations Technology | ROOT',
     description: 'ROOT technology brings healthcare IT, automation, analytics, and DIRT intelligence into one practical operating model for medical practices.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/technology/dirt': {
     title: 'DIRT Intelligence | Data Intelligence for Revenue Transformation',
     description: 'DIRT is ROOT’s intelligence layer for leakage detection, denial analysis, aging A/R prioritization, PracticeOps signals, and revenue command visibility.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/pricing': {
     title: 'ROOT Pricing | Diagnostic, Managed RCM, DIRT & MSO Models',
     description: 'Explore ROOT engagement models: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, and full MSO partnership.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/resources': {
     title: 'Healthcare Revenue Cycle Resources | ROOT',
     description: 'Guides for revenue leakage, aging A/R, denial management, credentialing operations, practice KPIs, and healthcare automation readiness.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/diagnostic': {
     title: 'Revenue Optimization Diagnostic | ROOT',
     description: 'A fixed-fee $2,500 Diagnostic for independent practices: A/R analysis, denial root causes, opportunity register, workflow review, and 90-day roadmap.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/company/about': {
     title: 'About ROOT | Healthcare MSO Platform',
     description: 'ROOT combines healthcare operations, revenue-cycle execution, credentialing, analytics, automation, and technology for independent practices.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
   '/contact': {
     title: 'Contact ROOT | Healthcare MSO, RCM & Practice Operations',
     description: 'Talk with ROOT about RCM, A/R recovery, denial management, credentialing, practice operations, healthcare IT, DIRT, or analytics.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   },
-  '/legal/privacy': { title: 'Privacy | ROOT', description: 'ROOT public website privacy boundary and no-PHI intake policy.', image: brandAssets.fallbackOg },
-  '/legal/terms': { title: 'Terms | ROOT', description: 'ROOT commercial website terms of use.', image: brandAssets.fallbackOg },
-  '/thank-you': { title: 'Request Received | ROOT', description: 'ROOT has received your deidentified commercial inquiry.', image: brandAssets.fallbackOg },
+  '/legal/privacy': { title: 'Privacy | ROOT', description: 'ROOT public website privacy boundary and no-PHI intake policy.', image: brandAssets.og },
+  '/legal/terms': { title: 'Terms | ROOT', description: 'ROOT commercial website terms of use.', image: brandAssets.og },
+  '/thank-you': { title: 'Request Received | ROOT', description: 'ROOT has received your deidentified commercial inquiry.', image: brandAssets.og },
 };
 
 solutionPages.forEach((page) => {
-  routeMeta[`/solutions/${page.slug}`] = { title: `${page.title} Solution | ROOT`, description: page.summary, image: brandAssets.fallbackOg };
+  routeMeta[`/solutions/${page.slug}`] = { title: `${page.title} Solution | ROOT`, description: page.summary, image: brandAssets.og };
 });
 
 servicePages.forEach((service) => {
-  routeMeta[`/services/${service.slug}`] = { title: `${service.title} Services | ROOT`, description: service.summary, image: brandAssets.fallbackOg };
+  routeMeta[`/services/${service.slug}`] = { title: `${service.title} Services | ROOT`, description: service.summary, image: brandAssets.og };
 });
 
 resourceArticles.forEach((article) => {
-  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, image: brandAssets.fallbackOg };
+  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, image: brandAssets.og };
 });

@@ -1,6 +1,6 @@
 # ROOT Public Website
 
-![ROOT fallback social cover](public/brand/social/og-root-fallback.svg)
+![ROOT social cover](public/brand/covers/root-social-cover.png)
 
 ROOT is Revenue Operations & Outcomes Technology: a public commercial website for independent US physician practices evaluating a healthcare MSO partner across revenue cycle management, credentialing, practice operations, healthcare IT, workflow automation, analytics, DIRT intelligence, and the fixed-fee Revenue Optimization Diagnostic.
 

@@ -29,7 +29,7 @@ describe('ROOT commercial site', () => {
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
-    expect(container.querySelector('img[src="/brand/logos/root/root-fallback-mark.svg"]')).toBeTruthy();
+    expect(container.querySelector('img[src="/brand/logos/root/root-mark.png"]')).toBeTruthy();
     expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
     expect(screen.getAllByText(/^Platform$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Solutions$/i).length).toBeGreaterThan(0);
