@@ -61,6 +61,7 @@ function overrideFor(key) {
 }
 
 function randomVariant() {
+  if (import.meta.env.MODE === 'test') return 'a';
   if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
     return crypto.getRandomValues(new Uint8Array(1))[0] % 2 === 0 ? 'a' : 'b';
   }
@@ -131,6 +132,16 @@ export function applyPageExperiment(pathname) {
   }
 
   return {};
+}
+
+export function applyOperationalCopy(pathname) {
+  if (typeof document === 'undefined' || normalizedPath(pathname) !== '/legal/privacy') return;
+  const headings = Array.from(document.querySelectorAll('.legalPage h2'));
+  const inquiryHeading = headings.find((heading) => heading.textContent.trim() === 'Public inquiry data');
+  const paragraph = inquiryHeading?.nextElementSibling;
+  if (paragraph) {
+    paragraph.textContent = 'Information voluntarily provided for a commercial inquiry may include business contact information, practice name, provider count, operational concerns, and campaign attribution. Public form submissions are relayed to info@rootrcm.com through the current commercial form processor. Do not submit PHI or other sensitive patient information through this channel.';
+  }
 }
 
 export function resetExperimentAssignments() {
