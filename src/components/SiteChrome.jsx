@@ -6,7 +6,7 @@ export function Brand({ compact = false }) {
   return (
     <a className="brand" href="/" aria-label="ROOT home">
       <span className="brandMark" aria-hidden="true">
-        <img src={brandAssets.fallbackMark} alt="" width="38" height="38" />
+        <img src={brandAssets.mark} alt="" width="38" height="38" />
       </span>
       <span className="brandText">
         ROOT

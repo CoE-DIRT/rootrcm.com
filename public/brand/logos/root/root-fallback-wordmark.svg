@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title desc">
-  <title id="title">ROOT fallback wordmark</title>
-  <desc id="desc">Fallback ROOT wordmark used until official logo files are available.</desc>
-  <rect width="360" height="96" rx="24" fill="#07110e"/>
-  <text x="32" y="62" fill="#edf5f1" font-family="Georgia, 'Times New Roman', serif" font-size="48" letter-spacing="2">ROOT</text>
-  <line x1="184" y1="24" x2="184" y2="72" stroke="#70e0ad" stroke-opacity=".55"/>
-  <text x="206" y="40" fill="#b8c6bf" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6">REVENUE OPERATIONS</text>
-  <text x="206" y="59" fill="#b8c6bf" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6">&amp; OUTCOMES TECHNOLOGY</text>
-</svg>

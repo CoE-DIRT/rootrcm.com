@@ -70,7 +70,7 @@ function syncDocumentMeta(path) {
   const meta = routeMeta[path] || {
     title: 'Page Not Found | ROOT',
     description: 'The requested ROOT public website page could not be found.',
-    image: brandAssets.fallbackOg,
+    image: brandAssets.og,
   };
   const canonicalPath = path === '/' ? '/' : `${path}/`;
   const canonicalUrl = `https://rootrcm.com${canonicalPath}`;
