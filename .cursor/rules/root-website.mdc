@@ -1,0 +1,44 @@
+---
+description: ROOT public website revenue, UI/UX, SEO, safety, and architecture guardrails
+alwaysApply: true
+---
+# ROOT Website Rules
+
+## Mission
+- Every public-site change must improve sales conversion, credibility, accessibility, discoverability, or reliability.
+- Primary conversion: the fixed-fee $2,500 Revenue Optimization Diagnostic.
+- ROOT is the parent commercial/MSO brand. DIRT is the Data Intelligence for Revenue Transformation capability inside ROOT.
+
+## Architecture
+- Preserve React + Vite + GitHub Pages unless a proven operating constraint requires change.
+- Preserve the existing Clinical Glass CSS system. Do not activate Tailwind or perform a CSS-framework migration without an explicit architecture decision.
+- Prefer existing components, `src/siteData.js`, proof data, and DIRT-derived command-view patterns before creating replacements.
+- Keep content/data separate from reusable UI wherever practical.
+
+## Visual system
+- Premium US healthcare operations: clinical, analytical, executive, calm, precise.
+- Avoid generic smiling-doctor, hospital-corridor, call-center, crypto/neon, or decorative stock imagery.
+- DIRT visual language may contribute indigo/aqua/emerald command-center signals inside ROOT analytical surfaces.
+- Never fabricate client dashboards, testimonials, logos, outcomes, certifications, payer relationships, or performance guarantees.
+- Prevent CLS: reserve media dimensions/aspect ratios and lazy-load below-fold media.
+
+## Conversion and experiments
+- Preserve CTA data attributes and deidentified experiment attribution.
+- Experiments must be persistent, testable, reversible, and must not change pricing or unsupported claims.
+- Never put form contents or PHI into analytics/CTA events.
+
+## Forms and privacy
+- Public forms are commercial/no-PHI only and must keep the mandatory no-PHI acknowledgement.
+- Production inquiries must deliver to `info@rootrcm.com`; phone is `+1 (302) 506 4685`; WhatsApp is `https://wa.me/13025064685`.
+- Do not add PHI storage, public file uploads, secrets, credentials, or patient data.
+
+## SEO and accessibility
+- One meaningful H1 per page; preserve semantic heading order.
+- Maintain page-specific title, description, canonical, Open Graph, Twitter metadata, structured data, sitemap, and robots behavior.
+- Utility/success pages must not be indexed.
+- Interactive navigation must work by keyboard, expose state with ARIA, support Escape, and preserve visible focus.
+- Decorative imagery uses empty alt text; informative imagery uses concise contextual alt text.
+
+## Quality gate
+Before merge run: `npm ci`, `npm run lint`, `npm test`, `npm run build`.
+Do not merge a failing head.
