@@ -132,7 +132,7 @@ describe('ROOT commercial site', () => {
   it('renders launch contact details and only live outreach channels', () => {
     renderRoute('/contact/');
 
-    expect(screen.getAllByText(/ROOT RCM LLC/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/ROOT Revenue Operations & Outcomes Technology Incorporated/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/2803 Philadelphia Pike/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/\+1 \(302\) 506 4685/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/info@rootrcm.com/i).length).toBeGreaterThan(0);
@@ -141,6 +141,25 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /^Email/i }).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^LinkedIn$/i)).toBeNull();
     expect(screen.getByRole('heading', { name: /Chatbot and virtual front desk/i })).toBeTruthy();
+  });
+
+  it('provides the Talk to us assistant panel and configured-state social controls', () => {
+    renderRoute('/');
+
+    const talkButton = screen.getByRole('button', { name: /Talk to us/i });
+    expect(talkButton).toBeTruthy();
+    expect(screen.queryByText(/Chat assistant coming soon/i)).toBeNull();
+
+    fireEvent.click(talkButton);
+    expect(screen.getByText(/Chat assistant coming soon/i)).toBeTruthy();
+    expect(screen.getByRole('dialog', { name: /Chat assistant coming soon/i })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Contact ROOT now/i }).getAttribute('href')).toBe('/contact/');
+
+    fireEvent.click(screen.getByRole('button', { name: /Facebook/i }));
+    expect(screen.getByRole('status', { name: /social profile feedback/i }).textContent).toContain('Facebook profile coming soon.');
+    expect(screen.getByRole('button', { name: /Instagram/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^X$/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Google Business Profile/i })).toBeTruthy();
   });
 
   it('builds a deidentified fallback inquiry with attribution', () => {

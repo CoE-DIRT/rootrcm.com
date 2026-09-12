@@ -16,7 +16,7 @@
 
 ## Launch Contact Details
 
-- Legal name: ROOT RCM LLC
+- Legal name: ROOT Revenue Operations & Outcomes Technology Incorporated
 - Address: 2803 Philadelphia Pike, Suite B #1864, Claymont, DE 19703
 - Phone: +1 (302) 506 4685
 - Email: info@rootrcm.com

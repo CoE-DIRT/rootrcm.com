@@ -15,10 +15,7 @@
 .heroWorkstation,
 .dirtVisual {
   border-color: rgba(117, 215, 255, .18);
-  background:
-    radial-gradient(circle at 88% 8%, rgba(99, 102, 241, .15), transparent 35%),
-    radial-gradient(circle at 12% 92%, rgba(14, 165, 233, .09), transparent 36%),
-    linear-gradient(180deg, rgba(11, 20, 26, .96), rgba(6, 15, 12, .98));
+  background: rgba(8, 20, 17, .96);
   box-shadow: 0 28px 85px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .03);
 }
 
@@ -72,30 +69,9 @@
   overflow: hidden;
 }
 
-.dirtVisual::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(115deg, transparent 15%, rgba(99, 102, 241, .035) 50%, transparent 82%);
-}
-
-.radarFace {
-  border-color: rgba(117, 215, 255, .2);
-  background: radial-gradient(circle, rgba(14, 165, 233, .09), rgba(99, 102, 241, .025) 50%, transparent 70%);
-}
-
-.radarFace svg {
-  color: #75d7ff;
-}
-
 .commandRows > div {
   border-color: rgba(255, 255, 255, .08);
   background: rgba(7, 11, 18, .58);
-}
-
-.commandRows i {
-  background: linear-gradient(90deg, #70e0ad, #75d7ff, #6366f1);
 }
 
 /* Variant B is intentionally subtle: message changes, not a second design system. */
@@ -132,3 +108,327 @@
     grid-template-columns: 1fr;
   }
 }
+/* ROOT MOBILE RELEASE GATE V1 START */
+
+@media (max-width: 680px) {
+
+  html,
+  body,
+  #root,
+  .clinicalGlass {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  body,
+  main,
+  header,
+  footer,
+  section {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .siteHeader {
+    width: 100%;
+    max-width: 100vw;
+    min-width: 0;
+    gap: 8px;
+    padding-inline: 14px;
+  }
+
+  .brand {
+    min-width: 0;
+    max-width: calc(100% - 54px);
+  }
+
+  .brandText {
+    min-width: 0;
+  }
+
+  .brandText small {
+    display: none !important;
+  }
+
+  .menuButton {
+    display: grid !important;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    position: relative;
+    z-index: 70;
+  }
+
+  .siteHeader nav {
+    width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+  }
+
+  .homeHero,
+  .pageHero,
+  .contentSection,
+  .splitSection,
+  .featureBand,
+  .diagnosticHero,
+  .contactPage,
+  .sectionCta,
+  .carouselSection,
+  .diagnosticBanner,
+  .siteFooter {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .homeHero > *,
+  .pageHero > *,
+  .contentSection > *,
+  .splitSection > *,
+  .featureBand > *,
+  .diagnosticHero > *,
+  .contactPage > *,
+  .carouselSection > *,
+  .diagnosticBanner > *,
+  .footerTop > *,
+  .footerLinks > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  span,
+  small,
+  strong,
+  a,
+  button,
+  label {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  h1 {
+    font-size: clamp(2.35rem, 11vw, 2.85rem);
+    line-height: .98;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 9vw, 2.45rem);
+  }
+
+  .lede {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .actions,
+  .formActions {
+    width: 100%;
+  }
+
+  .actions .button,
+  .formActions .button,
+  .pageHero .button,
+  .sectionCta .button {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    padding-inline: 14px;
+  }
+
+  .trustBand {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible !important;
+    grid-template-columns: 1fr !important;
+    padding-inline: 0;
+  }
+
+  .trustBand span {
+    width: 100%;
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+
+  .cardGrid,
+  .pricingGrid,
+  .symptomRail,
+  .modelSteps,
+  .pipelineGrid,
+  .diagnosticFlowGrid,
+  .diagnosticPages,
+  .metricStrip,
+  .proofAnswerGrid,
+  .proofFeatureGrid,
+  .dirtDemoGrid,
+  .diagnosticProofRow,
+  .paretoSummary,
+  .priorityMatrix,
+  .workspaceMetrics,
+  .fieldRow {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .glassCard,
+  .linkCard,
+  .pricingCard,
+  .inquiryForm,
+  .formFallback,
+  .engagementCarousel,
+  .diagnosticArtifact {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .inquiryForm,
+  .inquiryForm input,
+  .inquiryForm textarea,
+  .inquiryForm select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .platformOrbit {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0 !important;
+    height: auto !important;
+    grid-template-columns: 1fr !important;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .platformOrbit::before,
+  .platformOrbit::after {
+    display: none !important;
+  }
+
+  .platformOrbit .orbitCore,
+  .platformOrbit .orbitNode {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    margin: 0 !important;
+  }
+
+  .workspaceBody,
+  .workspaceMain,
+  .workspaceChart,
+  .workspaceQueue,
+  .dirtVisual,
+  .commandRows {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .workspaceBody {
+    grid-template-columns: 1fr !important;
+  }
+
+  .workspaceSidebar {
+    display: none !important;
+  }
+
+  .workspaceChart {
+    padding: 14px;
+    gap: 6px;
+  }
+
+  .siteFooter button,
+  .siteFooter [role="button"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .siteFooter svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .floatingContact {
+    left: auto !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    max-width: calc(100vw - 24px);
+  }
+
+  .floatingContact button,
+  .floatingContact a {
+    min-height: 48px;
+    width: auto;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+
+}
+
+/* ROOT MOBILE RELEASE GATE V1 END */
+/* ROOT FINAL VISUAL RELEASE PATCH START */
+
+/* Dark Clinical Glass surfaces require deterministic heading contrast. */
+h1,
+h2,
+h3 {
+  color: var(--text);
+}
+
+/* Keep the real mobile navigation control unmistakably visible. */
+@media (max-width: 980px) {
+  .menuButton {
+    display: grid !important;
+    place-items: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    margin-left: auto !important;
+    padding: 0 !important;
+    color: var(--text) !important;
+    background: rgba(255,255,255,.045) !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 8px !important;
+    position: relative !important;
+    z-index: 80 !important;
+  }
+
+  .menuButton svg {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    max-width: none !important;
+    color: var(--text) !important;
+    stroke: currentColor !important;
+  }
+}
+
+/* ROOT FINAL VISUAL RELEASE PATCH END */
