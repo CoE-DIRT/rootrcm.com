@@ -53,7 +53,7 @@ export const companyInfo = {
   phoneHref: 'tel:+13025064685',
   email: 'info@rootrcm.com',
   emailHref: 'mailto:info@rootrcm.com',
-  whatsappHref: 'https://wa.me/13025064685?text=Hello%20ROOT%20RCM%20LLC%2C%20I%20would%20like%20to%20discuss%20a%20deidentified%20practice%20operations%20or%20revenue%20cycle%20need.',
+  whatsappHref: 'https://wa.me/13025064685?text=Hello%20ROOT%20Revenue%20Operations%20%26%20Outcomes%20Technology%20Incorporated%2C%20I%20would%20like%20to%20discuss%20a%20deidentified%20practice%20operations%20or%20revenue%20cycle%20need.',
 };
 
 export const outreachChannels = [
