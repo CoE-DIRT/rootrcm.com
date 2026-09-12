@@ -84,6 +84,13 @@
   max-width: 15ch;
 }
 
+/* Give the existing longer headline enough column width to fit laptop CTAs. */
+@media (min-width: 981px) {
+  .homeHero.experimentRevenueDirect {
+    grid-template-columns: minmax(0, 1.12fr) minmax(430px, .88fr);
+  }
+}
+
 .experimentRevenueDirect .heroWorkstation,
 .diagnosticHero.experimentRevenueDirect .inquiryForm {
   border-color: rgba(117, 215, 255, .26);
@@ -143,7 +150,7 @@
     max-width: 100vw;
     min-width: 0;
     gap: 8px;
-    padding-inline: 14px;
+    padding-inline: var(--page-gutter);
   }
 
   .brand {
@@ -402,7 +409,7 @@ h3 {
 }
 
 /* Keep the real mobile navigation control unmistakably visible. */
-@media (max-width: 980px) {
+@media (max-width: 1280px) {
   .menuButton {
     display: grid !important;
     place-items: center !important;

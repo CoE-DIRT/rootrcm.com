@@ -19,7 +19,8 @@ Write-Host "Repo:      $Repo"
 Write-Host "Tool root: $ToolRoot"
 
 foreach ($tool in $toolchain.repositories) {
-    $safeName = ($tool.name -replace '[^A-Za-z0-9._-]', '-').ToLowerInvariant()
+    $directoryNames = @{ 'Recordly' = 'Recordly'; 'Magic UI' = 'magicui'; 'Radix Primitives' = 'radix-primitives' }
+    $safeName = if ($directoryNames.ContainsKey($tool.name)) { $directoryNames[$tool.name] } else { ($tool.name -replace '[^A-Za-z0-9._-]', '-').ToLowerInvariant() }
     $dest = Join-Path $ToolRoot $safeName
 
     Write-Host "`n--- $($tool.name) ---" -ForegroundColor Yellow
@@ -32,14 +33,20 @@ foreach ($tool in $toolchain.repositories) {
         if ($LASTEXITCODE -ne 0) { throw "Clone failed for $($tool.name)" }
     }
     else {
+        $existingOrigin = (& git -C $dest remote get-url origin).Trim()
+        if ($LASTEXITCODE -ne 0 -or $existingOrigin -ine $tool.repo) { throw "Unexpected origin at $dest; leaving existing work untouched" }
+        $dirty = & git -C $dest status --porcelain
+        if ($LASTEXITCODE -ne 0 -or $dirty) { throw "Uncommitted work at $dest; leaving existing work untouched" }
         & git -C $dest fetch --depth 1 origin
         if ($LASTEXITCODE -ne 0) { throw "Fetch failed for $($tool.name)" }
 
         $defaultRef = (& git -C $dest symbolic-ref refs/remotes/origin/HEAD 2>$null)
         if ($LASTEXITCODE -eq 0 -and $defaultRef) {
             $defaultBranch = ($defaultRef -replace '^refs/remotes/origin/', '').Trim()
-            & git -C $dest checkout $defaultBranch | Out-Null
-            & git -C $dest reset --hard "origin/$defaultBranch" | Out-Null
+            $currentBranch = (& git -C $dest branch --show-current).Trim()
+            if ($currentBranch -ne $defaultBranch) { throw "Non-default branch at $dest; leaving existing work untouched" }
+            & git -C $dest merge --ff-only "origin/$defaultBranch" | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw "Cannot fast-forward $dest; leaving existing work untouched" }
         }
     }
 

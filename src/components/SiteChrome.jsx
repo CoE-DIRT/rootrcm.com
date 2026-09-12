@@ -220,19 +220,15 @@ function SocialMark({ label }) {
 }
 
 function FooterSocials() {
-  const [message, setMessage] = useState('');
+  const verifiedProfiles = socialProfiles.filter((profile) => profile.href);
+  if (!verifiedProfiles.length) return null;
+
   return (
-    <div className="footerSocials">
-      <span>Follow ROOT</span>
-      <div>
-        {socialProfiles.map((profile) => profile.href ? (
+    <nav className="footerSocials" aria-label="Follow ROOT">
+        {verifiedProfiles.map((profile) => (
           <a key={profile.label} href={profile.href} target="_blank" rel="noopener noreferrer" aria-label={profile.label}><SocialMark label={profile.label} /></a>
-        ) : (
-          <button key={profile.label} type="button" aria-label={profile.label} onClick={() => setMessage(profile.message)}><SocialMark label={profile.label} /></button>
         ))}
-      </div>
-      {message && <small role="status" aria-label="Social profile feedback">{message}</small>}
-    </div>
+    </nav>
   );
 }
 

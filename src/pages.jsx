@@ -256,8 +256,6 @@ function BillingAloneSection() {
   return (
     <section className="splitSection billingSection" data-reveal>
       <div className="paperStackVisual" aria-label="Billing alone limitation illustration">
-        <img className="sectionPhoto" src={mediaAssets.rcmBilling} alt="Healthcare billing and financial operations workstation" loading="lazy" decoding="async" />
-        <div className="sectionPhotoOverlay" aria-hidden="true" />
         {['Claims', 'Denials', 'Appeals', 'Follow up', 'Patient balances', 'Reporting'].map((item) => <span key={item}>{item}</span>)}
         <strong>Billing is necessary. It is not enough.</strong>
       </div>

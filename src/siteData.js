@@ -12,7 +12,6 @@ export const mediaAssets = {
   homePracticeOperations: '/media/images/home-practice-operations.jpg',
   practiceOperations: '/media/images/practice-operations-workstation.jpg',
   credentialing: '/media/images/credentialing-payer-documentation.jpg',
-  rcmBilling: '/media/images/rcm-billing-financial-operations.jpg',
   claimsAr: '/media/images/claims-ar-administration.jpg',
   healthcareIt: '/media/images/healthcare-it-workstation.jpg',
   dirtAnalytics: '/media/images/dirt-analytics-illustrative.jpg',

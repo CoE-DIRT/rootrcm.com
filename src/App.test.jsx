@@ -155,11 +155,9 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('dialog', { name: /Chat assistant coming soon/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /Contact ROOT now/i }).getAttribute('href')).toBe('/contact/');
 
-    fireEvent.click(screen.getByRole('button', { name: /Facebook/i }));
-    expect(screen.getByRole('status', { name: /social profile feedback/i }).textContent).toContain('Facebook profile coming soon.');
-    expect(screen.getByRole('button', { name: /Instagram/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: /^X$/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: /Google Business Profile/i })).toBeTruthy();
+    expect(screen.queryByRole('navigation', { name: /Follow ROOT/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Facebook|Instagram|^X$|Google Business Profile/i })).toBeNull();
+    expect(screen.queryByRole('link', { name: /Facebook|Instagram|^X$|Google Business Profile/i })).toBeNull();
   });
 
   it('builds a deidentified fallback inquiry with attribution', () => {
