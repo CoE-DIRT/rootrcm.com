@@ -22,11 +22,8 @@ export const mediaAssets = {
 };
 
 export const serviceMediaBySlug = {
-  rcm: { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
-  'medical-billing': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
   'ar-recovery': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
   'denial-management': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
-  'payment-posting': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
   'patient-balances': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
   credentialing: { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
   'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
@@ -37,7 +34,6 @@ export const serviceMediaBySlug = {
 };
 
 export const solutionMediaBySlug = {
-  'revenue-leakage': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
   'aging-ar': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
   denials: { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
   'credentialing-bottlenecks': { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
