@@ -16,7 +16,6 @@ import {
   ListChecks,
   LockKeyhole,
   Network,
-  Radar,
   SearchCheck,
   ShieldCheck,
   Target,
@@ -39,6 +38,9 @@ import {
   platformNodes,
   pricingModels,
   resourceArticles,
+  mediaAssets,
+  serviceMediaBySlug,
+  solutionMediaBySlug,
   servicePages,
   solutionPages,
 } from './siteData.js';
@@ -114,6 +116,16 @@ const dirtPipeline = [
   ['Prioritized action', 'Ranked queue with owner, evidence, next step, review cadence, and management decision.'],
 ];
 
+function EditorialMedia({ media, className = '' }) {
+  if (!media) return null;
+  return (
+    <figure className={`editorialMedia glassCard ${className}`}>
+      <img src={media.src} alt={media.alt} loading="lazy" decoding="async" />
+      <span className="editorialMediaCaption">{media.caption || 'Editorial reference image'}</span>
+    </figure>
+  );
+}
+
 function PageHero({ breadcrumbs, title, copy, eyebrow, cta = true }) {
   return (
     <section className="pageHero" data-reveal>
@@ -130,20 +142,22 @@ function PageHero({ breadcrumbs, title, copy, eyebrow, cta = true }) {
   );
 }
 
-function PlatformOrbit({ compact = false }) {
+function PlatformOrbit() {
   return (
-    <div className={`platformOrbit ${compact ? 'compact' : ''}`} aria-label="ROOT platform architecture visual">
+    <div className="platformOrbit" aria-label="ROOT platform architecture visual">
       <div className="orbitCore">
         <span>Clinical Practice</span>
         <strong>ROOT</strong>
         <small>Integrated operating layer</small>
       </div>
-      {platformNodes.map((node, index) => (
-        <div className="orbitNode" data-index={index} key={node.label}>
-          <b>{node.label}</b>
-          {!compact && <small>{node.copy}</small>}
-        </div>
-      ))}
+      <div className="orbitNodes">
+        {platformNodes.map((node) => (
+          <div className="orbitNode" key={node.label}>
+            <b>{node.label}</b>
+            <small>{node.copy}</small>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -158,18 +172,18 @@ function DirtCommandVisual() {
 
   return (
     <div className="dirtVisual glassCard" aria-label="DIRT command center illustration">
-      <div className="radarFace">
-        <Radar size={34} />
-        <span />
-        <span />
-        <span />
+      <div className="dirtVisualIntro">
+        <span className="dirtStatus"><Activity size={14} /> Live operating signal</span>
+        <strong>From raw exports to the next best action.</strong>
+        <p>DIRT keeps revenue, denial, A/R, and PracticeOps signals in one decision view.</p>
+        <div className="dirtPulse" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       </div>
       <div className="commandRows">
         {rows.map(([title, copy], index) => (
-          <div key={title} style={{ '--level': `${54 + index * 11}%` }}>
-            <b>{title}</b>
-            <small>{copy}</small>
-            <i />
+          <div key={title}>
+            <span className="commandRowIndex">0{index + 1}</span>
+            <span><b>{title}</b><small>{copy}</small></span>
+            <em>{index === 0 ? 'Scan' : index === 1 ? 'Pattern' : index === 2 ? 'Prioritize' : 'Route'}</em>
           </div>
         ))}
       </div>
@@ -179,7 +193,7 @@ function DirtCommandVisual() {
 
 function HeroWorkstationVisual() {
   return (
-    <div className="heroWorkstation glassCard relative overflow-hidden" aria-label="Revenue operations command workspace illustration">
+    <div className="heroWorkstation glassCard" aria-label="Revenue operations command workspace illustration">
       <div className="workspaceToolbar">
         <span>ROOT operating view</span>
         <small>Synthetic signals</small>
@@ -242,6 +256,8 @@ function BillingAloneSection() {
   return (
     <section className="splitSection billingSection" data-reveal>
       <div className="paperStackVisual" aria-label="Billing alone limitation illustration">
+        <img className="sectionPhoto" src={mediaAssets.rcmBilling} alt="Healthcare billing and financial operations workstation" loading="lazy" decoding="async" />
+        <div className="sectionPhotoOverlay" aria-hidden="true" />
         {['Claims', 'Denials', 'Appeals', 'Follow up', 'Patient balances', 'Reporting'].map((item) => <span key={item}>{item}</span>)}
         <strong>Billing is necessary. It is not enough.</strong>
       </div>
@@ -434,7 +450,7 @@ function ContactMethodsPanel({ location = 'contact-methods' }) {
   return (
     <section className="contactMethods darkBand" data-reveal>
       <div>
-        <p className="eyebrow">ROOT RCM LLC</p>
+        <p className="eyebrow">ROOT Revenue Operations & Outcomes Technology Incorporated</p>
         <h2>Reach ROOT the way your team works.</h2>
         <address>
           <strong>{companyInfo.legalName}</strong>
@@ -596,12 +612,16 @@ export function SolutionsHubPage() {
 
 export function SolutionPage({ page }) {
   const proofAsset = proofPlacementBySolutionSlug[page.slug];
+  const media = solutionMediaBySlug[page.slug];
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Solutions', href: '/solutions/' }, { label: page.title }]} eyebrow="Solution" title={page.title} copy={page.summary} />
       <section className="splitSection" data-reveal>
         <div><p className="eyebrow">Problem</p><h2>What is really happening</h2><p>{page.problem}</p></div>
-        <div className="glassCard emphasisCard"><p className="eyebrow">ROOT response</p><h3>{page.rootResponse}</h3></div>
+        <div>
+          <EditorialMedia media={media} />
+          <div className="glassCard emphasisCard"><p className="eyebrow">ROOT response</p><h3>{page.rootResponse}</h3></div>
+        </div>
       </section>
       <section className="contentSection mutedBand" data-reveal>
         <div className="sectionHeading narrow"><p className="eyebrow">Connected services</p><h2>How ROOT handles it</h2></div>
@@ -629,12 +649,16 @@ export function ServicesHubPage() {
 
 export function ServicePage({ service }) {
   const proofAsset = proofPlacementByServiceSlug[service.slug];
+  const media = serviceMediaBySlug[service.slug];
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Services', href: '/services/' }, { label: service.title }]} eyebrow={service.family} title={service.title} copy={service.summary} />
       <section className="splitSection" data-reveal>
         <div><p className="eyebrow">Best fit</p><h2>Who this is for</h2><p>{service.buyer}</p><TrackedLink className="textLink" href={service.related} cta="related-solution" location={`service-${service.slug}`} engagementType="solution">Related solution <ArrowRight size={16} /></TrackedLink></div>
-        <div className="glassCard stackCard"><p className="eyebrow">Engagement</p><h3>{service.engagement}</h3><p>{service.pricing}</p></div>
+        <div>
+          <EditorialMedia media={media} />
+          <div className="glassCard stackCard"><p className="eyebrow">Engagement</p><h3>{service.engagement}</h3><p>{service.pricing}</p></div>
+        </div>
       </section>
       <section className="contentSection mutedBand" data-reveal>
         <div className="sectionHeading narrow"><p className="eyebrow">Deliverables</p><h2>What ROOT can own</h2></div>
@@ -655,7 +679,7 @@ export function TechnologyHubPage() {
     <>
       <PageHero breadcrumbs={[{ label: 'Technology' }]} eyebrow="Healthcare technology + intelligence" title="Technology that serves the operating model." copy="ROOT uses healthcare IT alignment, workflow automation, reporting architecture, analytics, and DIRT intelligence to make the business side of medicine more visible and more governable." />
       <section className="splitSection" data-reveal>
-        <div><p className="eyebrow">DIRT command layer</p><h2>From fragmented exports to prioritized decisions.</h2><p>DIRT turns operational and revenue-cycle data into views that show leakage, aging landscape, denial intelligence, recovery prioritization, PracticeOps signals, and command-center visibility.</p></div>
+        <div><p className="eyebrow">DIRT command layer</p><h2>From fragmented exports to prioritized decisions.</h2><p>DIRT turns operational and revenue-cycle data into views that show leakage, aging landscape, denial intelligence, recovery prioritization, PracticeOps signals, and command-center visibility.</p><EditorialMedia media={{ src: mediaAssets.healthcareIt, alt: 'Healthcare IT workstation showing EHR and practice-management workflows' }} /></div>
         <DirtCommandVisual />
       </section>
       <section className="contentSection mutedBand" data-reveal>
@@ -699,7 +723,7 @@ export function DirtPage() {
       </section>
       <section className="splitSection darkBand" data-reveal>
         <DirtCommandVisual />
-        <div><p className="eyebrow">Command center</p><h2>Radar for the revenue system.</h2><p>DIRT is presented as ROOT's intelligence capability, not as an unsupported finished SaaS claim. It supports service delivery, Diagnostic analysis, and operating visibility.</p></div>
+        <div><p className="eyebrow">Command center</p><h2>Signal clarity for the revenue system.</h2><p>DIRT is presented as ROOT's intelligence capability, not as an unsupported finished SaaS claim. It supports service delivery, Diagnostic analysis, and operating visibility.</p></div>
       </section>
       <section className="contentSection" data-reveal>
         <div className="cardGrid">
@@ -812,6 +836,7 @@ export function AboutPage() {
     <>
       <PageHero breadcrumbs={[{ label: 'Company' }, { label: 'About ROOT' }]} title="Built around the business side of independent medicine." copy="ROOT exists to give independent practices an accountable operating partner across revenue cycle, credentialing, practice operations, analytics, automation, and technology, without confusing business support with clinical authority." />
       <section className="contentSection twoColumnCopy" data-reveal><div><p className="eyebrow">How ROOT operates</p><h2>Revenue first. Evidence before complexity.</h2></div><div><p>ROOT prioritizes cash impact, client acquisition, delivery, retention, operational leverage, commercial credibility, automation, and then technical sophistication.</p><p>DIRT extends that model with analytical discipline: identify the constraint, quantify the opportunity, prioritize action, and measure what changes.</p></div></section>
+      <section className="splitSection mutedBand" data-reveal><EditorialMedia media={{ src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration in an independent-practice setting' }} /><div><p className="eyebrow">Operational partnership</p><h2>Built to work alongside the practice team.</h2><p>Photography on this site is editorial context only and does not represent ROOT clients, employees, facilities, partnerships, or results.</p></div></section>
       <SectionCta title="Bring us the number that does not make sense." label="Start a Conversation" href="/contact/" cta="talk-to-root" engagementType="consultation" />
     </>
   );

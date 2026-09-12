@@ -6,7 +6,7 @@
 - Book a Diagnostic: fixed-fee entry offer for practices ready to assess revenue leakage.
 - Talk to ROOT: consultative path for broader MSO, project, or service needs.
 - WhatsApp instant chat: immediate deidentified commercial conversation path.
-- Call and email: direct launch-ready contact options for ROOT RCM LLC.
+- Call and email: direct launch-ready contact options for ROOT Revenue Operations & Outcomes Technology Incorporated.
 - Social/profile destinations: hidden until official URLs are verified; do not render placeholder or `Coming soon` buttons on the client-facing launch site.
 - Chatbot and virtual front desk: `Coming soon` until secure workflow, privacy, and governance requirements are met.
 

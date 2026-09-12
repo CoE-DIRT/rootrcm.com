@@ -8,8 +8,46 @@ export const brandAssets = {
   og: 'https://rootrcm.com/brand/social/og-root.png',
 };
 
+export const mediaAssets = {
+  homePracticeOperations: '/media/images/home-practice-operations.jpg',
+  practiceOperations: '/media/images/practice-operations-workstation.jpg',
+  credentialing: '/media/images/credentialing-payer-documentation.jpg',
+  rcmBilling: '/media/images/rcm-billing-financial-operations.jpg',
+  claimsAr: '/media/images/claims-ar-administration.jpg',
+  healthcareIt: '/media/images/healthcare-it-workstation.jpg',
+  dirtAnalytics: '/media/images/dirt-analytics-illustrative.jpg',
+  operationsCollaboration: '/media/images/healthcare-operations-collaboration.jpg',
+  consulting: '/media/images/management-consulting-workshop.jpg',
+  workflowAutomation: '/media/images/workflow-automation-collaboration.jpg',
+};
+
+export const serviceMediaBySlug = {
+  rcm: { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
+  'medical-billing': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
+  'ar-recovery': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  'denial-management': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  'payment-posting': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
+  'patient-balances': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  credentialing: { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
+  'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
+  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare IT workstation showing EHR and practice-management workflows' },
+  'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Healthcare operations collaboration around workflow automation' },
+  'reporting-analytics': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery' },
+  'operational-consulting': { src: mediaAssets.consulting, alt: 'Operational assessment workshop in a healthcare business setting' },
+};
+
+export const solutionMediaBySlug = {
+  'revenue-leakage': { src: mediaAssets.rcmBilling, alt: 'Healthcare billing and financial operations workstation' },
+  'aging-ar': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  denials: { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  'credentialing-bottlenecks': { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
+  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
+  'reporting-visibility': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery' },
+  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration around practice growth and coordination' },
+};
+
 export const companyInfo = {
-  legalName: 'ROOT RCM LLC',
+  legalName: 'ROOT Revenue Operations & Outcomes Technology Incorporated',
   addressLines: ['2803 Philadelphia Pike', 'Suite B #1864', 'Claymont, DE 19703'],
   phone: '+1 (302) 506 4685',
   phoneHref: 'tel:+13025064685',
@@ -29,6 +67,13 @@ export const outreachChannels = [
   { label: 'YouTube', status: 'Coming soon', cta: 'youtube-coming-soon', engagementType: 'social' },
   { label: 'Google Business', status: 'Coming soon', cta: 'google-business-coming-soon', engagementType: 'local-profile' },
   { label: 'Calendly', status: 'Coming soon', cta: 'calendly-coming-soon', engagementType: 'scheduling' },
+];
+
+export const socialProfiles = [
+  { label: 'Facebook', href: null, message: 'Facebook profile coming soon.' },
+  { label: 'Instagram', href: null, message: 'Instagram profile coming soon.' },
+  { label: 'X', href: null, message: 'X profile coming soon.' },
+  { label: 'Google Business Profile', href: null, message: 'Google Business Profile coming soon.' },
 ];
 
 export const complianceStandards = [

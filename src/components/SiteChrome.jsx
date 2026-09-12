@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight, ChevronDown, MessageCircle, Menu, Phone, X } from 'lucide-react';
-import { brandAssets, companyInfo, footerGroups, outreachChannels, siteNav } from '../siteData.js';
+import { ArrowRight, ChevronDown, MessageCircle, Menu, X } from 'lucide-react';
+import { brandAssets, companyInfo, footerGroups, outreachChannels, siteNav, socialProfiles } from '../siteData.js';
 
 export function Brand({ compact = false }) {
   return (
@@ -10,7 +10,7 @@ export function Brand({ compact = false }) {
       </span>
       <span className="brandText">
         ROOT
-        {!compact && <small>Healthcare MSO Platform</small>}
+        {!compact && <small>Revenue Operations &amp; Outcomes Technology</small>}
       </span>
     </a>
   );
@@ -185,14 +185,20 @@ export function ChannelButtons({ location = 'contact-panel', compact = false }) 
 }
 
 export function FloatingContactCta() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="floatingContact" aria-label="Instant contact options">
-      <a href={companyInfo.whatsappHref} data-cta="whatsapp-instant-chat" data-location="floating-contact" data-destination={companyInfo.whatsappHref} data-engagement-type="instant-chat" target="_blank" rel="noreferrer">
-        <MessageCircle size={18} /> WhatsApp
-      </a>
-      <a href={companyInfo.phoneHref} data-cta="phone-call" data-location="floating-contact" data-destination={companyInfo.phoneHref} data-engagement-type="phone">
-        <Phone size={16} /> Call
-      </a>
+    <div className="floatingContact">
+      {open && (
+        <div id="assistant-panel" className="assistantPanel" role="dialog" aria-labelledby="assistant-panel-title" aria-describedby="assistant-panel-description">
+          <strong id="assistant-panel-title">Chat assistant coming soon.</strong>
+          <p id="assistant-panel-description">A future assistant will triage your inquiry and connect you with ROOT.</p>
+          <a href="/contact/" data-cta="talk-to-root" data-location="floating-contact" data-destination="/contact/" data-engagement-type="consultation">Contact ROOT now <ArrowRight size={14} /></a>
+        </div>
+      )}
+      <button type="button" aria-expanded={open} aria-controls="assistant-panel" onClick={() => setOpen((value) => !value)}>
+        <MessageCircle size={18} /> Talk to us
+      </button>
     </div>
   );
 }
@@ -206,6 +212,30 @@ function FooterWordmark() {
   );
 }
 
+function SocialMark({ label }) {
+  if (label === 'Facebook') return <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 8h3V4h-3c-3.3 0-5 1.9-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.7.3-1 1-1Z" /></svg>;
+  if (label === 'Instagram') return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg>;
+  if (label === 'X') return <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 4h4.1l3.1 4.5L16 4h3l-5.3 6.1L19.5 20h-4.1l-3.7-5.2L7 20H4l5.7-6.8L5 4Zm3.1 2 7.9 12h.9L9 6h-.9Z" /></svg>;
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-8.7 11.3L3 21l6.9-2.2A9 9 0 1 0 12 3Zm0 2a7 7 0 0 1 0 14c-1.1 0-2.2-.3-3.2-.8l-.4-.2-3.7 1.2 1.2-3.6-.2-.4A7 7 0 0 1 12 5Zm-3 3.5c-.2 0-.5.1-.7.4-.2.3-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.8 3.4 1.9.8 2.3.6 2.7.6.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1-.1-.1-.3-.2-.7-.4l-1.5-.7c-.4-.1-.6-.2-.8.2-.2.3-.6.7-.7.9-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.6-1.5c-.2-.4-.4-.4-.7-.4Z" /></svg>;
+}
+
+function FooterSocials() {
+  const [message, setMessage] = useState('');
+  return (
+    <div className="footerSocials">
+      <span>Follow ROOT</span>
+      <div>
+        {socialProfiles.map((profile) => profile.href ? (
+          <a key={profile.label} href={profile.href} target="_blank" rel="noopener noreferrer" aria-label={profile.label}><SocialMark label={profile.label} /></a>
+        ) : (
+          <button key={profile.label} type="button" aria-label={profile.label} onClick={() => setMessage(profile.message)}><SocialMark label={profile.label} /></button>
+        ))}
+      </div>
+      {message && <small role="status" aria-label="Social profile feedback">{message}</small>}
+    </div>
+  );
+}
+
 export function SiteFooter({ minimal = false }) {
   if (minimal) {
     return (
@@ -215,6 +245,7 @@ export function SiteFooter({ minimal = false }) {
           <span>No PHI is collected through this public website.</span>
           <a href="/legal/privacy/">Privacy</a>
         </div>
+        <FooterSocials />
       </footer>
     );
   }
@@ -224,6 +255,7 @@ export function SiteFooter({ minimal = false }) {
       <div className="footerTop">
         <div className="footerIdentity">
           <FooterWordmark />
+          <p className="footerLegalName">{companyInfo.legalName}</p>
           <p>One operating partner for the business side of medicine — RCM + Operations + Technology for independent medical practices.</p>
         </div>
         <div className="footerAction">
@@ -248,7 +280,7 @@ export function SiteFooter({ minimal = false }) {
 
       <div className="footerMeta">
         <div>
-          <span>© 2026 ROOT Revenue Operations & Outcomes Technology.</span>
+          <span>© 2026 {companyInfo.legalName}.</span>
           <span>Public website: no PHI intake.</span>
         </div>
         <div className="footerContact">
@@ -258,6 +290,7 @@ export function SiteFooter({ minimal = false }) {
           <a href="/legal/terms/">Terms</a>
         </div>
       </div>
+      <FooterSocials />
     </footer>
   );
 }

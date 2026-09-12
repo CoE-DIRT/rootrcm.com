@@ -126,13 +126,13 @@ No PHI may be committed, placed in examples, submitted through public forms, log
 
 ## Launch Contact
 
-ROOT RCM LLC  
-2803 Philadelphia Pike  
-Suite B #1864  
+ROOT Revenue Operations & Outcomes Technology Incorporated
+2803 Philadelphia Pike
+Suite B #1864
 Claymont, DE 19703
 
-Phone: +1 (302) 506 4685  
-Email: info@rootrcm.com  
+Phone: +1 (302) 506 4685
+Email: info@rootrcm.com
 WhatsApp: https://wa.me/13025064685
 
 Only verified live outreach channels are rendered publicly. Unverified social/profile destinations remain hidden until official URLs are available.
