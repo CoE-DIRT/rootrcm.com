@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "purpose": "ROOT visual recovery open-source toolchain registry",
+  "policy": {
+    "runtime_rule": "Only add production dependencies that materially improve the site. Clone/reference-only tools stay outside the production dependency graph.",
+    "license_rule": "Do not vendor or copy AGPL code into ROOT production code. Preserve notices for permissive-license code that is incorporated.",
+    "tailwind_rule": "Tailwind remains disabled in the ROOT production render path. Tailwind-based repositories may be used as visual/reference sources only unless a future architecture decision explicitly changes this.",
+    "phi_rule": "Use synthetic/deidentified content only in local visual tooling, demos, recordings, screenshots, and third-party tools."
+  },
+  "repositories": [
+    {
+      "name": "HyperFrames",
+      "repo": "https://github.com/heygen-com/hyperframes.git",
+      "license": "Apache-2.0",
+      "mode": "local-tool-and-cli",
+      "active_use": "Turn approved ROOT/DIRT HTML experiences and case studies into deterministic launch/demo videos. Use agent skills and local rendering; do not make the website depend on the renderer."
+    },
+    {
+      "name": "Recordly",
+      "repo": "https://github.com/webadderallorg/recordly.git",
+      "license": "AGPL-3.0",
+      "mode": "external-local-tool-only",
+      "active_use": "Record polished product/site walkthroughs with zoom, framing, cursor treatment, and MP4/GIF export. Never copy or link Recordly source into ROOT production code without a separate license review."
+    },
+    {
+      "name": "Dasimaginare",
+      "repo": "https://github.com/jhonnierandrey/dasimaginare.git",
+      "license": "MIT",
+      "mode": "reference-and-local-media-research",
+      "active_use": "Reuse image-discovery, search, preview, loading-state and media-selection patterns. ROOT media remains downloaded/build-time with provenance; never add a runtime Pixabay dependency to the public site."
+    },
+    {
+      "name": "Magic UI",
+      "repo": "https://github.com/magicuidesign/magicui.git",
+      "license": "MIT",
+      "mode": "reference-and-selective-pattern-adaptation",
+      "active_use": "Mine high-quality interaction and visual-effect patterns. Adapt only patterns that fit Clinical Glass; do not reactivate Tailwind merely to consume Magic UI components."
+    },
+    {
+      "name": "Motion",
+      "repo": "https://github.com/motiondivision/motion.git",
+      "license": "MIT",
+      "mode": "production-library-candidate",
+      "active_use": "Use for deliberate hero motion, layout transitions, scroll/reveal choreography, and reduced-motion-aware micro-interactions where CSS alone is insufficient."
+    },
+    {
+      "name": "Radix Primitives",
+      "repo": "https://github.com/radix-ui/primitives.git",
+      "license": "MIT",
+      "mode": "production-library-candidate",
+      "active_use": "Use incrementally for accessible dialog, navigation, menu, disclosure, focus-management, and other interaction primitives instead of hand-rolling accessibility behavior."
+    },
+    {
+      "name": "Splide",
+      "repo": "https://github.com/Splidejs/splide.git",
+      "license": "MIT",
+      "mode": "production-library-candidate",
+      "active_use": "Use as the accessible, lightweight case-study/proof carousel engine instead of maintaining bespoke carousel behavior across every POC."
+    },
+    {
+      "name": "Playwright",
+      "repo": "https://github.com/microsoft/playwright.git",
+      "license": "Apache-2.0",
+      "mode": "dev-tool-candidate",
+      "active_use": "Use for deterministic desktop/mobile visual regression capture, interaction smoke tests, route coverage, and release screenshots so visual QA becomes repeatable instead of manual."
+    }
+  ]
+}
