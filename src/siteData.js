@@ -30,7 +30,7 @@ export const serviceMediaBySlug = {
   'patient-balances': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
   credentialing: { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
   'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
-  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare IT workstation showing EHR and practice-management workflows' },
+  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation' },
   'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Healthcare operations collaboration around workflow automation' },
   'reporting-analytics': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery' },
   'operational-consulting': { src: mediaAssets.consulting, alt: 'Operational assessment workshop in a healthcare business setting' },

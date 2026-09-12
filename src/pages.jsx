@@ -173,7 +173,7 @@ function DirtCommandVisual() {
   return (
     <div className="dirtVisual glassCard" aria-label="DIRT command center illustration">
       <div className="dirtVisualIntro">
-        <span className="dirtStatus"><Activity size={14} /> Live operating signal</span>
+        <span className="dirtStatus"><Activity size={14} /> Illustrative operating signal</span>
         <strong>From raw exports to the next best action.</strong>
         <p>DIRT keeps revenue, denial, A/R, and PracticeOps signals in one decision view.</p>
         <div className="dirtPulse" aria-hidden="true"><i /><i /><i /><i /><i /></div>
