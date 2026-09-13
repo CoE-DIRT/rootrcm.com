@@ -80,9 +80,9 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
           paginationKeyboard: true,
           autoplay: false,
           speed: 420,
-          reduceMotion: {
+          reducedMotion: {
             speed: 0,
-            autoplay: false,
+            autoplay: 'pause',
             rewindSpeed: 0,
           },
           classes: {
