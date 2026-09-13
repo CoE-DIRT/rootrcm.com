@@ -40,8 +40,14 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('heading', { name: /see how ROOT structures the work/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one partner across the practice business/i })).toBeTruthy();
     expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
-    expect(container.querySelector('img[src="/media/images/home-practice-operations.jpg"]')).toBeTruthy();
+    expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
+    expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
+    expect(screen.getByRole('heading', { name: /Where work gets stuck/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /How ROOT helps/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /\$2,500 fixed. A clear plan/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Know what to act on next/i })).toBeTruthy();
+    expect(screen.getAllByText(/RCM \+ Operations \+ Technology/i).length).toBeGreaterThan(0);
   });
 
   it('renders platform architecture with clinical practice at the center', () => {
@@ -50,6 +56,7 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('heading', { name: /one operating layer for your practice/i })).toBeTruthy();
     expect(screen.getAllByText(/Clinical practice/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/DIRT intelligence/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Management action/i).length).toBeGreaterThan(0);
   });
 
   it('renders solution, service, technology, pricing, and resource routes', async () => {
@@ -101,12 +108,14 @@ describe('ROOT commercial site', () => {
   });
 
   it('supports engagement rows, approved DIRT pricing, and CTA events without form content', () => {
-    renderRoute('/');
+    renderRoute('/platform/');
     expect(screen.getAllByRole('heading', { name: /^Diagnostic$/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /Managed RCM/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /DIRT Intelligence/i })).toBeTruthy();
     expect(screen.getByText(/\$1,500-\$2,500\/month when scoped/i)).toBeTruthy();
 
+    cleanup();
+    renderRoute('/');
     const ctaEvents = [];
     window.addEventListener('root:cta', (event) => ctaEvents.push(event.detail), { once: true });
     const diagnosticLink = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i })[0];
@@ -160,21 +169,40 @@ describe('ROOT commercial site', () => {
     expect(screen.getByText(/Chatbot and virtual front desk are planned/i)).toBeTruthy();
   });
 
-  it('provides the Talk to us assistant panel and configured-state social controls', () => {
+  it('provides Talk to us and Follow ROOT floating controls', () => {
     renderRoute('/');
 
     const talkButton = screen.getByRole('button', { name: /Talk to us/i });
+    const followButton = screen.getAllByRole('button', { name: /Follow ROOT/i }).find((button) => button.getAttribute('aria-controls') === 'follow-panel');
     expect(talkButton).toBeTruthy();
+    expect(followButton).toBeTruthy();
     expect(screen.queryByText(/Chat assistant coming soon/i)).toBeNull();
 
     fireEvent.click(talkButton);
-    expect(screen.getByText(/Chat assistant coming soon/i)).toBeTruthy();
-    expect(screen.getByRole('dialog', { name: /Chat assistant coming soon/i })).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Contact ROOT now/i }).getAttribute('href')).toBe('/contact/');
+    expect(screen.getByRole('dialog', { name: /Talk to ROOT/i })).toBeTruthy();
+    expect(screen.getByText(/Discuss your practice's operations. Do not include PHI./i)).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Contact ROOT/i }).getAttribute('href')).toBe('/contact/');
 
-    expect(screen.queryByRole('navigation', { name: /Follow ROOT/i })).toBeNull();
-    expect(screen.queryByRole('button', { name: /Facebook|Instagram|^X$|Google Business Profile/i })).toBeNull();
-    expect(screen.queryByRole('link', { name: /Facebook|Instagram|^X$|Google Business Profile/i })).toBeNull();
+    fireEvent.click(followButton);
+    expect(screen.queryByRole('dialog', { name: /Talk to ROOT/i })).toBeNull();
+    expect(screen.getByRole('dialog', { name: /Follow ROOT/i })).toBeTruthy();
+    expect(screen.getAllByRole('link', { name: /ROOT on LinkedIn/i })[0].getAttribute('href')).toBe('https://www.linkedin.com/company/rootrcm/posts/?viewAsMember=true');
+    expect(screen.getAllByRole('link', { name: /ROOT on Facebook/i })[0].getAttribute('href')).toBe('https://www.facebook.com/root.rcm/');
+    expect(screen.getAllByRole('link', { name: /ROOT on Instagram/i })[0].getAttribute('href')).toBe('https://www.instagram.com/root.rcm/');
+    expect(screen.getAllByRole('link', { name: /ROOT on Pinterest/i })[0].getAttribute('href')).toBe('https://pinterest.com/root.rcm/');
+    expect(screen.getAllByRole('link', { name: /ROOT on X/i })[0].getAttribute('href')).toBe('https://x.com/root.rcm/');
+    expect(screen.getAllByRole('link', { name: /ROOT on Reddit/i })[0].getAttribute('href')).toBe('https://reddit.com/root.rcm/');
+  });
+
+  it('keeps Talk to us mounted on Diagnostic and Contact routes', () => {
+    cleanup();
+    renderRoute('/diagnostic/');
+    expect(screen.getAllByRole('button', { name: /Talk to us/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('button', { name: /Follow ROOT/i }).length).toBeGreaterThan(0);
+
+    cleanup();
+    renderRoute('/contact/');
+    expect(screen.getAllByRole('button', { name: /Talk to us/i }).length).toBeGreaterThan(0);
   });
 
   it('builds a deidentified fallback inquiry with attribution', () => {

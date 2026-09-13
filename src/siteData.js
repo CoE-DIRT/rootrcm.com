@@ -28,27 +28,27 @@ export const mediaAssets = {
 
 export const serviceMediaBySlug = {
   'ar-recovery': null,
-  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph.', caption: 'Editorial practice operations context' },
+  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
   'patient-balances': null,
   credentialing: null,
-  'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
-  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation' },
-  'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Healthcare operations collaboration around workflow automation' },
-  'reporting-analytics': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery — not a DIRT product screen' },
-  'operational-consulting': { src: mediaAssets.consulting, alt: 'Operational assessment workshop in a healthcare business setting' },
-  rcm: { src: mediaAssets.physicianNurseCoordination, alt: 'Physician and nurse coordinating in a clinical hallway. Editorial stock; not ROOT staff.', caption: 'Editorial clinical operations context' },
-  'medical-billing': { src: mediaAssets.practiceConsultation, alt: 'Practice consultation context photograph. Editorial stock; not ROOT staff or customers.', caption: 'Editorial practice context' },
+  'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial Healthcare IT context' },
+  'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Team discussion in a healthcare operations setting. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial workflow context' },
+  'reporting-analytics': null,
+  'operational-consulting': { src: mediaAssets.consulting, alt: 'Professional workshop in a healthcare business setting. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial consulting context' },
+  rcm: { src: mediaAssets.physicianNurseCoordination, alt: 'Physician and nurse coordinating in a clinical hallway. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial clinical operations context' },
+  'medical-billing': { src: mediaAssets.practiceConsultation, alt: 'Practice consultation context. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice context' },
   'payment-posting': null,
 };
 
 export const solutionMediaBySlug = {
   'aging-ar': null,
-  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph.', caption: 'Editorial practice operations context' },
+  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
   'credentialing-bottlenecks': null,
-  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows. Editorial stock photograph.', caption: 'Editorial practice operations context' },
+  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
   'reporting-visibility': null,
-  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration around practice growth and coordination. Editorial stock photograph.', caption: 'Editorial practice operations context' },
-  'revenue-leakage': { src: mediaAssets.practiceTeamCollaboration, alt: 'Healthcare professionals coordinating in a practice setting. Editorial stock; not ROOT staff.', caption: 'Editorial practice operations context' },
+  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  'revenue-leakage': null,
 };
 
 export const companyInfo = {
@@ -65,20 +65,18 @@ export const outreachChannels = [
   { label: 'WhatsApp', href: companyInfo.whatsappHref, status: 'Live', cta: 'whatsapp-instant-chat', engagementType: 'instant-chat' },
   { label: 'Call', href: companyInfo.phoneHref, status: 'Live', cta: 'phone-call', engagementType: 'phone' },
   { label: 'Email', href: companyInfo.emailHref, status: 'Live', cta: 'email-root', engagementType: 'email' },
-  { label: 'LinkedIn', status: 'Coming soon', cta: 'linkedin-coming-soon', engagementType: 'social' },
-  { label: 'Facebook', status: 'Coming soon', cta: 'facebook-coming-soon', engagementType: 'social' },
-  { label: 'Instagram', status: 'Coming soon', cta: 'instagram-coming-soon', engagementType: 'social' },
-  { label: 'X', status: 'Coming soon', cta: 'x-coming-soon', engagementType: 'social' },
   { label: 'YouTube', status: 'Coming soon', cta: 'youtube-coming-soon', engagementType: 'social' },
-  { label: 'Google Business', status: 'Coming soon', cta: 'google-business-coming-soon', engagementType: 'local-profile' },
   { label: 'Calendly', status: 'Coming soon', cta: 'calendly-coming-soon', engagementType: 'scheduling' },
 ];
 
+/** Founder-supplied public social targets — used by footer and Follow ROOT dock. */
 export const socialProfiles = [
-  { label: 'Facebook', href: null, message: 'Facebook profile coming soon.' },
-  { label: 'Instagram', href: null, message: 'Instagram profile coming soon.' },
-  { label: 'X', href: null, message: 'X profile coming soon.' },
-  { label: 'Google Business Profile', href: null, message: 'Google Business Profile coming soon.' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/rootrcm/posts/?viewAsMember=true' },
+  { label: 'Facebook', href: 'https://www.facebook.com/root.rcm/' },
+  { label: 'Instagram', href: 'https://www.instagram.com/root.rcm/' },
+  { label: 'Pinterest', href: 'https://pinterest.com/root.rcm/' },
+  { label: 'X', href: 'https://x.com/root.rcm/' },
+  { label: 'Reddit', href: 'https://reddit.com/root.rcm/' },
 ];
 
 export const complianceStandards = [

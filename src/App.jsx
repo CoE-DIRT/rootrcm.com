@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { FloatingContactCta, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
+import { FloatingSiteControls, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
@@ -105,7 +105,6 @@ export default function App() {
   const path = normalizePath(window.location.pathname);
   const Page = routes[path] || NotFoundPage;
   const minimal = path === '/diagnostic' || path === '/thank-you';
-  const quietContact = path === '/thank-you' || path === '/diagnostic' || path === '/contact';
 
   useEffect(() => {
     syncDocumentMeta(path);
@@ -157,7 +156,7 @@ export default function App() {
     <main className="clinicalGlass">
       <SiteHeader minimal={minimal} />
       <Page />
-      {!quietContact && <FloatingContactCta />}
+      <FloatingSiteControls />
       <SiteFooter minimal={minimal} />
     </main>
   );

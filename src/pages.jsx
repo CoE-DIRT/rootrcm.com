@@ -1,15 +1,12 @@
 import { lazy, Suspense } from 'react';
 import {
   ArrowRight,
-  Activity,
   Blocks,
   CalendarCheck,
   Check,
   ClipboardCheck,
   FileSearch,
-  Layers3,
   LineChart,
-  LockKeyhole,
   ShieldCheck,
   Target,
   TrendingUp,
@@ -28,7 +25,7 @@ import {
   ProofLibrarySection,
   ResourceProofCallout,
 } from './components/ProofWork.jsx';
-import { Breadcrumbs, ChannelButtons, GlassCard, SectionCta, TrackedLink } from './components/SiteChrome.jsx';
+import { Breadcrumbs, ChannelButtons, SectionCta, TrackedLink } from './components/SiteChrome.jsx';
 import { getCaseStudyBySlug, getVisibleCaseStudies } from './data/caseStudies.js';
 import {
   companyInfo,
@@ -47,11 +44,116 @@ import { proofPlacementByResourceSlug, proofPlacementByServiceSlug, proofPlaceme
 
 const CaseStudyCarousel = lazy(() => import('./components/CaseStudyCarousel.jsx'));
 
-const trustSignals = [
-  ['Full MSO Scope', 'Revenue, operations, technology, automation, analytics, and DIRT in one operating partnership.'],
-  ['Diagnostic Entry', 'Start with a fixed $2,500 assessment before a broader managed-service decision.'],
-  ['No-PHI Public Intake', 'Commercial inquiries stay deidentified by design.'],
-  ['Built for Action', 'Every recommendation connects to owner, priority, cadence, and next step.'],
+const operatingPainLabels = [
+  { title: 'A/R keeps aging', href: '/services/ar-recovery/', icon: TrendingUp },
+  { title: 'Denials repeat', href: '/services/denial-management/', icon: ShieldCheck },
+  { title: 'Reports do not decide', href: '/services/reporting-analytics/', icon: LineChart },
+  { title: 'Credentialing slows growth', href: '/services/credentialing/', icon: CalendarCheck },
+];
+
+const rootOperatingSteps = [
+  { title: 'Practice', copy: 'Clinical care stays with your practice.', href: null },
+  { title: 'ROOT operations', copy: 'Revenue cycle and daily workflows.', href: '/services/' },
+  { title: 'DIRT intelligence', copy: 'Signals, findings and priorities.', href: '/technology/dirt/' },
+  { title: 'Management action', copy: 'Named owner and next step.', href: null },
+];
+
+const platformResponsibilityLayers = [
+  {
+    eyebrow: 'Clinical practice',
+    title: 'Care stays with the practice',
+    copy: 'Clinical authority and patient care remain inside the practice. ROOT does not replace the clinical center.',
+    tone: 'tone-practice',
+  },
+  {
+    eyebrow: 'ROOT operations',
+    title: 'Revenue cycle and daily workflows',
+    copy: 'Revenue operations, credentialing, practice operations, healthcare IT, automation, and analytics run as one accountable operating partner.',
+    tone: 'tone-root',
+  },
+  {
+    eyebrow: 'DIRT intelligence',
+    title: 'Signals, findings, and priorities',
+    copy: 'DIRT keeps leakage, denial, A/R, and PracticeOps signals tied to financial significance, owners, and next actions.',
+    tone: 'tone-dirt',
+  },
+  {
+    eyebrow: 'Management action',
+    title: 'Named owner and next step',
+    copy: 'Every ranked finding ends with ownership, cadence, and a concrete decision leadership can act on.',
+    tone: 'tone-action',
+  },
+];
+
+const platformDomainLinks = {
+  'Revenue Operations': '/services/rcm/',
+  Credentialing: '/services/credentialing/',
+  'Practice Operations': '/services/practice-ops/',
+  Technology: '/services/healthcare-it/',
+  Automation: '/services/workflow-automation/',
+  Analytics: '/services/reporting-analytics/',
+  'DIRT Intelligence': '/technology/dirt/',
+};
+
+const revenueCycleRail = [
+  { label: 'Credentialing', role: 'Enrollment and status', href: '/services/credentialing/' },
+  { label: 'Eligibility', role: 'Front-end checks', href: '/services/medical-billing/' },
+  { label: 'Claim', role: 'Quality and submission', href: '/services/medical-billing/' },
+  { label: 'Denial', role: 'Recovery and prevention', href: '/services/denial-management/' },
+  { label: 'Payment', role: 'Posting and reconciliation', href: '/services/payment-posting/' },
+  { label: 'A/R', role: 'Follow-up and prioritization', href: '/services/ar-recovery/' },
+];
+
+const serviceProcessFlows = {
+  rcm: [
+    ['Charge review', 'Review charge readiness'],
+    ['Claim quality', 'Check submission quality'],
+    ['Submission', 'Send claims'],
+    ['Payer follow-up', 'Work payer responses'],
+    ['Posting and reporting', 'Reconcile and report'],
+  ],
+  'ar-recovery': [
+    ['Segment backlog', 'Separate recoverable work from noise'],
+    ['Prioritize recoverability', 'Rank by value, payer behavior, and owner'],
+    ['Follow up', 'Work the ranked queue'],
+    ['Escalate', 'Escalate stalled payer responses'],
+    ['Review cadence', 'Keep leadership review on schedule'],
+  ],
+  'denial-management': [
+    ['Inventory and reason patterning', 'Group denials by recurring cause'],
+    ['Recovery work', 'Appeal and rework recoverable denials'],
+    ['Prevention feedback', 'Feed pattern fixes into front-end operations'],
+  ],
+  credentialing: [
+    ['Enrollment', 'Submit and track enrollment packages'],
+    ['Revalidation', 'Keep revalidation deadlines visible'],
+    ['Payer follow-up', 'Chase stalled payer responses'],
+    ['Roster maintenance', 'Maintain accurate provider rosters'],
+    ['Status visibility', 'Make participation status leadership-visible'],
+  ],
+  'practice-ops': [
+    ['Workflow map', 'Document the operating path'],
+    ['Owner assignment', 'Assign clear ownership'],
+    ['Cadence', 'Install review rhythm'],
+    ['Escalation', 'Define escalation triggers'],
+    ['Control review', 'Confirm the controls still work'],
+  ],
+};
+
+const diagnosticJourney = [
+  ['Data and workflow', 'Deidentified A/R, denial, workflow, credentialing, and reporting material enters the review.'],
+  ['Analysis', 'ROOT reads leakage, aging concentration, denial patterns, payer behavior, and operating constraints together.'],
+  ['Findings', 'Validated issues become financially legible findings leadership can understand.'],
+  ['Priorities', 'Work is ranked by recoverability, urgency, and owner so the first moves are clear.'],
+  ['90-day roadmap', 'A concrete operating plan connects owners, cadence, and next actions.'],
+];
+
+const diagnosticInputs = [
+  'A/R aging and payer balance exports',
+  'Denial, rejection, and adjustment summaries',
+  'Charge lag, posting, and unresolved work queues',
+  'Credentialing status and payer participation context',
+  'Existing KPI reports or dashboards leadership uses',
 ];
 
 const carouselItems = [
@@ -79,28 +181,6 @@ const carouselItems = [
     copy: 'A broader operating partnership across revenue operations, practice operations, technology, automation, analytics, and leadership visibility.',
     href: '/pricing/',
   },
-];
-
-const operatingSymptoms = [
-  ['A/R keeps aging', 'Backlog grows because queues are worked by age alone, not recoverability, payer behavior, or owner accountability.'],
-  ['Denials repeat', 'Teams fix transactions while eligibility, authorization, coding, credentialing, or payer-specific workflow keeps recreating failure.'],
-  ['Reports do not decide', 'Leadership sees exports and dashboards, but not the ranked action, owner, cadence, or operating constraint.'],
-  ['Credentialing slows growth', 'Provider enrollment and payer status become revenue-timing risks when they are not managed as an operating workflow.'],
-];
-
-const rootOperatingSteps = [
-  ['Diagnose', 'Read A/R, denials, workflow, credentialing, payer, and reporting signals together.'],
-  ['Prioritize', 'Separate value at risk from noise and sequence work by recoverability, urgency, and owner.'],
-  ['Operate', 'Install revenue-cycle controls, escalation paths, service ownership, and weekly management rhythm.'],
-  ['Instrument', 'Use DIRT to keep leakage, denial, A/R, and PracticeOps signals visible after the first push.'],
-];
-
-const diagnosticInputs = [
-  'A/R aging and payer balance exports',
-  'Denial, rejection, and adjustment summaries',
-  'Charge lag, posting, and unresolved work queues',
-  'Credentialing status and payer participation context',
-  'Existing KPI reports or dashboards leadership uses',
 ];
 
 function EditorialMedia({ media, className = '' }) {
@@ -132,23 +212,15 @@ function PageHero({ breadcrumbs, title, copy, eyebrow, cta = true, offerLine }) 
 
 function PlatformLayers() {
   return (
-    <figure className="platformLayers" aria-label="Practice, ROOT, and DIRT operating layers">
-      <div className="platformLayer tone-practice">
-        <p className="eyebrow">Clinical practice</p>
-        <h3>Care stays with the practice</h3>
-        <p>Clinical authority and patient care remain inside the practice. ROOT does not replace the clinical center.</p>
-      </div>
-      <div className="platformLayer tone-root">
-        <p className="eyebrow">ROOT operating layer</p>
-        <h3>Business systems around the practice</h3>
-        <p>Revenue operations, credentialing, practice operations, healthcare IT, automation, and analytics run as one accountable operating partner.</p>
-      </div>
-      <div className="platformLayer tone-dirt">
-        <p className="eyebrow">DIRT intelligence</p>
-        <h3>Signals connected to action</h3>
-        <p>DIRT keeps leakage, denial, A/R, and PracticeOps signals tied to financial significance, owners, and next actions.</p>
-      </div>
-      <figcaption className="srOnly">Three-layer responsibility diagram: clinical practice, ROOT services, and DIRT intelligence.</figcaption>
+    <figure className="platformLayers" aria-label="Practice, ROOT, DIRT, and management action layers">
+      {platformResponsibilityLayers.map((layer) => (
+        <div className={`platformLayer ${layer.tone}`} key={layer.eyebrow}>
+          <p className="eyebrow">{layer.eyebrow}</p>
+          <h3>{layer.title}</h3>
+          <p>{layer.copy}</p>
+        </div>
+      ))}
+      <figcaption className="srOnly">Four-layer responsibility diagram: clinical practice, ROOT operations, DIRT intelligence, and management action.</figcaption>
     </figure>
   );
 }
@@ -158,7 +230,7 @@ function PlatformDomainDirectory() {
     <ul className="platformDomainList">
       {platformNodes.map((node) => (
         <li key={node.label}>
-          <a href="/platform/">
+          <a href={platformDomainLinks[node.label] || '/platform/'}>
             <strong>{node.label}</strong>
             <span>{node.copy}</span>
           </a>
@@ -203,30 +275,39 @@ function ServiceFamilyDirectory({ limitPerFamily }) {
 }
 
 function ServiceProcessFlow({ service }) {
-  const flows = {
-    rcm: ['Charge review', 'Claim quality', 'Submission', 'Payer follow-up', 'Posting and reporting controls'],
-    'ar-recovery': ['Segment backlog', 'Prioritize recoverability', 'Follow up', 'Escalate', 'Review cadence'],
-    'denial-management': ['Inventory and reason patterning', 'Recovery work', 'Prevention feedback to operations'],
-    credentialing: ['Enrollment', 'Revalidation', 'Payer follow-up', 'Roster maintenance', 'Status visibility'],
-    'practice-ops': ['Workflow map', 'Owner assignment', 'Cadence', 'Escalation', 'Control review'],
-  };
-  const steps = flows[service.slug];
-  if (!steps) {
+  if (service.slug === 'rcm') {
     return (
-      <div className="cardGrid compactCards">
-        {service.deliverables.map((item) => (
-          <GlassCard key={item}><Check size={18} /><h3>{item}</h3></GlassCard>
+      <ol className="processRail serviceProcessRail revenueCycleRail" aria-label="Simplified revenue cycle operating map">
+        {revenueCycleRail.map((step, index) => (
+          <li key={step.label}>
+            <span className="stepIndex">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{step.label}</h3>
+            <p>ROOT role: {step.role}</p>
+            <a href={step.href}>Open related service <ArrowRight size={14} /></a>
+          </li>
         ))}
-      </div>
+      </ol>
     );
   }
+
+  const steps = serviceProcessFlows[service.slug];
+  if (!steps) {
+    return (
+      <ul className="deliverableChecklist">
+        {service.deliverables.map((item) => (
+          <li key={item}><Check size={18} aria-hidden="true" /><span>{item}</span></li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
     <ol className="processRail serviceProcessRail">
-      {steps.map((step, index) => (
-        <li key={step}>
+      {steps.map(([label, action], index) => (
+        <li key={label}>
           <span className="stepIndex">{String(index + 1).padStart(2, '0')}</span>
-          <h3>{step}</h3>
-          <p>{service.deliverables[index] || service.summary}</p>
+          <h3>{label}</h3>
+          <p>{action}</p>
         </li>
       ))}
     </ol>
@@ -237,33 +318,15 @@ function OperatingPainSection() {
   return (
     <section className="contentSection painSection homeValueBand" data-reveal>
       <div className="sectionHeading">
-        <p className="eyebrow">Operating strain</p>
-        <h2>Where the operating strain shows up.</h2>
-        <p>Independent practices often feel the symptom before they can see the system. Each row pairs the visible problem with the ROOT response path.</p>
+        <h2>Where work gets stuck.</h2>
       </div>
-      <div className="symptomResponseList">
-        {operatingSymptoms.map(([title, copy], index) => {
-          const icons = [TrendingUp, ShieldCheck, LineChart, CalendarCheck];
-          const responses = [
-            'Segment A/R by recoverability, payer behavior, and owner accountability.',
-            'Trace recurring denials into prevention work across eligibility, auth, coding, and credentialing.',
-            'Replace export theater with ranked action, owner, cadence, and constraint.',
-            'Run enrollment and payer status as an operating workflow with deadlines and escalation.',
-          ];
-          const Icon = icons[index];
-          return (
-            <article className="symptomResponseRow" key={title}>
-              <div className="symptomLabel">
-                <Icon size={22} aria-hidden="true" />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
-              </div>
-              <p className="responseCopy"><b>ROOT response.</b> {responses[index]}</p>
-            </article>
-          );
-        })}
+      <div className="painLabelGrid">
+        {operatingPainLabels.map(({ title, href, icon: Icon }) => (
+          <a className="painLabelLink" href={href} key={title}>
+            <Icon size={22} aria-hidden="true" />
+            <span>{title}</span>
+          </a>
+        ))}
       </div>
     </section>
   );
@@ -273,16 +336,15 @@ function OperatingModelSection() {
   return (
     <section className="operatingModelSection contentSection" data-reveal>
       <div className="sectionHeading">
-        <p className="eyebrow">How ROOT operates</p>
-        <h2>Diagnose, prioritize, operate, instrument.</h2>
-        <p>ROOT starts with evidence, then turns it into ownership, rhythm, and visible work. DIRT keeps the signal alive so decisions do not disappear back into exports.</p>
+        <h2>How ROOT helps.</h2>
       </div>
-      <ol className="processRail">
-        {rootOperatingSteps.map(([title, copy], index) => (
-          <li key={title}>
+      <ol className="processRail operatingResponseRail">
+        {rootOperatingSteps.map((step, index) => (
+          <li key={step.title}>
             <span className="stepIndex">{String(index + 1).padStart(2, '0')}</span>
-            <h3>{title}</h3>
-            <p>{copy}</p>
+            <h3>{step.title}</h3>
+            <p>{step.copy}</p>
+            {step.href ? <a href={step.href}>Explore <ArrowRight size={14} /></a> : null}
           </li>
         ))}
       </ol>
@@ -294,9 +356,11 @@ function DiagnosticOfferPreview() {
   return (
     <section className="diagnosticOfferSection contentSection homeOfferBand" data-reveal>
       <div className="diagnosticOfferCopy">
-        <p className="eyebrow">Revenue Optimization Diagnostic</p>
-        <h2>A clear starting point: the $2,500 Diagnostic.</h2>
+        <p className="eyebrow">START HERE</p>
+        <h2>$2,500 fixed. A clear plan.</h2>
         <p>ROOT reviews deidentified operating material and delivers a prioritized opportunity register and 90-day roadmap.</p>
+      </div>
+      <div className="diagnosticOfferActions">
         <TrackedLink href="/diagnostic/" cta="book-diagnostic" location="home-diagnostic-preview" engagementType="diagnostic">
           Start the $2,500 Diagnostic <ArrowRight size={17} />
         </TrackedLink>
@@ -304,26 +368,6 @@ function DiagnosticOfferPreview() {
           Compare engagement models <ArrowRight size={16} />
         </TrackedLink>
       </div>
-      <div className="diagnosticArtifact glassCard diagnosticOfferArtifact">
-        <span>Representative deliverable</span>
-        {diagnosticDeliverables.slice(0, 5).map((item) => (
-          <div key={item}><ClipboardCheck size={17} aria-hidden="true" /><b>{item}</b></div>
-        ))}
-      </div>
-      <ul className="engagementRows">
-        {carouselItems.map((item) => (
-          <li key={item.title}>
-            <div>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-            </div>
-            <p>{item.copy}</p>
-            <TrackedLink className="textLink" href={item.href} cta="engagement-row" location="home-engagement" engagementType={item.title.toLowerCase().replaceAll(' ', '-')}>
-              Explore <ArrowRight size={16} />
-            </TrackedLink>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }
@@ -430,70 +474,53 @@ function ContactMethodsPanel({ location = 'contact-methods' }) {
 export function HomePage() {
   return (
     <>
-      <section className="homeHero fullBleedHero homeHeroRecovered" data-reveal>
+      <section className="homeHero fullBleedHero homeHeroRecovered">
         <div className="heroCopy">
-          <p className="eyebrow">Healthcare MSO · Revenue intelligence</p>
+          <p className="eyebrow">RCM + Operations + Technology</p>
           <h1>Run the business side of medicine better.</h1>
-          <p className="lede">ROOT brings revenue operations, practice operations, technology, and DIRT intelligence into one partnership for independent medical practices.</p>
+          <p className="lede">ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.</p>
           <div className="actions">
             <TrackedLink href="/diagnostic/" cta="book-diagnostic" location="home-hero" engagementType="diagnostic">
               Start the $2,500 Diagnostic <ArrowRight size={17} />
             </TrackedLink>
-            <TrackedLink className="button secondary" href="/technology/dirt/" cta="explore-dirt" location="home-hero" engagementType="technology">
-              Explore DIRT
+            <TrackedLink className="button secondary" href="/contact/" cta="talk-to-root" location="home-hero" engagementType="consultation">
+              Talk to ROOT
             </TrackedLink>
           </div>
-          <p className="trustLine"><ShieldCheck size={16} /> Public website inquiries are deidentified. PHI is accepted only through an approved secure channel after required agreements and controls are in place.</p>
+          <p className="trustLine"><ShieldCheck size={16} /> Clinical care stays with your practice. ROOT runs the business layer.</p>
         </div>
         <HeroPracticeVisual />
       </section>
 
-      <section className="trustBand" aria-label="ROOT operating principles" data-reveal>
-        {trustSignals.map(([title, copy], index) => {
-          const icons = [Layers3, CalendarCheck, LockKeyhole, TrendingUp];
-          const Icon = icons[index];
-          return (
-            <span key={title}>
-              <Icon size={20} />
-              <b>{title}</b>
-              <small>{copy}</small>
-            </span>
-          );
-        })}
-      </section>
-
       <OperatingPainSection />
-
-      <section className="contentSection homeCapabilities mutedBand" data-reveal>
-        <div className="sectionHeading">
-          <p className="eyebrow">Service breadth</p>
-          <h2>One partner across the practice business.</h2>
-          <p>Revenue, practice operations, and technology stay visible as owned service groups—not a wall of equal cards.</p>
-        </div>
-        <ServiceFamilyDirectory limitPerFamily={4} />
-      </section>
-
       <OperatingModelSection />
+      <DiagnosticOfferPreview />
 
       <section className="splitSection darkBand dirtHomeBand" data-reveal>
         <div>
-          <p className="eyebrow">ROOT + DIRT</p>
-          <h2>Execution with intelligence behind it.</h2>
+          <p className="eyebrow">DIRT intelligence</p>
+          <h2>Know what to act on next.</h2>
           <p>DIRT connects leakage, denial patterns, A/R priorities, and PracticeOps signals to owners and next actions.</p>
           <TrackedLink className="textLink" href="/technology/dirt/" cta="explore-dirt" location="home-dirt" engagementType="technology">
             Explore DIRT <ArrowRight size={16} />
           </TrackedLink>
-          {getCaseStudyBySlug('dirt-poc-01') && (
-            <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="home-dirt" engagementType="proof">
-              View Proof of Capability <ArrowRight size={16} />
-            </TrackedLink>
-          )}
         </div>
         <DirtCommandVisual compact />
       </section>
 
+      <section className="contentSection homeCapabilities mutedBand" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">Service families</p>
+          <h2>One partner across the practice business.</h2>
+          <p>Revenue operations, practice operations, and technology stay visible as owned service groups.</p>
+        </div>
+        <ServiceFamilyDirectory limitPerFamily={1} />
+        <TrackedLink className="textLink" href="/services/" cta="view-services" location="home-capabilities" engagementType="services">
+          View all services <ArrowRight size={16} />
+        </TrackedLink>
+      </section>
+
       <ProofLibrarySection />
-      <DiagnosticOfferPreview />
       <ContactMethodsPanel location="home-outreach" />
     </>
   );
@@ -510,9 +537,9 @@ export function PlatformPage() {
       />
       <section className="contentSection" data-reveal>
         <div className="sectionHeading">
-          <p className="eyebrow">Practice · ROOT · DIRT</p>
+          <p className="eyebrow">Practice · ROOT · DIRT · Action</p>
           <h2>Clinical care at the center. Operating intelligence around it.</h2>
-          <p>One diagram explains responsibility. The domain directory below keeps every operating area linked and scannable.</p>
+          <p>Four responsibilities stay clear: clinical care, ROOT operations, DIRT intelligence, and management action.</p>
         </div>
         <PlatformLayers />
         <PlatformDomainDirectory />
@@ -584,9 +611,26 @@ export function ServicesHubPage() {
         breadcrumbs={[{ label: 'Services' }]}
         eyebrow="Healthcare MSO services"
         title="Services for the business side of medicine."
-        copy="ROOT supports independent practices across revenue operations, practice operations, and technology. Scan by family, then open the owned service that fits."
+        copy="ROOT supports independent practices across revenue operations, practice operations, and technology. Scan the simplified revenue-cycle map, then open the owned service that fits."
       />
       <section className="contentSection" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">Revenue cycle relationship</p>
+          <h2>How the work connects.</h2>
+          <p>A simplified operating map — not a claim that every claim is denied or that payment always precedes receivables.</p>
+        </div>
+        <ol className="processRail serviceProcessRail revenueCycleRail" aria-label="Simplified revenue cycle operating map">
+          {revenueCycleRail.map((step, index) => (
+            <li key={step.label}>
+              <span className="stepIndex">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{step.label}</h3>
+              <p>ROOT role: {step.role}</p>
+              <a href={step.href}>Open related service <ArrowRight size={14} /></a>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="contentSection mutedBand" data-reveal>
         <ServiceFamilyDirectory />
       </section>
       <SectionCta title="Need a managed partner, not just advice?" copy="ROOT can begin with a Diagnostic, a focused project, or a broader MSO model depending on the evidence." label="Talk to ROOT" href="/contact/" cta="talk-to-root" engagementType="consultation" />
@@ -648,7 +692,7 @@ export function TechnologyHubPage() {
         <div className="sectionHeading">
           <p className="eyebrow">Technology mechanism</p>
           <h2>From source reliability to decision support.</h2>
-          <p>Each stage depends on the one before it. DIRT is the final decision layer, not a decorative dashboard.</p>
+          <p>Reliable systems, supported workflows, useful reporting, and decisions with an owner.</p>
         </div>
         <ol className="techMechanism">
           {stages.map(([title, copy, href, tone]) => (
@@ -668,7 +712,7 @@ export function TechnologyHubPage() {
           <EditorialMedia
             media={{
               src: mediaAssets.healthcareIt,
-              alt: 'Desk and laptop workstation. Editorial stock photograph.',
+              alt: 'Desk and laptop workstation. Editorial stock photograph; not ROOT staff or clients.',
               caption: 'Editorial Healthcare IT context — not an EHR or PM integration claim',
             }}
             className="platformContextMedia"
@@ -839,7 +883,8 @@ export function CaseStudyDetailPage({ slug }) {
 
 export function PricingPage() {
   const diagnostic = pricingModels[0];
-  const comparisonModels = pricingModels.slice(1);
+  const primaryModels = pricingModels.slice(1, 3);
+  const specializedModels = pricingModels.slice(3);
 
   function splitFee(price) {
     const parts = price.split(';');
@@ -849,32 +894,13 @@ export function PricingPage() {
     };
   }
 
-  return (
-    <>
-      <PageHero
-        breadcrumbs={[{ label: 'Pricing' }]}
-        eyebrow="Engagement models"
-        title="Clear ways to start. Room to expand."
-        copy="ROOT pricing depends on the kind of operating relationship you need: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, or full MSO partnership."
-        offerLine="$2,500 fixed-fee Diagnostic"
-      />
-      <section className="contentSection" data-reveal>
-        <article className="pricingFeatured glassCard">
-          <p className="eyebrow">Featured entry offer</p>
-          <h2>{diagnostic.name}</h2>
-          <strong className="priceMetric">{diagnostic.price}</strong>
-          <p className="priceBasis">{diagnostic.bestFor}</p>
-          <div className="checkList compact">{diagnostic.includes.map((item) => <span key={item}><Check size={16} /> {item}</span>)}</div>
-          <TrackedLink href={diagnostic.href} cta="book-diagnostic" location="pricing-featured" engagementType="diagnostic">
-            {diagnostic.cta} <ArrowRight size={16} />
-          </TrackedLink>
-        </article>
-
+  function renderComparison(models, heading, eyebrow) {
+    return (
+      <>
         <div className="sectionHeading narrow">
-          <p className="eyebrow">Compare models</p>
-          <h2>Fee, basis, fit, and next step.</h2>
+          <p className="eyebrow">{eyebrow}</p>
+          <h2>{heading}</h2>
         </div>
-
         <div className="pricingComparisonWrap">
           <table className="pricingComparison">
             <thead>
@@ -887,7 +913,7 @@ export function PricingPage() {
               </tr>
             </thead>
             <tbody>
-              {comparisonModels.map((model) => {
+              {models.map((model) => {
                 const fee = splitFee(model.price);
                 return (
                   <tr key={model.name}>
@@ -909,9 +935,8 @@ export function PricingPage() {
             </tbody>
           </table>
         </div>
-
         <div className="pricingMobileRecords">
-          {comparisonModels.map((model) => {
+          {models.map((model) => {
             const fee = splitFee(model.price);
             return (
               <article className="pricingMobileRecord" key={model.name}>
@@ -937,6 +962,35 @@ export function PricingPage() {
             );
           })}
         </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <PageHero
+        breadcrumbs={[{ label: 'Pricing' }]}
+        eyebrow="Engagement models"
+        title="Clear ways to start. Room to expand."
+        copy="ROOT pricing depends on the kind of operating relationship you need: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, or full MSO partnership."
+        offerLine="Start with a $2,500 Diagnostic."
+      />
+      <section className="contentSection" data-reveal>
+        <article className="pricingFeatured glassCard">
+          <p className="eyebrow">START HERE</p>
+          <strong className="priceMetric">{diagnostic.price}</strong>
+          <h2>{diagnostic.name}</h2>
+          <p className="priceBasis">{diagnostic.bestFor}</p>
+          <div className="checkList compact">{diagnostic.includes.map((item) => <span key={item}><Check size={16} /> {item}</span>)}</div>
+          <TrackedLink href={diagnostic.href} cta="book-diagnostic" location="pricing-featured" engagementType="diagnostic">
+            {diagnostic.cta} <ArrowRight size={16} />
+          </TrackedLink>
+        </article>
+
+        <p className="pricingProgressionCaption">Assess the opportunity → choose operating support → add intelligence where useful.</p>
+
+        {renderComparison(primaryModels, 'Ongoing execution and intelligence.', 'THEN WHEN APPROPRIATE')}
+        {renderComparison(specializedModels, 'Specialized and broader partnership work.', 'SPECIALIZED / PROJECT WORK')}
       </section>
       <section className="featureBand darkBand" data-reveal>
         <div>
@@ -997,24 +1051,30 @@ export function DiagnosticPage() {
       </section>
       <section className="contentSection diagnosticInputsSection" data-reveal>
         <div className="sectionHeading">
-          <p className="eyebrow">What ROOT reviews</p>
-          <h2>Inputs become analysis, analysis becomes an operating decision.</h2>
-          <p>The Diagnostic is designed to make the business problem legible without turning the public website into a data intake portal.</p>
+          <p className="eyebrow">Delivery journey</p>
+          <h2>From inputs to a 90-day roadmap.</h2>
+          <p>The Diagnostic makes the business problem legible without turning the public website into a data intake portal.</p>
         </div>
-        <div className="diagnosticFlowGrid">
-          <div className="glassCard inputChecklist">
-            <h3>1. Deidentified inputs</h3>
+        <ol className="diagnosticFlowGrid diagnosticJourneyRail" aria-label="Diagnostic delivery path">
+          {diagnosticJourney.map(([title, copy], index) => (
+            <li className="glassCard inputChecklist" key={title}>
+              <h3><span className="stepIndex">{String(index + 1).padStart(2, '0')}</span> {title}</h3>
+              <p>{copy}</p>
+            </li>
+          ))}
+        </ol>
+        <details className="diagnosticDetailPanel">
+          <summary>Inputs ROOT can review</summary>
+          <div className="inputChecklist">
             {diagnosticInputs.map((item) => <span key={item}><Check size={16} aria-hidden="true" /> {item}</span>)}
           </div>
-          <div className="glassCard inputChecklist">
-            <h3>2. ROOT analysis</h3>
-            {['Leakage and aging concentration', 'Denial root-cause and preventability', 'Payer and workflow constraints', 'Credentialing visibility and revenue timing', 'Prioritized opportunity register'].map((item) => <span key={item}><Activity size={16} aria-hidden="true" /> {item}</span>)}
-          </div>
-          <div className="glassCard inputChecklist">
-            <h3>3. Deliverables</h3>
+        </details>
+        <details className="diagnosticDetailPanel">
+          <summary>Deliverables included</summary>
+          <div className="inputChecklist">
             {diagnosticDeliverables.map((item) => <span key={item}><ClipboardCheck size={16} aria-hidden="true" /> {item}</span>)}
           </div>
-        </div>
+        </details>
       </section>
       <DiagnosticSampleSection />
       <section className="contentSection faqSection" data-reveal><div className="sectionHeading narrow"><h2>Frequently asked questions</h2></div>{diagnosticFaq.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}</section>
