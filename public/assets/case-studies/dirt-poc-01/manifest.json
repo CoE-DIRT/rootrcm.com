@@ -1,0 +1,66 @@
+{
+  "slug": "dirt-poc-01",
+  "series": "DIRT Proof of Capability",
+  "number": 1,
+  "title": "DIRT Revenue Intelligence",
+  "shortTitle": "Revenue Intelligence",
+  "summary": "Illustrative revenue intelligence methodology and financial review scenario.",
+  "proofLabel": "Proof of Capability",
+  "carouselSrc": "/assets/case-studies/dirt-poc-01/carousel.html",
+  "cover": "/assets/case-studies/dirt-poc-01/previews/master-infographic.png",
+  "slides": [
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-01-the-problem.png",
+      "alt": "slide 01 the problem",
+      "sourceSha256": "955c12c16989b72dd01640c0836ab6a0e508b486c15627294e8c8c4a0cfe2278",
+      "publicReady": false
+    },
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-02-the-dirt-method.png",
+      "alt": "slide 02 the dirt method",
+      "sourceSha256": "57b79a9d1c2abd8307c03a863c6dee9f1d557d43f9446f3ce1df54baca535bec",
+      "publicReady": false
+    },
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-03-the-financial-picture.png",
+      "alt": "slide 03 the financial picture",
+      "sourceSha256": "cddd1b09325fc98bc6c74ba93ebabc699cb71e5b18e502a7358d2cbf330100b5",
+      "publicReady": false
+    },
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-04-kpi-to-root-cause.png",
+      "alt": "slide 04 kpi to root cause",
+      "sourceSha256": "46528609e510ef4beb642599591739e225cf0ddf0b390e0e29bba158074f346e",
+      "publicReady": false
+    },
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-05-the-proof.png",
+      "alt": "slide 05 the proof",
+      "sourceSha256": "d882004aa27a85384d07cf6654fed4241bef32013d5c8198af02db3c05a94c06",
+      "publicReady": false
+    },
+    {
+      "src": "/assets/case-studies/dirt-poc-01/previews/slide-06-from-proof-to-client-use.png",
+      "alt": "slide 06 from proof to client use",
+      "sourceSha256": "fb2fd10eae3390d8e6ae7b10cef6377be24e6994db24276fe894f324c33cf770",
+      "publicReady": false
+    }
+  ],
+  "sourceType": "illustrative-proof-of-concept",
+  "disclaimer": "No PHI displayed. Financial opportunities require client-specific validation. No recovery outcome is guaranteed.",
+  "featured": false,
+  "cta": {
+    "label": "Explore the $2,500 Revenue Optimization Diagnostic",
+    "href": "/diagnostic/"
+  },
+  "seoTitle": "",
+  "seoDescription": "",
+  "stagingReady": true,
+  "publicReady": false,
+  "reviewRequired": [
+    "Reconcile $1.95M with the stated $5.51M allowable and $3.60M posted cash ($1.91M difference).",
+    "Original raster previews and PPTX retain source wording; re-export after claim review.",
+    "Migrate carousel controls to shared Splide system during Cursor work; audit screen-reader behavior."
+  ],
+  "sourceHtmlSha256": "6e973d74cbf4cc1de91e5f5e549545d602127809f6822dfa1e2a02a82b3f33bd"
+}

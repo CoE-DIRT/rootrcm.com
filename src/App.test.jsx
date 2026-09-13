@@ -39,6 +39,8 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByText(/Built toward future certification discipline/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /proof of work, rebuilt as public-safe demonstrations/i })).toBeTruthy();
     expect(screen.getAllByText(/fictional practice/i).length).toBeGreaterThan(0);
+    expect(container.querySelector('img[src="/media/images/home-practice-operations.jpg"]')).toBeTruthy();
+    expect(container.querySelector('.heroWorkstation')).toBeFalsy();
   });
 
   it('renders platform architecture with clinical practice at the center', () => {
@@ -63,7 +65,14 @@ describe('ROOT commercial site', () => {
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /intelligence layer inside ROOT/i })).toBeTruthy();
     expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /raw signals become prioritized management intelligence/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /raw signals become ranked management action/i })).toBeTruthy();
+
+    cleanup();
+    renderRoute('/case-studies/dirt-poc-01/');
+    expect(screen.getByRole('heading', { name: /dirt revenue intelligence/i })).toBeTruthy();
+    expect(screen.getByText(/publication review required/i)).toBeTruthy();
+    expect(screen.getAllByText(/anonymized proof of concept/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/not a client success story/i)).toBeTruthy();
 
     cleanup();
     renderRoute('/pricing/');

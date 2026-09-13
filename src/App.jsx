@@ -4,6 +4,8 @@ import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from 
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import {
   AboutPage,
+  CaseStudiesHubPage,
+  CaseStudyDetailPage,
   ContactPage,
   DiagnosticPage,
   DirtPage,
@@ -30,6 +32,8 @@ const routes = {
   '/services': ServicesHubPage,
   '/technology': TechnologyHubPage,
   '/technology/dirt': DirtPage,
+  '/case-studies': CaseStudiesHubPage,
+  '/case-studies/dirt-poc-01': () => <CaseStudyDetailPage slug="dirt-poc-01" />,
   '/pricing': PricingPage,
   '/resources': ResourcesHubPage,
   '/diagnostic': DiagnosticPage,

@@ -11,6 +11,11 @@ export const brandAssets = {
 export const mediaAssets = {
   homePracticeOperations: '/media/images/home-practice-operations.jpg',
   practiceOperations: '/media/images/practice-operations-workstation.jpg',
+  practiceAdmin: '/media/images/practice-admin-workstation.jpg',
+  practiceTeamCollaboration: '/media/images/practice-team-collaboration.jpg',
+  physicianNurseCoordination: '/media/images/physician-nurse-coordination.jpg',
+  practiceConsultation: '/media/images/practice-consultation-context.jpg',
+  operationsPlanning: '/media/images/operations-planning-workshop.jpg',
   credentialing: '/media/images/credentialing-payer-documentation.jpg',
   claimsAr: '/media/images/claims-ar-administration.jpg',
   healthcareIt: '/media/images/healthcare-it-workstation.jpg',
@@ -21,24 +26,28 @@ export const mediaAssets = {
 };
 
 export const serviceMediaBySlug = {
-  'ar-recovery': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
-  'denial-management': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
-  'patient-balances': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  'ar-recovery': { src: mediaAssets.claimsAr, alt: 'Administrative paperwork and desk tools used as an editorial stand-in for A/R work queues', caption: 'Editorial reference — not claim software' },
+  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation', caption: 'Editorial practice operations context' },
+  'patient-balances': null,
   credentialing: { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
   'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
   'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation' },
   'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Healthcare operations collaboration around workflow automation' },
-  'reporting-analytics': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery' },
+  'reporting-analytics': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery — not a DIRT product screen' },
   'operational-consulting': { src: mediaAssets.consulting, alt: 'Operational assessment workshop in a healthcare business setting' },
+  rcm: { src: mediaAssets.physicianNurseCoordination, alt: 'Physician and nurse coordinating in a clinical hallway. Editorial stock; not ROOT staff.', caption: 'Editorial clinical operations context' },
+  'medical-billing': { src: mediaAssets.practiceConsultation, alt: 'Practice consultation context photograph. Editorial stock; not ROOT staff or customers.', caption: 'Editorial practice context' },
+  'payment-posting': null,
 };
 
 export const solutionMediaBySlug = {
-  'aging-ar': { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
-  denials: { src: mediaAssets.claimsAr, alt: 'Claims and accounts receivable administration workstation' },
+  'aging-ar': { src: mediaAssets.claimsAr, alt: 'Administrative paperwork used as an editorial stand-in for aging A/R review', caption: 'Editorial reference — not claim software' },
+  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation', caption: 'Editorial practice operations context' },
   'credentialing-bottlenecks': { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
   'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
-  'reporting-visibility': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery' },
+  'reporting-visibility': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery — not a DIRT product screen' },
   'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration around practice growth and coordination' },
+  'revenue-leakage': { src: mediaAssets.practiceTeamCollaboration, alt: 'Healthcare professionals coordinating in a practice setting. Editorial stock; not ROOT staff.', caption: 'Editorial practice operations context' },
 };
 
 export const companyInfo = {
@@ -450,6 +459,7 @@ export const siteNav = [
     children: [
       { label: 'Technology Hub', href: '/technology/', description: 'Healthcare IT, automation, analytics, and operating intelligence.' },
       { label: 'DIRT Intelligence', href: '/technology/dirt/', description: 'Data Intelligence for Revenue Transformation.' },
+      { label: 'Proof of Capability', href: '/case-studies/', description: 'Anonymized proof scenarios and revenue-intelligence evidence.' },
       { label: 'Workflow Automation', href: '/services/workflow-automation/', description: 'Monitored automation for stable administrative workflows.' },
       { label: 'Reporting & Analytics', href: '/services/reporting-analytics/', description: 'Decision-grade operating visibility.' },
     ],
@@ -481,6 +491,7 @@ export const footerGroups = [
       { label: 'ROOT Platform', href: '/platform/' },
       { label: 'Technology', href: '/technology/' },
       { label: 'DIRT Intelligence', href: '/technology/dirt/' },
+      { label: 'Proof of Capability', href: '/case-studies/' },
       { label: 'Pricing', href: '/pricing/' },
     ],
   },
@@ -528,6 +539,16 @@ export const routeMeta = {
   '/technology/dirt': {
     title: 'DIRT Intelligence | Data Intelligence for Revenue Transformation',
     description: 'DIRT is ROOT’s intelligence layer for leakage detection, denial analysis, aging A/R prioritization, PracticeOps signals, and revenue command visibility.',
+    image: brandAssets.og,
+  },
+  '/case-studies': {
+    title: 'Proof of Capability | ROOT',
+    description: 'Browse ROOT anonymized proof-of-capability scenarios that show how revenue intelligence becomes prioritized operating action.',
+    image: brandAssets.og,
+  },
+  '/case-studies/dirt-poc-01': {
+    title: 'DIRT Revenue Intelligence | Proof of Capability | ROOT',
+    description: 'Anonymized proof of concept showing how DIRT turns revenue-cycle signals into prioritized management action. Publication review required.',
     image: brandAssets.og,
   },
   '/pricing': {
