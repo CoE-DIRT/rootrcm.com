@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as Popover from '@radix-ui/react-popover';
 import { ArrowRight, ChevronDown, MessageCircle, Menu, X } from 'lucide-react';
 import { brandAssets, companyInfo, footerGroups, outreachChannels, siteNav, socialProfiles } from '../siteData.js';
 
@@ -185,21 +186,31 @@ export function ChannelButtons({ location = 'contact-panel', compact = false }) 
 }
 
 export function FloatingContactCta() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className="floatingContact">
-      {open && (
-        <div id="assistant-panel" className="assistantPanel" role="dialog" aria-labelledby="assistant-panel-title" aria-describedby="assistant-panel-description">
-          <strong id="assistant-panel-title">Chat assistant coming soon.</strong>
-          <p id="assistant-panel-description">A future assistant will triage your inquiry and connect you with ROOT.</p>
-          <a href="/contact/" data-cta="talk-to-root" data-location="floating-contact" data-destination="/contact/" data-engagement-type="consultation">Contact ROOT now <ArrowRight size={14} /></a>
-        </div>
-      )}
-      <button type="button" aria-expanded={open} aria-controls="assistant-panel" onClick={() => setOpen((value) => !value)}>
-        <MessageCircle size={18} /> Talk to us
-      </button>
-    </div>
+    <Popover.Root>
+      <div className="floatingContact">
+        <Popover.Portal>
+          <Popover.Content
+            id="assistant-panel"
+            className="assistantPanel"
+            side="top"
+            align="end"
+            sideOffset={12}
+            aria-labelledby="assistant-panel-title"
+            aria-describedby="assistant-panel-description"
+          >
+            <strong id="assistant-panel-title">Chat assistant coming soon.</strong>
+            <p id="assistant-panel-description">A future assistant will triage your inquiry and connect you with ROOT.</p>
+            <a href="/contact/" data-cta="talk-to-root" data-location="floating-contact" data-destination="/contact/" data-engagement-type="consultation">Contact ROOT now <ArrowRight size={14} /></a>
+          </Popover.Content>
+        </Popover.Portal>
+        <Popover.Trigger asChild>
+          <button type="button" aria-controls="assistant-panel">
+            <MessageCircle size={18} /> Talk to us
+          </button>
+        </Popover.Trigger>
+      </div>
+    </Popover.Root>
   );
 }
 
@@ -220,19 +231,15 @@ function SocialMark({ label }) {
 }
 
 function FooterSocials() {
-  const [message, setMessage] = useState('');
+  const verifiedProfiles = socialProfiles.filter((profile) => profile.href);
+  if (!verifiedProfiles.length) return null;
+
   return (
-    <div className="footerSocials">
-      <span>Follow ROOT</span>
-      <div>
-        {socialProfiles.map((profile) => profile.href ? (
+    <nav className="footerSocials" aria-label="Follow ROOT">
+        {verifiedProfiles.map((profile) => (
           <a key={profile.label} href={profile.href} target="_blank" rel="noopener noreferrer" aria-label={profile.label}><SocialMark label={profile.label} /></a>
-        ) : (
-          <button key={profile.label} type="button" aria-label={profile.label} onClick={() => setMessage(profile.message)}><SocialMark label={profile.label} /></button>
         ))}
-      </div>
-      {message && <small role="status" aria-label="Social profile feedback">{message}</small>}
-    </div>
+    </nav>
   );
 }
 

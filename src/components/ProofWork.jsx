@@ -260,15 +260,15 @@ export function DirtDemonstrationSection() {
       <div className="sectionHeading">
         <p className="eyebrow">DIRT demonstration</p>
         <h2>Raw signals become prioritized management intelligence.</h2>
-        <p>The same fictional practice data moves from source-style facts into revenue leakage, A/R concentration, denial concentration, payer risk, workflow priority, and unresolved revenue queues.</p>
+        <p>The same fictional practice data moves from source-style facts into revenue leakage, A/R concentration, denial concentration, payer risk, workflow priority, and unresolved revenue queues. This synthetic universe is separate from any Proof of Capability scenario.</p>
       </div>
       <div className="dirtDemoGrid">
         <ProofAsset assetKey="dirtCommand" />
         <div className="intelligenceFlow glassCard">
           {[
-            ['Verified source pattern', 'Report family, field lineage, metric definition, QA rule'],
-            ['Synthetic reconstruction', 'Fictional practice, surrogate identifiers, reconciled dollars'],
-            ['Management output', 'Ranked queue, owner, reason, deadline, decision priority'],
+            ['Signal', 'Report family, field lineage, metric definition, QA rule'],
+            ['Finding', 'Validated pattern with synthetic reconstruction'],
+            ['Significance + action', 'Ranked queue, owner, reason, deadline, decision priority'],
           ].map(([title, copy]) => (
             <div key={title}>
               <Workflow size={18} />

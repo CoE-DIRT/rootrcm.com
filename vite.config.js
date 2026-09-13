@@ -12,6 +12,8 @@ const routeInputs = {
   services: 'services/index.html',
   technology: 'technology/index.html',
   dirt: 'technology/dirt/index.html',
+  caseStudies: 'case-studies/index.html',
+  caseStudyDirtPoc01: 'case-studies/dirt-poc-01/index.html',
   pricing: 'pricing/index.html',
   resources: 'resources/index.html',
   diagnostic: 'diagnostic/index.html',

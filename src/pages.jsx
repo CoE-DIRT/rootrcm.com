@@ -7,21 +7,23 @@ import {
   CalendarCheck,
   Check,
   ClipboardCheck,
-  CircleDollarSign,
-  Database,
   FileSearch,
-  Gauge,
   Layers3,
   LineChart,
-  ListChecks,
   LockKeyhole,
   Network,
-  SearchCheck,
   ShieldCheck,
   Target,
   TrendingUp,
 } from 'lucide-react';
 import InquiryForm from './components/InquiryForm.jsx';
+import CaseStudyCarousel from './components/CaseStudyCarousel.jsx';
+import {
+  DirtCapabilityMatrix,
+  DirtCommandVisual,
+  DirtPipelineFlow,
+} from './components/DirtEvidence.jsx';
+import HeroPracticeVisual from './components/HeroPracticeVisual.jsx';
 import {
   CapabilityProofSection,
   DiagnosticSampleSection,
@@ -30,6 +32,7 @@ import {
   ResourceProofCallout,
 } from './components/ProofWork.jsx';
 import { Breadcrumbs, ChannelButtons, GlassCard, SectionCta, TrackedLink } from './components/SiteChrome.jsx';
+import { getCaseStudyBySlug, getVisibleCaseStudies } from './data/caseStudies.js';
 import {
   companyInfo,
   complianceStandards,
@@ -109,13 +112,6 @@ const diagnosticInputs = [
   'Existing KPI reports or dashboards leadership uses',
 ];
 
-const dirtPipeline = [
-  ['Raw exports', 'Aging, denials, posting, credentialing, queue, payer, and workflow reports.'],
-  ['Validated signals', 'Field lineage, reconciliation checks, recurring patterns, and synthetic demonstration logic.'],
-  ['Revenue intelligence', 'Leakage, preventability, payer risk, recoverability, and workflow constraint.'],
-  ['Prioritized action', 'Ranked queue with owner, evidence, next step, review cadence, and management decision.'],
-];
-
 function EditorialMedia({ media, className = '' }) {
   if (!media) return null;
   return (
@@ -162,69 +158,6 @@ function PlatformOrbit() {
   );
 }
 
-function DirtCommandVisual() {
-  const rows = [
-    ['Aging landscape', 'Segment value, age, payer, status'],
-    ['Denial intelligence', 'Pattern, preventability, recovery'],
-    ['Recovery priority', 'Value at risk, owner, next action'],
-    ['PracticeOps signals', 'Workflow friction and queue imbalance'],
-  ];
-
-  return (
-    <div className="dirtVisual glassCard" aria-label="DIRT command center illustration">
-      <div className="dirtVisualIntro">
-        <span className="dirtStatus"><Activity size={14} /> Illustrative operating signal</span>
-        <strong>From raw exports to the next best action.</strong>
-        <p>DIRT keeps revenue, denial, A/R, and PracticeOps signals in one decision view.</p>
-        <div className="dirtPulse" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-      </div>
-      <div className="commandRows">
-        {rows.map(([title, copy], index) => (
-          <div key={title}>
-            <span className="commandRowIndex">0{index + 1}</span>
-            <span><b>{title}</b><small>{copy}</small></span>
-            <em>{index === 0 ? 'Scan' : index === 1 ? 'Pattern' : index === 2 ? 'Prioritize' : 'Route'}</em>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function HeroWorkstationVisual() {
-  return (
-    <div className="heroWorkstation glassCard" aria-label="Revenue operations command workspace illustration">
-      <div className="workspaceToolbar">
-        <span>ROOT operating view</span>
-        <small>Synthetic signals</small>
-      </div>
-      <div className="workspaceBody">
-        <div className="workspaceSidebar" aria-hidden="true">
-          {['AR', 'DEN', 'PAY', 'OPS'].map((item) => <span key={item}>{item}</span>)}
-        </div>
-        <div className="workspaceMain">
-          <div className="workspaceMetrics">
-            <span><small>Value at risk</small><b>$214K</b></span>
-            <span><small>A/R over 90</small><b>$265K</b></span>
-            <span><small>Denial events</small><b>182</b></span>
-          </div>
-          <div className="workspaceChart" aria-hidden="true">
-            {[42, 68, 54, 79, 61, 88, 72].map((height, index) => <i key={index} style={{ '--height': `${height}%` }} />)}
-          </div>
-          <div className="workspaceQueue">
-            {['Commercial follow-up', 'Authorization appeal', 'Credentialing exposure'].map((item, index) => (
-              <div key={item}>
-                <b>{item}</b>
-                <em>{index === 0 ? 'High' : index === 1 ? 'High' : 'Watch'}</em>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function OperatingPainSection() {
   return (
     <section className="contentSection painSection" data-reveal>
@@ -256,8 +189,6 @@ function BillingAloneSection() {
   return (
     <section className="splitSection billingSection" data-reveal>
       <div className="paperStackVisual" aria-label="Billing alone limitation illustration">
-        <img className="sectionPhoto" src={mediaAssets.rcmBilling} alt="Healthcare billing and financial operations workstation" loading="lazy" decoding="async" />
-        <div className="sectionPhotoOverlay" aria-hidden="true" />
         {['Claims', 'Denials', 'Appeals', 'Follow up', 'Patient balances', 'Reporting'].map((item) => <span key={item}>{item}</span>)}
         <strong>Billing is necessary. It is not enough.</strong>
       </div>
@@ -474,8 +405,9 @@ function ContactMethodsPanel({ location = 'contact-methods' }) {
 export function HomePage() {
   return (
     <>
-      <section className="homeHero fullBleedHero" data-reveal>
+      <section className="homeHero fullBleedHero homeHeroRecovered" data-reveal>
         <div className="heroCopy">
+          <p className="eyebrow">Healthcare MSO · Revenue intelligence</p>
           <h1>Run the business side of medicine better.</h1>
           <p className="lede">ROOT brings RCM, credentialing, practice operations, healthcare technology, automation, analytics, and DIRT intelligence into one partnership for independent medical practices.</p>
           <div className="actions">
@@ -488,7 +420,7 @@ export function HomePage() {
           </div>
           <p className="trustLine"><ShieldCheck size={16} /> Public website inquiries are deidentified. PHI is accepted only through an approved secure channel after required agreements and controls are in place.</p>
         </div>
-        <HeroWorkstationVisual />
+        <HeroPracticeVisual />
       </section>
 
       <section className="trustBand" aria-label="ROOT operating principles" data-reveal>
@@ -509,13 +441,16 @@ export function HomePage() {
       <BillingAloneSection />
       <OperatingModelSection />
 
-      <section className="splitSection darkBand" data-reveal>
+      <section className="splitSection darkBand dirtHomeBand" data-reveal>
         <div>
           <p className="eyebrow">ROOT + DIRT</p>
           <h2>Execution with intelligence behind it.</h2>
           <p>DIRT is not a separate story competing with ROOT. It is the intelligence layer that helps ROOT identify leakage, understand denial patterns, prioritize A/R recovery, and expose PracticeOps constraints.</p>
           <TrackedLink className="textLink" href="/technology/dirt/" cta="explore-dirt" location="home-dirt" engagementType="technology">
             Explore DIRT <ArrowRight size={16} />
+          </TrackedLink>
+          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="home-dirt" engagementType="proof">
+            View Proof of Capability <ArrowRight size={16} />
           </TrackedLink>
         </div>
         <DirtCommandVisual />
@@ -529,7 +464,16 @@ export function HomePage() {
           <h2>ROOT is the operating layer around the clinical practice.</h2>
           <p>Clinical care remains the practice. ROOT supports the business system around it: revenue, credentialing, operations, technology, automation, analytics, and intelligence.</p>
         </div>
-        <PlatformOrbit />
+        <div className="platformShowcaseMedia">
+          <EditorialMedia
+            media={{
+              src: mediaAssets.practiceTeamCollaboration,
+              alt: 'Healthcare professionals coordinating in a practice setting. Editorial stock photograph; not ROOT staff or customers.',
+              caption: 'Editorial practice operations context',
+            }}
+          />
+          <PlatformOrbit />
+        </div>
       </section>
 
       <section className="contentSection" data-reveal>
@@ -584,6 +528,24 @@ export function PlatformPage() {
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Platform' }]} eyebrow="Healthcare MSO platform" title="One operating layer around the business side of medicine." copy="ROOT integrates revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence so practices can act on the whole system instead of isolated symptoms." />
+      <section className="splitSection platformHeroMedia" data-reveal>
+        <EditorialMedia
+          media={{
+            src: mediaAssets.operationsPlanning,
+            alt: 'Operations planning workshop in a professional setting. Editorial stock photograph; not ROOT staff or customers.',
+            caption: 'Editorial operating context',
+          }}
+          className="editorialMediaTall"
+        />
+        <div>
+          <p className="eyebrow">Practice · ROOT · DIRT</p>
+          <h2>Clinical care at the center. Operating intelligence around it.</h2>
+          <p>ROOT is the managed operating layer. DIRT is the intelligence layer that keeps leakage, denial, A/R, and PracticeOps signals actionable for leadership.</p>
+          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="platform" engagementType="proof">
+            Review Proof of Capability <ArrowRight size={16} />
+          </TrackedLink>
+        </div>
+      </section>
       <section className="contentSection" data-reveal>
         <PlatformOrbit />
       </section>
@@ -700,38 +662,150 @@ export function DirtPage() {
   return (
     <>
       <PageHero breadcrumbs={[{ label: 'Technology', href: '/technology/' }, { label: 'DIRT Intelligence' }]} eyebrow="Data Intelligence for Revenue Transformation" title="The intelligence layer inside ROOT." copy="DIRT helps ROOT detect leakage, understand denial patterns, prioritize A/R recovery, expose PracticeOps signals, and turn data into operating decisions." />
-      <section className="contentSection dirtPipelineSection" data-reveal>
+      <section className="contentSection dirtPipelineSection dirtCommandSection" data-reveal>
         <div className="sectionHeading">
           <p className="eyebrow">DIRT operating logic</p>
-          <h2>Raw operational information becomes ranked management action.</h2>
+          <h2>Raw signals become ranked management action.</h2>
           <p>DIRT is visually and commercially tied to ROOT: it supports the Diagnostic, managed service delivery, and leadership control rather than standing apart as another generic dashboard.</p>
         </div>
-        <div className="pipelineGrid">
-          {dirtPipeline.map(([title, copy], index) => {
-            const icons = [Database, SearchCheck, CircleDollarSign, ListChecks];
-            const Icon = icons[index];
-            return (
-              <article key={title}>
-                <Icon size={23} />
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </article>
-            );
-          })}
-        </div>
+        <DirtPipelineFlow />
       </section>
-      <section className="splitSection darkBand" data-reveal>
+      <section className="splitSection darkBand dirtCommandBand" data-reveal>
         <DirtCommandVisual />
-        <div><p className="eyebrow">Command center</p><h2>Signal clarity for the revenue system.</h2><p>DIRT is presented as ROOT's intelligence capability, not as an unsupported finished SaaS claim. It supports service delivery, Diagnostic analysis, and operating visibility.</p></div>
+        <div>
+          <p className="eyebrow">Revenue command center</p>
+          <h2>Signal clarity for the revenue system.</h2>
+          <p>DIRT is presented as ROOT&apos;s intelligence capability, not as an unsupported finished SaaS claim. Evidence hierarchy matters: signal, finding, financial significance, owner, and next action.</p>
+          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="dirt-page" engagementType="proof">
+            Open Proof of Capability <ArrowRight size={16} />
+          </TrackedLink>
+        </div>
       </section>
       <section className="contentSection" data-reveal>
-        <div className="cardGrid">
-          {['Revenue leakage detection', 'Aging landscape', 'Denial intelligence', 'Recovery prioritization', 'PracticeOps signals', 'Leadership command view'].map((item) => <GlassCard key={item}><Gauge size={22} /><h3>{item}</h3><p>Signal, context, owner, and next action made easier to see.</p></GlassCard>)}
+        <div className="sectionHeading narrow">
+          <p className="eyebrow">Capability map</p>
+          <h2>What leadership should be able to see.</h2>
         </div>
+        <DirtCapabilityMatrix />
       </section>
       <DirtDemonstrationSection />
       <SectionCta title="Want DIRT applied to your revenue cycle?" copy="The Diagnostic is the fastest path from current data to a prioritized opportunity register." />
+    </>
+  );
+}
+
+export function CaseStudiesHubPage() {
+  const studies = getVisibleCaseStudies();
+  return (
+    <>
+      <PageHero
+        breadcrumbs={[{ label: 'Proof of Capability' }]}
+        eyebrow="Evidence over spectacle"
+        title="Proof of Capability."
+        copy="Anonymized proof-of-concept scenarios that show how ROOT and DIRT turn revenue-cycle signals into prioritized operating action. These are not client success stories."
+        cta={false}
+      />
+      <section className="contentSection" data-reveal>
+        <div className="cardGrid caseStudyGrid">
+          {studies.map((study) => (
+            <a className="glassCard linkCard caseStudyCard" href={`/case-studies/${study.slug}/`} key={study.slug}>
+              <span className="miniLabel">{study.proofLabel}</span>
+              <h3>{study.title}</h3>
+              <p>{study.summary}</p>
+              {!study.publicReady && <em className="reviewBadge">Publication review required</em>}
+              <span>Open proof <ArrowRight size={15} /></span>
+            </a>
+          ))}
+        </div>
+      </section>
+      <SectionCta title="Ready for a practice-specific review?" copy="The $2,500 Revenue Optimization Diagnostic turns your deidentified operating material into a ranked opportunity register." />
+    </>
+  );
+}
+
+export function CaseStudyDetailPage({ slug }) {
+  const study = getCaseStudyBySlug(slug);
+  if (!study) return <NotFoundPage />;
+
+  return (
+    <>
+      <PageHero
+        breadcrumbs={[{ label: 'Proof of Capability', href: '/case-studies/' }, { label: study.shortTitle }]}
+        eyebrow={`${study.proofLabel} · ${study.sourceType}`}
+        title={study.title}
+        copy={study.summary}
+        cta={false}
+      />
+
+      {!study.publicReady && (
+        <section className="publicationReviewBanner" data-reveal role="status">
+          <strong>PUBLICATION REVIEW REQUIRED</strong>
+          <p>Local staging experience only. Financial totals and source raster claims remain under review. Do not treat this as a published client success story.</p>
+          <ul>
+            {study.reviewRequired.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <section className="contentSection caseStudyNarrative" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">{study.scenarioLabel}</p>
+          <h2>Executive summary</h2>
+          <p>{study.executiveSummary}</p>
+        </div>
+        <div className="caseStudyBodyGrid">
+          <article className="glassCard">
+            <p className="eyebrow">Problem</p>
+            <h3>What leadership usually sees</h3>
+            <p>{study.problem}</p>
+          </article>
+          <article className="glassCard">
+            <p className="eyebrow">Analytical approach</p>
+            <h3>How DIRT reads the system</h3>
+            <p>{study.analyticalApproach}</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="contentSection mutedBand" data-reveal>
+        <div className="sectionHeading">
+          <p className="eyebrow">Visual evidence</p>
+          <h2>Proof carousel</h2>
+          <p>Slides support the narrative. Semantic content and disclaimers live on this page, not only inside the carousel.</p>
+        </div>
+        <CaseStudyCarousel slides={study.slides} label={`${study.title} proof slides`} />
+      </section>
+
+      <section className="splitSection" data-reveal>
+        <div>
+          <p className="eyebrow">Findings</p>
+          <h2>What the method makes visible</h2>
+          <div className="checkList">
+            {study.findings.map((item) => <span key={item}><Check size={16} /> {item}</span>)}
+          </div>
+        </div>
+        <div>
+          <p className="eyebrow">Methodology</p>
+          <h2>How the proof is structured</h2>
+          <div className="checkList">
+            {study.methodology.map((item) => <span key={item}><Check size={16} /> {item}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="featureBand darkBand" data-reveal>
+        <div>
+          <p className="eyebrow">Disclaimer</p>
+          <h2>Claim discipline</h2>
+        </div>
+        <p>{study.disclaimer}</p>
+      </section>
+
+      <SectionCta
+        title={study.cta.label}
+        copy="Start with a fixed-fee Diagnostic when you want practice-specific evidence before a broader operating decision."
+        href={study.cta.href}
+      />
     </>
   );
 }
