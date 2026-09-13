@@ -4,17 +4,19 @@ import { setAnalyticsConsent, bootAnalytics } from './adapter';
 declare global {
   interface Window {
     klaro?: {
-      getManager?: () => {
-        getConsent?: (name: string) => boolean;
-        watch?: (cb: (obj: { event?: string; name?: string }) => void) => void;
-      };
+      getManager?: () => KlaroManager;
     };
   }
 }
 
+type KlaroWatcher = {
+  update: (manager: KlaroManager, name: string, data: unknown) => void;
+};
+
 type KlaroManager = {
   getConsent?: (name: string) => boolean;
-  watch?: (cb: (obj: { event?: string; name?: string }) => void) => void;
+  watch?: (watcher: KlaroWatcher) => void;
+  unwatch?: (watcher: KlaroWatcher) => void;
 };
 
 function readKlaroAnalyticsConsent(): boolean {
@@ -31,6 +33,7 @@ function readKlaroAnalyticsConsent(): boolean {
 export function AnalyticsBoot() {
   useEffect(() => {
     let watchedManager: KlaroManager | null = null;
+    let watcher: KlaroWatcher | null = null;
     const apply = () => {
       const analytics = readKlaroAnalyticsConsent();
       setAnalyticsConsent({ analytics, marketing: false });
@@ -41,9 +44,8 @@ export function AnalyticsBoot() {
       const manager = window.klaro?.getManager?.();
       if (!manager || manager === watchedManager) return;
       watchedManager = manager;
-      manager.watch?.((obj) => {
-        if (obj.event === 'saveConsents' || obj.event === 'updateConsents') apply();
-      });
+      watcher = { update: () => apply() };
+      manager.watch?.(watcher);
     };
 
     const onConsentChange = () => {
@@ -55,7 +57,10 @@ export function AnalyticsBoot() {
     apply();
     bindManager();
 
-    return () => window.removeEventListener('root:consent-change', onConsentChange);
+    return () => {
+      if (watchedManager && watcher) watchedManager.unwatch?.(watcher);
+      window.removeEventListener('root:consent-change', onConsentChange);
+    };
   }, []);
 
   return null;
