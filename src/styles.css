@@ -140,8 +140,8 @@ img, video, canvas, svg { max-width: 100%; }
 }
 h1, h2, h3 { margin-top: 0; font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: 0; }
 h1, h2, h3, p, small, b, strong, span { overflow-wrap: anywhere; }
-h1 { font-size: calc(5.35rem - 2px); line-height: .98; margin-bottom: 26px; }
-h2 { font-size: 3.8rem; line-height: 1.03; margin-bottom: 21px; }
+h1 { font-size: var(--type-page, calc(5.35rem - 2px)); line-height: 1.06; margin-bottom: 1rem; max-width: 22ch; }
+h2 { font-size: var(--type-section, 2.48813rem); line-height: 1.12; margin-bottom: 0.75rem; max-width: 28ch; }
 h3 { font-size: 1.5rem; line-height: 1.14; margin-bottom: 12px; }
 p { color: var(--muted); line-height: 1.72; }
 .lede { max-width: 750px; color: #b7c7bf; font-size: 1.2rem; }

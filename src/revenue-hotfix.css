@@ -81,7 +81,7 @@
 
 .experimentRevenueDirect .heroCopy h1,
 .experimentRevenueDirect > div:first-child h1 {
-  max-width: 15ch;
+  max-width: 23ch;
 }
 
 /* Give the existing longer headline enough column width to fit laptop CTAs. */

@@ -25,21 +25,21 @@ describe('ROOT commercial site', () => {
     const { container } = renderRoute('/');
 
     expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
-    expect(screen.getByText(/one operating partner for the business side of medicine/i)).toBeTruthy();
-    const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Revenue Optimization Diagnostic/i });
+    expect(screen.getByText(/one operating partner for the business side of medicine/i )).toBeTruthy();
+    const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i });
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
-    expect(container.querySelector('img[src="/brand/logos/root/root-mark.png"]')).toBeTruthy();
+    expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
     expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
     expect(screen.getAllByText(/^Platform$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Solutions$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Services$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Built toward future certification discipline/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /proof of work, rebuilt as public-safe demonstrations/i })).toBeTruthy();
-    expect(screen.getAllByText(/fictional practice/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /see how ROOT structures the work/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /one partner across the practice business/i })).toBeTruthy();
+    expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/home-practice-operations.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
   });
@@ -47,12 +47,12 @@ describe('ROOT commercial site', () => {
   it('renders platform architecture with clinical practice at the center', () => {
     renderRoute('/platform/');
 
-    expect(screen.getByRole('heading', { name: /one operating layer/i })).toBeTruthy();
-    expect(screen.getAllByText(/Clinical Practice/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/DIRT Intelligence/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /one operating layer for your practice/i })).toBeTruthy();
+    expect(screen.getAllByText(/Clinical practice/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/DIRT intelligence/i).length).toBeGreaterThan(0);
   });
 
-  it('renders solution, service, technology, pricing, and resource routes', () => {
+  it('renders solution, service, technology, pricing, and resource routes', async () => {
     renderRoute('/solutions/denials/');
     expect(screen.getByRole('heading', { name: /^Denials$/i })).toBeTruthy();
     expect(screen.getAllByText(/preventable patterns/i).length).toBeGreaterThan(0);
@@ -64,9 +64,9 @@ describe('ROOT commercial site', () => {
 
     cleanup();
     renderRoute('/technology/dirt/');
-    expect(screen.getByRole('heading', { name: /intelligence layer inside ROOT/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Revenue intelligence, connected to action/i })).toBeTruthy();
     expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /raw signals become ranked management action/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /From signal to an owned next action/i })).toBeTruthy();
 
     cleanup();
     vi.stubGlobal('matchMedia', () => ({
@@ -81,17 +81,18 @@ describe('ROOT commercial site', () => {
     expect(screen.getByText(/publication review required/i)).toBeTruthy();
     expect(screen.getAllByText(/anonymized proof of concept/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/not a client success story/i)).toBeTruthy();
-    expect(screen.getByText('Slide 1 of 6')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /next slide/i }));
-    expect(screen.getByText('Slide 2 of 6')).toBeTruthy();
+    expect(await screen.findByText('Slide 1 of 6')).toBeTruthy();
+    fireEvent.click(await screen.findByRole('button', { name: /next slide/i }));
+    expect(await screen.findByText('Slide 2 of 6')).toBeTruthy();
 
     cleanup();
     renderRoute('/pricing/');
     expect(screen.getAllByText(/Full MSO Partnership/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/\$2,500 fixed fee/i)).toBeTruthy();
-    expect(screen.getByText(/Onboarding from \$1,500; approximately 5% of collections where appropriate/i)).toBeTruthy();
-    expect(screen.getByText(/\$1,500-\$2,500\/month/i)).toBeTruthy();
-    expect(screen.getByText(/No public guarantee claims/i)).toBeTruthy();
+    expect(screen.getAllByText(/\$2,500 fixed fee/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Onboarding from \$1,500/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/approximately 5% of collections where appropriate/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/\$1,500-\$2,500\/month/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Scope and outcomes/i)).toBeTruthy();
 
     cleanup();
     renderRoute('/resources/denial-management-root-cause/');
@@ -99,20 +100,16 @@ describe('ROOT commercial site', () => {
     expect(screen.getByText(/X12 Claim Adjustment Reason Codes/i)).toBeTruthy();
   });
 
-  it('supports accessible carousel controls, approved DIRT pricing, and CTA events without form content', () => {
+  it('supports engagement rows, approved DIRT pricing, and CTA events without form content', () => {
     renderRoute('/');
-    expect(screen.getByRole('heading', { name: /^Diagnostic$/i })).toBeTruthy();
-
-    fireEvent.click(screen.getByRole('button', { name: /next engagement model/i }));
+    expect(screen.getAllByRole('heading', { name: /^Diagnostic$/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /Managed RCM/i })).toBeTruthy();
-
-    fireEvent.click(screen.getByRole('button', { name: /next engagement model/i }));
     expect(screen.getByRole('heading', { name: /DIRT Intelligence/i })).toBeTruthy();
     expect(screen.getByText(/\$1,500-\$2,500\/month when scoped/i)).toBeTruthy();
 
     const ctaEvents = [];
     window.addEventListener('root:cta', (event) => ctaEvents.push(event.detail), { once: true });
-    const diagnosticLink = screen.getAllByRole('link', { name: /Start the \$2,500 Revenue Optimization Diagnostic/i })[0];
+    const diagnosticLink = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i })[0];
     diagnosticLink.addEventListener('click', (event) => event.preventDefault(), { once: true });
     fireEvent.click(diagnosticLink);
 
@@ -160,7 +157,7 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /^Call/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /^Email/i }).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^LinkedIn$/i)).toBeNull();
-    expect(screen.getByRole('heading', { name: /Chatbot and virtual front desk/i })).toBeTruthy();
+    expect(screen.getByText(/Chatbot and virtual front desk are planned/i)).toBeTruthy();
   });
 
   it('provides the Talk to us assistant panel and configured-state social controls', () => {

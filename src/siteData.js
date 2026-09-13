@@ -1,5 +1,6 @@
 export const brandAssets = {
-  mark: '/brand/logos/root/root-mark.png',
+  mark: '/brand/logos/root/root-mark-76.webp',
+  markSource: '/brand/logos/root/root-mark.png',
   horizontalLockup: '/brand/logos/root/root-lockup-horizontal-white.png',
   stackedLockup: '/brand/logos/root/root-lockup-stacked.png',
   favicon: '/brand/favicon/favicon-32.png',
@@ -26,10 +27,10 @@ export const mediaAssets = {
 };
 
 export const serviceMediaBySlug = {
-  'ar-recovery': { src: mediaAssets.claimsAr, alt: 'Administrative paperwork and desk tools used as an editorial stand-in for A/R work queues', caption: 'Editorial reference — not claim software' },
-  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation', caption: 'Editorial practice operations context' },
+  'ar-recovery': null,
+  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph.', caption: 'Editorial practice operations context' },
   'patient-balances': null,
-  credentialing: { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
+  credentialing: null,
   'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
   'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation' },
   'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Healthcare operations collaboration around workflow automation' },
@@ -41,12 +42,12 @@ export const serviceMediaBySlug = {
 };
 
 export const solutionMediaBySlug = {
-  'aging-ar': { src: mediaAssets.claimsAr, alt: 'Administrative paperwork used as an editorial stand-in for aging A/R review', caption: 'Editorial reference — not claim software' },
-  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation', caption: 'Editorial practice operations context' },
-  'credentialing-bottlenecks': { src: mediaAssets.credentialing, alt: 'Payer credentialing documentation and workflow materials' },
-  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows' },
-  'reporting-visibility': { src: mediaAssets.dirtAnalytics, alt: 'Illustrative analytics imagery for revenue and operations reporting', caption: 'Illustrative analytics imagery — not a DIRT product screen' },
-  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration around practice growth and coordination' },
+  'aging-ar': null,
+  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph.', caption: 'Editorial practice operations context' },
+  'credentialing-bottlenecks': null,
+  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations workstation for scheduling and front-office workflows. Editorial stock photograph.', caption: 'Editorial practice operations context' },
+  'reporting-visibility': null,
+  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration around practice growth and coordination. Editorial stock photograph.', caption: 'Editorial practice operations context' },
   'revenue-leakage': { src: mediaAssets.practiceTeamCollaboration, alt: 'Healthcare professionals coordinating in a practice setting. Editorial stock; not ROOT staff.', caption: 'Editorial practice operations context' },
 };
 

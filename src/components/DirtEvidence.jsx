@@ -16,16 +16,23 @@ const evidenceChain = [
     tone: 'finding',
   },
   {
-    stage: 'Significance',
+    stage: 'Financial significance',
     title: 'Revenue intelligence',
     copy: 'Leakage, preventability, payer risk, recoverability, and workflow constraint become financially legible.',
     icon: CircleDollarSign,
     tone: 'significance',
   },
   {
-    stage: 'Action',
+    stage: 'Owner',
+    title: 'Named accountability',
+    copy: 'Each ranked item carries a clear owner so leadership can see who moves the work next.',
+    icon: UserRound,
+    tone: 'owner',
+  },
+  {
+    stage: 'Next action',
     title: 'Prioritized action',
-    copy: 'Ranked queue with owner, evidence, next step, review cadence, and a management decision.',
+    copy: 'Evidence, next step, review cadence, and a management decision stay attached to the same record.',
     icon: ListChecks,
     tone: 'action',
   },
@@ -64,50 +71,99 @@ const commandRows = [
 
 export function DirtPipelineFlow() {
   return (
-    <div className="dirtPipelineFlow" aria-label="DIRT signal to action hierarchy">
+    <ol className="dirtPipelineFlow" aria-label="DIRT signal to next action hierarchy">
       {evidenceChain.map((item, index) => {
         const Icon = item.icon;
         return (
-          <article className={`dirtFlowCard tone-${item.tone}`} key={item.stage}>
+          <li className={`dirtFlowCard tone-${item.tone}`} key={item.stage}>
             <div className="dirtFlowMeta">
-              <Icon size={20} />
+              <Icon size={20} aria-hidden="true" />
               <span>{String(index + 1).padStart(2, '0')}</span>
             </div>
             <p className="eyebrow">{item.stage}</p>
             <h3>{item.title}</h3>
             <p>{item.copy}</p>
-          </article>
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 }
 
-export function DirtCommandVisual() {
+function CommandRecord({ row }) {
   return (
-    <div className="dirtCommandCenter glassCard" aria-label="DIRT revenue command center illustration">
+    <article className="dirtCommandRecord">
+      <h3>{row.signal}</h3>
+      <dl>
+        <div>
+          <dt>Finding</dt>
+          <dd>{row.finding}</dd>
+        </div>
+        <div>
+          <dt>Financial significance</dt>
+          <dd className="significance">{row.significance}</dd>
+        </div>
+        <div>
+          <dt>Owner</dt>
+          <dd>{row.owner}</dd>
+        </div>
+        <div>
+          <dt>Next action</dt>
+          <dd className="action">{row.action}</dd>
+        </div>
+      </dl>
+    </article>
+  );
+}
+
+export function DirtCommandVisual({ compact = false, rows = commandRows }) {
+  const visibleRows = compact ? rows.slice(0, 1) : rows;
+
+  return (
+    <div className={`dirtCommandCenter glassCard${compact ? ' dirtCommandCompact' : ''}`} aria-label="DIRT revenue command center illustration">
       <div className="dirtCommandIntro">
-        <span className="dirtStatus"><Activity size={14} /> Illustrative operating signal</span>
-        <strong>Executive revenue command view</strong>
+        <span className="dirtStatus"><Activity size={14} aria-hidden="true" /> Illustrative operating signal</span>
+        <strong>{compact ? 'Representative command record' : 'What leadership needs to act'}</strong>
         <p>Signal → finding → financial significance → owner → next action. Synthetic demonstration only.</p>
       </div>
-      <div className="dirtCommandTable" role="table" aria-label="Illustrative DIRT evidence rows">
-        <div className="dirtCommandHead" role="row">
-          <span role="columnheader">Signal</span>
-          <span role="columnheader">Finding</span>
-          <span role="columnheader">Significance</span>
-          <span role="columnheader">Owner</span>
-          <span role="columnheader">Next action</span>
+
+      {!compact && (
+        <div className="dirtCommandTableWrap">
+          <table className="dirtCommandTable">
+            <caption>Synthetic DIRT command examples. Not client results.</caption>
+            <colgroup>
+              <col className="signal" />
+              <col className="finding" />
+              <col className="significance" />
+              <col className="owner" />
+              <col className="action" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Signal</th>
+                <th scope="col">Finding</th>
+                <th scope="col">Financial significance</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Next action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visibleRows.map((row) => (
+                <tr key={row.signal}>
+                  <th scope="row" className="signalCell">{row.signal}</th>
+                  <td>{row.finding}</td>
+                  <td className="significanceCell">{row.significance}</td>
+                  <td className="ownerCell">{row.owner}</td>
+                  <td className="actionCell">{row.action}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        {commandRows.map((row) => (
-          <div className="dirtCommandRow" role="row" key={row.signal}>
-            <span role="cell"><b>{row.signal}</b></span>
-            <span role="cell">{row.finding}</span>
-            <span role="cell"><em>{row.significance}</em></span>
-            <span role="cell"><UserRound size={14} /> {row.owner}</span>
-            <span role="cell">{row.action}</span>
-          </div>
-        ))}
+      )}
+
+      <div className={`dirtCommandRecords${compact ? ' is-compact' : ''}`}>
+        {visibleRows.map((row) => <CommandRecord row={row} key={row.signal} />)}
       </div>
     </div>
   );
@@ -124,12 +180,14 @@ export function DirtCapabilityMatrix() {
   ];
 
   return (
-    <div className="dirtCapabilityMatrix">
+    <div className="dirtCapabilityMatrix" role="list">
       {items.map(([title, copy], index) => (
-        <article key={title}>
+        <article key={title} role="listitem">
           <span>{String(index + 1).padStart(2, '0')}</span>
-          <h3>{title}</h3>
-          <p>{copy}</p>
+          <div>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </div>
         </article>
       ))}
     </div>

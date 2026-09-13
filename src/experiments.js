@@ -7,7 +7,7 @@ const experiments = {
     variants: {
       a: {
         headline: 'Run the business side of medicine better.',
-        lede: 'ROOT brings RCM, credentialing, practice operations, healthcare technology, automation, analytics, and DIRT intelligence into one partnership for independent medical practices.',
+        lede: 'ROOT brings revenue operations, practice operations, technology, and DIRT intelligence into one partnership for independent medical practices.',
       },
       b: {
         headline: 'Find where your practice is losing revenue—and what to fix first.',

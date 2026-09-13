@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, CheckCircle2, ClipboardList, FileText, Workflow } from 'lucide-react';
+import { ArrowRight, BarChart3, CheckCircle2, ClipboardList, FileText } from 'lucide-react';
 import { diagnosticSample, proofWorkAssets, syntheticPractice } from '../proofData.js';
 
 function currency(value) {
@@ -195,12 +195,15 @@ export function ProofLibrarySection() {
     <section className="contentSection proofLibrary" data-reveal>
       <div className="sectionHeading">
         <p className="eyebrow">See how ROOT works</p>
-        <h2>Proof of work, rebuilt as public-safe demonstrations.</h2>
-        <p>These previews use a fictional practice and reconciled synthetic data to show ROOT-style analysis, workflow logic, deliverable structure, and DIRT intelligence without presenting client results or exposing PHI.</p>
+        <h2>See how ROOT structures the work.</h2>
+        <p>Synthetic demonstrations show the analysis, operating meaning, and next action. Keep each proof disclaimer.</p>
       </div>
       <div className="proofFeatureGrid">
         <ProofAsset assetKey="arAnalysis" />
-        <ProofAsset assetKey="denialPareto" />
+        <div>
+          <ProofAsset assetKey="denialPareto" />
+          <p className="syntheticNote">Featured A/R priority view plus supporting denial patterning. Full libraries remain on the relevant service and solution routes.</p>
+        </div>
       </div>
     </section>
   );
@@ -259,26 +262,11 @@ export function DirtDemonstrationSection() {
     <section className="contentSection dirtDemo" data-reveal>
       <div className="sectionHeading">
         <p className="eyebrow">DIRT demonstration</p>
-        <h2>Raw signals become prioritized management intelligence.</h2>
-        <p>The same fictional practice data moves from source-style facts into revenue leakage, A/R concentration, denial concentration, payer risk, workflow priority, and unresolved revenue queues. This synthetic universe is separate from any Proof of Capability scenario.</p>
+        <h2>One synthetic intelligence preview.</h2>
+        <p>Seeing, meaning, and action stay adjacent to the same synthetic record. This universe is separate from any Proof of Capability scenario.</p>
       </div>
-      <div className="dirtDemoGrid">
+      <div className="dirtDemoSingle">
         <ProofAsset assetKey="dirtCommand" />
-        <div className="intelligenceFlow glassCard">
-          {[
-            ['Signal', 'Report family, field lineage, metric definition, QA rule'],
-            ['Finding', 'Validated pattern with synthetic reconstruction'],
-            ['Significance + action', 'Ranked queue, owner, reason, deadline, decision priority'],
-          ].map(([title, copy]) => (
-            <div key={title}>
-              <Workflow size={18} />
-              <span>
-                <b>{title}</b>
-                <small>{copy}</small>
-              </span>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
