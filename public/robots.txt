@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://rootrcm.com/sitemap.xml
+# Content feed
+# https://rootrcm.com/feed.xml

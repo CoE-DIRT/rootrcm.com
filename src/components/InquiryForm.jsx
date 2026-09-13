@@ -78,8 +78,10 @@ export default function InquiryForm({ variant = 'contact' }) {
         body: JSON.stringify(deliveryPayload),
       });
       if (!response.ok) throw new Error('Submission failed');
+      event.currentTarget.dispatchEvent(new CustomEvent('root:form-success'));
       window.location.assign('/thank-you/?delivery=form');
     } catch {
+      event.currentTarget.dispatchEvent(new CustomEvent('root:form-failure'));
       setStatus('fallback');
     }
   };

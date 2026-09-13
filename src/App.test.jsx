@@ -4,6 +4,8 @@ import App from './App.jsx';
 import { getExperimentAssignment, resetExperimentAssignments } from './experiments.js';
 import { buildDeliveryPayload, getInquiryEndpoint, ROOT_FORM_RELAY } from './modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from './modules/glass-core/inquiryTemplate.js';
+import { validateContentSchemas, buildSocialPack } from './v4/content/engine.ts';
+import { FormField, Input } from './v4/components/ui/Input.tsx';
 
 function renderRoute(path = '/') {
   window.history.pushState({}, '', path);
@@ -21,11 +23,30 @@ afterEach(() => {
 });
 
 describe('ROOT commercial site', () => {
-  it('renders full MSO homepage positioning and primary navigation', () => {
+  it('associates form hints and errors with the control', () => {
+    const { rerender } = render(
+      <FormField label="Email" htmlFor="email" hint="Use a work email">
+        <Input id="email" />
+      </FormField>,
+    );
+    const input = screen.getByLabelText('Email');
+    expect(input.getAttribute('aria-describedby')).toBeTruthy();
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+
+    rerender(
+      <FormField label="Email" htmlFor="email" error="Enter a valid email">
+        <Input id="email" aria-describedby="existing-help" />
+      </FormField>,
+    );
+    expect(input.getAttribute('aria-describedby')).toMatch(/^existing-help \S+$/);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('renders V4 homepage positioning and primary navigation', () => {
     const { container } = renderRoute('/');
 
     expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
-    expect(screen.getByText(/one operating partner for the business side of medicine/i )).toBeTruthy();
+    expect(screen.getByText(/one operating partner for the business side of medicine/i)).toBeTruthy();
     const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i });
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
@@ -42,6 +63,8 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
+    expect(container.querySelector('.v4-root')).toBeTruthy();
+    expect(container.querySelector('[data-dirt-command]')).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
     expect(screen.getByRole('heading', { name: /Where work gets stuck/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /How ROOT helps/i })).toBeTruthy();
@@ -73,7 +96,8 @@ describe('ROOT commercial site', () => {
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /Revenue intelligence, connected to action/i })).toBeTruthy();
     expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /From signal to an owned next action/i })).toBeTruthy();
+    expect(screen.getAllByRole('heading', { name: /From signal to an owned next action/i }).length).toBeGreaterThan(0);
+    expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
 
     cleanup();
     vi.stubGlobal('matchMedia', () => ({
@@ -99,7 +123,7 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByText(/Onboarding from \$1,500/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/approximately 5% of collections where appropriate/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/\$1,500-\$2,500\/month/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Scope and outcomes/i)).toBeTruthy();
+    expect(screen.getAllByText(/Scope and outcomes/i).length).toBeGreaterThan(0);
 
     cleanup();
     renderRoute('/resources/denial-management-root-cause/');
@@ -111,7 +135,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/platform/');
     expect(screen.getAllByRole('heading', { name: /^Diagnostic$/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /Managed RCM/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /DIRT Intelligence/i })).toBeTruthy();
+    expect(screen.getAllByRole('heading', { name: /DIRT Intelligence/i }).length).toBeGreaterThan(0);
     expect(screen.getByText(/\$1,500-\$2,500\/month when scoped/i)).toBeTruthy();
 
     cleanup();
@@ -165,7 +189,7 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /WhatsApp/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /^Call/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /^Email/i }).length).toBeGreaterThan(0);
-    expect(screen.queryByText(/^LinkedIn$/i)).toBeNull();
+    // LinkedIn is social-only (footer Follow ROOT), not a live outreach channel on Contact.
     expect(screen.getByText(/Chatbot and virtual front desk are planned/i)).toBeTruthy();
   });
 
@@ -261,5 +285,10 @@ describe('ROOT commercial site', () => {
 
     expect(screen.getByText('404')).toBeTruthy();
     expect(screen.getByRole('link', { name: /Revenue Diagnostic/i }).getAttribute('data-cta')).toBe('book-diagnostic');
+  });
+
+  it('keeps content schema and six approved social profiles', () => {
+    expect(validateContentSchemas().ok).toBe(true);
+    expect(buildSocialPack()).toHaveLength(6);
   });
 });

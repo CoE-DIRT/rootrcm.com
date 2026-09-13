@@ -136,7 +136,7 @@ export function applyPageExperiment(pathname) {
 
 export function applyOperationalCopy(pathname) {
   if (typeof document === 'undefined' || normalizedPath(pathname) !== '/legal/privacy') return;
-  const headings = Array.from(document.querySelectorAll('.legalPage h2'));
+  const headings = Array.from(document.querySelectorAll('h2'));
   const inquiryHeading = headings.find((heading) => heading.textContent.trim() === 'Public inquiry data');
   const paragraph = inquiryHeading?.nextElementSibling;
   if (paragraph) {
