@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { FloatingContactCta, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
+import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import {
@@ -71,7 +72,8 @@ function upsertMeta(selector, attrs) {
 }
 
 function syncDocumentMeta(path) {
-  const meta = routeMeta[path] || {
+  const isUnavailableCaseStudy = path === '/case-studies/dirt-poc-01' && !getCaseStudyBySlug('dirt-poc-01');
+  const meta = (!isUnavailableCaseStudy && routeMeta[path]) || {
     title: 'Page Not Found | ROOT',
     description: 'The requested ROOT public website page could not be found.',
     image: brandAssets.og,
