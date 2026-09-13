@@ -1,6 +1,7 @@
 // Proof of Capability registry.
 // POC 01 remains PUBLICATION REVIEW REQUIRED — do not treat as a client success story.
-export const caseStudies = [
+const isDevelopment = import.meta.env?.DEV === true;
+const stagingCaseStudies = isDevelopment ? [
   {
     slug: 'dirt-poc-01',
     series: 'DIRT Proof of Capability',
@@ -81,10 +82,13 @@ export const caseStudies = [
       'Do not strengthen financial claims until reconciliation clears.',
     ],
   },
-];
+] : [];
+
+const allowStagingStudies = isDevelopment;
+export const caseStudies = isDevelopment ? stagingCaseStudies : [];
 
 export function getVisibleCaseStudies() {
-  return caseStudies.filter((study) => study.stagingVisible || study.publicReady);
+  return caseStudies.filter((study) => study.publicReady === true || (allowStagingStudies && study.stagingVisible === true));
 }
 
 export function getCaseStudyBySlug(slug) {

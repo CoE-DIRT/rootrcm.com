@@ -546,11 +546,6 @@ export const routeMeta = {
     description: 'Browse ROOT anonymized proof-of-capability scenarios that show how revenue intelligence becomes prioritized operating action.',
     image: brandAssets.og,
   },
-  '/case-studies/dirt-poc-01': {
-    title: 'DIRT Revenue Intelligence | Proof of Capability | ROOT',
-    description: 'Anonymized proof of concept showing how DIRT turns revenue-cycle signals into prioritized management action. Publication review required.',
-    image: brandAssets.og,
-  },
   '/pricing': {
     title: 'ROOT Pricing | Diagnostic, Managed RCM, DIRT & MSO Models',
     description: 'Explore ROOT engagement models: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, and full MSO partnership.',
@@ -580,6 +575,14 @@ export const routeMeta = {
   '/legal/terms': { title: 'Terms | ROOT', description: 'ROOT commercial website terms of use.', image: brandAssets.og },
   '/thank-you': { title: 'Request Received | ROOT', description: 'ROOT has received your deidentified commercial inquiry.', image: brandAssets.og },
 };
+
+if (import.meta.env?.DEV === true) {
+  routeMeta['/case-studies/dirt-poc-01'] = {
+    title: 'DIRT Revenue Intelligence | Proof of Capability | ROOT',
+    description: 'Anonymized proof of concept showing how DIRT turns revenue-cycle signals into prioritized management action. Publication review required.',
+    image: brandAssets.og,
+  };
+}
 
 solutionPages.forEach((page) => {
   routeMeta[`/solutions/${page.slug}`] = { title: `${page.title} Solution | ROOT`, description: page.summary, image: brandAssets.og };

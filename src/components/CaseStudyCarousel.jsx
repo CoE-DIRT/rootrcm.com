@@ -23,7 +23,6 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
     if (!instance || !statusRef.current) return undefined;
 
     function syncStatus() {
-      if (!instance.Controller) return;
       const index = instance.index + 1;
       const total = instance.length;
       statusRef.current.textContent = `Slide ${index} of ${total}`;
@@ -34,8 +33,8 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
     return () => {
       try {
         instance.off('moved', syncStatus);
-      } catch {
-        // Splide may already be destroyed in test teardown.
+      } catch (error) {
+        console.error('Unable to remove Splide status listener.', error);
       }
     };
   }, [enhanced, slides.length]);

@@ -52,7 +52,7 @@ Run and require:
 - lint
 - production build
 - Playwright desktop/mobile visual capture
-- route smoke tests for `/`, `/services/`, `/platform/`, `/technology/dirt/`, `/diagnostic/`, `/pricing/`, `/contact/`, `/case-studies/`, `/case-studies/dirt-poc-01/`
+- route smoke tests for `/`, `/services/`, `/platform/`, `/technology/dirt/`, `/diagnostic/`, `/pricing/`, `/contact/`, and `/case-studies/`; `/case-studies/dirt-poc-01/` is local-development-only until publication review clears.
 
 Compare final screenshots against the Codex baseline and Cursor before/after set. If the visible upgrade has been accidentally flattened or reverted, stop rather than shipping.
 

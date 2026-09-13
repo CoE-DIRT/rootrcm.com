@@ -449,9 +449,11 @@ export function HomePage() {
           <TrackedLink className="textLink" href="/technology/dirt/" cta="explore-dirt" location="home-dirt" engagementType="technology">
             Explore DIRT <ArrowRight size={16} />
           </TrackedLink>
-          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="home-dirt" engagementType="proof">
-            View Proof of Capability <ArrowRight size={16} />
-          </TrackedLink>
+          {getCaseStudyBySlug('dirt-poc-01') && (
+            <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="home-dirt" engagementType="proof">
+              View Proof of Capability <ArrowRight size={16} />
+            </TrackedLink>
+          )}
         </div>
         <DirtCommandVisual />
       </section>
@@ -541,9 +543,11 @@ export function PlatformPage() {
           <p className="eyebrow">Practice · ROOT · DIRT</p>
           <h2>Clinical care at the center. Operating intelligence around it.</h2>
           <p>ROOT is the managed operating layer. DIRT is the intelligence layer that keeps leakage, denial, A/R, and PracticeOps signals actionable for leadership.</p>
-          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="platform" engagementType="proof">
-            Review Proof of Capability <ArrowRight size={16} />
-          </TrackedLink>
+          {getCaseStudyBySlug('dirt-poc-01') && (
+            <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="platform" engagementType="proof">
+              Review Proof of Capability <ArrowRight size={16} />
+            </TrackedLink>
+          )}
         </div>
       </section>
       <section className="contentSection" data-reveal>
@@ -676,9 +680,11 @@ export function DirtPage() {
           <p className="eyebrow">Revenue command center</p>
           <h2>Signal clarity for the revenue system.</h2>
           <p>DIRT is presented as ROOT&apos;s intelligence capability, not as an unsupported finished SaaS claim. Evidence hierarchy matters: signal, finding, financial significance, owner, and next action.</p>
-          <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="dirt-page" engagementType="proof">
-            Open Proof of Capability <ArrowRight size={16} />
-          </TrackedLink>
+          {getCaseStudyBySlug('dirt-poc-01') && (
+            <TrackedLink className="textLink" href="/case-studies/dirt-poc-01/" cta="view-proof" location="dirt-page" engagementType="proof">
+              Open Proof of Capability <ArrowRight size={16} />
+            </TrackedLink>
+          )}
         </div>
       </section>
       <section className="contentSection" data-reveal>
@@ -707,7 +713,7 @@ export function CaseStudiesHubPage() {
       />
       <section className="contentSection" data-reveal>
         <div className="cardGrid caseStudyGrid">
-          {studies.map((study) => (
+          {studies.length ? studies.map((study) => (
             <a className="glassCard linkCard caseStudyCard" href={`/case-studies/${study.slug}/`} key={study.slug}>
               <span className="miniLabel">{study.proofLabel}</span>
               <h3>{study.title}</h3>
@@ -715,7 +721,12 @@ export function CaseStudiesHubPage() {
               {!study.publicReady && <em className="reviewBadge">Publication review required</em>}
               <span>Open proof <ArrowRight size={15} /></span>
             </a>
-          ))}
+          )) : (
+            <div className="glassCard caseStudyEmptyState">
+              <h3>Proof materials are being prepared.</h3>
+              <p>Start with a practice-specific Revenue Optimization Diagnostic for evidence grounded in your own deidentified operating data.</p>
+            </div>
+          )}
         </div>
       </section>
       <SectionCta title="Ready for a practice-specific review?" copy="The $2,500 Revenue Optimization Diagnostic turns your deidentified operating material into a ranked opportunity register." />

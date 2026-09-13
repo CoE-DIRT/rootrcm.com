@@ -12,6 +12,7 @@ function renderRoute(path = '/') {
 
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
   window.history.pushState({}, '', '/');
   sessionStorage.clear();
   localStorage.clear();
@@ -68,11 +69,21 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('heading', { name: /raw signals become ranked management action/i })).toBeTruthy();
 
     cleanup();
+    vi.stubGlobal('matchMedia', () => ({
+      matches: false,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+    }));
     renderRoute('/case-studies/dirt-poc-01/');
     expect(screen.getByRole('heading', { name: /dirt revenue intelligence/i })).toBeTruthy();
     expect(screen.getByText(/publication review required/i)).toBeTruthy();
     expect(screen.getAllByText(/anonymized proof of concept/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/not a client success story/i)).toBeTruthy();
+    expect(screen.getByText('Slide 1 of 6')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /next slide/i }));
+    expect(screen.getByText('Slide 2 of 6')).toBeTruthy();
 
     cleanup();
     renderRoute('/pricing/');

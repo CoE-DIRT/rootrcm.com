@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resourceArticles, servicePages, solutionPages } from './src/siteData.js';
@@ -51,8 +52,24 @@ function commercialPricingGuard() {
   };
 }
 
-export default defineConfig({
-  plugins: [commercialPricingGuard(), react()],
+function productionIsolation() {
+  return {
+    name: 'root-production-isolation',
+    closeBundle() {
+      rmSync(resolve(rootDir, 'dist-staging/case-studies/dirt-poc-01'), { recursive: true, force: true });
+      rmSync(resolve(rootDir, 'dist-staging/assets/case-studies/dirt-poc-01'), { recursive: true, force: true });
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => {
+  const production = mode === 'production';
+  const inputs = production
+    ? Object.fromEntries(Object.entries(routeInputs).filter(([name]) => name !== 'caseStudyDirtPoc01'))
+    : routeInputs;
+
+  return {
+  plugins: [commercialPricingGuard(), production ? productionIsolation() : null, react()].filter(Boolean),
   resolve: {
     alias: {
       tailwindcss: resolve(rootDir, 'src/tailwind-disabled.css'),
@@ -65,11 +82,12 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true,
+    sourcemap: !production,
     target: 'es2022',
     rollupOptions: {
-      input: Object.fromEntries(Object.entries(routeInputs).map(([name, path]) => [name, resolve(rootDir, path)])),
+      input: Object.fromEntries(Object.entries(inputs).map(([name, path]) => [name, resolve(rootDir, path)])),
     },
   },
   test: { environment: 'jsdom' },
+  };
 });
