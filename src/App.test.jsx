@@ -5,6 +5,7 @@ import { getExperimentAssignment, resetExperimentAssignments } from './experimen
 import { buildDeliveryPayload, getInquiryEndpoint, ROOT_FORM_RELAY } from './modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from './modules/glass-core/inquiryTemplate.js';
 import { validateContentSchemas, buildSocialPack } from './v4/content/engine.ts';
+import { FormField, Input } from './v4/components/ui/Input.tsx';
 
 function renderRoute(path = '/') {
   window.history.pushState({}, '', path);
@@ -22,6 +23,25 @@ afterEach(() => {
 });
 
 describe('ROOT commercial site', () => {
+  it('associates form hints and errors with the control', () => {
+    const { rerender } = render(
+      <FormField label="Email" htmlFor="email" hint="Use a work email">
+        <Input id="email" />
+      </FormField>,
+    );
+    const input = screen.getByLabelText('Email');
+    expect(input.getAttribute('aria-describedby')).toBeTruthy();
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+
+    rerender(
+      <FormField label="Email" htmlFor="email" error="Enter a valid email">
+        <Input id="email" aria-describedby="existing-help" />
+      </FormField>,
+    );
+    expect(input.getAttribute('aria-describedby')).toMatch(/^existing-help \S+$/);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+  });
+
   it('renders V4 homepage positioning and primary navigation', () => {
     const { container } = renderRoute('/');
 

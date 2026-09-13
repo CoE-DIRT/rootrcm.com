@@ -21,6 +21,7 @@ export function CookieConsent() {
         document.head.appendChild(link);
       }
       klaroModule.default.setup(klaroConfig);
+      window.dispatchEvent(new CustomEvent('root:consent-change'));
     });
 
     function handleOpenSettings() {

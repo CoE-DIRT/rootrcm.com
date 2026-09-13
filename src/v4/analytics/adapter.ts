@@ -33,7 +33,6 @@ type ConsentSnapshot = {
 
 let activeAdapter: AnalyticsAdapter | null = null;
 let consented = false;
-const queue: AnalyticsEvent[] = [];
 
 export function getPostHogKey(): string {
   return (import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string | undefined)?.trim() || '';
@@ -115,19 +114,13 @@ export async function bootAnalytics(): Promise<void> {
   if (activeAdapter) return;
 
   const posthog = await createPostHogAdapter();
+  if (!consented) return;
   activeAdapter = posthog ?? createNoopAdapter();
   await activeAdapter.init();
-  while (queue.length) {
-    const event = queue.shift();
-    if (event) activeAdapter.track(event);
-  }
 }
 
 export function trackAnalytics(event: AnalyticsEvent): void {
-  if (!consented || !activeAdapter) {
-    if (queue.length < 50) queue.push(event);
-    return;
-  }
+  if (!consented || !activeAdapter) return;
   activeAdapter.track(event);
 }
 

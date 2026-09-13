@@ -50,6 +50,7 @@ function inferDeviceClass(): string {
 
 export function attachFormFrictionListeners(form: HTMLFormElement, formId: string): () => void {
   let started = false;
+  let completed = false;
   const startedAt = Date.now();
 
   const onFocus = (event: FocusEvent) => {
@@ -66,8 +67,17 @@ export function attachFormFrictionListeners(form: HTMLFormElement, formId: strin
     trackFormFriction('form_submit', { formId, elapsedMs: Date.now() - startedAt });
   };
 
+  const onSuccess = () => {
+    completed = true;
+    trackFormFriction('form_success', { formId, elapsedMs: Date.now() - startedAt });
+  };
+
+  const onFailure = () => {
+    trackFormFriction('form_failure', { formId, elapsedMs: Date.now() - startedAt });
+  };
+
   const onPageHide = () => {
-    if (started) {
+    if (started && !completed) {
       trackFormFriction('form_abandon', { formId, elapsedMs: Date.now() - startedAt });
       trackFormFriction('funnel_abandon', { formId, elapsedMs: Date.now() - startedAt });
     }
@@ -76,11 +86,15 @@ export function attachFormFrictionListeners(form: HTMLFormElement, formId: strin
   trackFormFriction('form_view', { formId });
   form.addEventListener('focusin', onFocus);
   form.addEventListener('submit', onSubmit);
+  form.addEventListener('root:form-success', onSuccess);
+  form.addEventListener('root:form-failure', onFailure);
   window.addEventListener('pagehide', onPageHide);
 
   return () => {
     form.removeEventListener('focusin', onFocus);
     form.removeEventListener('submit', onSubmit);
+    form.removeEventListener('root:form-success', onSuccess);
+    form.removeEventListener('root:form-failure', onFailure);
     window.removeEventListener('pagehide', onPageHide);
   };
 }

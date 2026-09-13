@@ -1,5 +1,5 @@
-import { forwardRef, useId } from 'react';
-import type { InputHTMLAttributes, TextareaHTMLAttributes, LabelHTMLAttributes, ReactNode } from 'react';
+import { cloneElement, forwardRef, isValidElement, useId } from 'react';
+import type { InputHTMLAttributes, TextareaHTMLAttributes, LabelHTMLAttributes, ReactElement, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 const fieldStyles =
@@ -40,13 +40,23 @@ export interface FormFieldProps {
 export function FormField({ label, htmlFor, error, hint, required, children }: FormFieldProps) {
   const hintId = useId();
   const errorId = useId();
+  const descriptionId = error ? errorId : hint ? hintId : undefined;
+  const controlProps = isValidElement(children)
+    ? (children.props as { 'aria-describedby'?: string; 'aria-invalid'?: boolean })
+    : undefined;
+  const control = isValidElement(children)
+    ? cloneElement(children as ReactElement<{ 'aria-describedby'?: string; 'aria-invalid'?: boolean }>, {
+        'aria-describedby': [controlProps?.['aria-describedby'], descriptionId].filter(Boolean).join(' ') || undefined,
+        'aria-invalid': error ? true : controlProps?.['aria-invalid'],
+      })
+    : children;
   return (
     <div className="flex flex-col gap-1.5">
       <Label htmlFor={htmlFor}>
         {label}
         {required ? <span aria-hidden="true" className="text-accent"> *</span> : null}
       </Label>
-      {children}
+      {control}
       {hint && !error ? (
         <p id={hintId} className="text-xs text-muted">
           {hint}

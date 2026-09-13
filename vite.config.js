@@ -91,6 +91,15 @@ export default defineConfig(({ mode }) => {
     target: 'es2022',
     rollupOptions: {
       input: Object.fromEntries(Object.entries(inputs).map(([name, path]) => [name, resolve(rootDir, path)])),
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/@tanstack/react-table')) return 'charts';
+          if (id.includes('node_modules/klaro')) return 'consent';
+          if (id.includes('node_modules/posthog-js')) return 'analytics';
+          if (id.includes('node_modules/@growthbook/growthbook')) return 'growth';
+          return undefined;
+        },
+      },
     },
   },
   test: { environment: 'jsdom', exclude: ['node_modules/**', 'dist-staging/**', 'tests/playwright/**'] },
