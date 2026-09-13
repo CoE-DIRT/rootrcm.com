@@ -3,6 +3,8 @@ import { FloatingSiteControls, SiteFooter, SiteHeader } from './components/SiteC
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
+import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
+import { V4LabPage } from './v4/routes/V4LabPage.tsx';
 import {
   AboutPage,
   CaseStudiesHubPage,
@@ -26,8 +28,14 @@ import {
   ThankYouPage,
 } from './pages.jsx';
 
+// Routes rendered with their own V4 chrome (MarketingHeader/Footer) instead of the
+// legacy SiteHeader/SiteFooter below. Grows as more routes migrate to V4.
+const v4SelfChromedRoutes = new Set(['/legal/cookies', '/__v4-lab']);
+
 const routes = {
   '/': HomePage,
+  '/legal/cookies': CookiesLegalPage,
+  '/__v4-lab': V4LabPage,
   '/platform': PlatformPage,
   '/solutions': SolutionsHubPage,
   '/services': ServicesHubPage,
@@ -105,6 +113,7 @@ export default function App() {
   const path = normalizePath(window.location.pathname);
   const Page = routes[path] || NotFoundPage;
   const minimal = path === '/diagnostic' || path === '/thank-you';
+  const isV4SelfChromed = v4SelfChromedRoutes.has(path);
 
   useEffect(() => {
     syncDocumentMeta(path);
@@ -151,6 +160,10 @@ export default function App() {
     document.addEventListener('click', handleCtaClick);
     return () => document.removeEventListener('click', handleCtaClick);
   }, [path]);
+
+  if (isV4SelfChromed) {
+    return <Page />;
+  }
 
   return (
     <main className="clinicalGlass">

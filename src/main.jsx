@@ -6,6 +6,7 @@ import'./styles.css';
 import'./stabilization.css';
 import'./revenue-hotfix.css';
 import'./visual-recovery.css';
+import'./v4/styles/tailwind.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

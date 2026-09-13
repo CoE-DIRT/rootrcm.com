@@ -572,6 +572,7 @@ export const routeMeta = {
   },
   '/legal/privacy': { title: 'Privacy | ROOT', description: 'ROOT public website privacy boundary and no-PHI intake policy.', image: brandAssets.og },
   '/legal/terms': { title: 'Terms | ROOT', description: 'ROOT commercial website terms of use.', image: brandAssets.og },
+  '/legal/cookies': { title: 'Cookies | ROOT', description: 'ROOT cookie and storage key disclosure, consent categories, and preference controls.', image: brandAssets.og },
   '/thank-you': { title: 'Request Received | ROOT', description: 'ROOT has received your deidentified commercial inquiry.', image: brandAssets.og },
 };
 
@@ -579,6 +580,11 @@ if (import.meta.env?.DEV === true) {
   routeMeta['/case-studies/dirt-poc-01'] = {
     title: 'DIRT Revenue Intelligence | Proof of Capability | ROOT',
     description: 'Anonymized proof of concept showing how DIRT turns revenue-cycle signals into prioritized management action. Publication review required.',
+    image: brandAssets.og,
+  };
+  routeMeta['/__v4-lab'] = {
+    title: 'V4 Component Lab (noindex)',
+    description: 'Internal development-only component gallery. Excluded from production output.',
     image: brandAssets.og,
   };
 }

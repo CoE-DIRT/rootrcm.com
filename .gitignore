@@ -5,3 +5,6 @@ dist-staging/
 !.env.example
 .cache/
 .codex-qa/
+test-results/
+playwright-report/
+dist/

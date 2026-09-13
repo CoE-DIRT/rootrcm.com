@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,8 +23,10 @@ const routeInputs = {
   contact: 'contact/index.html',
   privacy: 'legal/privacy/index.html',
   terms: 'legal/terms/index.html',
+  cookies: 'legal/cookies/index.html',
   thankYou: 'thank-you/index.html',
   notFound: '404.html',
+  v4Lab: '__v4-lab/index.html',
 };
 
 solutionPages.forEach((page) => {
@@ -58,21 +61,23 @@ function productionIsolation() {
     closeBundle() {
       rmSync(resolve(rootDir, 'dist-staging/case-studies/dirt-poc-01'), { recursive: true, force: true });
       rmSync(resolve(rootDir, 'dist-staging/assets/case-studies/dirt-poc-01'), { recursive: true, force: true });
+      rmSync(resolve(rootDir, 'dist-staging/__v4-lab'), { recursive: true, force: true });
     },
   };
 }
 
 export default defineConfig(({ mode }) => {
   const production = mode === 'production';
+  const excludedFromProduction = new Set(['caseStudyDirtPoc01', 'v4Lab']);
   const inputs = production
-    ? Object.fromEntries(Object.entries(routeInputs).filter(([name]) => name !== 'caseStudyDirtPoc01'))
+    ? Object.fromEntries(Object.entries(routeInputs).filter(([name]) => !excludedFromProduction.has(name)))
     : routeInputs;
 
   return {
-  plugins: [commercialPricingGuard(), production ? productionIsolation() : null, react()].filter(Boolean),
+  plugins: [commercialPricingGuard(), production ? productionIsolation() : null, tailwindcss(), react()].filter(Boolean),
   resolve: {
     alias: {
-      tailwindcss: resolve(rootDir, 'src/tailwind-disabled.css'),
+      '@': resolve(rootDir, 'src/v4'),
     },
   },
   base: '/',
@@ -88,6 +93,6 @@ export default defineConfig(({ mode }) => {
       input: Object.fromEntries(Object.entries(inputs).map(([name, path]) => [name, resolve(rootDir, path)])),
     },
   },
-  test: { environment: 'jsdom' },
+  test: { environment: 'jsdom', exclude: ['node_modules/**', 'dist-staging/**', 'tests/playwright/**'] },
   };
 });
