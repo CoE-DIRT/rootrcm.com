@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>ROOT Resources</title>
+    <link>https://rootrcm.com/resources/</link>
+    <description>Operating knowledge for independent physician practices — revenue cycle, denials, credentialing, and practice operations.</description>
+    <language>en-us</language>
+    <item>
+      <title>Revenue Leakage Guide for Independent Practices</title>
+      <link>https://rootrcm.com/resources/revenue-leakage-guide/</link>
+      <description>How to think about leakage across claim quality, payer behavior, aging, denials, credentialing, and reporting.</description>
+    </item>
+    <item>
+      <title>Aging A/R Recovery Playbook</title>
+      <link>https://rootrcm.com/resources/aging-ar-playbook/</link>
+      <description>A practical way to segment aging balances and build a weekly recovery rhythm.</description>
+    </item>
+    <item>
+      <title>Denial Management Root-Cause Guide</title>
+      <link>https://rootrcm.com/resources/denial-management-root-cause/</link>
+      <description>How to move denial work from transaction cleanup to prevention and operating improvement.</description>
+    </item>
+    <item>
+      <title>Credentialing Operations Checklist</title>
+      <link>https://rootrcm.com/resources/credentialing-operations-checklist/</link>
+      <description>A leadership checklist for enrollment visibility, payer follow-up, roster maintenance, and growth readiness.</description>
+    </item>
+    <item>
+      <title>Practice Operations KPI Model</title>
+      <link>https://rootrcm.com/resources/practice-ops-kpi-model/</link>
+      <description>A practical KPI model for connecting revenue-cycle work to operating decisions.</description>
+    </item>
+    <item>
+      <title>Healthcare Automation Readiness Guide</title>
+      <link>https://rootrcm.com/resources/healthcare-automation-readiness/</link>
+      <description>How to decide which administrative workflows are ready for automation and which need process repair first.</description>
+    </item>
+  </channel>
+</rss>

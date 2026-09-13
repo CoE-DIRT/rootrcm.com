@@ -69,6 +69,25 @@ export const klaroConfig = {
       required: true,
       cookies: [/^root_consent$/],
     },
+    {
+      name: 'root-analytics',
+      title: 'ROOT analytics adapter',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [/^ph_/, /^root-v4-experiments/],
+      description: 'Consent gate for analytics, heatmaps, and session replay. Inactive until a project key is configured.',
+    },
+    {
+      name: 'posthog',
+      title: 'PostHog (optional)',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [/^ph_/],
+      onlyOnce: true,
+      description: 'Product analytics / session replay when VITE_PUBLIC_POSTHOG_KEY is set. Inputs masked; no PHI.',
+    },
   ],
 };
 

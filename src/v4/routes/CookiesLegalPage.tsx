@@ -21,6 +21,20 @@ const cookieRows: CookieRow[] = [
     category: 'Necessary',
     duration: '365 days',
   },
+  {
+    key: 'root-v4-experiments-v1 / root-conversion-experiments-v1',
+    provider: 'ROOT',
+    purpose: 'Stores experiment assignment IDs for A/B and MVT (no PHI).',
+    category: 'Analytics (consent-gated persistence where applicable)',
+    duration: 'Session / localStorage',
+  },
+  {
+    key: 'ph_* (PostHog)',
+    provider: 'PostHog',
+    purpose: 'Optional product analytics / session replay when configured and consented. Inputs masked; form values never recorded.',
+    category: 'Analytics',
+    duration: 'Per PostHog defaults; off until consent + project key',
+  },
 ];
 
 export function CookiesLegalPage() {
@@ -62,8 +76,8 @@ export function CookiesLegalPage() {
             </table>
           </div>
           <p className="mt-6 text-sm text-muted">
-            No analytics or marketing vendor is active on rootrcm.com today. When one goes live it will be added to
-            this table and to the Analytics/Marketing categories below before it runs.
+            Analytics and session replay stay off until you accept analytics cookies. PostHog only initializes when
+            VITE_PUBLIC_POSTHOG_KEY is present and consent is granted.
           </p>
           <CookieSettings className="mt-6 rounded-[var(--radius-root)] border border-border px-4 py-2 text-text hover:border-accent">
             Manage cookie preferences

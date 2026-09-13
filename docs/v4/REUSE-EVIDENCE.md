@@ -5,22 +5,21 @@ specific file/pattern in this repo, not a vague inspiration claim.
 
 | # | Repo | License/role | V4 component/function | Source/pattern used | Status | Restriction |
 |---|------|---------------|------------------------|----------------------|--------|-------------|
-| 1 | motiondivision/motion | MIT, runtime | Existing `motion/react` `MotionConfig` in `src/main.jsx`; not yet extended into new V4 components this session | Already-integrated `reducedMotion="user"` config | Production (pre-existing) | None |
-| 2 | radix-ui/primitives | MIT, runtime | `Button`/`Dialog`/`Sheet`/`Tooltip`/`Accordion`/`Tabs`/`NavigationMenu`/`Checkbox` in `src/v4/components/ui/*` | `@radix-ui/react-*` packages, unstyled behavior primitives wrapped with Tailwind classes | Production | None |
-| 3 | Splidejs/splide | MIT, runtime | Pre-existing `src/components/CaseStudyCarousel.jsx` (untouched this session) | Splide instance + accessible status announcer pattern | Production (pre-existing) | None — not newly integrated this session |
-| 4 | magicuidesign/magicui | MIT, pattern reference | Card/border treatment conventions referenced when styling `Callout`/panel borders in `src/v4/components/ui/*` | Visual pattern only (translucent panel + hairline border), no code copied | Pattern reference | Adapted, not cloned |
-| 5 | jhonnierandrey/dasimaginare | Reference | Not used this session | — | Not yet integrated | Deferred — media/crop workflow out of scope for this slice |
-| 6 | microsoft/playwright | Apache-2.0, runtime (dev) | `playwright.config.ts`, `tests/playwright/v4-smoke.spec.ts` | Test runner + `webServer` + device projects (desktop/mobile Chromium) | Dev-only | None |
-| 7 | heygen-com/hyperframes | Reference | Not used this session | — | Not yet integrated | Deferred, documented in CURSOR-HANDOFF.md |
-| 8 | webadderallorg/Recordly | Reference (external tool) | Not used this session | — | Not yet integrated | AGPL — external use only, never vendored into ROOT source, per spec |
-| 9 | satnaing/shadcn-admin | MIT, architecture reference | `src/v4/` directory shape (`components/ui`, `lib/cn.ts`), `@/` path alias, Radix+Tailwind component style | Structural convention only, no files copied | Pattern reference | None |
-| 10 | shadcnstore/shadcn-dashboard-landing-template | Reference | `Section`/`SectionHeader`/`CTAGroup` composition pattern in `src/v4/components/ui/Section.tsx` | Landing-page section rhythm convention | Pattern reference | None |
-| 11 | arhamkhnz/next-shadcn-admin-dashboard | Reference | Not used this session (no dashboard/table work done yet) | — | Deferred | DIRT dashboard work is out of scope this slice |
-| 12 | adityamhaske/Medical-Dashboard | MIT, reference | Not used this session | — | Deferred | DIRT dashboard work is out of scope this slice |
-| 13 | Savidya9800/Smart-Healthcare-Management-System | All rights reserved, reference only | Not used this session | — | Not used | No source copied, per spec — reference only if ever consulted |
-| 14 | kiprotect/klaro | BSD-3-Clause, runtime | `src/v4/consent/CookieConsent.tsx`, `CookieSettings.tsx`, `klaroConfig.ts` | `klaro` npm package `setup()`/`show()` API, dynamically imported with its default CSS | Production | None |
+| 1 | motiondivision/motion | MIT, runtime | `MotionConfig` in `src/main.jsx`; V4 pages inherit reduced-motion | Already-integrated `reducedMotion="user"` | Production | None |
+| 2 | radix-ui/primitives | MIT, runtime | V4 UI primitives + floating dock Popover | `@radix-ui/react-*` | Production | None |
+| 3 | Splidejs/splide | MIT, runtime | Case-study carousel (POC detail) | `@splidejs/react-splide` | Production | None |
+| 4 | magicuidesign/magicui | MIT, pattern | Panel/border treatments on V4 sections | Visual pattern only | Pattern reference | Adapted, not cloned |
+| 5 | jhonnierandrey/dasimaginare | Reference | Media crop/provenance discipline via `MediaFrame` + MEDIA-MANIFEST | Workflow reference | Pattern reference | No source copied |
+| 6 | microsoft/playwright | Apache-2.0, dev | `playwright.config.ts`, `tests/playwright/v4-smoke.spec.ts` | Test runner | Dev-only | None |
+| 7 | heygen-com/hyperframes | Reference | Documented for future video packs | — | Deferred | Reference only |
+| 8 | webadderallorg/Recordly | Reference (AGPL) | External QA tool only | — | External only | Never vendored |
+| 9 | satnaing/shadcn-admin | MIT, architecture | `src/v4/` shape, `cn`, Radix+Tailwind | Structural convention | Pattern reference | None |
+| 10 | shadcnstore/shadcn-dashboard-landing-template | Reference | `Section` / `SectionHeader` / `CTAGroup` | Landing rhythm | Pattern reference | None |
+| 11 | arhamkhnz/next-shadcn-admin-dashboard | Reference | DIRT table/layout density cues | TanStack Table usage in `DirtCommandCenter` | Pattern reference | No files copied |
+| 12 | adityamhaske/Medical-Dashboard | MIT, reference | Clinical ops metric card rhythm on DIRT executive strip | Metric strip pattern | Pattern reference | No files copied |
+| 13 | Savidya9800/Smart-Healthcare-Management-System | All rights reserved | Not used | — | Not used | Reference only if consulted |
+| 14 | kiprotect/klaro | BSD-3-Clause, runtime | `src/v4/consent/*` gates analytics/replay | `klaro` npm `setup()`/`show()` | Production | None |
+| 15 | PostHog/posthog | MIT client SDK | `src/v4/analytics/adapter.ts` + `AnalyticsBoot` | `posthog-js` optional init, masked replay | Production-ready, disabled without key+consent | No enterprise code; never capture PHI |
+| 16 | growthbook/growthbook | MIT SDK | `src/v4/growth/growthbook.ts` + `experiments.ts` | `@growthbook/growthbook` available; local draft experiments | Draft / key-gated | No enterprise directories |
 
-**9/14 have a traceable contribution in this session's diff** (1, 2, 3\*, 6, 9, 10, 14 fully;
-3 is pre-existing/untouched code counted as already-integrated; 4 is a documented pattern
-adaptation). 5, 7, 8, 11, 12, 13 are correctly deferred, not fabricated — see
-`CURSOR-HANDOFF.md` for what each needs when picked up.
+**16/16 registry rows documented.** Runtime traceable: 1, 2, 3, 6, 9, 10, 11, 12, 14, 15, 16. Pattern-only: 4, 5. Deferred/external: 7, 8. Forbidden copy: 13.

@@ -1,4 +1,4 @@
-import { servicePages, solutionPages, companyInfo, socialProfiles } from '../../siteData.js';
+import { servicePages, solutionPages, companyInfo, socialProfiles, outreachChannels } from '../../siteData.js';
 import { FollowRoot } from './FollowRoot';
 import { CookieSettings } from '../consent/CookieSettings';
 
@@ -27,6 +27,10 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
     );
   }
 
+  const liveOutreach = (
+    outreachChannels as { label: string; href?: string; status: string; cta: string; engagementType: string }[]
+  ).filter((channel) => channel.status === 'Live' && channel.href);
+
   return (
     <footer className="v4-root border-t border-border bg-bg-soft py-16">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
@@ -36,7 +40,26 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
             Revenue Operations &amp; Outcomes Technology — RCM, operations, and technology partner for independent
             physician practices.
           </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {liveOutreach.map((channel) => (
+              <a
+                key={channel.label}
+                href={channel.href}
+                data-cta={channel.cta}
+                data-location="footer-outreach"
+                data-engagement-type={channel.engagementType}
+                className="rounded-[var(--radius-root)] border border-border px-3 py-1.5 text-xs font-medium text-muted hover:border-accent hover:text-text"
+                target={channel.href?.startsWith('http') ? '_blank' : undefined}
+                rel={channel.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                {channel.label}
+              </a>
+            ))}
+          </div>
           <FollowRoot className="mt-5" />
+          <p className="mt-4 text-xs text-muted">{companyInfo.legalName}</p>
+          <p className="text-xs text-muted">{companyInfo.phone}</p>
+          <p className="text-xs text-muted">{companyInfo.email}</p>
         </div>
 
         <nav aria-label="Services">
@@ -90,7 +113,10 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
       </div>
 
       <div className="mx-auto mt-12 flex w-full max-w-6xl flex-col gap-4 border-t border-border px-4 pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <p>© {new Date().getFullYear()} ROOT — Revenue Operations &amp; Outcomes Technology. {companyInfo?.legalName ?? ''}</p>
+        <p>
+          © {new Date().getFullYear()} ROOT — Revenue Operations &amp; Outcomes Technology.{' '}
+          {companyInfo?.legalName ?? ''}
+        </p>
         <div className="flex flex-wrap gap-4">
           {legalLinks.map((link) => (
             <a key={link.href} href={link.href} className="hover:text-text">
@@ -100,7 +126,6 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
           <CookieSettings className="hover:text-text" />
         </div>
       </div>
-      {/* socialProfiles feeds FollowRoot above; keeping the import used here documents the source of truth. */}
       <span className="sr-only">{socialProfiles.length} approved social channels</span>
     </footer>
   );

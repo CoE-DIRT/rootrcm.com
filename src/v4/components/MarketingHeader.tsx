@@ -37,13 +37,14 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
         Skip to content
       </a>
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="/" className="text-lg font-semibold tracking-tight text-text" data-cta="logo" data-location="header">
-          ROOT
+        <a href="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight text-text" data-cta="logo" data-location="header">
+          <img src="/brand/logos/root/root-mark-76.webp" alt="" width={28} height={28} className="h-7 w-7" />
+          <span>ROOT</span>
         </a>
 
         {!minimal ? (
           <>
-            <nav className="hidden lg:block" aria-label="Primary">
+            <nav className="hidden lg:block" aria-label="Primary navigation">
               <NavigationMenu className="relative">
                 <NavigationMenuList className="flex list-none items-center gap-1">
                   <NavigationMenuItem>
@@ -105,7 +106,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
               <LinkButton href="/contact/" variant="ghost" size="sm" data-cta="contact" data-location="header">
                 Contact
               </LinkButton>
-              <LinkButton href="/diagnostic/" variant="primary" size="sm" data-cta="diagnostic-start" data-location="header">
+              <LinkButton href="/diagnostic/" variant="primary" size="sm" data-cta="book-diagnostic" data-location="header" data-destination="/diagnostic/">
                 Get the Diagnostic
               </LinkButton>
             </div>
@@ -134,7 +135,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                     <LinkButton href="/contact/" variant="secondary">
                       Contact
                     </LinkButton>
-                    <LinkButton href="/diagnostic/" variant="primary" data-cta="diagnostic-start" data-location="mobile-nav">
+                    <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="mobile-nav" data-destination="/diagnostic/">
                       Get the Diagnostic
                     </LinkButton>
                   </div>

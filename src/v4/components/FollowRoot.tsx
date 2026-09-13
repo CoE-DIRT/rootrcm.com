@@ -13,6 +13,7 @@ export function FollowRoot({ className }: { className?: string }) {
           data-cta="social-click"
           data-location="follow-root"
           data-destination={profile.label}
+          aria-label={`ROOT on ${profile.label} (opens in new tab)`}
           className="rounded-[var(--radius-root)] border border-border px-3 py-1.5 text-xs font-medium text-muted hover:border-accent hover:text-text"
         >
           {profile.label}

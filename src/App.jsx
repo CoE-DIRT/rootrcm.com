@@ -1,36 +1,25 @@
 import { useEffect } from 'react';
-import { FloatingSiteControls, SiteFooter, SiteHeader } from './components/SiteChrome.jsx';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
 import { V4LabPage } from './v4/routes/V4LabPage.tsx';
+import { HomePage } from './v4/routes/HomePage.tsx';
+import { PlatformPage } from './v4/routes/PlatformPage.tsx';
+import { ServicesHubPage, ServicePage } from './v4/routes/ServicesPages.tsx';
+import { TechnologyHubPage, DirtPage } from './v4/routes/TechnologyPages.tsx';
+import { PricingPage } from './v4/routes/PricingPage.tsx';
+import { DiagnosticPage } from './v4/routes/DiagnosticPage.tsx';
+import { ContactPage, AboutPage } from './v4/routes/CompanyPages.tsx';
 import {
-  AboutPage,
+  SolutionsHubPage,
+  SolutionPage,
+  ResourcesHubPage,
+  ResourceArticlePage,
   CaseStudiesHubPage,
   CaseStudyDetailPage,
-  ContactPage,
-  DiagnosticPage,
-  DirtPage,
-  HomePage,
-  NotFoundPage,
-  PlatformPage,
-  PrivacyPage,
-  PricingPage,
-  ResourceArticlePage,
-  ResourcesHubPage,
-  ServicePage,
-  ServicesHubPage,
-  SolutionPage,
-  SolutionsHubPage,
-  TermsPage,
-  TechnologyHubPage,
-  ThankYouPage,
-} from './pages.jsx';
-
-// Routes rendered with their own V4 chrome (MarketingHeader/Footer) instead of the
-// legacy SiteHeader/SiteFooter below. Grows as more routes migrate to V4.
-const v4SelfChromedRoutes = new Set(['/legal/cookies', '/__v4-lab']);
+} from './v4/routes/ContentPages.tsx';
+import { PrivacyPage, TermsPage, ThankYouPage, NotFoundPage } from './v4/routes/LegalPages.tsx';
 
 const routes = {
   '/': HomePage,
@@ -112,8 +101,6 @@ function syncDocumentMeta(path) {
 export default function App() {
   const path = normalizePath(window.location.pathname);
   const Page = routes[path] || NotFoundPage;
-  const minimal = path === '/diagnostic' || path === '/thank-you';
-  const isV4SelfChromed = v4SelfChromedRoutes.has(path);
 
   useEffect(() => {
     syncDocumentMeta(path);
@@ -161,16 +148,5 @@ export default function App() {
     return () => document.removeEventListener('click', handleCtaClick);
   }, [path]);
 
-  if (isV4SelfChromed) {
-    return <Page />;
-  }
-
-  return (
-    <main className="clinicalGlass">
-      <SiteHeader minimal={minimal} />
-      <Page />
-      <FloatingSiteControls />
-      <SiteFooter minimal={minimal} />
-    </main>
-  );
+  return <Page />;
 }
