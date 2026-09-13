@@ -7,11 +7,11 @@ const experiments = {
     variants: {
       a: {
         headline: 'Run the business side of medicine better.',
-        lede: 'ROOT brings revenue operations, practice operations, technology, and DIRT intelligence into one partnership for independent medical practices.',
+        lede: 'ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.',
       },
       b: {
         headline: 'Find where your practice is losing revenue—and what to fix first.',
-        lede: 'ROOT combines revenue-cycle execution, practice operations, credentialing, technology, and DIRT intelligence to turn revenue leakage into a prioritized operating plan.',
+        lede: 'ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.',
       },
     },
   },

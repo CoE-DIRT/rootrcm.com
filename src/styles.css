@@ -695,12 +695,13 @@ address a { color: var(--accent); font-weight: 800; }
 .virtualDesk h3 { font-size: 2rem; }
 .floatingContact {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 70;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  z-index: 90;
   display: grid;
   justify-items: end;
   gap: 10px;
+  pointer-events: none;
 }
 .floatingContact button {
   min-height: 48px;
@@ -1274,7 +1275,8 @@ address a { color: var(--accent); font-weight: 800; }
   .footerBrand { grid-column: 1 / -1; }
   .footerBottom, .minimalFooter { flex-direction: column; align-items: flex-start; }
   .channelButtons { grid-template-columns: 1fr; }
-  .floatingContact { left: 12px; right: 12px; bottom: 12px; }
+  .floatingContact { left: auto; right: max(12px, env(safe-area-inset-right, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .floatingFollow { left: max(12px, env(safe-area-inset-left, 0px)); right: auto; bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
   .floatingContact > button { justify-self: end; }
   .clinicalGlass { padding-bottom: 72px; }
   .homeHero, .diagnosticHero, .contactPage { padding-bottom: 110px; }

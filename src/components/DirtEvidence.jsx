@@ -80,8 +80,7 @@ export function DirtPipelineFlow() {
               <Icon size={20} aria-hidden="true" />
               <span>{String(index + 1).padStart(2, '0')}</span>
             </div>
-            <p className="eyebrow">{item.stage}</p>
-            <h3>{item.title}</h3>
+            <h3>{item.stage}</h3>
             <p>{item.copy}</p>
           </li>
         );

@@ -160,9 +160,9 @@ function PracticeOpsPreview({ asset }) {
 function DirtCommandPreview({ asset }) {
   return (
     <ProofShell asset={asset} className="dirtProof">
-      <div className="signalBoard">
-        {asset.signals.map(([signal, value, action], index) => (
-          <div key={signal} style={{ '--signal': `${70 - index * 9}%` }}>
+      <div className="signalBoard signalBoardPlain">
+        {asset.signals.map(([signal, value, action]) => (
+          <div key={signal}>
             <BarChart3 size={17} />
             <span>
               <b>{signal}</b>

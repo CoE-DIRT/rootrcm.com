@@ -86,8 +86,9 @@
 
 /* Give the existing longer headline enough column width to fit laptop CTAs. */
 @media (min-width: 981px) {
-  .homeHero.experimentRevenueDirect {
-    grid-template-columns: minmax(0, 1.12fr) minmax(430px, .88fr);
+  .homeHero.experimentRevenueDirect,
+  .homeHeroRecovered.experimentRevenueDirect {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   }
 }
 
@@ -382,14 +383,22 @@
 
   .floatingContact {
     left: auto !important;
-    right: 12px !important;
-    bottom: 12px !important;
+    right: max(12px, env(safe-area-inset-right, 0px)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
     width: auto !important;
     max-width: calc(100vw - 24px);
   }
 
+  .floatingFollow {
+    left: max(12px, env(safe-area-inset-left, 0px)) !important;
+    right: auto !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
   .floatingContact button,
-  .floatingContact a {
+  .floatingContact a,
+  .floatingFollow button,
+  .floatingFollow a {
     min-height: 48px;
     width: auto;
     max-width: 100%;

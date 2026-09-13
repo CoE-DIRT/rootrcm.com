@@ -248,10 +248,11 @@ main h2,
 }
 
 /* —— Homepage hero —— */
-.homeHeroRecovered {
-  align-items: stretch;
-  gap: 3rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.homeHeroRecovered,
+.homeHeroRecovered.experimentRevenueDirect {
+  align-items: start;
+  gap: 48px;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   background:
     radial-gradient(circle at 78% 18%, rgba(117, 215, 255, 0.08), transparent 26%),
     linear-gradient(118deg, rgba(7, 17, 14, 0.92), rgba(7, 17, 14, 0.55) 42%, rgba(7, 17, 14, 0.28)),
@@ -267,8 +268,8 @@ main h2,
 
 .homeHeroRecovered .heroCopy {
   display: grid;
-  align-content: center;
-  padding-block: 0.5rem;
+  align-content: start;
+  padding: 0;
   gap: 0;
 }
 
@@ -277,15 +278,27 @@ main h2,
   margin-bottom: 0.75rem;
 }
 
-.homeHeroRecovered .heroCopy .actions {
-  margin-top: 1.5rem;
+.homeHeroRecovered .heroCopy .actions,
+.homeHero .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.homeHero .trustLine {
+  margin-top: 16px;
 }
 
 .heroPracticeStage {
   position: relative;
-  aspect-ratio: 5 / 4;
-  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-self: start;
+  margin: 0;
   height: auto;
+  aspect-ratio: 3 / 2;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -301,110 +314,157 @@ main h2,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 58% center;
+  object-position: 50% 50%;
   opacity: 1;
   z-index: 0;
-}
-
-.heroPracticeStage .heroPhotoOverlay {
-  background:
-    linear-gradient(105deg, rgba(5, 14, 11, 0.5) 0%, rgba(5, 14, 11, 0.14) 42%, rgba(5, 14, 11, 0.55) 100%),
-    linear-gradient(180deg, rgba(5, 14, 11, 0.1), rgba(5, 14, 11, 0.5));
-  z-index: 1;
-}
-
-.heroIntelligenceModule {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  z-index: 2;
-  width: min(300px, calc(100% - 36px));
-  padding: 16px 16px 14px;
-  background: rgba(8, 22, 18, 0.84);
-  border-color: rgba(117, 215, 255, 0.22);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  filter: none;
   transform: none;
 }
 
-.heroIntelligenceModule:hover {
+.heroPracticeStage:hover .heroPracticePhoto {
   transform: none;
 }
 
-.heroIntelHeader {
+/* —— Value / first-scroll —— */
+.homeValueBand {
+  padding-block: 24px;
+}
+
+.painSection .sectionHeading {
+  margin-bottom: 12px;
+}
+
+.painLabelGrid {
   display: grid;
-  gap: 6px;
-  margin-bottom: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.heroIntelHeader strong {
-  color: #f2faf6;
+.painLabelLink {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(8, 20, 17, 0.45);
+  color: #edf5f1;
+  text-decoration: none;
+  font-weight: 750;
+  transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.painLabelLink:hover,
+.painLabelLink:focus-visible {
+  border-color: rgba(112, 224, 173, 0.35);
+  background: rgba(112, 224, 173, 0.08);
+  color: var(--accent);
+}
+
+.painLabelLink svg {
+  color: var(--data-blue);
+  flex: 0 0 auto;
+}
+
+.operatingModelSection {
+  padding-block: 24px;
+}
+
+.operatingResponseRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  position: relative;
+}
+
+.operatingResponseRail::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.homeOfferBand {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 48px;
+  align-items: center;
+  padding: 24px;
+  border: 1px solid rgba(112, 224, 173, 0.35);
+  border-radius: 12px;
+  background: rgba(8, 22, 18, 0.55);
+}
+
+.diagnosticOfferActions {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  align-content: center;
+}
+
+.pricingProgressionCaption {
+  margin: 1.5rem 0 1rem;
+  color: #a8b8b0;
   font-size: 0.9375rem;
+  font-weight: 650;
 }
 
-.heroIntelFlow {
+.pricingFeatured {
+  border: 1px solid rgba(112, 224, 173, 0.45);
+}
+
+.pricingFeatured .priceMetric {
+  order: -1;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.deliverableChecklist {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0;
-}
-
-.heroIntelFlow li {
-  display: grid;
-  grid-template-columns: 88px 1fr;
   gap: 10px;
-  align-items: baseline;
-  padding: 7px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.heroIntelFlow b {
-  color: var(--accent);
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+.deliverableChecklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.heroIntelFlow small {
-  color: #c5d6ce;
-  font-size: 0.75rem;
-  line-height: 1.35;
+.diagnosticJourneyRail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.heroIntelNote {
-  margin: 10px 0 0;
-  color: #80948a;
-  font-size: 0.6875rem;
-  line-height: 1.4;
+.diagnosticDetailPanel {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(8, 20, 17, 0.4);
 }
 
-/* —— Value / trust —— */
-.homeValueBand {
-  padding-block: var(--rhythm-transition);
+.diagnosticDetailPanel summary {
+  cursor: pointer;
+  font-weight: 750;
 }
 
-.trustBand {
-  min-height: 0;
-  padding-block: 0;
-  gap: 1px;
-}
-
-.trustBand span {
-  padding: 1rem 1.25rem;
-}
-
-.trustBand b {
-  font-size: 0.875rem;
-}
-
-.trustBand small {
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: #94a89e;
+.platformLayer.tone-action {
+  border-color: rgba(216, 189, 122, 0.28);
 }
 
 .painSection {
-  padding-block: var(--rhythm-transition);
+  padding-block: 24px;
 }
 
 .symptomResponseList {
@@ -1477,8 +1537,209 @@ main h2,
   transform: none;
 }
 
-.floatingContact .assistantPanel {
-  z-index: 80;
+.floatingDockRoot {
+  pointer-events: none;
+}
+
+.floatingContact,
+.floatingFollow {
+  position: fixed;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 1;
+  transform: none;
+}
+
+.floatingContact {
+  right: max(18px, calc(env(safe-area-inset-right, 0px) + var(--dock-right-extra, 0px)));
+  bottom: max(18px, calc(env(safe-area-inset-bottom, 0px) + var(--dock-bottom-extra, 0px)));
+  left: auto;
+}
+
+.floatingFollow {
+  left: max(18px, calc(env(safe-area-inset-left, 0px) + var(--dock-left-extra, 0px)));
+  bottom: max(18px, calc(env(safe-area-inset-bottom, 0px) + var(--dock-bottom-extra, 0px)));
+  right: auto;
+}
+
+.floatingContact > button,
+.floatingFollow > button {
+  pointer-events: auto;
+  min-height: 48px;
+  min-width: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(9, 25, 19, 0.94);
+  color: #edf5f1;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(14px);
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+  opacity: 1;
+  transform: none;
+}
+
+.floatingContact > button {
+  width: 120px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.floatingFollow > button {
+  width: 144px;
+}
+
+.assistantPanel,
+.followPanel {
+  z-index: 100;
+  pointer-events: auto;
+  width: min(320px, calc(100vw - 24px));
+  max-height: min(420px, var(--radix-popover-content-available-height));
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid rgba(112, 224, 173, 0.24);
+  border-radius: 8px;
+  background: rgba(9, 25, 19, 0.97);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.36);
+  animation: floatingPanelIn 160ms ease;
+}
+
+@keyframes floatingPanelIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistantPanel,
+  .followPanel {
+    animation: none;
+  }
+}
+
+.floatingPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.floatingPanelClose {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #edf5f1;
+  cursor: pointer;
+}
+
+.assistantPanel strong,
+.followPanel strong {
+  display: block;
+  color: #edf5f1;
+}
+
+.assistantPanel p,
+.followPanel p {
+  margin: 0 0 14px;
+  color: #a8b8b0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.assistantChannelList,
+.followLinkGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.followLinkGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.assistantChannelList a,
+.followLinkGrid a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 850;
+  text-decoration: none;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.followLinkGrid a svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.signalBoardPlain div::before {
+  display: none;
+}
+
+.caseStudyCarousel .splide__arrow,
+.caseStudyCarousel .caseStudyArrow {
+  width: 44px;
+  height: 44px;
+}
+
+.caseStudyCarousel .splide__pagination__page,
+.caseStudyCarousel .caseStudyPage {
+  width: 44px !important;
+  height: 44px !important;
+  transform: none !important;
+}
+
+html {
+  scroll-padding-bottom: 90px;
+}
+
+.siteFooter {
+  padding-bottom: calc(2.5rem + 78px);
+}
+
+.inquiryForm input,
+.inquiryForm textarea,
+.inquiryForm select,
+.inquiryForm button,
+a.button,
+.button {
+  scroll-margin-bottom: 90px;
+}
+
+@media (max-width: 640px) {
+  .floatingContact {
+    right: max(12px, calc(env(safe-area-inset-right, 0px) + var(--dock-right-extra, 0px)));
+    bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + var(--dock-bottom-extra, 0px)));
+  }
+
+  .floatingFollow {
+    left: max(12px, calc(env(safe-area-inset-left, 0px) + var(--dock-left-extra, 0px)));
+    bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + var(--dock-bottom-extra, 0px)));
+  }
+
+  .followLinkGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .siteFooter {
+    padding-bottom: calc(2rem + 72px);
+  }
 }
 
 /* —— Responsive —— */
@@ -1528,18 +1789,27 @@ main h2,
 
 @media (max-width: 980px) {
   .homeHeroRecovered,
+  .homeHeroRecovered.experimentRevenueDirect,
   .diagnosticHero,
   .contactPage,
   .dirtHomeBand,
   .techEvidenceBand,
   .symptomResponseRow,
   .serviceDirectoryRow,
-  .engagementRows li {
-    grid-template-columns: 1fr;
+  .engagementRows li,
+  .homeOfferBand {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .heroCopy .actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .heroPracticeStage {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
     order: 2;
   }
 
@@ -1547,12 +1817,13 @@ main h2,
     order: 1;
   }
 
-  .heroIntelligenceModule {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: auto;
-    margin: 1rem;
+  .painLabelGrid,
+  .operatingResponseRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .operatingResponseRail::before {
+    display: none;
   }
 
   .diagnosticFormAnchor {
@@ -1561,7 +1832,8 @@ main h2,
 
   .homeValueBand,
   .painSection,
-  .contactMethods {
+  .contactMethods,
+  .operatingModelSection {
     padding-block: 1.5rem;
   }
 
@@ -1578,17 +1850,14 @@ main h2,
   }
 }
 
-@media (max-width: 900px) {
-  .trustBand {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 360px) {
+  .painLabelGrid,
+  .operatingResponseRail {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 680px) {
-  .trustBand {
-    grid-template-columns: 1fr;
-  }
-
   .heroCopy .lede,
   .pageHero > p:not(.eyebrow) {
     font-size: 1.0625rem;
