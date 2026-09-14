@@ -4,11 +4,10 @@ Cursor completed the final visual integration / responsive math sweep on branch 
 
 ## Commit
 
-- **SHA:** `ef6db206f9f29f732ea99764cb785975c019c674` — verify with `git rev-parse HEAD` on `feat/final-dirt-root-merge`
+- **SHA:** `6e6bd0764217d8c02b5dd644c5b5947b3bc9a8a1`
 - **Message:** `fix: complete ROOT DIRT visual integration and responsive sweep`
-- Local only — **not pushed**, no PR, no merge, no deploy.
-
-> Note: embedding a commit’s own SHA inside that same commit is unstable under amend. Trust `git rev-parse HEAD` if this tip is rewritten.
+- Cursor did **not** open a PR, merge, or deploy.
+- A later Codex commit (`a9686d7`) landed on the same branch after this sweep tip; treat `6e6bd07` as the Cursor visual-integration handoff commit.
 
 ## Routes visually verified
 
@@ -54,4 +53,4 @@ Browser QA prioritized 1366×768 and 390×844; Playwright overflow matrix covere
 1. CI green on a clean runner (Playwright browser install + full matrix).
 2. Founder live review at 1366×768 and 390×844 on Home, DIRT, Diagnostic, Pricing.
 3. Optional: licensed Plus Jakarta Sans delivery + legacy CSS consumer deletion plan.
-4. Authorize push / PR / deploy only after founder sign-off — Cursor did not push.
+4. Authorize PR / deploy only after founder sign-off.
