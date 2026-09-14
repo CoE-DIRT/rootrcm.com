@@ -133,6 +133,7 @@ export function NestedDataGridContainer() {
                     </p>
                     <button
                       type="button"
+                      id={`${baseId}-${row.id}-explain-trigger`}
                       onClick={() => setActiveRowId(row.id)}
                       aria-label={`Explain: ${row.title}`}
                       aria-controls={explainPanelId}
@@ -195,7 +196,11 @@ export function NestedDataGridContainer() {
                 <ShieldCheck className="h-5 w-5 text-data-blue" aria-hidden="true" />
                 <button
                   type="button"
-                  onClick={() => setActiveRowId(null)}
+                  onClick={() => {
+                    const triggerId = activeRowId ? `${baseId}-${activeRowId}-explain-trigger` : null;
+                    setActiveRowId(null);
+                    if (triggerId) document.getElementById(triggerId)?.focus();
+                  }}
                   className="rounded-[var(--radius-root)] border border-border px-2.5 py-1 text-xs font-medium text-muted hover:border-data-blue/40 hover:text-text"
                 >
                   Close
