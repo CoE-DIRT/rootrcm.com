@@ -16,6 +16,8 @@ import {
 } from '@tanstack/react-table';
 import { dirtDemo, formatCompactUsd } from '@/data/dirtDemo';
 import { Section, SectionHeader } from '@/components/ui/Section';
+import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
+import { NestedDataGridContainer } from '@/components/dirt/NestedDataGridContainer';
 import { cn } from '@/lib/cn';
 
 const metricCards = [
@@ -29,12 +31,16 @@ const metricCards = [
 ];
 
 export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
+  const visibleMetrics = compact ? metricCards.slice(0, 4) : metricCards;
+
   return (
-    <div className={cn('space-y-8', compact && 'space-y-5')} data-dirt-command>
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
+    <div className={cn('min-w-0 space-y-8', compact && 'space-y-4')} data-dirt-command>
+      <div className={cn('flex flex-wrap items-end justify-between gap-3', compact && 'flex-col items-start gap-2')}>
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">DIRT command center</p>
-          <h2 className="mt-1 text-2xl font-semibold text-text sm:text-3xl">Executive revenue view</h2>
+          <h2 className={cn('mt-1 font-semibold text-text', compact ? 'text-lg' : 'text-2xl sm:text-3xl')}>
+            Executive revenue view
+          </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted">
             Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
           </p>
@@ -42,11 +48,11 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
         <p className="rounded-full border border-border px-3 py-1 text-xs text-signal-amber">{dirtDemo.practice.period}</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-        {metricCards.map((m) => (
-          <div key={m.label} className="rounded-[var(--radius-root)] border border-border bg-panel/50 p-4">
-            <p className="text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
-            <p className="mt-2 text-xl font-semibold text-text">{m.value}</p>
+      <div className={cn('grid min-w-0 gap-3', compact ? 'grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7')}>
+        {visibleMetrics.map((m) => (
+          <div key={m.label} className="min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50 p-4">
+            <p className="truncate text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
+            <p className="mt-2 truncate text-xl font-semibold text-text">{m.value}</p>
           </div>
         ))}
       </div>
@@ -62,9 +68,15 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
             <UnderpaymentPanel />
             <PriorityQueue />
           </div>
+          <div>
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.14em] text-data-blue">
+              Expandable triage &amp; explanation
+            </h3>
+            <NestedDataGridContainer />
+          </div>
         </>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid min-w-0 gap-4">
           <ArAgingMatrix />
           <PriorityQueue limit={3} />
         </div>
@@ -82,16 +94,16 @@ export function ArAgingMatrix() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.aging}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-            <XAxis dataKey="bucket" tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} width={48} />
+            <XAxis dataKey="bucket" tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} width={48} />
             <Tooltip
-              cursor={{ fill: 'rgba(112,224,173,0.08)' }}
-              contentStyle={{ background: '#10231d', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              cursor={{ fill: 'rgba(99,102,241,0.08)' }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value) => [formatCompactUsd(Number(value)), 'A/R']}
             />
             <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
               {dirtDemo.aging.map((row) => (
-                <Cell key={row.bucket} fill={String(row.bucket).includes('120') || String(row.bucket).startsWith('91') ? '#d8bd7a' : '#70e0ad'} />
+                <Cell key={row.bucket} fill={String(row.bucket).includes('120') || String(row.bucket).startsWith('91') ? 'var(--color-signal-amber)' : 'var(--color-accent)'} />
               ))}
             </Bar>
           </BarChart>
@@ -110,13 +122,13 @@ export function DenialPareto() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" horizontal={false} />
-            <XAxis type="number" tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey="category" width={88} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <XAxis type="number" tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis type="category" dataKey="category" width={88} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ background: '#10231d', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value, _n, item) => [formatCompactUsd(Number(value)), `${item?.payload?.count ?? ''} events`]}
             />
-            <Bar dataKey="value" fill="#75d7ff" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="value" fill="var(--color-data-blue)" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -140,17 +152,17 @@ const payerColumns = [
 export function PayerPerformanceTable() {
   const table = useReactTable({ data: dirtDemo.payers, columns: payerColumns, getCoreRowModel: getCoreRowModel() });
   return (
-    <div className="overflow-x-auto rounded-[var(--radius-root)] border border-border bg-panel/40">
-      <div className="border-b border-border px-4 py-3">
+    <div className="min-w-0 space-y-3">
+      <div>
         <h3 className="text-sm font-semibold text-text">Payer performance</h3>
         <p className="text-xs text-muted">Clean claim, denial rate, and aged A/R by payer group.</p>
       </div>
-      <table className="min-w-full text-left text-sm">
-        <thead className="bg-bg-soft text-xs uppercase tracking-wide text-muted">
+      <ResponsiveTableShell caption="Payer performance: clean claim rate, denial rate, and aged A/R by payer group" minWidthClassName="min-w-[640px]">
+        <thead className="bg-bg-deep/60 text-xs uppercase tracking-wide text-muted">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((h) => (
-                <th key={h.id} className="px-4 py-2 font-medium">
+                <th key={h.id} scope="col" className="px-4 py-2 font-medium">
                   {flexRender(h.column.columnDef.header, h.getContext())}
                 </th>
               ))}
@@ -168,7 +180,7 @@ export function PayerPerformanceTable() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </ResponsiveTableShell>
     </div>
   );
 }

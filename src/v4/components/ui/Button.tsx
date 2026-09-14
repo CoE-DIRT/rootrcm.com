@@ -4,16 +4,17 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/cn';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-[var(--radius-root)] text-sm font-medium ' +
-    'transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ' +
-    'focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg ' +
-    'disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none',
+  'inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium ' +
+    'transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-[var(--ease-premium)] ' +
+    'focus-visible:outline-none focus-visible:ring-2 ' +
+    'focus-visible:ring-data-blue focus-visible:ring-offset-2 focus-visible:ring-offset-bg ' +
+    'disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:translate-y-0',
   {
     variants: {
       variant: {
-        primary: 'bg-accent text-accent-ink hover:bg-accent/90',
-        secondary: 'bg-panel text-text border border-border hover:bg-panel/70',
-        outline: 'border border-border text-text hover:bg-panel',
+        primary: 'bg-accent text-accent-ink hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-[0_0_20px_rgba(112,224,173,0.35)]',
+        secondary: 'border border-border bg-panel text-text hover:-translate-y-0.5 hover:border-data-blue/45 hover:bg-panel/70',
+        outline: 'border border-border text-text hover:-translate-y-0.5 hover:border-data-blue/45 hover:bg-panel',
         ghost: 'text-text hover:bg-panel',
       },
       size: {

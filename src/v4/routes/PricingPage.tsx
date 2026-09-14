@@ -3,6 +3,7 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { GlassCard } from '@/components/ui/GlassCard';
 import { pricingModels, mediaAssets } from '../../siteData.js';
 import { formatUsd, DIAGNOSTIC_PRICE_USD } from '@/growth/locale';
 import { isDiagnosticCheckoutActive, startDiagnosticCheckout } from '@/growth/checkout';
@@ -23,9 +24,9 @@ export function PricingPage() {
         </p>
       </Section>
 
-      <Section tone="soft">
-        <div className="rounded-[var(--radius-root)] border border-accent/40 bg-panel/60 p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Primary launch offer</p>
+      <Section tone="flow" wide>
+        <GlassCard as="div" variant="matrix" accent="cyan" hover={false} className="p-6 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Primary launch offer</p>
           <h2 className="mt-2 text-2xl font-semibold text-text">{diagnostic.name}</h2>
           <p className="mt-2 text-xl text-accent">{diagnostic.price}</p>
           <p className="mt-3 text-sm text-muted">{diagnostic.bestFor}</p>
@@ -50,14 +51,14 @@ export function PricingPage() {
               </button>
             ) : null}
           </CTAGroup>
-        </div>
+        </GlassCard>
       </Section>
 
       <Section>
         <SectionHeader title="Core operating models" />
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           {primaryModels.map((model: (typeof pricingModels)[number]) => (
-            <div key={model.name} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-6">
+            <GlassCard key={model.name} as="div" variant="glass" accent="indigo" className="p-6">
               <h2 className="text-xl font-semibold text-text">{model.name}</h2>
               <p className="mt-2 text-accent">{model.price}</p>
               <p className="mt-3 text-sm text-muted">{model.bestFor}</p>
@@ -69,7 +70,7 @@ export function PricingPage() {
               <LinkButton href={model.href} variant="ghost" size="sm" className="mt-4">
                 {model.cta}
               </LinkButton>
-            </div>
+            </GlassCard>
           ))}
         </div>
       </Section>
@@ -78,7 +79,7 @@ export function PricingPage() {
         <SectionHeader title="Specialized & partnership models" description="Scope and outcomes are defined in writing before work begins." />
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {specializedModels.map((model: (typeof pricingModels)[number]) => (
-            <div key={model.name} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
+            <GlassCard key={model.name} as="div" variant="glass" className="p-5">
               <h3 className="font-semibold text-text">{model.name}</h3>
               <p className="mt-2 text-sm text-accent">{model.price}</p>
               <p className="mt-2 text-sm text-muted">{model.bestFor}</p>
@@ -86,7 +87,7 @@ export function PricingPage() {
               <LinkButton href={model.href} variant="ghost" size="sm" className="mt-3">
                 {model.cta}
               </LinkButton>
-            </div>
+            </GlassCard>
           ))}
         </div>
         <p className="mt-6 text-sm text-muted">Includes Full MSO Partnership and credentialing ranges as published.</p>

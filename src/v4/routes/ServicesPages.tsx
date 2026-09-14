@@ -3,6 +3,9 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { MetricCard } from '@/components/ui/MetricCard';
+import { AnnotationNote } from '@/components/ui/AnnotationNote';
 import { servicePages, serviceMediaBySlug, mediaAssets } from '../../siteData.js';
 import { proofWorkAssets, proofPlacementByServiceSlug } from '../../proofData.js';
 
@@ -34,13 +37,11 @@ export function ServicesHubPage() {
               {servicePages
                 .filter((s: Service) => s.family === family)
                 .map((service: Service) => (
-                  <a
-                    key={service.slug}
-                    href={`/services/${service.slug}/`}
-                    className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 hover:border-accent"
-                  >
-                    <h3 className="font-semibold text-text">{service.title}</h3>
-                    <p className="mt-2 text-sm text-muted">{service.summary}</p>
+                  <a key={service.slug} href={`/services/${service.slug}/`} className="block h-full">
+                    <GlassCard variant="glass" accent="cyan" className="h-full">
+                      <h3 className="font-semibold text-text">{service.title}</h3>
+                      <p className="mt-2 text-sm text-muted">{service.summary}</p>
+                    </GlassCard>
                   </a>
                 ))}
             </div>
@@ -94,17 +95,17 @@ export function ServicePage({ service }: { service: Service }) {
         </Section>
       )}
 
-      <Section>
+      <Section tone="grid" wide>
         <SectionHeader title="What engagement includes" />
         <ul className="mt-6 grid gap-3 sm:grid-cols-2">
           {service.deliverables.map((item: string) => (
-            <li key={item} className="rounded-[var(--radius-root)] border border-border bg-panel/40 px-4 py-3 text-sm text-text">
+            <li key={item} className="rounded-[var(--radius-root)] border border-border bg-panel/50 px-4 py-3 text-sm text-text">
               {item}
             </li>
           ))}
         </ul>
         <p className="mt-6 text-sm text-muted">{service.engagement}</p>
-        <p className="mt-2 text-sm text-muted">{service.dirt}</p>
+        {service.dirt ? <AnnotationNote label="DIRT complement" text={service.dirt} className="mt-3" /> : null}
         {service.related ? (
           <LinkButton href={service.related} variant="ghost" size="sm" className="mt-4">
             Related solution
@@ -118,10 +119,7 @@ export function ServicePage({ service }: { service: Service }) {
           {'metrics' in proof && Array.isArray(proof.metrics) ? (
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {proof.metrics.map((metric: string[]) => (
-                <div key={metric[0]} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
-                  <p className="text-xs text-muted">{metric[0]}</p>
-                  <p className="mt-1 text-lg font-semibold text-text">{metric[1]}</p>
-                </div>
+                <MetricCard key={metric[0]} label={metric[0]} value={metric[1]} tone="synthetic" accent="cyan" />
               ))}
             </div>
           ) : null}

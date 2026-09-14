@@ -1,6 +1,7 @@
 import { V4Shell } from '@/layout/V4Shell';
 import { Section } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
+import { GlassCard } from '@/components/ui/GlassCard';
 import { CookieSettings } from '@/consent/CookieSettings';
 
 export function PrivacyPage() {
@@ -63,15 +64,17 @@ export function TermsPage() {
 export function ThankYouPage() {
   return (
     <V4Shell minimal>
-      <Section className="mx-auto max-w-xl py-24 text-center">
-        <h1 className="text-3xl font-semibold text-text">Request received.</h1>
-        <p className="mt-4 text-muted">
-          Thank you. ROOT will review the deidentified commercial inquiry and follow up using the contact information
-          provided.
-        </p>
-        <LinkButton href="/" variant="secondary" className="mt-8" data-cta="return-home" data-location="thank-you">
-          Return to ROOT
-        </LinkButton>
+      <Section className="mx-auto max-w-xl py-24">
+        <GlassCard as="div" variant="glass" accent="green" hover={false} className="text-center">
+          <h1 className="text-3xl font-semibold text-text">Request received.</h1>
+          <p className="mt-4 text-muted">
+            Thank you. ROOT will review the deidentified commercial inquiry and follow up using the contact information
+            provided.
+          </p>
+          <LinkButton href="/" variant="secondary" className="mt-8" data-cta="return-home" data-location="thank-you">
+            Return to ROOT
+          </LinkButton>
+        </GlassCard>
       </Section>
     </V4Shell>
   );
@@ -80,18 +83,20 @@ export function ThankYouPage() {
 export function NotFoundPage() {
   return (
     <V4Shell>
-      <Section className="mx-auto max-w-xl py-24 text-center">
-        <span className="text-sm font-semibold text-accent">404</span>
-        <h1 className="mt-3 text-3xl font-semibold text-text">This route does not go to revenue.</h1>
-        <p className="mt-4 text-muted">The page may have moved. Return to ROOT or go directly to the Revenue Optimization Diagnostic.</p>
-        <div className="mt-8 flex justify-center gap-3">
-          <LinkButton href="/" variant="outline">
-            Home
-          </LinkButton>
-          <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="404" data-destination="/diagnostic/" data-engagement-type="diagnostic">
-            Revenue Diagnostic
-          </LinkButton>
-        </div>
+      <Section className="mx-auto max-w-xl py-24">
+        <GlassCard as="div" variant="glass" accent="amber" hover={false} className="text-center">
+          <span className="text-sm font-semibold text-signal-amber">404</span>
+          <h1 className="mt-3 text-3xl font-semibold text-text">This route does not go to revenue.</h1>
+          <p className="mt-4 text-muted">The page may have moved. Return to ROOT or go directly to the Revenue Optimization Diagnostic.</p>
+          <div className="mt-8 flex justify-center gap-3">
+            <LinkButton href="/" variant="outline">
+              Home
+            </LinkButton>
+            <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="404" data-destination="/diagnostic/" data-engagement-type="diagnostic">
+              Revenue Diagnostic
+            </LinkButton>
+          </div>
+        </GlassCard>
       </Section>
     </V4Shell>
   );

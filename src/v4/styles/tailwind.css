@@ -4,25 +4,47 @@
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 
-/* ROOT V4 design tokens — carried over from the approved brand palette in src/styles.css.
-   Do not fork a second palette; add tokens here only. */
+/* ROOT V4 design tokens — DIRT-led visual system (docs/final-merge/DESIGN-TOKEN-MERGE.md).
+   Canonical token owner. Do not import DIRT's index.css/tailwind.config.js directly;
+   translate values here and reuse across ROOT + ported DIRT components. Add tokens
+   only in this file — never fork a second palette. */
 @theme {
-  --color-bg: #07110e;
-  --color-bg-soft: #0c1915;
-  --color-panel: #10231d;
-  --color-panel-translucent: rgb(17 35 30 / 75%);
+  --color-bg: #0b0f19;
+  --color-bg-deep: #070b12;
+  --color-bg-soft: #111827;
+  --color-panel: #0f172a;
+  --color-panel-translucent: rgb(15 23 42 / 65%);
+  --color-panel-translucent-strong: rgb(15 23 42 / 78%);
   --color-border: rgb(255 255 255 / 12%);
-  --color-text: #edf5f1;
-  --color-muted: #98aaa1;
+  --color-border-strong: #334155;
+  --color-text: #f3f4f6;
+  --color-muted: #94a3b8;
+
+  /* ROOT commercial brand/action — preserved, harmonized with the DIRT intelligence palette. */
   --color-accent: #70e0ad;
   --color-accent-ink: #062016;
-  --color-data-blue: #75d7ff;
-  --color-signal-amber: #d8bd7a;
 
-  --radius-root: 8px;
-  --shadow-root: 0 28px 85px rgb(0 0 0 / 31%);
+  /* DIRT intelligence + state palette. */
+  --color-data-blue: #0ea5e9;
+  --color-intelligence: #6366f1;
+  --color-intelligence-soft: #818cf8;
+  --color-recovery: #10b981;
+  --color-signal-amber: #f59e0b;
+  --color-signal-blush: #ec4899;
+  --color-signal-error: #f43f5e;
 
+  --radius-root: 0.85rem;
+  --radius-panel: 1.2rem;
+  --radius-hero: 1.5rem;
+
+  --shadow-root: 0 18px 48px rgb(0 0 0 / 28%);
+  --shadow-panel-soft: 0 12px 30px rgb(0 0 0 / 22%);
+  --shadow-command: 0 0 30px rgb(99 102 241 / 5%), 0 20px 45px rgb(0 0 0 / 32%);
+
+  --font-display: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -36,13 +58,157 @@
    specificity. Match that by staying unlayered here too — scoped to .v4-root only. */
 .v4-root h1,
 .v4-root h2,
-.v4-root h3 {
-  font-family: var(--font-sans);
+.v4-root h3,
+.v4-root h4 {
+  font-family: var(--font-display);
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .v4-root ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* DIRT premium surface recipe, ported from GlassCard/PageShell (components/ui/GlassCard.jsx,
+   components/layout/PageShell.jsx). One shared recipe instead of per-route arbitrary values. */
+.v4-root .glass-surface {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel-translucent);
+  box-shadow: var(--shadow-command);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .v4-root .glass-surface {
+    background: rgb(15 23 42 / 94%);
+  }
+}
+
+.v4-root .glass-surface--metric {
+  background: rgb(15 23 42 / 76%);
+}
+
+.v4-root .glass-surface--matrix {
+  background: linear-gradient(180deg, rgb(15 23 42 / 78%), rgb(7 11 18 / 96%));
+}
+
+.v4-root .glass-surface--lifecycle {
+  border-color: rgb(14 165 233 / 18%);
+  background: linear-gradient(180deg, rgb(15 23 42 / 72%), rgb(7 11 18 / 94%));
+}
+
+.v4-root .glass-surface--trust {
+  border-color: rgb(14 165 233 / 20%);
+  background: linear-gradient(180deg, rgb(15 23 42 / 72%), rgb(7 11 18 / 94%));
+}
+
+/* Section shell — DIRT section-shell/section-shell-grid/safe/flow tones. */
+.v4-root .section-shell {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  padding: 1.35rem;
+  background: var(--color-panel-translucent);
+  box-shadow: var(--shadow-root);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+@media (min-width: 768px) {
+  .v4-root .section-shell {
+    padding: 1.75rem;
+  }
+}
+
+.v4-root .section-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at right top, rgb(99 102 241 / 16%), transparent 42%);
+}
+
+.v4-root .section-shell--safe::before {
+  background: radial-gradient(circle at right top, rgb(16 185 129 / 12%), transparent 42%);
+}
+
+.v4-root .section-shell--flow::before {
+  background:
+    radial-gradient(circle at right top, rgb(99 102 241 / 16%), transparent 45%),
+    radial-gradient(circle at left bottom, rgb(14 165 233 / 12%), transparent 46%);
+}
+
+.v4-root .section-shell--grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(148 163 184 / 8%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 8%) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black 15%, transparent 100%);
+  opacity: 0.16;
+}
+
+/* Page-level grid texture and ambient gradient, ported from D/src/index.css `main::before`
+   and body radial gradients. Decorative, pointer-events none, sits behind content. */
+.v4-root {
+  background-image:
+    radial-gradient(circle at 12% -6%, rgb(14 165 233 / 16%), transparent 32%),
+    radial-gradient(circle at 88% 8%, rgb(99 102 241 / 18%), transparent 34%);
+  background-attachment: fixed;
+}
+
+.v4-root main {
+  position: relative;
+  isolation: isolate;
+}
+
+.v4-root main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(148 163 184 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 4%) 1px, transparent 1px);
+  background-size: 132px 132px;
+  mask-image: radial-gradient(circle at 52% 24%, black, transparent 78%);
+  opacity: 0.1;
+}
+
+/* Visible focus treatment: 2px aqua ring plus background separation, works with and
+   without forced-colors. Do not remove native outlines without this replacement. */
+.v4-root :focus-visible {
+  outline: 2px solid var(--color-data-blue);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .v4-root :focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}
+
+.v4-root .transition-premium {
+  transition-timing-function: var(--ease-premium);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v4-root *,
+  .v4-root *::before,
+  .v4-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

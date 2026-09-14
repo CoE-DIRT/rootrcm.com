@@ -4,6 +4,7 @@ import { CookieConsent } from '@/consent/CookieConsent';
 import { CookieSettings } from '@/consent/CookieSettings';
 import { Section, SectionHeader } from '@/components/ui/Section';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
 
 interface CookieRow {
   key: string;
@@ -51,15 +52,15 @@ export function CookiesLegalPage() {
             description="Every cookie and browser-storage key ROOT sets, why, and for how long. No non-essential cookie runs before you consent."
             className="mt-6"
           />
-          <div className="mt-8 overflow-x-auto rounded-[var(--radius-root)] border border-border">
-            <table className="w-full min-w-[560px] text-left text-sm">
-              <thead className="bg-panel text-xs uppercase tracking-wide text-muted">
+          <div className="mt-8">
+            <ResponsiveTableShell caption="Every cookie and browser-storage key ROOT sets" minWidthClassName="min-w-[560px]">
+              <thead className="bg-bg-deep/70 text-xs uppercase tracking-wide text-muted">
                 <tr>
-                  <th className="px-4 py-3">Key</th>
-                  <th className="px-4 py-3">Provider</th>
-                  <th className="px-4 py-3">Purpose</th>
-                  <th className="px-4 py-3">Category</th>
-                  <th className="px-4 py-3">Duration</th>
+                  <th scope="col" className="px-4 py-3">Key</th>
+                  <th scope="col" className="px-4 py-3">Provider</th>
+                  <th scope="col" className="px-4 py-3">Purpose</th>
+                  <th scope="col" className="px-4 py-3">Category</th>
+                  <th scope="col" className="px-4 py-3">Duration</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,7 +74,7 @@ export function CookiesLegalPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </ResponsiveTableShell>
           </div>
           <p className="mt-6 text-sm text-muted">
             Analytics and session replay stay off until you accept analytics cookies. PostHog only initializes when

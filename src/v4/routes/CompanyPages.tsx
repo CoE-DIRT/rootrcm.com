@@ -2,8 +2,11 @@ import { useEffect, useRef } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader } from '@/components/ui/Section';
+import { LinkButton } from '@/components/ui/Button';
 import { TrustSignals } from '@/components/TrustSignals';
 import { MediaFrame } from '@/components/ui/MediaFrame';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { WorkforceGrid } from '@/components/sections/WorkforceGrid';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
 import { companyInfo, outreachChannels, mediaAssets } from '../../siteData.js';
@@ -45,9 +48,11 @@ export function ContactPage() {
               <p>{companyInfo.email}</p>
             </div>
           </div>
-          <div ref={formWrapRef} className="rounded-[var(--radius-root)] border border-border bg-panel/50 p-4 ph-no-capture" data-ph-mask>
-            <InquiryForm />
-          </div>
+          <GlassCard as="div" variant="glass" hover={false} id="contact-form" className="ph-no-capture p-4" data-ph-mask>
+            <div ref={formWrapRef}>
+              <InquiryForm />
+            </div>
+          </GlassCard>
         </div>
       </Section>
 
@@ -61,7 +66,7 @@ export function ContactPage() {
               data-cta={channel.cta}
               data-location="contact-page-outreach"
               data-engagement-type={channel.engagementType}
-              className="rounded-[var(--radius-root)] border border-border px-4 py-2 text-sm text-text hover:border-accent"
+              className="rounded-full border border-border px-4 py-2 text-sm text-text transition-colors hover:border-data-blue/45"
               target={channel.href?.startsWith('http') ? '_blank' : undefined}
               rel={channel.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
             >
@@ -118,11 +123,18 @@ export function AboutPage() {
           </div>
         </div>
       </Section>
+      <Section tone="grid" wide>
+        <SectionHeader eyebrow="Responsibility areas" title="How ROOT is organized around your practice." />
+        <div className="mt-8">
+          <WorkforceGrid />
+        </div>
+      </Section>
+
       <Section>
         <SectionHeader title="Bring us the number that does not make sense." />
-        <a href="/contact/" className="mt-6 inline-flex rounded-[var(--radius-root)] bg-accent px-4 py-2 text-sm font-medium text-accent-ink" data-cta="talk-to-root">
+        <LinkButton href="/contact/" variant="primary" size="md" className="mt-6" data-cta="talk-to-root">
           Start a Conversation
-        </a>
+        </LinkButton>
       </Section>
     </V4Shell>
   );

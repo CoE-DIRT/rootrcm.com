@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { Check, ClipboardCheck, ShieldCheck } from 'lucide-react';
+import { Check, ClipboardCheck } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader } from '@/components/ui/Section';
 import { Callout } from '@/components/ui/Callout';
 import { MediaFrame } from '@/components/ui/MediaFrame';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { NoPhiBanner } from '@/components/ui/NoPhiBanner';
+import { ImplementationSteps } from '@/components/sections/ImplementationSteps';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
 import { diagnosticDeliverables, diagnosticFaq, mediaAssets } from '../../siteData.js';
@@ -11,10 +14,10 @@ import { diagnosticSample, syntheticPractice } from '../../proofData.js';
 import { isDiagnosticCheckoutActive, startDiagnosticCheckout } from '@/growth/checkout';
 
 const diagnosticJourney = [
-  ['Share deidentified context', 'Describe operating pressure without PHI through the public inquiry form.'],
-  ['Align on usable inputs', 'Aging, denial, rejection, posting, credentialing-status, and payment exports.'],
-  ['ROOT analyzes the system', 'Leakage, denial families, A/R priority, workflow, and reporting gaps.'],
-  ['Receive the 90-day plan', 'Ranked opportunity register with owners and next actions.'],
+  { title: 'Share deidentified context', copy: 'Describe operating pressure without PHI through the public inquiry form.' },
+  { title: 'Align on usable inputs', copy: 'Aging, denial, rejection, posting, credentialing-status, and payment exports.' },
+  { title: 'ROOT analyzes the system', copy: 'Leakage, denial families, A/R priority, workflow, and reporting gaps.' },
+  { title: 'Receive the 90-day plan', copy: 'Ranked opportunity register with owners and next actions.', note: 'Output is a roadmap, not a guaranteed delivery duration.' },
 ];
 
 const diagnosticInputs = [
@@ -56,12 +59,11 @@ export function DiagnosticPage() {
                 <Check className="h-4 w-4 text-accent" aria-hidden="true" /> 90-day operating roadmap with owners
               </li>
             </ul>
-            <p className="mt-6 flex items-start gap-2 text-sm text-muted">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+            <NoPhiBanner className="mt-6">
               Start with deidentified reports. PHI-enabled exchange opens only after the required agreement and secure
               channel are active.
-            </p>
-            <a href="#diagnostic-form" className="mt-6 inline-block text-sm font-medium text-accent">
+            </NoPhiBanner>
+            <a href="#diagnostic-form" className="mt-6 inline-block text-sm font-medium text-data-blue">
               Start the inquiry form
             </a>
             {isDiagnosticCheckoutActive() ? (
@@ -70,23 +72,19 @@ export function DiagnosticPage() {
               </button>
             ) : null}
           </div>
-          <div id="diagnostic-form" ref={formWrapRef} className="rounded-[var(--radius-root)] border border-border bg-panel/50 p-4 ph-no-capture" data-ph-mask>
-            <InquiryForm variant="diagnostic" />
-          </div>
+          <GlassCard as="div" variant="glass" hover={false} id="diagnostic-form" className="ph-no-capture p-4" data-ph-mask>
+            <div ref={formWrapRef}>
+              <InquiryForm variant="diagnostic" />
+            </div>
+          </GlassCard>
         </div>
       </Section>
 
       <Section tone="soft">
         <SectionHeader eyebrow="Delivery journey" title="From inputs to a 90-day roadmap." />
-        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {diagnosticJourney.map(([title, copy], index) => (
-            <li key={title} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
-              <span className="text-xs font-semibold text-accent">{String(index + 1).padStart(2, '0')}</span>
-              <h2 className="mt-2 text-base font-semibold text-text">{title}</h2>
-              <p className="mt-2 text-sm text-muted">{copy}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="mt-8">
+          <ImplementationSteps steps={diagnosticJourney} />
+        </div>
         <details className="mt-6 rounded-[var(--radius-root)] border border-border p-4">
           <summary className="cursor-pointer text-sm font-medium text-text">Inputs ROOT can review</summary>
           <ul className="mt-3 space-y-2 text-sm text-muted">
@@ -109,7 +107,7 @@ export function DiagnosticPage() {
         </details>
       </Section>
 
-      <Section>
+      <Section id="sample-report">
         <SectionHeader
           eyebrow="Illustrative sample"
           title={diagnosticSample.title}
@@ -117,10 +115,10 @@ export function DiagnosticPage() {
         />
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {diagnosticSample.pages.map((page: string[]) => (
-            <div key={page[0]} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
+            <GlassCard key={page[0]} as="div" variant="glass" hover={false} className="p-5">
               <h3 className="font-semibold text-text">{page[0]}</h3>
               <p className="mt-2 text-sm text-muted">{page[1]}</p>
-            </div>
+            </GlassCard>
           ))}
         </div>
         <p className="mt-4 text-sm text-muted">{syntheticPractice.name} · {syntheticPractice.label}</p>
