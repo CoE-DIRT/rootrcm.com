@@ -30,7 +30,7 @@ export function ResponsiveTableShell({
         role="region"
         aria-label={label ?? caption}
         tabIndex={0}
-        className="w-full max-w-full overflow-x-auto overflow-y-hidden pb-2 focus-visible:outline-none [scrollbar-color:rgba(99,102,241,0.24)_transparent] [scrollbar-width:thin]"
+        className="w-full max-w-full overflow-x-auto overflow-y-hidden pb-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data-blue [scrollbar-color:rgba(99,102,241,0.24)_transparent] [scrollbar-width:thin]"
       >
         <table className={cn('w-full border-collapse text-left text-sm text-text', minWidthClassName)}>
           {caption ? <caption className="sr-only">{caption}</caption> : null}

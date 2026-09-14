@@ -202,6 +202,14 @@
   transition-timing-function: var(--ease-premium);
 }
 
+/* MarketingHeader is `sticky top-0` at h-16 (64px). Without this, in-page anchors
+   (DirtSectionNav's #orient/#signal/#command-center/#scenario/#action,
+   #diagnostic-form, #sample-report, #contact-form) land their target under the
+   header chrome. */
+.v4-root [id] {
+  scroll-margin-top: 5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .v4-root *,
   .v4-root *::before,

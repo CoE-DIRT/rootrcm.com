@@ -15,7 +15,7 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import { dirtDemo, formatCompactUsd } from '@/data/dirtDemo';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/Section';
 import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
 import { NestedDataGridContainer } from '@/components/dirt/NestedDataGridContainer';
 import { cn } from '@/lib/cn';
@@ -231,9 +231,15 @@ export function PriorityQueue({ limit }: { limit?: number }) {
   );
 }
 
+/**
+ * Renders bare content (no own `Section` wrapper) so the caller's `Section` is the
+ * only padded/max-width wrapper — nesting a `Section` inside a `Section` double-pads
+ * and double-insets the content, since `!px-0`/`!py-0` on the outer `<section>` tag
+ * doesn't reach the inner content div's own `px-4 sm:px-6 lg:px-8` padding.
+ */
 export function DirtSignalFlow() {
   return (
-    <Section className="!px-0 !py-0">
+    <>
       <SectionHeader
         eyebrow="Operating logic"
         title="From signal to an owned next action"
@@ -248,6 +254,6 @@ export function DirtSignalFlow() {
           </li>
         ))}
       </ol>
-    </Section>
+    </>
   );
 }

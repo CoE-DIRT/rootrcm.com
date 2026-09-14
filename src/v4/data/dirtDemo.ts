@@ -54,6 +54,8 @@ export const dirtDemo = {
     { label: 'Owned this cycle', displayLabel: 'Owned', value: '3 of 5', note: 'Items with a named owner and next action.', tone: 'success' as const, accent: 'green' as const },
     { label: 'Avg. days open', displayLabel: 'Avg. days open', value: '9d', note: 'Since signal first appeared.', tone: 'neutral' as const, accent: 'indigo' as const },
   ],
+  // `score` is an illustrative fixture string for sort/display order — not a model
+  // confidence or validated probability (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md).
   triageRows: [
     {
       id: 'ROW-01',

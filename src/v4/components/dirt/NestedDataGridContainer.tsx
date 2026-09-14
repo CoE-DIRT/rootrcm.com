@@ -62,12 +62,13 @@ export function NestedDataGridContainer() {
             </div>
           </div>
 
-          <div className="hidden grid-cols-[1.2fr_0.7fr_0.75fr_0.55fr_0.45fr] gap-3 border-b border-border bg-bg-deep/70 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted md:grid">
+          <div className="hidden grid-cols-[1.2fr_0.7fr_0.75fr_0.55fr_0.45fr_minmax(8rem,0.7fr)] gap-3 border-b border-border bg-bg-deep/70 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted md:grid">
             <span>Queue item</span>
             <span>Segment</span>
             <span>Owner</span>
             <span>Risk</span>
-            <span>Confidence</span>
+            <span>Illustrative score</span>
+            <span aria-hidden="true" />
           </div>
 
           <div className="divide-y divide-border">
@@ -103,7 +104,12 @@ export function NestedDataGridContainer() {
                         {riskDisplayLabel(row.risk)}
                       </StatusPill>
                     </div>
-                    <p className="text-sm font-semibold text-text">{row.score}</p>
+                    <p
+                      className="text-sm text-muted"
+                      title="Illustrative fixture value, not a validated model confidence or probability"
+                    >
+                      {row.score}
+                    </p>
                     <button
                       type="button"
                       onClick={() => setActiveRowId(row.id)}

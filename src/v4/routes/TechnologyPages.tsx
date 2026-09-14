@@ -139,7 +139,7 @@ export function DirtPage() {
         <SectionHeader
           eyebrow="Media"
           title="Product-grade information surfaces"
-          description="Charts and tables above are the live demo. Photography below is editorial context only."
+          description="Charts and tables above are an interactive synthetic demo — not a live account. Photography below is editorial context only."
         />
         <MediaFrame
           src={mediaAssets.dirtAnalytics}
