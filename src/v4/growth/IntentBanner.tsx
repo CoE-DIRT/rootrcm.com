@@ -171,7 +171,7 @@ export function IntentBannerHost() {
       role="dialog"
       aria-label={active.title}
       className={cn(
-        'fixed bottom-28 left-4 right-4 z-[85] mx-auto max-w-md rounded-[var(--radius-root)] border border-border bg-panel p-4 shadow-root sm:left-auto sm:right-6',
+        'intent-banner fixed bottom-28 left-4 right-4 z-[85] mx-auto max-w-md rounded-[var(--radius-root)] border border-border bg-panel p-4 shadow-root sm:left-auto sm:right-6',
       )}
     >
       <div className="flex items-start justify-between gap-3">

@@ -249,12 +249,24 @@
   scroll-margin-top: 5rem;
 }
 
-/* Floating docks clear page end-content; cookie notice lifts docks while visible. */
+/* Floating docks clear page end-content; cookie notice lifts docks while visible.
+   `!important`: src/revenue-hotfix.css pins `.floatingContact`/`.floatingFollow`
+   `bottom` with `!important` at max-width:680px, which otherwise wins over this
+   rule's plain declaration regardless of the higher `body:has(...)` specificity —
+   `!important` always beats non-`!important`. Match it so mobile also lifts. */
 body:has(.klaro .cookie-notice:not([aria-hidden='true'])) .floatingContact,
 body:has(.klaro .cookie-notice:not([aria-hidden='true'])) .floatingFollow,
 body:has(.klaro .cookie-notice:not(.cn-close)) .floatingContact,
 body:has(.klaro .cookie-notice:not(.cn-close)) .floatingFollow {
-  bottom: max(7.5rem, calc(env(safe-area-inset-bottom, 0px) + 7.5rem + var(--dock-bottom-extra, 0px)));
+  bottom: max(7.5rem, calc(env(safe-area-inset-bottom, 0px) + 7.5rem + var(--dock-bottom-extra, 0px))) !important;
+}
+
+/* The exit/scroll IntentBanner sits at a fixed bottom-28 (7rem) below the docks'
+   z-index:90, so when the cookie notice lifts the docks to 7.5rem+ they land almost
+   exactly on top of the banner (docks paint above it) — lift the banner clear too. */
+body:has(.klaro .cookie-notice:not([aria-hidden='true'])) .intent-banner,
+body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
+  bottom: max(11.5rem, calc(env(safe-area-inset-bottom, 0px) + 11.5rem + var(--dock-bottom-extra, 0px))) !important;
 }
 
 /* Laptop first-viewport compression: keep hero CTA + DIRT credibility above the fold. */
