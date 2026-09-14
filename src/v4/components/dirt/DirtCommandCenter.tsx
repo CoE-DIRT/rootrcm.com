@@ -18,6 +18,7 @@ import { dirtDemo, formatCompactUsd } from '@/data/dirtDemo';
 import { SectionHeader } from '@/components/ui/Section';
 import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
 import { NestedDataGridContainer } from '@/components/dirt/NestedDataGridContainer';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { cn } from '@/lib/cn';
 
 const metricCards = [
@@ -94,6 +95,7 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
 }
 
 export function ArAgingMatrix() {
+  const reducedMotion = usePrefersReducedMotion();
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">A/R aging landscape</h3>
@@ -109,7 +111,7 @@ export function ArAgingMatrix() {
               contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value) => [formatCompactUsd(Number(value)), 'A/R']}
             />
-            <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="amount" radius={[4, 4, 0, 0]} isAnimationActive={!reducedMotion}>
               {dirtDemo.aging.map((row) => (
                 <Cell key={row.bucket} fill={String(row.bucket).includes('120') || String(row.bucket).startsWith('91') ? 'var(--color-signal-amber)' : 'var(--color-accent)'} />
               ))}
@@ -122,6 +124,7 @@ export function ArAgingMatrix() {
 }
 
 export function DenialPareto() {
+  const reducedMotion = usePrefersReducedMotion();
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">Denial analytics</h3>
@@ -136,7 +139,7 @@ export function DenialPareto() {
               contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value, _n, item) => [formatCompactUsd(Number(value)), `${item?.payload?.count ?? ''} events`]}
             />
-            <Bar dataKey="value" fill="var(--color-data-blue)" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="value" fill="var(--color-data-blue)" radius={[0, 4, 4, 0]} isAnimationActive={!reducedMotion} />
           </BarChart>
         </ResponsiveContainer>
       </div>

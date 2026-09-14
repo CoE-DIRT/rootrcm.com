@@ -25,7 +25,7 @@ const rows = [
   {
     category: 'Governance',
     root: 'Human-owned execution with named accountability',
-    dirt: 'Human-in-the-loop review on every recommendation',
+    dirt: 'Every recommendation requires human review before action',
     ehr: 'System-bound clinical workflows',
     clearing: 'Transaction & payer-rule driven',
   },
