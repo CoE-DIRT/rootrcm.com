@@ -98,12 +98,15 @@ export const dirtDemo = {
     },
   ],
   /** InteractiveMiniDashboard fixture — explicit synthetic baseline/scenario, no
-   * "Live" framing (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md issue #2). */
+   * "Live" framing (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md issue #2). Recoverable
+   * amounts are derived from syntheticPractice.totalAr so the scenario stays internally
+   * consistent with the command center's own total A/R figure, instead of an
+   * independently-chosen number that could exceed it. */
   scenario: {
     baselineDso: 32,
     modeledDso: 28,
-    baselineRecoverable: 4200000,
-    modeledRecoverable: 4550000,
+    baselineRecoverable: Math.round(syntheticPractice.totalAr * 0.54),
+    modeledRecoverable: Math.round(syntheticPractice.totalAr * 0.6),
   },
 };
 
