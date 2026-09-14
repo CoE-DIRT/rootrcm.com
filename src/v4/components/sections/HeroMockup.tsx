@@ -31,7 +31,14 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
           </div>
         ) : null}
 
-        <div className="max-h-[420px] min-w-0 overflow-y-auto pr-1">{children}</div>
+        <div
+          role="region"
+          aria-label={`${label} — scrollable preview`}
+          tabIndex={0}
+          className="max-h-[420px] min-w-0 overflow-y-auto pr-1 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data-blue"
+        >
+          {children}
+        </div>
 
         <div className="mt-4 grid gap-2 rounded-[var(--radius-root)] border border-border bg-bg-deep/70 p-3 text-xs text-muted md:grid-cols-2">
           <div className="flex items-center gap-2">

@@ -185,6 +185,27 @@
   opacity: 0.1;
 }
 
+/* Legacy src/styles.css declares an unlayered `.homeHero { display:grid;
+   grid-template-columns: minmax(0,.98fr) minmax(430px,1.02fr); min-height:760px;
+   padding:104px ...; background: ...; }` for the old full-bleed photo hero.
+   HeroSection.tsx keeps the `.homeHero` class only for experiments.js's DOM-based
+   A/B test (see the comment in HeroSection.tsx) — but that means the legacy grid
+   still matches it. With only one in-flow child, that grid put the whole new hero
+   in column 1 and left a 430px-wide empty column 2, badly compressing the layout.
+   `.v4-root .homeHero` (specificity 0,2,0) beats the legacy `.homeHero` (0,1,0)
+   regardless of load order, same pattern as the h1/h2/h3 font-family override above. */
+.v4-root .homeHero {
+  display: block;
+  grid-template-columns: none;
+  min-height: auto;
+  padding: 0;
+  background: none;
+}
+
+.v4-root .homeHero::before {
+  content: none;
+}
+
 /* Visible focus treatment: 2px aqua ring plus background separation, works with and
    without forced-colors. Do not remove native outlines without this replacement. */
 .v4-root :focus-visible {

@@ -1,5 +1,4 @@
 // Ported from DIRT premium-react-site: src/components/ui/GlassCard.jsx
-import { forwardRef } from 'react';
 import type { ElementType, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
@@ -23,7 +22,7 @@ const accentClass: Record<GlassCardAccent, string> = {
   blush: 'from-signal-blush/80 to-signal-error/35',
 };
 
-export interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
+export interface GlassCardProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
   children: ReactNode;
   hover?: boolean;
@@ -31,13 +30,23 @@ export interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
   accent?: GlassCardAccent;
 }
 
-export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(function GlassCard(
-  { as: Comp = 'article', children, className, hover = true, variant = 'glass', accent, ...props },
-  ref,
-) {
+/**
+ * `as` renders the requested element as the actual root — className and all other
+ * props land on it, not on an inner wrapper. (Rendering `Comp` as an inner child
+ * while props stayed on an outer `div` broke layout callers like `TrustSignals`,
+ * where a flex className on the "root" never reached the element that needed it.)
+ */
+export function GlassCard({
+  as: Comp = 'article',
+  children,
+  className,
+  hover = true,
+  variant = 'glass',
+  accent,
+  ...props
+}: GlassCardProps) {
   return (
-    <div
-      ref={ref}
+    <Comp
       className={cn(
         'relative min-w-0 overflow-hidden rounded-[var(--radius-panel)] p-5 transition-premium',
         hover &&
@@ -53,7 +62,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(function Gla
           className={cn('pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r', accentClass[accent])}
         />
       ) : null}
-      <Comp className="relative z-10">{children}</Comp>
-    </div>
+      {children}
+    </Comp>
   );
-});
+}

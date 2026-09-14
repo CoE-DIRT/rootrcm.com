@@ -9,7 +9,7 @@ afterEach(() => {
 describe('DirtCommandCenter', () => {
   it('expands/collapses a triage row and shows the operational pattern panel', () => {
     render(<DirtCommandCenter />);
-    const toggle = screen.getByRole('button', { name: /Eligibility denials — new patient front end/i });
+    const toggle = screen.getByRole('button', { name: /^Eligibility denials — new patient front end/i });
     expect(screen.queryByText(/Eligibility checks skipped for same-day/i)).toBeNull();
 
     fireEvent.click(toggle);
@@ -25,7 +25,7 @@ describe('DirtCommandCenter', () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch');
     render(<DirtCommandCenter />);
 
-    const explainButtons = screen.getAllByRole('button', { name: /^Explain$/i });
+    const explainButtons = screen.getAllByRole('button', { name: /^Explain: /i });
     fireEvent.click(explainButtons[0]);
     expect(screen.getByText('Explain this recommendation')).toBeTruthy();
     expect(screen.getByRole('heading', { level: 3, name: /Eligibility denials — new patient front end/i })).toBeTruthy();

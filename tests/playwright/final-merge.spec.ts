@@ -3,13 +3,13 @@ import { test, expect } from '@playwright/test';
 test.describe('DIRT-led merge — final QA', () => {
   test('DIRT triage grid expand/Explain/close works and stays keyboard-focusable', async ({ page }) => {
     await page.goto('/technology/dirt/');
-    const explainButtons = page.getByRole('button', { name: /^Explain$/i });
+    const explainButtons = page.getByRole('button', { name: /^Explain: /i });
     await explainButtons.first().click();
     await expect(page.getByText('Explain this recommendation')).toBeVisible();
     await page.getByRole('button', { name: /Close/i }).click();
     await expect(page.getByText('Explain this recommendation')).toBeHidden();
 
-    const firstToggle = page.getByRole('button', { name: /Eligibility denials/i });
+    const firstToggle = page.getByRole('button', { name: /^Eligibility denials/i });
     await firstToggle.focus();
     await expect(firstToggle).toBeFocused();
     await page.keyboard.press('Enter');

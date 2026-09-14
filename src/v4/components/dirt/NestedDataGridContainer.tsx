@@ -68,7 +68,7 @@ export function NestedDataGridContainer() {
             <span>Owner</span>
             <span>Risk</span>
             <span>Illustrative score</span>
-            <span aria-hidden="true" />
+            <span>Action</span>
           </div>
 
           <div className="divide-y divide-border">
@@ -113,6 +113,7 @@ export function NestedDataGridContainer() {
                     <button
                       type="button"
                       onClick={() => setActiveRowId(row.id)}
+                      aria-label={`Explain: ${row.title}`}
                       className={cn(
                         'inline-flex min-h-9 w-full items-center justify-center gap-1.5 rounded-[var(--radius-root)] border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors md:w-auto',
                         isActive
@@ -121,7 +122,7 @@ export function NestedDataGridContainer() {
                       )}
                     >
                       <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      Explain
+                      <span aria-hidden="true">Explain</span>
                     </button>
                   </div>
 
