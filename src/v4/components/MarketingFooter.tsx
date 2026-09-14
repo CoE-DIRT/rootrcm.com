@@ -32,7 +32,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
   ).filter((channel) => channel.status === 'Live' && channel.href);
 
   return (
-    <footer className="v4-root border-t border-border bg-bg-soft py-16">
+    <footer className="v4-root border-t border-border bg-gradient-to-b from-bg-deep to-bg py-16">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
           <p className="text-lg font-semibold text-text">ROOT</p>

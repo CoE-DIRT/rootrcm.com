@@ -15,7 +15,10 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import { dirtDemo, formatCompactUsd } from '@/data/dirtDemo';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/Section';
+import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
+import { NestedDataGridContainer } from '@/components/dirt/NestedDataGridContainer';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { cn } from '@/lib/cn';
 
 const metricCards = [
@@ -29,24 +32,38 @@ const metricCards = [
 ];
 
 export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
+  const visibleMetrics = compact ? metricCards.slice(0, 4) : metricCards;
+
   return (
-    <div className={cn('space-y-8', compact && 'space-y-5')} data-dirt-command>
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
+    <div className={cn('min-w-0 space-y-8', compact && 'space-y-3')} data-dirt-command>
+      <div className={cn('flex flex-wrap items-end justify-between gap-3', compact && 'flex-col items-start gap-1.5')}>
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">DIRT command center</p>
-          <h2 className="mt-1 text-2xl font-semibold text-text sm:text-3xl">Executive revenue view</h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted">
-            Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
-          </p>
+          <h2 className={cn('mt-1 font-semibold text-text', compact ? 'text-lg' : 'text-2xl sm:text-3xl')}>
+            Executive revenue view
+          </h2>
+          {!compact ? (
+            <p className="mt-2 max-w-2xl text-sm text-muted">
+              Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
+            </p>
+          ) : (
+            <p className="mt-1 text-xs text-muted">Synthetic demo · {dirtDemo.practice.name}</p>
+          )}
         </div>
         <p className="rounded-full border border-border px-3 py-1 text-xs text-signal-amber">{dirtDemo.practice.period}</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-        {metricCards.map((m) => (
-          <div key={m.label} className="rounded-[var(--radius-root)] border border-border bg-panel/50 p-4">
-            <p className="text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
-            <p className="mt-2 text-xl font-semibold text-text">{m.value}</p>
+      <div className={cn('grid min-w-0 gap-3', compact ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7')}>
+        {visibleMetrics.map((m) => (
+          <div
+            key={m.label}
+            className={cn(
+              'min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50',
+              compact ? 'p-3' : 'p-4',
+            )}
+          >
+            <p className="truncate text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
+            <p className={cn('mt-2 truncate font-semibold text-text', compact ? 'text-lg' : 'text-xl')}>{m.value}</p>
           </div>
         ))}
       </div>
@@ -62,36 +79,41 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
             <UnderpaymentPanel />
             <PriorityQueue />
           </div>
+          <div>
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.14em] text-data-blue">
+              Expandable triage &amp; explanation
+            </h3>
+            <NestedDataGridContainer />
+          </div>
         </>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <ArAgingMatrix />
-          <PriorityQueue limit={3} />
-        </div>
+        /* Hero preview: executive metrics only — charts/queues live on /technology/dirt/. */
+        null
       )}
     </div>
   );
 }
 
 export function ArAgingMatrix() {
+  const reducedMotion = usePrefersReducedMotion();
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">A/R aging landscape</h3>
       <p className="mt-1 text-xs text-muted">Recoverability differs by bucket — not one backlog.</p>
-      <div className="mt-4 h-56 w-full" role="img" aria-label="A/R aging bar chart">
+      <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="A/R aging bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.aging}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-            <XAxis dataKey="bucket" tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} width={48} />
+            <XAxis dataKey="bucket" tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} width={48} />
             <Tooltip
-              cursor={{ fill: 'rgba(112,224,173,0.08)' }}
-              contentStyle={{ background: '#10231d', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              cursor={{ fill: 'rgba(99,102,241,0.08)' }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value) => [formatCompactUsd(Number(value)), 'A/R']}
             />
-            <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="amount" radius={[4, 4, 0, 0]} isAnimationActive={!reducedMotion}>
               {dirtDemo.aging.map((row) => (
-                <Cell key={row.bucket} fill={String(row.bucket).includes('120') || String(row.bucket).startsWith('91') ? '#d8bd7a' : '#70e0ad'} />
+                <Cell key={row.bucket} fill={String(row.bucket).includes('120') || String(row.bucket).startsWith('91') ? 'var(--color-signal-amber)' : 'var(--color-accent)'} />
               ))}
             </Bar>
           </BarChart>
@@ -102,21 +124,22 @@ export function ArAgingMatrix() {
 }
 
 export function DenialPareto() {
+  const reducedMotion = usePrefersReducedMotion();
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">Denial analytics</h3>
       <p className="mt-1 text-xs text-muted">Cause families with value at risk — synthetic events.</p>
-      <div className="mt-4 h-56 w-full" role="img" aria-label="Denial category bar chart">
+      <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="Denial category bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" horizontal={false} />
-            <XAxis type="number" tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey="category" width={88} tick={{ fill: '#98aaa1', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <XAxis type="number" tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis type="category" dataKey="category" width={88} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ background: '#10231d', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
               formatter={(value, _n, item) => [formatCompactUsd(Number(value)), `${item?.payload?.count ?? ''} events`]}
             />
-            <Bar dataKey="value" fill="#75d7ff" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="value" fill="var(--color-data-blue)" radius={[0, 4, 4, 0]} isAnimationActive={!reducedMotion} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -140,17 +163,17 @@ const payerColumns = [
 export function PayerPerformanceTable() {
   const table = useReactTable({ data: dirtDemo.payers, columns: payerColumns, getCoreRowModel: getCoreRowModel() });
   return (
-    <div className="overflow-x-auto rounded-[var(--radius-root)] border border-border bg-panel/40">
-      <div className="border-b border-border px-4 py-3">
+    <div className="min-w-0 space-y-3">
+      <div>
         <h3 className="text-sm font-semibold text-text">Payer performance</h3>
         <p className="text-xs text-muted">Clean claim, denial rate, and aged A/R by payer group.</p>
       </div>
-      <table className="min-w-full text-left text-sm">
-        <thead className="bg-bg-soft text-xs uppercase tracking-wide text-muted">
+      <ResponsiveTableShell caption="Payer performance: clean claim rate, denial rate, and aged A/R by payer group" minWidthClassName="min-w-[640px]">
+        <thead className="bg-bg-deep/60 text-xs uppercase tracking-wide text-muted">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((h) => (
-                <th key={h.id} className="px-4 py-2 font-medium">
+                <th key={h.id} scope="col" className="px-4 py-2 font-medium">
                   {flexRender(h.column.columnDef.header, h.getContext())}
                 </th>
               ))}
@@ -168,7 +191,7 @@ export function PayerPerformanceTable() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </ResponsiveTableShell>
     </div>
   );
 }
@@ -194,21 +217,21 @@ export function UnderpaymentPanel() {
   );
 }
 
-export function PriorityQueue({ limit }: { limit?: number }) {
+export function PriorityQueue({ limit, compact = false }: { limit?: number; compact?: boolean }) {
   const rows = typeof limit === 'number' ? dirtDemo.queue.slice(0, limit) : dirtDemo.queue;
   return (
-    <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
+    <div className={cn('rounded-[var(--radius-root)] border border-border bg-panel/40', compact ? 'p-3' : 'p-4')}>
       <h3 className="text-sm font-semibold text-text">Priority action queue</h3>
       <p className="mt-1 text-xs text-muted">Signal → finding → significance → owner → next action.</p>
-      <ol className="mt-4 space-y-3">
+      <ol className={cn('mt-3 space-y-3', compact && 'mt-2 space-y-2')}>
         {rows.map((row) => (
           <li key={row.id} className="grid gap-1 border-l-2 border-accent pl-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-wide text-signal-amber">{row.priority}</span>
               <span className="text-sm font-medium text-text">{row.signal}</span>
-              <span className="text-xs text-accent">{row.significance}</span>
+              {!compact ? <span className="text-xs text-accent">{row.significance}</span> : null}
             </div>
-            <p className="text-xs text-muted">{row.finding}</p>
+            {!compact ? <p className="text-xs text-muted">{row.finding}</p> : null}
             <p className="text-xs text-text">
               <span className="text-muted">Owner:</span> {row.owner} · <span className="text-muted">Next:</span> {row.action}
             </p>
@@ -219,9 +242,15 @@ export function PriorityQueue({ limit }: { limit?: number }) {
   );
 }
 
+/**
+ * Renders bare content (no own `Section` wrapper) so the caller's `Section` is the
+ * only padded/max-width wrapper — nesting a `Section` inside a `Section` double-pads
+ * and double-insets the content, since `!px-0`/`!py-0` on the outer `<section>` tag
+ * doesn't reach the inner content div's own `px-4 sm:px-6 lg:px-8` padding.
+ */
 export function DirtSignalFlow() {
   return (
-    <Section className="!px-0 !py-0">
+    <>
       <SectionHeader
         eyebrow="Operating logic"
         title="From signal to an owned next action"
@@ -236,6 +265,6 @@ export function DirtSignalFlow() {
           </li>
         ))}
       </ol>
-    </Section>
+    </>
   );
 }

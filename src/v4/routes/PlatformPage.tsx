@@ -4,6 +4,9 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { PracticeLifecycle } from '@/components/sections/PracticeLifecycle';
+import { ContinuousImprovementLoop } from '@/components/sections/ContinuousImprovementLoop';
+import { VerticalExpansionMap } from '@/components/sections/VerticalExpansionMap';
 import { platformNodes, mediaAssets, pricingModels } from '../../siteData.js';
 
 const engagementRows = [
@@ -92,6 +95,39 @@ export function PlatformPage() {
               <p className="mt-2 text-sm text-muted">{node.copy}</p>
             </div>
           ))}
+        </div>
+      </Section>
+
+      <Section tone="grid" wide>
+        <SectionHeader
+          eyebrow="Practice lifecycle"
+          title="Every business-side stage, owned."
+          description="Clinical practice stays at the center — ROOT owns the operating stages around it."
+        />
+        <div className="mt-8">
+          <PracticeLifecycle />
+        </div>
+      </Section>
+
+      <Section tone="soft" wide>
+        <SectionHeader
+          eyebrow="Operating loop"
+          title="A continuous improvement loop, not a one-time fix."
+          description="Every engagement runs the same cycle: detect, explain, prioritize, improve, govern."
+        />
+        <div className="mt-8">
+          <ContinuousImprovementLoop />
+        </div>
+      </Section>
+
+      <Section wide>
+        <SectionHeader
+          eyebrow="Growth path"
+          title="Start focused. Expand when the evidence earns it."
+          description="A real sequence of ROOT engagements — not a hypothetical roadmap."
+        />
+        <div className="mt-8">
+          <VerticalExpansionMap />
         </div>
       </Section>
 

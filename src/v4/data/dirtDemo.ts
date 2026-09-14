@@ -1,5 +1,54 @@
 import { syntheticPractice, proofWorkAssets } from '../../proofData.js';
 
+// `score` is an illustrative fixture string for sort/display order — not a model
+// confidence or validated probability (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md).
+// Declared before `dirtDemo` so the "Owned this cycle" metric below can derive its
+// fraction from this same collection instead of an independently-chosen number that
+// could silently drift out of sync with it (see IMPLEMENTATION-LEDGER.md).
+const triageRowsData = [
+  {
+    id: 'ROW-01',
+    title: 'Eligibility denials — new patient front end',
+    summary: 'Front-end verification gaps on new patients before date of service.',
+    segment: 'Front desk',
+    owner: 'Front desk lead',
+    risk: 'Ready for action',
+    score: '0.82',
+    pattern: 'Eligibility checks skipped for same-day and short-notice appointments.',
+    evidence: 'Synthetic sample of 40 denied claims shows missing eligibility verification timestamps.',
+    humanCheck: 'Confirm the front-desk SOP gap with a supervisor before enforcing a mandatory check.',
+    recommendation: 'Stand up a mandatory eligibility-check SOP for same-day visits; review in 14 days.',
+  },
+  {
+    id: 'ROW-02',
+    title: 'Auth-driven A/R — incomplete referral packets',
+    summary: 'Referral packets incomplete before date of service, delaying authorization.',
+    segment: 'Authorization',
+    owner: 'Auth coordinator',
+    risk: 'Watch closely',
+    score: '0.71',
+    pattern: 'Referral intake missing payer-required fields in a recurring subset of specialties.',
+    evidence: 'Synthetic sample flags incomplete packets clustering around two referring practices.',
+    humanCheck: 'Auth coordinator validates whether the gap is intake process or payer requirement drift.',
+    recommendation: 'Add a pre-visit authorization checklist gated on packet completeness.',
+  },
+  {
+    id: 'ROW-03',
+    title: 'Aging 120+ — Commercial follow-up overdue',
+    summary: 'Commercial payer follow-up has lapsed past the 120-day threshold.',
+    segment: 'A/R',
+    owner: 'A/R team',
+    risk: 'Ready for action',
+    score: '0.88',
+    pattern: 'Follow-up cadence breaks down once claims pass 90 days without payer response.',
+    evidence: 'Synthetic aging export shows a concentration of stalled claims in one payer category.',
+    humanCheck: 'A/R lead confirms which accounts are genuinely stalled versus pending appeal.',
+    recommendation: 'Escalate open payer tickets and set a 7-day follow-up cadence past 90 days.',
+  },
+];
+
+const ownedTriageRowCount = triageRowsData.filter((row) => row.owner).length;
+
 /** Deidentified demonstration dataset for DIRT command surfaces. */
 export const dirtDemo = {
   practice: syntheticPractice,
@@ -44,6 +93,28 @@ export const dirtDemo = {
     { stage: 'Owner', detail: 'Front desk lead + Auth coordinator (shared SLA)' },
     { stage: 'Next action', detail: 'Stand up pre-visit checklist; review in 14 days' },
   ],
+  /** Nested Data Grid Container fixture — ported row shape from
+   * D/src/content/experienceContent.js nestedGridDefaults, populated with ROOT's
+   * synthetic practice data only (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md). */
+  triageMetrics: [
+    { label: 'Queue volume', displayLabel: 'Queue volume', value: '48 items', note: 'Open triage items this cycle.', tone: 'synthetic' as const, accent: 'cyan' as const },
+    { label: 'Value at risk', displayLabel: 'Value at risk', value: formatCompactUsd(214000), note: 'Combined significance across the queue.', tone: 'illustrative' as const, accent: 'amber' as const },
+    { label: 'Human review required', displayLabel: 'Human review', value: '100%', note: 'Every recommendation needs owner sign-off.', tone: 'risk' as const, accent: 'blush' as const },
+    { label: 'Owned this cycle', displayLabel: 'Owned', value: `${ownedTriageRowCount} of ${triageRowsData.length}`, note: 'Items with a named owner and next action.', tone: 'success' as const, accent: 'green' as const },
+    { label: 'Avg. days open', displayLabel: 'Avg. days open', value: '9d', note: 'Since signal first appeared.', tone: 'neutral' as const, accent: 'indigo' as const },
+  ],
+  triageRows: triageRowsData,
+  /** InteractiveMiniDashboard fixture — explicit synthetic baseline/scenario, no
+   * "Live" framing (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md issue #2). Recoverable
+   * amounts are derived from syntheticPractice.totalAr so the scenario stays internally
+   * consistent with the command center's own total A/R figure, instead of an
+   * independently-chosen number that could exceed it. */
+  scenario: {
+    baselineDso: 32,
+    modeledDso: 28,
+    baselineRecoverable: Math.round(syntheticPractice.totalAr * 0.54),
+    modeledRecoverable: Math.round(syntheticPractice.totalAr * 0.6),
+  },
 };
 
 export function formatCompactUsd(n: number): string {

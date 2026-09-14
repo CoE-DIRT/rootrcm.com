@@ -3,6 +3,8 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { AnnotationNote } from '@/components/ui/AnnotationNote';
 import { solutionPages, solutionMediaBySlug, mediaAssets, resourceArticles } from '../../siteData.js';
 import { proofWorkAssets, proofPlacementBySolutionSlug, proofPlacementByResourceSlug } from '../../proofData.js';
 import { getVisibleCaseStudies, getCaseStudyBySlug } from '../../data/caseStudies.js';
@@ -27,9 +29,11 @@ export function SolutionsHubPage() {
       <Section tone="soft">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {solutionPages.map((page: Solution) => (
-            <a key={page.slug} href={`/solutions/${page.slug}/`} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 hover:border-accent">
-              <h2 className="font-semibold text-text">{page.title}</h2>
-              <p className="mt-2 text-sm text-muted">{page.summary}</p>
+            <a key={page.slug} href={`/solutions/${page.slug}/`} className="block h-full">
+              <GlassCard variant="glass" accent="indigo" className="h-full">
+                <h2 className="font-semibold text-text">{page.title}</h2>
+                <p className="mt-2 text-sm text-muted">{page.summary}</p>
+              </GlassCard>
             </a>
           ))}
         </div>
@@ -69,22 +73,22 @@ export function SolutionPage({ page }: { page: Solution }) {
           />
         </Section>
       )}
-      <Section>
+      <Section tone="grid" wide>
             {'problem' in page && page.problem ? (
           <>
             <SectionHeader title="The operating problem" description={String(page.problem)} />
             {'rootResponse' in page && page.rootResponse ? (
               <p className="mt-4 text-sm text-muted">{String(page.rootResponse)}</p>
             ) : null}
-            {'dirt' in page && page.dirt ? <p className="mt-3 text-sm text-muted">{String(page.dirt)}</p> : null}
+            {'dirt' in page && page.dirt ? <AnnotationNote label="DIRT signal" text={String(page.dirt)} className="mt-3" /> : null}
           </>
         ) : null}
         {proof ? (
-          <div className="mt-8 rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
-            <p className="text-xs uppercase tracking-wide text-accent">{proof.label}</p>
+          <GlassCard as="div" variant="glass" accent="cyan" hover={false} className="mt-8">
+            <p className="text-xs uppercase tracking-wide text-data-blue">{proof.label}</p>
             <h2 className="mt-1 text-lg font-semibold text-text">{proof.title}</h2>
             <p className="mt-2 text-sm text-muted">{proof.insight}</p>
-          </div>
+          </GlassCard>
         ) : null}
       </Section>
     </V4Shell>
@@ -108,9 +112,11 @@ export function ResourcesHubPage() {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {resourceArticles.map((article: Article) => (
-            <a key={article.slug} href={`/resources/${article.slug}/`} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 hover:border-accent">
-              <h2 className="font-semibold text-text">{article.title}</h2>
-              <p className="mt-2 text-sm text-muted">{article.summary}</p>
+            <a key={article.slug} href={`/resources/${article.slug}/`} className="block h-full">
+              <GlassCard variant="glass" accent="green" className="h-full">
+                <h2 className="font-semibold text-text">{article.title}</h2>
+                <p className="mt-2 text-sm text-muted">{article.summary}</p>
+              </GlassCard>
             </a>
           ))}
         </div>
@@ -152,11 +158,11 @@ export function ResourceArticlePage({ article }: { article: Article }) {
           </div>
         ) : null}
         {proof ? (
-          <div className="mt-8 rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
-            <p className="text-xs text-accent">{proof.label}</p>
+          <GlassCard as="div" variant="glass" hover={false} className="mt-8">
+            <p className="text-xs text-data-blue">{proof.label}</p>
             <p className="mt-1 font-medium text-text">{proof.title}</p>
             <p className="mt-2 text-sm text-muted">{proof.insight}</p>
-          </div>
+          </GlassCard>
         ) : null}
         <CTAGroup className="mt-10">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
@@ -184,27 +190,35 @@ export function CaseStudiesHubPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {studies.length ? (
             studies.map((study: { slug: string; title: string; summary: string; proofLabel: string; publicReady: boolean }) => (
-              <a key={study.slug} href={`/case-studies/${study.slug}/`} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 hover:border-accent">
-                <span className="text-xs text-accent">{study.proofLabel}</span>
-                <h2 className="mt-2 text-lg font-semibold text-text">{study.title}</h2>
-                <p className="mt-2 text-sm text-muted">{study.summary}</p>
-                {!study.publicReady ? <em className="mt-3 block text-xs text-signal-amber">Publication review required</em> : null}
+              <a key={study.slug} href={`/case-studies/${study.slug}/`} className="block h-full">
+                <GlassCard variant="glass" accent="indigo" className="h-full">
+                  <span className="text-xs text-data-blue">{study.proofLabel}</span>
+                  <h2 className="mt-2 text-lg font-semibold text-text">{study.title}</h2>
+                  <p className="mt-2 text-sm text-muted">{study.summary}</p>
+                  {!study.publicReady ? <em className="mt-3 block text-xs text-signal-amber">Publication review required</em> : null}
+                </GlassCard>
               </a>
             ))
           ) : (
-            <div className="rounded-[var(--radius-root)] border border-border p-6">
+            <GlassCard as="div" variant="glass" hover={false}>
               <h2 className="font-semibold text-text">Proof materials are being prepared.</h2>
               <p className="mt-2 text-sm text-muted">Start with a practice-specific Revenue Optimization Diagnostic.</p>
-            </div>
+            </GlassCard>
           )}
         </div>
-        <MediaFrame
-          src="/assets/case-studies/dirt-poc-01/previews/slide-01-the-problem.png"
-          alt="DIRT proof slide preview — anonymized illustrative artifact."
-          caption="Illustrative proof visual"
-          className="mt-10"
-          aspect="wide"
-        />
+        {/* No hardcoded reference to the gated dirt-poc-01 preview asset here: that
+            case study has publicReady:false, so productionIsolation strips its images
+            from the build (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md issue #1).
+            Only render study-linked media once a study is actually publicReady. */}
+        {studies.length ? (
+          <MediaFrame
+            src={mediaAssets.dirtAnalytics}
+            alt="Illustrative analytics workstation. Editorial stock photograph; not live PHI or client dashboards."
+            caption="Editorial context — proof-of-concept visuals use synthetic data only"
+            className="mt-10"
+            aspect="wide"
+          />
+        ) : null}
       </Section>
     </V4Shell>
   );

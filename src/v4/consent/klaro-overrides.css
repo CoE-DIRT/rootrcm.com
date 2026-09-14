@@ -1,12 +1,20 @@
-/* Thin ROOT brand pass over Klaro's default theme. Klaro ships its own CSS
-   (imported at runtime in CookieConsent.tsx); this file only re-tints it. */
+/* Thin ROOT/DIRT brand pass over Klaro's default theme. Klaro ships its own CSS
+   (imported at runtime in CookieConsent.tsx); this file only re-tints it to the
+   canonical V4 token surface so consent UI does not reintroduce the legacy green panel. */
 .klaro .cookie-notice,
 .klaro .cm-modal {
-  --klaro-bg: #10231d;
+  --klaro-bg: #0f172a;
   background: var(--klaro-bg) !important;
   border: 1px solid rgb(255 255 255 / 12%) !important;
-  color: #edf5f1 !important;
+  color: #f3f4f6 !important;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  border-radius: 0.85rem !important;
+  box-shadow: 0 18px 48px rgb(0 0 0 / 28%) !important;
+}
+
+.klaro .cookie-notice {
+  /* Keep notice above floating docks without covering primary content permanently. */
+  z-index: 95 !important;
 }
 
 .klaro .cookie-notice .cn-buttons .cm-btn.cm-btn-success,
@@ -14,9 +22,16 @@
   background: #70e0ad !important;
   color: #062016 !important;
   border-color: #70e0ad !important;
+  border-radius: 9999px !important;
+}
+
+.klaro .cookie-notice .cn-buttons .cm-btn,
+.klaro .cm-modal .cm-btn {
+  border-radius: 9999px !important;
+  min-height: 2.5rem;
 }
 
 .klaro .cookie-notice a,
 .klaro .cm-modal a {
-  color: #70e0ad !important;
+  color: #0ea5e9 !important;
 }
