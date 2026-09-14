@@ -14,10 +14,12 @@ import { diagnosticSample, syntheticPractice } from '../../proofData.js';
 import { isDiagnosticCheckoutActive, startDiagnosticCheckout } from '@/growth/checkout';
 
 const diagnosticJourney = [
-  { title: 'Share deidentified context', copy: 'Describe operating pressure without PHI through the public inquiry form.' },
-  { title: 'Align on usable inputs', copy: 'Aging, denial, rejection, posting, credentialing-status, and payment exports.' },
-  { title: 'ROOT analyzes the system', copy: 'Leakage, denial families, A/R priority, workflow, and reporting gaps.' },
-  { title: 'Receive the 90-day plan', copy: 'Ranked opportunity register with owners and next actions.', note: 'Output is a roadmap, not a guaranteed delivery duration.' },
+  { title: 'Inputs', copy: 'Share deidentified operating context — aging, denial, rejection, posting, credentialing-status, and payment exports.' },
+  { title: 'Analysis', copy: 'ROOT reviews leakage, denial families, A/R priority, workflow friction, and reporting gaps against the practice system.' },
+  { title: 'Finding', copy: 'Material constraints surface as ranked opportunities — not a generic audit checklist.' },
+  { title: 'Significance', copy: 'Each finding is framed for leadership: value at risk, recoverability, and operating consequence.' },
+  { title: 'Roadmap', copy: 'A prioritized 90-day plan with owners and next actions.', note: 'Output is a roadmap, not a guaranteed delivery duration.' },
+  { title: 'Engagement', copy: 'Decide the next owned step — Diagnostic complete, project campaign, or managed service — with evidence in hand.' },
 ];
 
 const diagnosticInputs = [
@@ -81,7 +83,11 @@ export function DiagnosticPage() {
       </Section>
 
       <Section tone="soft">
-        <SectionHeader eyebrow="Delivery journey" title="From inputs to a 90-day roadmap." />
+        <SectionHeader
+          eyebrow="Delivery journey"
+          title="Inputs → analysis → finding → significance → roadmap → engagement"
+          description="The Diagnostic is a decision path, not a form alone."
+        />
         <div className="mt-8">
           <ImplementationSteps steps={diagnosticJourney} />
         </div>

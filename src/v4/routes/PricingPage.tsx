@@ -17,19 +17,19 @@ export function PricingPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Pricing' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Engagement models with clear entry points.</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">
+        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Engagement models with clear entry points.</h1>
+        <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
           Approved commercial pricing only. The Diagnostic remains {formatUsd(DIAGNOSTIC_PRICE_USD)} — personalization never
-          changes price.
+          changes price. Choose the path that matches how much ownership you need now.
         </p>
       </Section>
 
       <Section tone="flow" wide>
         <GlassCard as="div" variant="matrix" accent="cyan" hover={false} className="p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Primary launch offer</p>
-          <h2 className="mt-2 text-2xl font-semibold text-text">{diagnostic.name}</h2>
-          <p className="mt-2 text-xl text-accent">{diagnostic.price}</p>
-          <p className="mt-3 text-sm text-muted">{diagnostic.bestFor}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Decision path · start here</p>
+          <h2 className="mt-2 text-2xl font-semibold text-text sm:text-3xl">{diagnostic.name}</h2>
+          <p className="mt-2 text-xl text-accent md:text-2xl">{diagnostic.price}</p>
+          <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">{diagnostic.bestFor}</p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {diagnostic.includes.map((item: string) => (
               <li key={item} className="rounded-full border border-border px-3 py-1 text-xs text-muted">
@@ -38,8 +38,8 @@ export function PricingPage() {
             ))}
           </ul>
           <CTAGroup className="mt-6">
-            <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
-              Book Diagnostic
+            <LinkButton href="/diagnostic/" variant="primary" size="lg" data-cta="book-diagnostic" data-destination="/diagnostic/">
+              Start the $2,500 Diagnostic
             </LinkButton>
             {isDiagnosticCheckoutActive() ? (
               <button
@@ -55,7 +55,11 @@ export function PricingPage() {
       </Section>
 
       <Section>
-        <SectionHeader title="Core operating models" />
+        <SectionHeader
+          eyebrow="If you already know the ownership model"
+          title="Core operating models"
+          description="Managed RCM and DIRT when the Diagnostic evidence already points to ongoing execution."
+        />
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           {primaryModels.map((model: (typeof pricingModels)[number]) => (
             <GlassCard key={model.name} as="div" variant="glass" accent="indigo" className="p-6">
@@ -76,7 +80,11 @@ export function PricingPage() {
       </Section>
 
       <Section tone="soft">
-        <SectionHeader title="Specialized & partnership models" description="Scope and outcomes are defined in writing before work begins." />
+        <SectionHeader
+          eyebrow="Specialized paths"
+          title="Projects & partnership models"
+          description="Scope and outcomes are defined in writing before work begins — secondary to the Diagnostic entry point."
+        />
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {specializedModels.map((model: (typeof pricingModels)[number]) => (
             <GlassCard key={model.name} as="div" variant="glass" className="p-5">

@@ -111,7 +111,7 @@ export function DirtPage() {
         <DirtSignalFlow />
       </Section>
 
-      <Section id="command-center" tone="grid" wide>
+      <Section id="command-center" tone="grid" wide dense>
         <SectionHeader
           eyebrow="Command center"
           title="Executive view, expandable triage, human-reviewed explanation"

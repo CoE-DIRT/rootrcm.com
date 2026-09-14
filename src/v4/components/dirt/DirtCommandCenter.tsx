@@ -34,25 +34,35 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
   const visibleMetrics = compact ? metricCards.slice(0, 4) : metricCards;
 
   return (
-    <div className={cn('min-w-0 space-y-8', compact && 'space-y-4')} data-dirt-command>
-      <div className={cn('flex flex-wrap items-end justify-between gap-3', compact && 'flex-col items-start gap-2')}>
+    <div className={cn('min-w-0 space-y-8', compact && 'space-y-3')} data-dirt-command>
+      <div className={cn('flex flex-wrap items-end justify-between gap-3', compact && 'flex-col items-start gap-1.5')}>
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">DIRT command center</p>
           <h2 className={cn('mt-1 font-semibold text-text', compact ? 'text-lg' : 'text-2xl sm:text-3xl')}>
             Executive revenue view
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted">
-            Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
-          </p>
+          {!compact ? (
+            <p className="mt-2 max-w-2xl text-sm text-muted">
+              Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
+            </p>
+          ) : (
+            <p className="mt-1 text-xs text-muted">Synthetic demo · {dirtDemo.practice.name}</p>
+          )}
         </div>
         <p className="rounded-full border border-border px-3 py-1 text-xs text-signal-amber">{dirtDemo.practice.period}</p>
       </div>
 
-      <div className={cn('grid min-w-0 gap-3', compact ? 'grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7')}>
+      <div className={cn('grid min-w-0 gap-3', compact ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7')}>
         {visibleMetrics.map((m) => (
-          <div key={m.label} className="min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50 p-4">
+          <div
+            key={m.label}
+            className={cn(
+              'min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50',
+              compact ? 'p-3' : 'p-4',
+            )}
+          >
             <p className="truncate text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
-            <p className="mt-2 truncate text-xl font-semibold text-text">{m.value}</p>
+            <p className={cn('mt-2 truncate font-semibold text-text', compact ? 'text-lg' : 'text-xl')}>{m.value}</p>
           </div>
         ))}
       </div>
@@ -76,10 +86,8 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
           </div>
         </>
       ) : (
-        <div className="grid min-w-0 gap-4">
-          <ArAgingMatrix />
-          <PriorityQueue limit={3} />
-        </div>
+        /* Hero preview: executive metrics only — charts/queues live on /technology/dirt/. */
+        null
       )}
     </div>
   );
@@ -90,7 +98,7 @@ export function ArAgingMatrix() {
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">A/R aging landscape</h3>
       <p className="mt-1 text-xs text-muted">Recoverability differs by bucket — not one backlog.</p>
-      <div className="mt-4 h-56 w-full" role="img" aria-label="A/R aging bar chart">
+      <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="A/R aging bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.aging}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
@@ -118,7 +126,7 @@ export function DenialPareto() {
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">Denial analytics</h3>
       <p className="mt-1 text-xs text-muted">Cause families with value at risk — synthetic events.</p>
-      <div className="mt-4 h-56 w-full" role="img" aria-label="Denial category bar chart">
+      <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="Denial category bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" horizontal={false} />
@@ -206,21 +214,21 @@ export function UnderpaymentPanel() {
   );
 }
 
-export function PriorityQueue({ limit }: { limit?: number }) {
+export function PriorityQueue({ limit, compact = false }: { limit?: number; compact?: boolean }) {
   const rows = typeof limit === 'number' ? dirtDemo.queue.slice(0, limit) : dirtDemo.queue;
   return (
-    <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
+    <div className={cn('rounded-[var(--radius-root)] border border-border bg-panel/40', compact ? 'p-3' : 'p-4')}>
       <h3 className="text-sm font-semibold text-text">Priority action queue</h3>
       <p className="mt-1 text-xs text-muted">Signal → finding → significance → owner → next action.</p>
-      <ol className="mt-4 space-y-3">
+      <ol className={cn('mt-3 space-y-3', compact && 'mt-2 space-y-2')}>
         {rows.map((row) => (
           <li key={row.id} className="grid gap-1 border-l-2 border-accent pl-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-wide text-signal-amber">{row.priority}</span>
               <span className="text-sm font-medium text-text">{row.signal}</span>
-              <span className="text-xs text-accent">{row.significance}</span>
+              {!compact ? <span className="text-xs text-accent">{row.significance}</span> : null}
             </div>
-            <p className="text-xs text-muted">{row.finding}</p>
+            {!compact ? <p className="text-xs text-muted">{row.finding}</p> : null}
             <p className="text-xs text-text">
               <span className="text-muted">Owner:</span> {row.owner} · <span className="text-muted">Next:</span> {row.action}
             </p>

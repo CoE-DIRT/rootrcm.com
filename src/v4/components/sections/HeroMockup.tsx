@@ -13,7 +13,7 @@ export interface HeroMockupProps {
 
 export function HeroMockup({ label = 'Command Viewframe', badge, children }: HeroMockupProps) {
   return (
-    <div className="glass-surface glass-surface--matrix relative overflow-hidden rounded-[var(--radius-hero)] p-5">
+    <div className="glass-surface glass-surface--matrix relative overflow-hidden rounded-[var(--radius-hero)] p-4 sm:p-5">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_44%)]"
@@ -23,9 +23,9 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
         className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-[linear-gradient(90deg,rgba(15,23,42,0.08),rgba(99,102,241,0.15),rgba(15,23,42,0.08))]"
       />
       <div className="relative">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">{label}</p>
+        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted sm:mb-3">{label}</p>
         {badge ? (
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-intelligence/25 bg-intelligence/10 px-3 py-1 text-xs font-semibold text-data-blue">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-intelligence/25 bg-intelligence/10 px-3 py-1 text-xs font-semibold text-data-blue sm:mb-4">
             <FileChartColumnIncreasing className="h-3.5 w-3.5" aria-hidden="true" />
             {badge}
           </div>
@@ -33,19 +33,18 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
 
         <div
           role="region"
-          aria-label={`${label} — scrollable preview`}
-          tabIndex={0}
-          className="max-h-[420px] min-w-0 overflow-y-auto pr-1 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data-blue"
+          aria-label={`${label} preview`}
+          className="hero-mockup-scroll min-w-0 overflow-x-hidden"
         >
           {children}
         </div>
 
-        <div className="mt-4 grid gap-2 rounded-[var(--radius-root)] border border-border bg-bg-deep/70 p-3 text-xs text-muted md:grid-cols-2">
+        <div className="mt-3 grid gap-2 rounded-[var(--radius-root)] border border-border bg-bg-deep/70 p-3 text-xs text-muted sm:mt-4 md:grid-cols-2">
           <div className="flex items-center gap-2">
-            <SearchCheck className="h-4 w-4 text-recovery" aria-hidden="true" /> Synthetic demo data only
+            <SearchCheck className="h-4 w-4 shrink-0 text-recovery" aria-hidden="true" /> Synthetic demo data only
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-data-blue" aria-hidden="true" /> Human-reviewed decision framing
+            <ShieldCheck className="h-4 w-4 shrink-0 text-data-blue" aria-hidden="true" /> Human-reviewed decision framing
           </div>
         </div>
       </div>

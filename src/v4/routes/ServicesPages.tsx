@@ -17,8 +17,8 @@ export function ServicesHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Services' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">MSO service directory</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">
+        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">MSO service directory</h1>
+        <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
           Revenue operations, practice operations, and technology services with clear ownership — not a menu of vague
           “solutions.”
         </p>
@@ -59,6 +59,7 @@ export function ServicePage({ service }: { service: Service }) {
 
   return (
     <V4Shell>
+      {/* ORIENT + SIGNAL */}
       <Section className="pt-10 md:pt-14">
         <Breadcrumb
           items={[
@@ -67,12 +68,12 @@ export function ServicePage({ service }: { service: Service }) {
           ]}
         />
         <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{service.family}</p>
-        <h1 className="mt-2 text-4xl font-semibold text-text">{service.title}</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">{service.summary}</p>
+        <h1 className="mt-2 measure-exec text-4xl font-semibold text-text">{service.title}</h1>
+        <p className="mt-4 max-w-2xl measure-body text-lg text-muted">{service.summary}</p>
         <p className="mt-4 text-sm text-accent">{service.pricing}</p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
-            Start Diagnostic
+            Start the $2,500 Diagnostic
           </LinkButton>
           <LinkButton href="/contact/" variant="outline">
             Talk to ROOT
@@ -80,23 +81,33 @@ export function ServicePage({ service }: { service: Service }) {
         </CTAGroup>
       </Section>
 
-      {media ? (
-        <Section tone="soft">
-          <MediaFrame src={media.src} alt={media.alt} caption={media.caption} aspect="video" />
-        </Section>
-      ) : (
-        <Section tone="soft">
+      {/* PROBLEM */}
+      <Section tone="soft" dense>
+        <SectionHeader
+          eyebrow="Problem"
+          title="Who this is for"
+          description={service.buyer}
+        />
+        {media ? (
+          <MediaFrame src={media.src} alt={media.alt} caption={media.caption} aspect="video" className="mt-8" />
+        ) : (
           <MediaFrame
             src={mediaAssets.practiceOperations}
             alt="Practice operations workstation. Editorial stock photograph; not ROOT staff or clients."
             caption="Editorial operations context"
             aspect="video"
+            className="mt-8"
           />
-        </Section>
-      )}
+        )}
+      </Section>
 
+      {/* WORKFLOW + OWNERSHIP + DELIVERABLE */}
       <Section tone="grid" wide>
-        <SectionHeader title="What engagement includes" />
+        <SectionHeader
+          eyebrow="Workflow & ownership"
+          title="What engagement includes"
+          description={service.engagement}
+        />
         <ul className="mt-6 grid gap-3 sm:grid-cols-2">
           {service.deliverables.map((item: string) => (
             <li key={item} className="rounded-[var(--radius-root)] border border-border bg-panel/50 px-4 py-3 text-sm text-text">
@@ -104,15 +115,22 @@ export function ServicePage({ service }: { service: Service }) {
             </li>
           ))}
         </ul>
-        <p className="mt-6 text-sm text-muted">{service.engagement}</p>
-        {service.dirt ? <AnnotationNote label="DIRT complement" text={service.dirt} className="mt-3" /> : null}
-        {service.related ? (
-          <LinkButton href={service.related} variant="ghost" size="sm" className="mt-4">
-            Related solution
-          </LinkButton>
-        ) : null}
       </Section>
 
+      {/* INTELLIGENCE */}
+      {service.dirt ? (
+        <Section dense>
+          <SectionHeader eyebrow="Intelligence" title="How DIRT complements this service" />
+          <AnnotationNote label="DIRT complement" text={service.dirt} className="mt-6" />
+          {service.related ? (
+            <LinkButton href={service.related} variant="ghost" size="sm" className="mt-4">
+              Related solution
+            </LinkButton>
+          ) : null}
+        </Section>
+      ) : null}
+
+      {/* PROOF */}
       {proof ? (
         <Section tone="soft">
           <SectionHeader eyebrow={proof.label} title={proof.title} description={proof.insight} />
@@ -125,6 +143,22 @@ export function ServicePage({ service }: { service: Service }) {
           ) : null}
         </Section>
       ) : null}
+
+      {/* CONVERT */}
+      <Section>
+        <SectionHeader
+          title={`Talk to ROOT about ${service.title}`}
+          description="Share deidentified commercial context — Diagnostic, project, or managed ownership."
+        />
+        <CTAGroup className="mt-6">
+          <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
+            Start the $2,500 Diagnostic
+          </LinkButton>
+          <LinkButton href="/contact/" variant="outline">
+            Talk to ROOT
+          </LinkButton>
+        </CTAGroup>
+      </Section>
     </V4Shell>
   );
 }

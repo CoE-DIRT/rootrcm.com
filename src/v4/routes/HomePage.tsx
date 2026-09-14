@@ -10,6 +10,7 @@ import { HeroMockup } from '@/components/sections/HeroMockup';
 import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
+import { cn } from '@/lib/cn';
 import {
   mediaAssets,
   platformNodes,
@@ -80,8 +81,14 @@ function HomePageContent() {
       <Section tone="grid" wide>
         <SectionHeader eyebrow="Operating model" title="One partner across the practice business." align="left" />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {platformNodes.map((node: { label: string; copy: string }) => (
-            <GlassCard key={node.label} variant="glass" hover={false} className="p-5">
+          {platformNodes.map((node: { label: string; copy: string }, index: number) => (
+            <GlassCard
+              key={node.label}
+              variant="glass"
+              hover={false}
+              accent={index === 0 || node.label.includes('DIRT') ? 'cyan' : undefined}
+              className={cn('p-5', node.label.includes('DIRT') && 'sm:col-span-2 lg:col-span-1')}
+            >
               <p className="text-sm font-semibold text-text">{node.label}</p>
               <p className="mt-2 text-sm text-muted">{node.copy}</p>
             </GlassCard>
@@ -160,18 +167,20 @@ function HomePageContent() {
         </Section>
       ) : null}
 
-      <Section>
-        <SectionHeader eyebrow="Know what to act on next" title="Know what to act on next." description="DIRT intelligence for practice leadership." />
-        <MediaFrame
-          src={mediaAssets.dirtAnalytics}
-          alt="Illustrative analytics workstation. Editorial stock photograph; not ROOT product UI or client data."
-          caption="Editorial analytics context — live DIRT surfaces use synthetic demo data only"
-          className="mt-8"
-          aspect="video"
+      <Section dense>
+        <SectionHeader
+          eyebrow="DIRT"
+          title="Know what to act on next."
+          description="The command preview above is synthetic demonstration data. Open the full DIRT surface for charts, triage, and owned next actions."
         />
-        <LinkButton href="/technology/dirt/" variant="secondary" size="sm" className="mt-6">
-          Open DIRT command center
-        </LinkButton>
+        <CTAGroup className="mt-6">
+          <LinkButton href="/technology/dirt/" variant="secondary" size="sm">
+            Open DIRT command center
+          </LinkButton>
+          <LinkButton href="/diagnostic/" variant="ghost" size="sm" data-cta="book-diagnostic" data-destination="/diagnostic/">
+            Start the $2,500 Diagnostic
+          </LinkButton>
+        </CTAGroup>
       </Section>
 
       <Section tone="soft">

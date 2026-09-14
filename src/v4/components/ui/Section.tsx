@@ -7,16 +7,19 @@ export interface SectionProps extends HTMLAttributes<HTMLElement> {
   tone?: 'default' | 'soft' | 'shell' | 'grid' | 'safe' | 'flow';
   /** Widen the inner content rail for dense DIRT surfaces (tables, dashboards). */
   wide?: boolean;
+  /** Compress vertical rhythm for product/data bays (48–72px band). */
+  dense?: boolean;
 }
 
 const shellTones = new Set(['shell', 'grid', 'safe', 'flow']);
 
-export function Section({ className, children, tone = 'default', wide = false, ...props }: SectionProps) {
+export function Section({ className, children, tone = 'default', wide = false, dense = false, ...props }: SectionProps) {
   const isShell = shellTones.has(tone);
   return (
     <section
       className={cn(
-        'w-full py-16 md:py-24',
+        'w-full',
+        dense ? 'py-12 md:py-16' : 'py-16 md:py-20 lg:py-24',
         tone === 'soft' && 'bg-bg-soft',
         className,
       )}
@@ -56,9 +59,9 @@ export function SectionHeader({ eyebrow, title, description, align = 'left', cla
       {eyebrow ? (
         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">{eyebrow}</span>
       ) : null}
-      <h2 className="text-balance text-3xl font-semibold tracking-tight text-text sm:text-4xl">{title}</h2>
+      <h2 className="measure-exec text-balance text-3xl font-semibold tracking-tight text-text sm:text-4xl">{title}</h2>
       {description ? (
-        <p className={cn('text-pretty max-w-2xl text-base text-muted', align === 'center' && 'mx-auto')}>
+        <p className={cn('measure-body text-pretty text-base text-muted', align === 'center' && 'mx-auto')}>
           {description}
         </p>
       ) : null}

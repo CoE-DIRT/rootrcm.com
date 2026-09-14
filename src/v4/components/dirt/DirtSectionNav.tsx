@@ -11,13 +11,16 @@ export function DirtSectionNav({ items, className }: { items: DirtSectionNavItem
   return (
     <nav
       aria-label="DIRT page sections"
-      className={cn('glass-surface flex w-fit max-w-full flex-wrap items-center gap-1 rounded-full px-2 py-1.5', className)}
+      className={cn(
+        'glass-surface flex w-full max-w-full flex-wrap items-center gap-1 rounded-[var(--radius-panel)] px-2 py-1.5 sm:w-fit sm:rounded-full',
+        className,
+      )}
     >
       {items.map((item) => (
         <a
           key={item.id}
           href={`#${item.id}`}
-          className="whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:bg-panel hover:text-text"
+          className="rounded-full px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:bg-panel hover:text-text sm:whitespace-nowrap sm:px-3"
         >
           {item.label}
         </a>
