@@ -1,28 +1,340 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#07110e" />
-  <title>ROOT | Healthcare MSO, RCM, Operations &amp; Technology</title>
-  <meta name="description" content="ROOT is a healthcare MSO platform for independent practices, combining RCM, credentialing, practice operations, technology, automation, analytics, and DIRT intelligence." />
-  <link rel="canonical" href="https://rootrcm.com/" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon/favicon-32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/brand/favicon/apple-touch-icon.png" />
-  <link rel="manifest" href="/brand/favicon/site.webmanifest" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="ROOT | Healthcare MSO, RCM, Operations &amp; Technology" />
-  <meta property="og:description" content="ROOT is a healthcare MSO platform for independent practices, combining RCM, credentialing, practice operations, technology, automation, analytics, and DIRT intelligence." />
-  <meta property="og:url" content="https://rootrcm.com/" />
-  <meta property="og:image" content="https://rootrcm.com/brand/social/og-root.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ROOT | Healthcare MSO, RCM, Operations &amp; Technology" />
-  <meta name="twitter:description" content="ROOT is a healthcare MSO platform for independent practices, combining RCM, credentialing, practice operations, technology, automation, analytics, and DIRT intelligence." />
-  <meta name="twitter:image" content="https://rootrcm.com/brand/social/og-root.png" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"ROOT | Healthcare MSO, RCM, Operations & Technology","url":"https://rootrcm.com/","description":"ROOT is a healthcare MSO platform for independent practices, combining RCM, credentialing, practice operations, technology, automation, analytics, and DIRT intelligence."}</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ROOT aligns revenue cycle execution, practice operations, credentialing, automation, and DIRT intelligence for independent US physician practices.">
+  <meta name="theme-color" content="#07110e">
+  <title>ROOT | Revenue Operations & Outcomes Technology</title>
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307110e'/%3E%3Cpath d='M32 10v44M16 22c9 0 16 5 16 13M48 22c-9 0-16 5-16 13M20 47h24' fill='none' stroke='%2370e0ad' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg:#07110e; --bg-soft:#0c1915; --panel:rgba(17,35,30,.78);
+      --panel-solid:#10231d; --line:rgba(255,255,255,.12); --text:#edf5f1;
+      --muted:#9dafaa; --green:#70e0ad; --blue:#75d7ff; --gold:#d8bd7a;
+      --danger:#ff9f87; --radius:12px; --shadow:0 28px 85px rgba(0,0,0,.31);
+      --max:1220px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.62}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
+      linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+      background-size:54px 54px;mask-image:linear-gradient(to bottom,black,transparent 82%);z-index:-2}
+    a{color:inherit;text-decoration:none}
+    button,a{touch-action:manipulation}
+    .shell{width:min(var(--max),calc(100% - 40px));margin:auto}
+    .nav{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(7,17,14,.84);backdrop-filter:blur(18px)}
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:180px}
+    .brand img{width:42px;height:42px;object-fit:contain}
+    .brand strong{font-size:1.15rem;letter-spacing:.18em}
+    .brand small{display:block;color:var(--muted);font-size:.68rem;letter-spacing:.08em}
+    .nav-links{display:flex;align-items:center;gap:25px;color:#bed0c9;font-size:.92rem}
+    .nav-links a:hover,.nav-links a:focus-visible{color:var(--green)}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 19px;border:1px solid var(--line);border-radius:8px;font-weight:700;font-size:.92rem;transition:.2s ease}
+    .button:hover{transform:translateY(-2px);border-color:rgba(112,224,173,.55)}
+    .button.primary{color:#06110d;background:var(--green);border-color:var(--green)}
+    .button.secondary{background:rgba(255,255,255,.035)}
+    .eyebrow{margin:0 0 13px;color:var(--green);font-size:.76rem;line-height:1.3;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(3.15rem,7vw,6rem);line-height:.93;letter-spacing:-.065em;max-width:900px;margin-bottom:25px}
+    h2{font-size:clamp(2.2rem,4.7vw,4.4rem);line-height:1.02;letter-spacing:-.045em;margin-bottom:20px}
+    h3{font-size:1.12rem;line-height:1.25;letter-spacing:-.01em}
+    .lead{color:#bed0c9;font-size:clamp(1.08rem,1.8vw,1.3rem);max-width:730px;line-height:1.65}
+    .muted{color:var(--muted)}
+    .hero{padding:104px 0 84px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:64px;align-items:center}
+    .hero-copy .actions{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 34px}
+    .proof-line{display:flex;flex-wrap:wrap;gap:12px 24px;color:#aabbb4;font-size:.88rem}
+    .proof-line span{display:flex;gap:8px;align-items:center}
+    .proof-line i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 16px var(--green)}
+    .command-card{position:relative;background:linear-gradient(160deg,rgba(17,35,30,.9),rgba(8,22,18,.86));border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow);overflow:hidden}
+    .command-card:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(112,224,173,.11);filter:blur(55px);right:-100px;top:-110px}
+    .terminal-head{position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;color:#b7c7c1;font-size:.78rem}
+    .status{display:flex;align-items:center;gap:8px;color:var(--green)}
+    .status:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 13px var(--green)}
+    .metric-hero{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+    .metric-hero strong{display:block;font-size:3rem;line-height:1;color:#fff;letter-spacing:-.05em}
+    .metric-hero small,.metric small{color:var(--muted)}
+    .metric-hero b{color:var(--gold);font-size:.8rem}
+    .spark{height:80px;display:flex;align-items:flex-end;gap:6px}
+    .spark span{width:10px;background:linear-gradient(var(--blue),rgba(117,215,255,.16));border-radius:3px 3px 0 0}
+    .metric-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:18px}
+    .metric{padding:13px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.07);border-radius:8px}
+    .metric strong{display:block;font-size:1.05rem;color:#fff}
+    .demo-label{position:relative;margin:16px 0 0;font-size:.72rem;color:#879991}
+    .band{padding:94px 0}
+    .band.alt{background:var(--bg-soft);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+    .section-head{max-width:800px;margin-bottom:42px}
+    .section-head p:last-child{color:var(--muted);font-size:1.08rem}
+    .pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .pillar{min-height:268px;padding:25px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);position:relative;overflow:hidden}
+    .pillar .num{color:var(--green);font-size:.76rem;font-weight:800;letter-spacing:.1em}
+    .pillar h3{font-size:1.35rem;margin:52px 0 12px}
+    .pillar p{color:var(--muted);margin:0}
+    .pillar:nth-child(2) .num{color:var(--blue)} .pillar:nth-child(3) .num{color:var(--gold)}
+    .pillar.featured{border-color:rgba(112,224,173,.42);background:linear-gradient(145deg,rgba(31,68,55,.74),rgba(11,28,23,.9))}
+    .model{display:grid;grid-template-columns:.82fr 1.18fr;gap:58px;align-items:start}
+    .steps{border-left:1px solid rgba(112,224,173,.3);margin-left:12px}
+    .step{position:relative;padding:0 0 35px 34px}
+    .step:last-child{padding-bottom:0}
+    .step:before{content:"";position:absolute;width:13px;height:13px;left:-7px;top:4px;border-radius:50%;background:var(--bg-soft);border:3px solid var(--green)}
+    .step small{display:block;color:var(--green);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;font-weight:800}
+    .step h3{margin:7px 0 7px}
+    .step p{color:var(--muted);margin:0}
+    .scenario{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+    .scenario-card,.insight-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:26px}
+    .scenario-card h3{font-size:1.8rem;margin-bottom:6px}
+    .synthetic{display:inline-flex;padding:5px 9px;border:1px solid rgba(216,189,122,.32);border-radius:99px;color:var(--gold);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .scenario-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+    .scenario-metrics div{padding:14px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:8px}
+    .scenario-metrics strong{display:block;font-size:1.35rem}
+    .scenario-metrics small{color:var(--muted)}
+    .bars{display:flex;flex-direction:column;gap:17px;margin-top:20px}
+    .bar-head{display:flex;justify-content:space-between;font-size:.82rem;color:#c6d6cf}
+    .bar-track{height:8px;background:rgba(255,255,255,.07);border-radius:9px;overflow:hidden;margin-top:7px}
+    .bar-track i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--green),var(--blue))}
+    .callout{margin-top:20px;padding:17px;border-left:3px solid var(--gold);background:rgba(216,189,122,.055);color:#c9d6d1;font-size:.9rem}
+    .deliverable-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0}
+    .deliverable{padding:22px;border-top:2px solid var(--green);background:rgba(255,255,255,.025)}
+    .deliverable span{color:var(--green);font-size:.75rem;font-weight:800}
+    .deliverable h3{margin:12px 0 9px}
+    .deliverable p{color:var(--muted);font-size:.9rem;margin:0}
+    .offer{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:31px;border:1px solid rgba(112,224,173,.37);border-radius:14px;background:linear-gradient(110deg,rgba(24,58,46,.88),rgba(12,28,23,.88))}
+    .offer h3{font-size:1.65rem;margin-bottom:6px}
+    .offer p{color:#b9ccc4;margin:0}
+    .price{font-size:2.7rem;font-weight:800;letter-spacing:-.05em;white-space:nowrap}
+    .price small{display:block;text-align:right;font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .price-card{display:flex;flex-direction:column;padding:25px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025)}
+    .price-card h3{font-size:1.28rem}
+    .price-card .amount{color:var(--green);font-size:1.6rem;font-weight:800;margin:6px 0 14px}
+    .price-card p{color:var(--muted);font-size:.91rem;flex:1}
+    .price-card small{color:#81958d}
+    .trust{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+    .trust-list{display:grid;gap:12px}
+    .trust-row{padding:17px 18px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025)}
+    .trust-row strong{display:block;margin-bottom:4px}
+    .trust-row span{color:var(--muted);font-size:.9rem}
+    .final{padding:104px 0;text-align:center}
+    .final h2{max-width:880px;margin-left:auto;margin-right:auto}
+    .final .lead{margin-left:auto;margin-right:auto}
+    .final .actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:28px}
+    footer{border-top:1px solid var(--line);padding:34px 0;color:#91a39c}
+    .footer-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
+    footer strong{color:#e7f2ed}
+    footer p{font-size:.82rem;margin:7px 0 0;max-width:720px}
+    .source-note{font-size:.75rem;color:#71867e}
+    .mobile-menu{display:none}
+    @media(max-width:960px){
+      .hero-grid,.model,.scenario,.trust{grid-template-columns:1fr}
+      .hero-grid{gap:42px}.pillar-grid,.deliverable-grid{grid-template-columns:repeat(2,1fr)}
+      .pricing-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}.mobile-menu{display:inline-flex}
+    }
+    @media(max-width:640px){
+      .shell{width:min(100% - 24px,var(--max))}.hero{padding:70px 0 58px}
+      h1{font-size:3.25rem}.band{padding:70px 0}.pillar-grid,.deliverable-grid,.pricing-grid{grid-template-columns:1fr}
+      .offer{grid-template-columns:1fr}.price small{text-align:left}.scenario-metrics{grid-template-columns:1fr 1fr}
+      .metric-grid{grid-template-columns:1fr}.spark{display:none}.nav-inner{height:66px}.brand small{display:none}
+      .footer-grid{flex-direction:column}.final{text-align:left}.final .actions{justify-content:flex-start}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
+    :focus-visible{outline:3px solid rgba(117,215,255,.78);outline-offset:3px}
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+  <header class="nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="ROOT home">
+        <img src="https://raw.githubusercontent.com/CoE-DIRT/rootrcm.com/main/public/brand/logos/root/root-mark-76.webp" alt="">
+        <span><strong>ROOT</strong><small>REVENUE OPERATIONS &amp; OUTCOMES TECHNOLOGY</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#platform">Platform</a><a href="#proof">Proof model</a><a href="#diagnostic">Diagnostic</a><a href="#pricing">Pricing</a><a href="#trust">Trust</a>
+      </nav>
+      <a class="button primary" href="https://rootrcm.com/contact/">Request diagnostic <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Healthcare operations, rebuilt around evidence</p>
+          <h1>Find the work between your reports.</h1>
+          <p class="lead">ROOT connects revenue cycle execution, practice operations, credentialing, automation, and management intelligence—so independent physician practices can move from scattered data to accountable action.</p>
+          <div class="actions">
+            <a class="button primary" href="#diagnostic">Start with the Diagnostic</a>
+            <a class="button secondary" href="#platform">See the operating model</a>
+          </div>
+          <div class="proof-line">
+            <span><i></i>No-PHI public experience</span>
+            <span><i></i>Works above existing systems</span>
+            <span><i></i>Human-governed decisions</span>
+          </div>
+        </div>
+        <aside class="command-card" aria-label="Synthetic revenue intelligence example">
+          <div class="terminal-head"><span>DIRT / EXECUTIVE SIGNAL</span><span class="status">Modeled</span></div>
+          <div class="metric-hero">
+            <div><small>Value at risk</small><strong>$214K</strong><b>Prioritize → assign → resolve</b></div>
+            <div class="spark" aria-hidden="true">
+              <span style="height:34%"></span><span style="height:51%"></span><span style="height:45%"></span><span style="height:68%"></span><span style="height:60%"></span><span style="height:82%"></span><span style="height:73%"></span>
+            </div>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><strong>$265K</strong><small>A/R over 90 days</small></div>
+            <div class="metric"><strong>11.8%</strong><small>Denial rate</small></div>
+            <div class="metric"><strong>4</strong><small>Ranked workstreams</small></div>
+          </div>
+          <p class="demo-label">Synthetic planning scenario. No patient, claim, payer-account, or production data.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="band alt" id="platform">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">One operating company. Four connected capabilities.</p>
+          <h2>ROOT closes the gap between analysis and execution.</h2>
+          <p>Each capability can stand alone. Together, they create a controlled operating system for revenue, workflow, and scale.</p>
+        </div>
+        <div class="pillar-grid">
+          <article class="pillar"><span class="num">01 / REVENUE</span><h3>Revenue Operations</h3><p>Billing, payment posting, denial management, A/R recovery, patient balances, and operating controls.</p></article>
+          <article class="pillar"><span class="num">02 / PRACTICE</span><h3>Practice Operations</h3><p>Ownership models, work queues, escalation paths, KPI cadence, and structured operating discipline.</p></article>
+          <article class="pillar"><span class="num">03 / ACCESS</span><h3>Credentialing</h3><p>Enrollment, revalidation, roster maintenance, follow-up, and revenue-timing visibility.</p></article>
+          <article class="pillar featured"><span class="num">04 / INTELLIGENCE</span><h3>DIRT</h3><p>The embedded Data Intelligence for Revenue Transformation layer: signals, priorities, evidence, owners, and next actions.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="shell model">
+        <div>
+          <p class="eyebrow">Operating model</p>
+          <h2>Keep your systems. Change what they produce.</h2>
+          <p class="lead">ROOT is designed to work above EHR, practice-management, clearinghouse, payer, and spreadsheet environments—without forcing a disruptive replacement.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><small>Step 01</small><h3>Ingest approved operational evidence</h3><p>Structured exports, KPI definitions, workflow context, and de-identified operating information.</p></article>
+          <article class="step"><small>Step 02</small><h3>Normalize and reconcile the truth</h3><p>Standardized payers, providers, facilities, procedures, statuses, dates, and financial measures—with QA gates.</p></article>
+          <article class="step"><small>Step 03</small><h3>Rank the work by recoverability and risk</h3><p>Translate denial, aging, payer, credentialing, and workflow signals into prioritized management decisions.</p></article>
+          <article class="step"><small>Step 04</small><h3>Assign owners and review the outcome</h3><p>Move every material insight into a controlled action, escalation path, evidence trail, and operating cadence.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band alt" id="proof">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">De-identified proof model</p>
+          <h2>What an executive operating view can reveal.</h2>
+          <p>The practice, people, payers, and figures below are synthetic. They demonstrate the analytical method without exposing a real client or patient.</p>
+        </div>
+        <div class="scenario">
+          <article class="scenario-card">
+            <span class="synthetic">100% synthetic scenario</span>
+            <h3 style="margin-top:18px">Willowbend Physician Group</h3>
+            <p class="muted">Five-provider primary care and adult medicine practice · illustrative 90-day operating view</p>
+            <div class="scenario-metrics">
+              <div><strong>$1.12M</strong><small>Monthly charges</small></div>
+              <div><strong>$842K</strong><small>Monthly collections</small></div>
+              <div><strong>$780K</strong><small>Total A/R</small></div>
+              <div><strong>86.4%</strong><small>Clean claim rate</small></div>
+            </div>
+          </article>
+          <article class="insight-card">
+            <p class="eyebrow">A/R concentration</p>
+            <h3>One backlog. Five different operating problems.</h3>
+            <div class="bars">
+              <div><div class="bar-head"><span>0–30 days</span><b>$242K</b></div><div class="bar-track"><i style="width:93%"></i></div></div>
+              <div><div class="bar-head"><span>31–60 days</span><b>$154K</b></div><div class="bar-track"><i style="width:59%"></i></div></div>
+              <div><div class="bar-head"><span>61–90 days</span><b>$119K</b></div><div class="bar-track"><i style="width:46%"></i></div></div>
+              <div><div class="bar-head"><span>91–120 days</span><b>$101K</b></div><div class="bar-track"><i style="width:39%"></i></div></div>
+              <div><div class="bar-head"><span>120+ days</span><b>$164K</b></div><div class="bar-track"><i style="width:63%"></i></div></div>
+            </div>
+            <div class="callout"><strong>Management signal:</strong> $265K sits beyond 90 days. The next step is not “work A/R harder”; it is to segment by recoverability, payer behavior, missing evidence, owner, and escalation path.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="diagnostic">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">The first engagement</p>
+          <h2>Evidence before transformation.</h2>
+          <p>The Revenue Optimization Diagnostic creates a decision-ready baseline before a practice commits to managed operations, automation, or technology change.</p>
+        </div>
+        <div class="deliverable-grid">
+          <article class="deliverable"><span>01</span><h3>Executive summary</h3><p>Current-state findings, material constraints, operating risk, and the decisions leadership must make.</p></article>
+          <article class="deliverable"><span>02</span><h3>Leakage map</h3><p>Concentration of denial, aging, payer-delay, workflow, and credentialing exposure.</p></article>
+          <article class="deliverable"><span>03</span><h3>Opportunity register</h3><p>Ranked actions with evidence, owner, recoverability, dependency, and escalation path.</p></article>
+          <article class="deliverable"><span>04</span><h3>90-day roadmap</h3><p>Stabilize, correct, instrument, and govern the highest-value work in sequence.</p></article>
+        </div>
+        <div class="offer">
+          <div><h3>Revenue Optimization Diagnostic</h3><p>Fixed scope. De-identified operating context. Approved reports. Prioritized roadmap. No long-term commitment required.</p></div>
+          <div class="price">$2,500<small>fixed fee</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band alt" id="pricing">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">Commercial paths</p>
+          <h2>Scale the intervention to the problem.</h2>
+          <p>Pricing is directional. Final scope depends on specialty, volume, payer mix, systems, operating ownership, and data environment.</p>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card"><h3>Managed RCM</h3><div class="amount">≈ 5% of collections</div><p>Managed billing, posting, denials, A/R, reporting, and controls.</p><small>Onboarding from $1,500.</small></article>
+          <article class="price-card"><h3>DIRT Intelligence</h3><div class="amount">$1.5K–$2.5K / month</div><p>Revenue intelligence, source-data review, KPI logic, prioritization, and management visibility.</p><small>Depends on scope and data environment.</small></article>
+          <article class="price-card"><h3>Credentialing</h3><div class="amount">$750–$1.5K / provider</div><p>Initial enrollment plus optional maintenance, revalidation, roster control, and payer follow-up.</p><small>Maintenance: $150–$300/provider/month.</small></article>
+          <article class="price-card"><h3>Projects &amp; Automation</h3><div class="amount">$5K–$25K</div><p>Workflow redesign, reporting architecture, automation, integrations, and scoped implementation.</p><small>Written scope and acceptance criteria required.</small></article>
+          <article class="price-card"><h3>Practice Operations</h3><div class="amount">Scoped engagement</div><p>Operating cadence, ownership, work queues, KPI controls, escalation, and implementation support.</p><small>Built around the actual operating model.</small></article>
+          <article class="price-card"><h3>Full MSO Partnership</h3><div class="amount">Custom</div><p>Integrated non-clinical administration across revenue, technology, compliance readiness, and practice operations.</p><small>Phased governance and responsibility matrix.</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="trust">
+      <div class="shell trust">
+        <div>
+          <p class="eyebrow">Trust boundary</p>
+          <h2>Public by design. PHI outside the boundary.</h2>
+          <p class="lead">This experience is a commercial and educational surface. It does not collect, process, or display production healthcare records.</p>
+          <p class="source-note">No claim of completed HIPAA, SOC 2, HITRUST, ISO, or payer certification is made here. Production readiness depends on executed agreements, approved infrastructure, access controls, logging, retention, and verified operating procedures.</p>
+        </div>
+        <div class="trust-list">
+          <div class="trust-row"><strong>No-PHI public intake</strong><span>Business contact information and rounded aggregate context only.</span></div>
+          <div class="trust-row"><strong>Human-in-the-loop decisions</strong><span>High-impact recommendations remain reviewable, attributable, and controlled.</span></div>
+          <div class="trust-row"><strong>Source-to-metric traceability</strong><span>Definitions, mappings, reconciliation, and exception handling are explicit.</span></div>
+          <div class="trust-row"><strong>Tenant-aware architecture</strong><span>Client boundaries, role authority, and governed access are production design requirements.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="shell">
+        <p class="eyebrow">The next useful step</p>
+        <h2>Stop buying more activity. Find the operating constraint.</h2>
+        <p class="lead">Start with a fixed-scope Diagnostic, validate the evidence, and decide what deserves intervention.</p>
+        <div class="actions">
+          <a class="button primary" href="https://rootrcm.com/contact/">Request a Diagnostic</a>
+          <a class="button secondary" href="mailto:info@rootrcm.com">Email ROOT</a>
+          <a class="button secondary" href="https://rootrcm.com/">Visit rootrcm.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div><strong>ROOT</strong><p>Revenue Operations &amp; Outcomes Technology · Revenue cycle, practice operations, credentialing, healthcare IT, automation, and DIRT intelligence.</p></div>
+      <div><p>All named practices, clinicians, payers, records, and scenario figures shown here are synthetic or illustrative. No PHI.</p></div>
+    </div>
+  </footer>
 </body>
 </html>
