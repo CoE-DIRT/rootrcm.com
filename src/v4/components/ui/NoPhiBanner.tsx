@@ -13,10 +13,8 @@ export function NoPhiBanner({ children, tone = 'default', className }: NoPhiBann
   return (
     <aside
       className={cn(
-        'rounded-[var(--radius-root)] border p-4 text-sm text-muted shadow-[var(--shadow-panel-soft)] backdrop-blur-[20px]',
-        tone === 'warning'
-          ? 'border-signal-blush/28 bg-[linear-gradient(135deg,rgba(236,72,153,0.08),rgba(244,63,94,0.06))]'
-          : 'border-data-blue/25 bg-[linear-gradient(135deg,rgba(14,165,233,0.10),rgba(99,102,241,0.06))]',
+        'rounded-[var(--radius-root)] border p-4 text-sm text-muted',
+        tone === 'warning' ? 'border-signal-blush/25 bg-signal-blush/[0.04]' : 'border-data-blue/20 bg-data-blue/[0.04]',
         className,
       )}
     >

@@ -65,13 +65,6 @@ export function SectionHeader({ eyebrow, title, description, align = 'left', cla
           {description}
         </p>
       ) : null}
-      <div
-        aria-hidden="true"
-        className={cn(
-          'h-px w-24 bg-gradient-to-r from-data-blue/70 via-intelligence/55 to-transparent',
-          align === 'center' && 'mx-auto',
-        )}
-      />
     </div>
   );
 }

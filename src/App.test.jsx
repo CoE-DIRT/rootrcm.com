@@ -69,7 +69,8 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('heading', { name: /Where work gets stuck/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /How ROOT helps/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /\$2,500 fixed. A clear plan/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /Know what to act on next/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /^DIRT Intelligence$/i })).toBeTruthy();
+    expect(screen.getAllByRole('link', { name: /Open DIRT command center/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/RCM \+ Operations \+ Technology/i).length).toBeGreaterThan(0);
   });
 
