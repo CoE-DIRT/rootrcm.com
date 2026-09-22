@@ -29,7 +29,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="v4-root sticky top-0 z-40 border-b border-border bg-bg-deep/88 backdrop-blur-2xl saturate-150">
+    <header className="v4-root sticky top-0 z-40 border-b border-border bg-bg-deep/92 backdrop-blur-xl">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[var(--radius-root)] focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"

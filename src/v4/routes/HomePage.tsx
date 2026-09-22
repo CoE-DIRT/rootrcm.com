@@ -10,7 +10,6 @@ import { HeroMockup } from '@/components/sections/HeroMockup';
 import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
-import { cn } from '@/lib/cn';
 import {
   mediaAssets,
   platformNodes,
@@ -78,21 +77,34 @@ function HomePageContent() {
         </div>
       </Section>
 
-      <Section tone="grid" wide>
+      <Section wide>
         <SectionHeader eyebrow="Operating model" title="One partner across the practice business." align="left" />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {platformNodes.map((node: { label: string; copy: string }, index: number) => (
-            <GlassCard
-              key={node.label}
-              variant="glass"
-              hover={false}
-              accent={index === 0 || node.label.includes('DIRT') ? 'cyan' : undefined}
-              className={cn('p-5', node.label.includes('DIRT') && 'sm:col-span-2 lg:col-span-1')}
-            >
-              <p className="text-sm font-semibold text-text">{node.label}</p>
-              <p className="mt-2 text-sm text-muted">{node.copy}</p>
-            </GlassCard>
-          ))}
+        <div className="mt-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+          <GlassCard variant="lifecycle" hover={false} accent="cyan" className="p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">The differentiator</p>
+            <h3 className="mt-2 text-xl font-semibold text-text">DIRT Intelligence</h3>
+            <p className="mt-3 text-sm text-muted">
+              {platformNodes.find((node: { label: string }) => node.label.includes('DIRT'))?.copy}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <LinkButton href="/technology/dirt/" variant="secondary" size="sm">
+                Open DIRT command center
+              </LinkButton>
+              <LinkButton href="/diagnostic/" variant="ghost" size="sm" data-cta="book-diagnostic" data-location="home-operating-model" data-destination="/diagnostic/">
+                Start the $2,500 Diagnostic
+              </LinkButton>
+            </div>
+          </GlassCard>
+          <dl className="divide-y divide-border border-t border-border">
+            {platformNodes
+              .filter((node: { label: string }) => !node.label.includes('DIRT'))
+              .map((node: { label: string; copy: string }) => (
+                <div key={node.label} className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                  <dt className="text-sm font-medium text-text">{node.label}</dt>
+                  <dd className="text-sm text-muted">{node.copy}</dd>
+                </div>
+              ))}
+          </dl>
         </div>
       </Section>
 
@@ -166,22 +178,6 @@ function HomePageContent() {
           </LinkButton>
         </Section>
       ) : null}
-
-      <Section dense>
-        <SectionHeader
-          eyebrow="DIRT"
-          title="Know what to act on next."
-          description="The command preview above is synthetic demonstration data. Open the full DIRT surface for charts, triage, and owned next actions."
-        />
-        <CTAGroup className="mt-6">
-          <LinkButton href="/technology/dirt/" variant="secondary" size="sm">
-            Open DIRT command center
-          </LinkButton>
-          <LinkButton href="/diagnostic/" variant="ghost" size="sm" data-cta="book-diagnostic" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
-          </LinkButton>
-        </CTAGroup>
-      </Section>
 
       <Section tone="soft">
         <SectionHeader eyebrow="Resources" title="Operating knowledge, not filler." />

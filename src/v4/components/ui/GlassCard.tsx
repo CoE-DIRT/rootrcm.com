@@ -50,7 +50,7 @@ export function GlassCard({
       className={cn(
         'relative min-w-0 overflow-hidden rounded-[var(--radius-panel)] p-5 transition-premium',
         hover &&
-          'transform-gpu duration-300 ease-out hover:-translate-y-0.5 hover:border-white/15 hover:shadow-[0_0_24px_rgba(99,102,241,0.15)] motion-reduce:transform-none motion-reduce:hover:translate-y-0 active:scale-[0.99]',
+          'transform-gpu duration-300 ease-out hover:-translate-y-0.5 hover:border-white/15 hover:shadow-[0_14px_32px_rgba(0,0,0,0.24)] motion-reduce:transform-none motion-reduce:hover:translate-y-0 active:scale-[0.99]',
         variantClass[variant],
         className,
       )}

@@ -22,7 +22,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
     <section id="hero" className="homeHero relative" data-reveal>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-8 h-64 bg-[radial-gradient(circle_at_18%_10%,rgba(99,102,241,0.22),transparent_45%)]"
+        className="pointer-events-none absolute inset-x-0 -top-8 h-64 bg-[radial-gradient(circle_at_18%_10%,rgba(99,102,241,0.12),transparent_45%)]"
       />
       <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
         <div className="heroCopy flex flex-col gap-5">
