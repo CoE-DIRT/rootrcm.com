@@ -2,18 +2,18 @@
 
 ## Primary Commercial Themes
 
-- Healthcare MSO for independent medical practices.
+- Healthcare revenue intelligence and operating infrastructure.
 - Revenue cycle management services.
 - Medical billing and A/R recovery.
 - Denial management and denial root-cause analysis.
 - Credentialing services and provider enrollment support.
 - Practice operations and healthcare IT.
-- Revenue cycle analytics and DIRT intelligence.
+- Healthcare data architecture, revenue cycle analytics, payer intelligence, and DIRT.
 
 ## Route Targets
 
-- `/`: healthcare MSO, RCM, practice operations, healthcare technology.
-- `/platform/`: healthcare MSO platform, operating layer, practice operations platform.
+- `/`: healthcare revenue intelligence, RCM technology, healthcare revenue operations.
+- `/platform/`: healthcare revenue operating infrastructure, integrated revenue cycle management, practice operations.
 - `/solutions/revenue-leakage/`: revenue leakage, revenue cycle leakage, practice revenue optimization.
 - `/solutions/aging-ar/`: aging A/R, A/R recovery, medical accounts receivable cleanup.
 - `/solutions/denials/`: denial management, claim denial root cause, healthcare denial prevention.
@@ -28,9 +28,9 @@
 - `/services/healthcare-it/`: healthcare IT consulting, EHR workflow support.
 - `/services/workflow-automation/`: healthcare workflow automation.
 - `/services/reporting-analytics/`: revenue cycle analytics, practice reporting.
-- `/technology/dirt/`: revenue cycle intelligence, DIRT, data intelligence for revenue transformation.
+- `/technology/dirt/`: data intelligence for revenue transformation, healthcare revenue intelligence, revenue data architecture, denial analytics, payer performance.
 - `/pricing/`: RCM pricing, diagnostic pricing, healthcare MSO pricing.
-- `/diagnostic/`: revenue optimization diagnostic, revenue cycle assessment.
+- `/diagnostic/`: revenue optimization diagnostic, financial exposure assessment, revenue cycle assessment.
 
 ## Copy Rules
 
