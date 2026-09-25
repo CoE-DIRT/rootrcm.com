@@ -47,7 +47,7 @@ describe('ROOT commercial site', () => {
 
     expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
     expect(screen.getByText(/where revenue cycle management meets data intelligence/i)).toBeTruthy();
-    const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i });
+    const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Discover Your Revenue Exposure|Discover Revenue Exposure/i });
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
@@ -68,10 +68,10 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
     expect(screen.getByRole('heading', { name: /revenue is lost between disconnected workflows/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /find the cause. own the next action/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /\$2,500 fixed. A clear plan/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /find the financial exposure worth investigating/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /DIRT · Data Intelligence for Revenue Transformation/i })).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Explore revenue intelligence/i }).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/RCM \+ Operations \+ Technology/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Healthcare Revenue Intelligence \+ Operating Infrastructure/i).length).toBeGreaterThan(0);
   });
 
   it('renders platform architecture with clinical practice at the center', () => {
@@ -86,7 +86,7 @@ describe('ROOT commercial site', () => {
   it('renders solution, service, technology, pricing, and resource routes', async () => {
     renderRoute('/solutions/denials/');
     expect(screen.getByRole('heading', { name: /^Denials$/i })).toBeTruthy();
-    expect(screen.getAllByText(/preventable patterns/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/denial prevention|root causes/i).length).toBeGreaterThan(0);
 
     cleanup();
     renderRoute('/services/credentialing/');
@@ -143,7 +143,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/');
     const ctaEvents = [];
     window.addEventListener('root:cta', (event) => ctaEvents.push(event.detail), { once: true });
-    const diagnosticLink = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i })[0];
+    const diagnosticLink = screen.getAllByRole('link', { name: /Discover Your Revenue Exposure|Discover Revenue Exposure/i })[0];
     diagnosticLink.addEventListener('click', (event) => event.preventDefault(), { once: true });
     fireEvent.click(diagnosticLink);
 
