@@ -357,7 +357,7 @@ function DiagnosticOfferPreview() {
     <section className="diagnosticOfferSection contentSection homeOfferBand" data-reveal>
       <div className="diagnosticOfferCopy">
         <p className="eyebrow">START HERE</p>
-        <h2>$2,500 fixed. A clear plan.</h2>
+        <h2>Find the financial exposure worth investigating.</h2>
         <p>ROOT reviews deidentified operating material and delivers a prioritized opportunity register and 90-day roadmap.</p>
       </div>
       <div className="diagnosticOfferActions">
@@ -477,8 +477,8 @@ export function HomePage() {
       <section className="homeHero fullBleedHero homeHeroRecovered">
         <div className="heroCopy">
           <p className="eyebrow">RCM + Operations + Technology</p>
-          <h1>Run the business side of medicine better.</h1>
-          <p className="lede">ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.</p>
+          <h1>The intelligence behind healthcare revenue.</h1>
+          <p className="lede">ROOT connects revenue cycle management, credentialing, practice operations, and data intelligence to expose financial risk and turn findings into accountable action.</p>
           <div className="actions">
             <TrackedLink href="/diagnostic/" cta="book-diagnostic" location="home-hero" engagementType="diagnostic">
               Start the $2,500 Diagnostic <ArrowRight size={17} />
@@ -499,8 +499,8 @@ export function HomePage() {
       <section className="splitSection darkBand dirtHomeBand" data-reveal>
         <div>
           <p className="eyebrow">DIRT intelligence</p>
-          <h2>Know what to act on next.</h2>
-          <p>DIRT connects leakage, denial patterns, A/R priorities, and PracticeOps signals to owners and next actions.</p>
+          <h2>Connect the signals. Know what deserves action.</h2>
+          <p>DIRT connects revenue leakage, payer performance, denial patterns, and A/R priorities with financially significant next actions.</p>
           <TrackedLink className="textLink" href="/technology/dirt/" cta="explore-dirt" location="home-dirt" engagementType="technology">
             Explore DIRT <ArrowRight size={16} />
           </TrackedLink>
@@ -511,7 +511,7 @@ export function HomePage() {
       <section className="contentSection homeCapabilities mutedBand" data-reveal>
         <div className="sectionHeading">
           <p className="eyebrow">Service families</p>
-          <h2>One partner across the practice business.</h2>
+          <h2>Intelligence and execution across the healthcare business.</h2>
           <p>Revenue operations, practice operations, and technology stay visible as owned service groups.</p>
         </div>
         <ServiceFamilyDirectory limitPerFamily={1} />
@@ -532,8 +532,8 @@ export function PlatformPage() {
       <PageHero
         breadcrumbs={[{ label: 'Platform' }]}
         eyebrow="Healthcare MSO platform"
-        title="One operating layer for your practice."
-        copy="ROOT connects revenue operations, credentialing, practice operations, technology, and DIRT intelligence around the clinical practice."
+        title="The operating infrastructure behind healthcare revenue."
+        copy="ROOT connects revenue operations, credentialing, practice operations, technology, and DIRT intelligence around one accountable financial picture."
       />
       <section className="contentSection" data-reveal>
         <div className="sectionHeading">
@@ -610,7 +610,7 @@ export function ServicesHubPage() {
       <PageHero
         breadcrumbs={[{ label: 'Services' }]}
         eyebrow="Healthcare MSO services"
-        title="Services for the business side of medicine."
+        title="Healthcare revenue and operating services."
         copy="ROOT supports independent practices across revenue operations, practice operations, and technology. Scan the simplified revenue-cycle map, then open the owned service that fits."
       />
       <section className="contentSection" data-reveal>
