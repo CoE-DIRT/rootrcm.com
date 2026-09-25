@@ -2,15 +2,15 @@
 
 ## Phase 2 Positioning
 
-ROOT is a full healthcare MSO platform for independent medical practices. The site must make this hierarchy obvious:
+ROOT is the healthcare revenue intelligence and operating infrastructure company. The site must make this hierarchy obvious:
 
-- ROOT: healthcare MSO, RCM, credentialing, practice operations, technology, automation, analytics, and operating partner.
-- DIRT: the Data Intelligence for Revenue Transformation layer inside ROOT.
+- ROOT: healthcare revenue intelligence and operating partner spanning managed RCM, credentialing, practice operations, technology, automation, and analytics.
+- DIRT: embedded Data Intelligence for Revenue Transformation capability inside ROOT, not a separate company or a completed standalone SaaS claim.
 - Revenue Optimization Diagnostic: the fixed-fee paid entry offer, not the whole company.
 
 ## Experience Principles
 
-- Lead with the business side of medicine, not diagnostic-only language.
+- Lead with financial exposure, connected revenue intelligence, and owned execution; keep the Diagnostic as a secondary entry offer.
 - Put clinical practice at the center and show ROOT as the integrated operating layer around it.
 - Use data-interface visuals as explanatory language. Do not present fabricated metrics, screenshots, or outcomes as proof.
 - Keep public forms deidentified. The public website must not collect PHI.
@@ -18,7 +18,7 @@ ROOT is a full healthcare MSO platform for independent medical practices. The si
 
 ## Page System
 
-- Homepage: full-bleed platform hero, platform architecture, ROOT + DIRT story, solutions by problem, service breadth, carousel engagement model, Diagnostic banner, resources.
+- Homepage: commercial revenue-intelligence hero, single ROOT + DIRT narrative, healthcare buyer relevance, synthetic proof, secondary Diagnostic offer, resources.
 - Platform: central architecture, operating layers, engagement model, CTA.
 - Solutions: problem-led hub plus detail pages for leakage, aging A/R, denials, credentialing bottlenecks, efficiency, reporting visibility, and scaling operations.
 - Services: service catalog plus detail pages for RCM, billing, A/R, denials, posting, patient balances, credentialing, PracticeOps, healthcare IT, automation, analytics, and consulting.
