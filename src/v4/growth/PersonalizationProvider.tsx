@@ -69,7 +69,7 @@ export function resolvePersonalization(inputs: PersonalizationInputs): Personali
     out.bannerId = 'dirt-diagnostic';
   } else if (inputs.utmSource.includes('linkedin') || inputs.utmMedium === 'cpc') {
     out.emphasis = 'diagnostic';
-    out.ctaSupport = 'Explore your financial exposure with ROOT's fixed-fee Diagnostic.';
+    out.ctaSupport = 'Explore your financial exposure with ROOT\'s fixed-fee Diagnostic.';
     out.bannerId = 'campaign-diagnostic';
   } else if (inputs.route.includes('/pricing') || inputs.route.includes('/services/rcm')) {
     out.emphasis = 'rcm';
