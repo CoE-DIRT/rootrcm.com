@@ -45,8 +45,8 @@ describe('ROOT commercial site', () => {
   it('renders V4 homepage positioning and primary navigation', () => {
     const { container } = renderRoute('/');
 
-    expect(screen.getByRole('heading', { name: /run the business side of medicine better/i })).toBeTruthy();
-    expect(screen.getByText(/one operating partner for the business side of medicine/i)).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    expect(screen.getByText(/where revenue cycle management meets data intelligence/i)).toBeTruthy();
     const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Start the \$2,500 Diagnostic/i });
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
@@ -58,26 +58,26 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByText(/^Services$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /see how ROOT structures the work/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /one partner across the practice business/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
     expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
     expect(container.querySelector('[data-dirt-command]')).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
-    expect(screen.getByRole('heading', { name: /Where work gets stuck/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /How ROOT helps/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /revenue is lost between disconnected workflows/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /find the cause. own the next action/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /\$2,500 fixed. A clear plan/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /^DIRT Intelligence$/i })).toBeTruthy();
-    expect(screen.getAllByRole('link', { name: /Open DIRT command center/i }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /DIRT · Data Intelligence for Revenue Transformation/i })).toBeTruthy();
+    expect(screen.getAllByRole('link', { name: /Explore revenue intelligence/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/RCM \+ Operations \+ Technology/i).length).toBeGreaterThan(0);
   });
 
   it('renders platform architecture with clinical practice at the center', () => {
     renderRoute('/platform/');
 
-    expect(screen.getByRole('heading', { name: /one operating layer for your practice/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /the operating infrastructure behind healthcare revenue/i })).toBeTruthy();
     expect(screen.getAllByText(/Clinical practice/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/DIRT intelligence/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Management action/i).length).toBeGreaterThan(0);
@@ -95,7 +95,7 @@ describe('ROOT commercial site', () => {
 
     cleanup();
     renderRoute('/technology/dirt/');
-    expect(screen.getByRole('heading', { name: /Revenue intelligence, connected to action/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
     expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('heading', { name: /From signal to an owned next action/i }).length).toBeGreaterThan(0);
     expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
@@ -152,7 +152,7 @@ describe('ROOT commercial site', () => {
       location: 'home-hero',
       destination: '/diagnostic/',
       page: '/',
-      experiment: 'home-hero-revenue-framing-v1',
+      experiment: 'home-hero-revenue-intelligence-v2',
       experiment_variant: 'a',
     });
     expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
