@@ -556,7 +556,7 @@ export const routeMeta = {
     image: brandAssets.og,
   },
   '/diagnostic': {
-    title: 'Revenue Intelligence Diagnostic | ROOT',
+    title: 'Revenue Optimization Diagnostic | ROOT',
     description: 'A fixed-fee $2,500 Diagnostic for independent practices: A/R analysis, denial root causes, opportunity register, workflow review, and 90-day roadmap.',
     image: brandAssets.og,
   },
