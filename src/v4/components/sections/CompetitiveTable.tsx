@@ -31,7 +31,7 @@ const rows = [
   },
   {
     category: 'Works above the existing stack',
-    root: 'Designed around the practice's existing EHR/PM',
+    root: 'Designed around the practice\'s existing EHR/PM',
     dirt: 'Yes — no system replacement',
     ehr: 'N/A — system of record',
     clearing: 'N/A — transaction layer',
