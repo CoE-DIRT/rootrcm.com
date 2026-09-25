@@ -168,7 +168,7 @@ Preserve React/Vite, static routing, npm, accessibility, no-PHI boundaries, cons
 
 ## Current Status
 
-Phase 2 platform expansion is merged to `main`. PR #6 contains launch-polish changes for client-facing contact surfaces and approved commercial pricing alignment. Official brand asset import remains a follow-up until the original ChatGPT asset collection files are accessible locally or through the approved asset workflow.
+This repository's production branch is `main`. The unified healthcare revenue intelligence positioning is staged for review in draft PR #25, not deployed through this branch. Approved legal, no-PHI, pricing, and synthetic-proof boundaries remain in force. Canonical public copy: [commercial positioning](docs/website/commercial-positioning-source-of-truth.md). Temporary ChatGPT Site synchronization: [surgical content prompt](docs/website/temporary-chatgpt-site-commercial-upgrade-prompt.md).
 
 ## Useful Links
 
