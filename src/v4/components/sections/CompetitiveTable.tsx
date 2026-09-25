@@ -10,15 +10,15 @@ import { ResponsiveTableShell } from '@/components/ui/ResponsiveTableShell';
 const rows = [
   {
     category: 'Primary role',
-    root: 'Business-side operating partner',
-    dirt: 'Revenue intelligence layer',
+    root: 'Revenue operations and technology partner',
+    dirt: 'Data Intelligence for Revenue Transformation',
     ehr: 'Clinical & practice system of record',
     clearing: 'Claims transaction rails',
   },
   {
     category: 'Data handled',
     root: 'Operational & billing data, no PHI on this site',
-    dirt: 'No-PHI operational metadata',
+    dirt: 'Deidentified operational data; approved PHI-capable workflows only after safeguards',
     ehr: 'Clinical & demographic PHI',
     clearing: 'Claims & payer transaction data',
   },
@@ -31,7 +31,7 @@ const rows = [
   },
   {
     category: 'Works above the existing stack',
-    root: 'Yes — practice keeps its EHR/PM',
+    root: 'Designed around the practice's existing EHR/PM',
     dirt: 'Yes — no system replacement',
     ehr: 'N/A — system of record',
     clearing: 'N/A — transaction layer',
