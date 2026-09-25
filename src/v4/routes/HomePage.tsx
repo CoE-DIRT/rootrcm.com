@@ -181,7 +181,7 @@ function HomePageContent() {
 
       {diagnostic ? (
         <Section tone="flow" wide>
-          <SectionHeader eyebrow="Revenue Intelligence Diagnostic" title="Find the financial exposure worth investigating." description={diagnostic.bestFor} />
+          <SectionHeader eyebrow="Revenue Optimization Diagnostic" title="Find the financial exposure worth investigating." description={diagnostic.bestFor} />
           <div className="mt-6 flex flex-wrap items-center gap-6">
             <p className="text-2xl font-semibold text-accent">{diagnostic.price}</p>
             <ul className="flex flex-wrap gap-2 text-xs text-muted">
