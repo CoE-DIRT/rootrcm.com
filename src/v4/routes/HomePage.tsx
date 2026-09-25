@@ -35,9 +35,9 @@ function HomePageContent() {
   return (
     <>
       <HeroSection
-        eyebrow="RCM + Operations + Technology"
-        title="Run the business side of medicine better."
-        description="ROOT is the operating partner for independent physician practices — managing billing, denials, A/R, credentialing, practice operations, and technology."
+        eyebrow="Healthcare Revenue Intelligence + Operating Infrastructure"
+        title="The intelligence behind healthcare revenue."
+        description="ROOT connects revenue cycle management, credentialing, practice operations, and data intelligence to expose financial risk, understand payer performance, and turn findings into accountable action."
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
@@ -48,9 +48,9 @@ function HomePageContent() {
 
       <Section tone="soft">
         <SectionHeader
-          eyebrow="Where work gets stuck"
-          title="Where work gets stuck"
-          description="Revenue leakage, aging A/R, and credentialing bottlenecks compound quietly across the practice business."
+          eyebrow="The financial blind spots"
+          title="Revenue is lost between disconnected workflows."
+          description="Denials, underpayments, payer delays, aging A/R, and credentialing gaps often become visible only after they have affected cash flow."
         />
         <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-center">
           <MediaFrame
@@ -61,10 +61,9 @@ function HomePageContent() {
             priority
           />
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-text">How ROOT helps</h2>
+            <h2 className="text-2xl font-semibold text-text">Find the cause. Own the next action.</h2>
             <p className="text-muted">
-              ROOT treats billing, denials, A/R, credentialing, and reporting as one operating system — then uses DIRT to
-              rank what to fix first.
+              ROOT connects the financial signals across revenue, payer activity, enrollment, and operations. DIRT identifies patterns and priorities; ROOT connects the findings to real execution.
             </p>
             <ul className="space-y-2 text-sm text-muted">
               {platformNodes.slice(0, 4).map((node: { label: string; copy: string }) => (
@@ -78,20 +77,20 @@ function HomePageContent() {
       </Section>
 
       <Section wide>
-        <SectionHeader eyebrow="Operating model" title="One partner across the practice business." align="left" />
+        <SectionHeader eyebrow="Connected intelligence + execution" title="One revenue story across every system." description="Your EHR, clearinghouse, payer portals, and financial reports each hold part of the answer. ROOT connects the business process; DIRT connects the signals." align="left" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <GlassCard variant="lifecycle" hover={false} accent="cyan" className="p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">The differentiator</p>
-            <h3 className="mt-2 text-xl font-semibold text-text">DIRT Intelligence</h3>
+            <h3 className="mt-2 text-xl font-semibold text-text">DIRT · Data Intelligence for Revenue Transformation</h3>
             <p className="mt-3 text-sm text-muted">
               {platformNodes.find((node: { label: string }) => node.label.includes('DIRT'))?.copy}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <LinkButton href="/technology/dirt/" variant="secondary" size="sm">
-                Open DIRT command center
+                Explore revenue intelligence
               </LinkButton>
               <LinkButton href="/diagnostic/" variant="ghost" size="sm" data-cta="book-diagnostic" data-location="home-operating-model" data-destination="/diagnostic/">
-                Start the $2,500 Diagnostic
+                Discover your revenue exposure
               </LinkButton>
             </div>
           </GlassCard>
@@ -110,9 +109,9 @@ function HomePageContent() {
 
       <Section tone="soft">
         <SectionHeader
-          eyebrow="Service families"
-          title="Services that stay owned"
-          description="Revenue operations, practice operations, and technology as visible service groups."
+          eyebrow="Healthcare operating capabilities"
+          title="Intelligence with people and processes behind it."
+          description="Managed RCM, credentialing, practice operations, data architecture, and automation—connected around financial performance."
         />
         <div className="mt-8 flex flex-wrap gap-3">
           {servicePages.map((service: { slug: string; title: string }) => (
@@ -129,9 +128,9 @@ function HomePageContent() {
 
       <Section>
         <SectionHeader
-          eyebrow="Proof of capability"
-          title="See how ROOT structures the work"
-          description={`Illustrative case studies using synthetic data such as ${syntheticPractice.name} — never presented as verified client outcomes.`}
+          eyebrow="See the method"
+          title="From a revenue signal to a decision."
+          description={`Explore synthetic, clearly labeled demonstrations using ${syntheticPractice.name} to see how ROOT connects financial findings to owned corrective action.`}
         />
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-center">
           <MediaFrame
@@ -142,8 +141,7 @@ function HomePageContent() {
           />
           <div>
             <p className="text-sm text-muted">
-              Fictional practice scenarios and synthetic operating exports show how ROOT connects leakage signals to
-              owners and next actions.
+              See how payer, denial, A/R, and credentialing signals can be reconciled, prioritized by financial significance, and connected to an accountable next step.
             </p>
             <LinkButton href="/case-studies/" variant="ghost" size="sm" className="mt-6">
               View proof of capability <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -154,7 +152,7 @@ function HomePageContent() {
 
       {diagnostic ? (
         <Section tone="flow" wide>
-          <SectionHeader eyebrow="START HERE" title="$2,500 fixed. A clear plan." description={diagnostic.bestFor} />
+          <SectionHeader eyebrow="Revenue Intelligence Diagnostic" title="Find the financial exposure worth investigating." description={diagnostic.bestFor} />
           <div className="mt-6 flex flex-wrap items-center gap-6">
             <p className="text-2xl font-semibold text-accent">{diagnostic.price}</p>
             <ul className="flex flex-wrap gap-2 text-xs text-muted">
@@ -174,13 +172,13 @@ function HomePageContent() {
             data-location="home-pricing"
             data-destination="/diagnostic/"
           >
-            Start the $2,500 Diagnostic
+            Discover your revenue exposure
           </LinkButton>
         </Section>
       ) : null}
 
       <Section tone="soft">
-        <SectionHeader eyebrow="Resources" title="Operating knowledge, not filler." />
+        <SectionHeader eyebrow="Resources" title="Practical intelligence for healthcare revenue leaders." />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {resourceArticles.slice(0, 3).map((article: { slug: string; title: string; summary?: string }) => (
             <a
@@ -196,11 +194,11 @@ function HomePageContent() {
       </Section>
 
       <Section>
-        <SectionHeader align="center" eyebrow="Trust" title="What we can stand behind." />
+        <SectionHeader align="center" eyebrow="Trust" title="Financial intelligence needs dependable evidence." />
         <TrustSignals className="mx-auto mt-8 max-w-3xl" />
         <CTAGroup className="mt-10 justify-center">
           <LinkButton href="/diagnostic/" variant="primary" size="lg" data-cta="book-diagnostic" data-location="home-final-cta" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
+            Discover your revenue exposure
           </LinkButton>
           <LinkButton href="/contact/" variant="outline" size="lg">
             Talk to ROOT
