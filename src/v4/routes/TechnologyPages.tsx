@@ -108,7 +108,7 @@ export function DirtPage() {
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="dirt-hero" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
+            Discover Your Revenue Exposure
           </LinkButton>
         </CTAGroup>
         <DirtSectionNav items={dirtSections} className="mt-8" />
