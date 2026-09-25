@@ -24,11 +24,10 @@ export function TechnologyHubPage() {
       <Section className="pt-10 md:pt-14">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Technology</p>
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold text-text sm:text-5xl">
-          Technology that serves the operating model.
+          Connected data. Clearer revenue decisions.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          EHR/PM alignment, healthcare IT support, automation readiness, and DIRT intelligence — without unverified
-          integration claims.
+          ROOT brings healthcare data architecture, EHR/PM workflow alignment, interoperability planning, analytics, and monitored automation together around financial performance.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/technology/dirt/" variant="primary">
@@ -48,9 +47,9 @@ export function TechnologyHubPage() {
         />
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
-            ['DIRT intelligence', 'Management intelligence connected to action queues.', '/technology/dirt/'],
-            ['Healthcare IT', 'Support for the systems practices already run.', '/services/healthcare-it/'],
-            ['Workflow automation', 'Automate stable work after process repair.', '/services/workflow-automation/'],
+            ['DIRT intelligence', 'Connect payer, denial, A/R, and revenue signals to financially prioritized action.', '/technology/dirt/'],
+            ['Healthcare IT', 'Improve data reliability and align the systems your practice already uses.', '/services/healthcare-it/'],
+            ['Workflow automation', 'Move from a validated revenue signal to a monitored, human-owned workflow.', '/services/workflow-automation/'],
           ].map(([title, copy, href]) => (
             <a key={title} href={href} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 hover:border-accent">
               <h2 className="text-lg font-semibold text-text">{title}</h2>
@@ -63,8 +62,8 @@ export function TechnologyHubPage() {
       <Section tone="grid" wide>
         <SectionHeader
           eyebrow="Illustrative flow"
-          title="Export → review, not a live connector."
-          description="A future-state pattern for how a practice's existing systems could feed DIRT review — illustrative and planned, not a working integration today."
+          title="A connected revenue data architecture."
+          description="Illustrative architecture: connect approved exports, reconcile the source data, validate financial signals, and route findings to human-owned action. Production API integrations are scoped separately."
         />
         <div className="mt-8">
           <InteroperabilityLifecycle />
@@ -74,7 +73,7 @@ export function TechnologyHubPage() {
       <Section wide>
         <SectionHeader
           eyebrow="Where things fit"
-          title="ROOT and DIRT next to what you already run."
+          title="Keep your systems. Connect the financial story."
           description="A neutral comparison of roles — not a claim about any vendor's limitations."
         />
         <div className="mt-8">
@@ -93,11 +92,10 @@ export function DirtPage() {
           Data Intelligence for Revenue Transformation
         </p>
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold text-text sm:text-5xl">
-          Revenue intelligence, connected to action.
+          Your data already contains the signals. DIRT connects them.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          DIRT helps ROOT detect leakage, understand denial patterns, prioritize A/R recovery, and assign the next
-          operating action.
+          DIRT — Data Intelligence for Revenue Transformation — is ROOT's embedded intelligence capability. It connects fragmented healthcare revenue data to explain leakage, examine payer performance, prioritize recovery, and identify what deserves action next.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="dirt-hero" data-destination="/diagnostic/">
@@ -114,8 +112,8 @@ export function DirtPage() {
       <Section id="command-center" tone="grid" wide dense>
         <SectionHeader
           eyebrow="Command center"
-          title="Executive view, expandable triage, human-reviewed explanation"
-          description="ROOT's metrics, charts, payer table, and priority queue — plus DIRT's row-level explain workflow."
+          title="From financial visibility to decision-ready revenue intelligence"
+          description="Explore how an executive view, payer intelligence, denial patterns, underpayment indicators, and a prioritized queue fit into one synthetic demonstration."
         />
         <div className="mt-8">
           <DirtCommandCenter />
@@ -152,8 +150,8 @@ export function DirtPage() {
 
       <Section id="action">
         <SectionHeader
-          title="Want DIRT applied to your revenue cycle?"
-          description="The Diagnostic is the fastest path from current data to a prioritized opportunity register."
+          title="Turn your revenue data into an operating advantage."
+          description="Start with a scoped Revenue Intelligence Diagnostic to identify exposure, investigate root causes, and agree on the next operating intervention."
         />
         <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic" data-destination="/diagnostic/">
           Start Diagnostic
