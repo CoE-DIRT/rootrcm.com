@@ -17,16 +17,15 @@ export function PricingPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Pricing' }]} />
-        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Engagement models with clear entry points.</h1>
+        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Intelligence and execution, scoped to your business.</h1>
         <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
-          Approved commercial pricing only. The Diagnostic remains {formatUsd(DIAGNOSTIC_PRICE_USD)} — personalization never
-          changes price. Choose the path that matches how much ownership you need now.
+          Start with a fixed-fee {formatUsd(DIAGNOSTIC_PRICE_USD)} Revenue Intelligence Diagnostic or choose an ongoing revenue operations, DIRT intelligence, credentialing, project, or MSO engagement. The published Diagnostic price does not change with personalization.
         </p>
       </Section>
 
       <Section tone="flow" wide>
         <GlassCard as="div" variant="matrix" accent="cyan" hover={false} className="p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Decision path · start here</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Focused entry engagement</p>
           <h2 className="mt-2 text-2xl font-semibold text-text sm:text-3xl">{diagnostic.name}</h2>
           <p className="mt-2 text-xl text-accent md:text-2xl">{diagnostic.price}</p>
           <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">{diagnostic.bestFor}</p>
@@ -39,7 +38,7 @@ export function PricingPage() {
           </ul>
           <CTAGroup className="mt-6">
             <LinkButton href="/diagnostic/" variant="primary" size="lg" data-cta="book-diagnostic" data-destination="/diagnostic/">
-              Start the $2,500 Diagnostic
+              Explore the Diagnostic
             </LinkButton>
             {isDiagnosticCheckoutActive() ? (
               <button
@@ -58,7 +57,7 @@ export function PricingPage() {
         <SectionHeader
           eyebrow="If you already know the ownership model"
           title="Core operating models"
-          description="Managed RCM and DIRT when the Diagnostic evidence already points to ongoing execution."
+          description="Managed revenue-cycle execution and DIRT financial intelligence can be scoped directly or follow an initial Diagnostic."
         />
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           {primaryModels.map((model: (typeof pricingModels)[number]) => (
@@ -83,7 +82,7 @@ export function PricingPage() {
         <SectionHeader
           eyebrow="Specialized paths"
           title="Projects & partnership models"
-          description="Scope and outcomes are defined in writing before work begins — secondary to the Diagnostic entry point."
+          description="Project and operating-partner scope is defined in writing around the financial and operational work required."
         />
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {specializedModels.map((model: (typeof pricingModels)[number]) => (
