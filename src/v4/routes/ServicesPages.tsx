@@ -17,10 +17,9 @@ export function ServicesHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Services' }]} />
-        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">MSO service directory</h1>
+        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Healthcare revenue & operating services</h1>
         <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
-          Revenue operations, practice operations, and technology services with clear ownership — not a menu of vague
-          “solutions.”
+          Revenue cycle management, credentialing, practice operations, healthcare IT, and analytics delivered as connected capabilities — so findings become owned work.
         </p>
       </Section>
       <Section tone="soft">
@@ -73,7 +72,7 @@ export function ServicePage({ service }: { service: Service }) {
         <p className="mt-4 text-sm text-accent">{service.pricing}</p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
+            Discover Revenue Exposure
           </LinkButton>
           <LinkButton href="/contact/" variant="outline">
             Talk to ROOT
@@ -105,7 +104,7 @@ export function ServicePage({ service }: { service: Service }) {
       <Section tone="grid" wide>
         <SectionHeader
           eyebrow="Workflow & ownership"
-          title="What engagement includes"
+          title="What ROOT takes ownership of"
           description={service.engagement}
         />
         <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -120,7 +119,7 @@ export function ServicePage({ service }: { service: Service }) {
       {/* INTELLIGENCE */}
       {service.dirt ? (
         <Section dense>
-          <SectionHeader eyebrow="Intelligence" title="How DIRT complements this service" />
+          <SectionHeader eyebrow="Intelligence" title="The intelligence behind the execution" />
           <AnnotationNote label="DIRT complement" text={service.dirt} className="mt-6" />
           {service.related ? (
             <LinkButton href={service.related} variant="ghost" size="sm" className="mt-4">
@@ -148,11 +147,11 @@ export function ServicePage({ service }: { service: Service }) {
       <Section>
         <SectionHeader
           title={`Talk to ROOT about ${service.title}`}
-          description="Share deidentified commercial context — Diagnostic, project, or managed ownership."
+          description="Discuss your financial and operational objectives; share only deidentified commercial context through this site."
         />
         <CTAGroup className="mt-6">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
+            Discover Revenue Exposure
           </LinkButton>
           <LinkButton href="/contact/" variant="outline">
             Talk to ROOT
