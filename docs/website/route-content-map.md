@@ -10,7 +10,7 @@
 - `/technology/dirt/`: DIRT as the embedded revenue intelligence capability inside ROOT.
 - `/pricing/`: Diagnostic, managed RCM, DIRT, projects, credentialing, and full MSO engagement models.
 - `/resources/`: guide library.
-- `/diagnostic/`: fixed-fee $2,500 Revenue Intelligence Diagnostic (under the existing Revenue Optimization Diagnostic offer).
+- `/diagnostic/`: fixed-fee $2,500 Revenue Optimization Diagnostic.
 - `/company/about/`: ROOT operating philosophy.
 - `/contact/`: deidentified commercial inquiry form.
 
