@@ -19,7 +19,7 @@ export function PricingPage() {
         <Breadcrumb items={[{ label: 'Pricing' }]} />
         <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Intelligence and execution, scoped to your business.</h1>
         <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
-          Start with a fixed-fee {formatUsd(DIAGNOSTIC_PRICE_USD)} Revenue Intelligence Diagnostic or choose an ongoing revenue operations, DIRT intelligence, credentialing, project, or MSO engagement. The published Diagnostic price does not change with personalization.
+          Start with a fixed-fee {formatUsd(DIAGNOSTIC_PRICE_USD)} Revenue Optimization Diagnostic or choose an ongoing revenue operations, DIRT intelligence, credentialing, project, or MSO engagement. The published Diagnostic price does not change with personalization.
         </p>
       </Section>
 
