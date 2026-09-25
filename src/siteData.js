@@ -319,7 +319,7 @@ export const servicePages = [
     deliverables: ['KPI definition', 'Source-data review', 'Dashboard design', 'Operating cadence', 'Decision register'],
     engagement: 'Diagnostic, project, or monthly intelligence layer.',
     pricing: '$1,500-$2,500/month for DIRT/Data Intelligence when scoped as an ongoing layer.',
-    dirt: 'DIRT is ROOT's embedded revenue intelligence capability, connecting data quality, leakage, payer performance, denial analysis, and financial triage to owned actions.',
+    dirt: 'DIRT is ROOT\'s embedded revenue intelligence capability, connecting data quality, leakage, payer performance, denial analysis, and financial triage to owned actions.',
     related: '/solutions/reporting-visibility/',
   },
   {
