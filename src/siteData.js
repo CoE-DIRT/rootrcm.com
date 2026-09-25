@@ -537,7 +537,7 @@ export const routeMeta = {
   },
   '/technology/dirt': {
     title: 'DIRT | Healthcare Revenue Intelligence & Analytics | ROOT',
-    description: 'DIRT is ROOT's Data Intelligence for Revenue Transformation capability: connect fragmented RCM data, analyze denials and payer performance, and prioritize revenue recovery.',
+    description: 'DIRT is ROOT\'s Data Intelligence for Revenue Transformation capability: connect fragmented RCM data, analyze denials and payer performance, and prioritize revenue recovery.',
     image: brandAssets.og,
   },
   '/case-studies': {
