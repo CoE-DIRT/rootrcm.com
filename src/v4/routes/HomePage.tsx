@@ -21,6 +21,16 @@ import { syntheticPractice } from '../../proofData.js';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
+const healthcareSegments = [
+  { name: 'Ambulatory Surgery Centers', signal: 'Case reimbursement, authorization exposure, payer performance, and facility A/R.', href: '/solutions/revenue-leakage/' },
+  { name: 'Office-Based Surgery & Labs', signal: 'Procedure economics, site-of-service workflows, participation, and reimbursement variance.', href: '/solutions/reporting-visibility/' },
+  { name: 'Anesthesia Groups', signal: 'Provider enrollment, professional claims, payer follow-up, and aging A/R.', href: '/solutions/credentialing-bottlenecks/' },
+  { name: 'Cardiology & Electrophysiology', signal: 'Complex procedures, authorization workflow, payer behavior, and financial visibility.', href: '/solutions/denials/' },
+  { name: 'Multispecialty Practices', signal: 'Revenue intelligence by specialty, provider, payer, and location.', href: '/solutions/scaling-practice-ops/' },
+];
+
+
+
 export function HomePage() {
   return (
     <V4Shell>
@@ -121,6 +131,25 @@ function HomePageContent() {
               className="rounded-full border border-border px-4 py-2 text-sm text-text transition-colors hover:border-data-blue/45 hover:text-white"
             >
               {service.title}
+            </a>
+          ))}
+        </div>
+      </Section>
+
+      <Section>
+        <SectionHeader
+          eyebrow="Built for US healthcare"
+          title="Different specialties. One accountable revenue picture."
+          description="ROOT brings financial intelligence and operating discipline to the revenue patterns that matter in surgical, procedural, and multispecialty settings."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {healthcareSegments.map((segment) => (
+            <a key={segment.name} href={segment.href} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 transition-colors hover:border-data-blue/45">
+              <h3 className="font-semibold text-text">{segment.name}</h3>
+              <p className="mt-2 text-sm text-muted">{segment.signal}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                Explore revenue solution <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </span>
             </a>
           ))}
         </div>
