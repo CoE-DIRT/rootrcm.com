@@ -277,7 +277,7 @@ describe('ROOT commercial site', () => {
     window.history.pushState({}, '', '/?exp_homeHero=b');
     expect(getExperimentAssignment('homeHero')).toBe('b');
     render(<App />);
-    expect(screen.getByRole('heading', { name: /find where your practice is losing revenue/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /your data already contains the signals. ROOT connects them/i })).toBeTruthy();
     expect(document.querySelector('.homeHero')?.dataset.variant).toBe('b');
   });
 
