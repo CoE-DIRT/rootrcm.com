@@ -11,7 +11,7 @@ test.describe('ROOT V4 smoke', () => {
 
   test('DIRT command center route renders charts and queue', async ({ page }) => {
     await page.goto('/technology/dirt/');
-    await expect(page.getByRole('heading', { name: /Revenue intelligence, connected to action/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeVisible();
     await expect(page.getByText(/aging landscape/i).first()).toBeVisible();
     await expect(page.locator('[data-dirt-command]')).toBeVisible();
   });
