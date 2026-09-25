@@ -2,15 +2,15 @@
 
 ## Core Routes
 
-- `/`: ROOT healthcare MSO homepage. Primary H1: "Run the business side of medicine better."
-- `/platform/`: ROOT operating-layer architecture around the clinical practice.
+- `/`: ROOT healthcare revenue-intelligence homepage. Primary H1: "The intelligence behind healthcare revenue."
+- `/platform/`: ROOT revenue and operating infrastructure around the clinical practice.
 - `/solutions/`: problem-led solution hub.
 - `/services/`: healthcare MSO service catalog hub.
 - `/technology/`: healthcare IT, automation, analytics, and DIRT technology hub.
-- `/technology/dirt/`: DIRT as the intelligence layer inside ROOT.
+- `/technology/dirt/`: DIRT as the embedded revenue intelligence capability inside ROOT.
 - `/pricing/`: Diagnostic, managed RCM, DIRT, projects, credentialing, and full MSO engagement models.
 - `/resources/`: guide library.
-- `/diagnostic/`: fixed-fee $2,500 Revenue Optimization Diagnostic.
+- `/diagnostic/`: fixed-fee $2,500 Revenue Intelligence Diagnostic (under the existing Revenue Optimization Diagnostic offer).
 - `/company/about/`: ROOT operating philosophy.
 - `/contact/`: deidentified commercial inquiry form.
 
