@@ -32,6 +32,18 @@
 - `/pricing/`: RCM pricing, diagnostic pricing, healthcare MSO pricing.
 - `/diagnostic/`: revenue optimization diagnostic, financial exposure assessment, revenue cycle assessment.
 
+## Supporting US healthcare buyer searches
+
+- ASC / ambulatory surgery center revenue cycle management, facility reimbursement, surgical payer performance.
+- Office-based surgery and labs revenue operations, site-of-service reimbursement.
+- Anesthesia RCM, professional claims and provider enrollment.
+- Cardiology and electrophysiology RCM, prior authorization and complex procedural reimbursement.
+- Multispecialty practice revenue intelligence, provider and location analytics.
+- Revenue leakage analytics, underpayment detection, payer recoupment and takeback reconciliation.
+- Healthcare data architecture, source-data normalization, financial metric reconciliation, predictive denial risk (roadmap only).
+
+Each page has one primary intent; support with natural examples and internal links rather than keyword repetition. Do not claim rankings, real-time connectivity or certified AI that is not proven.
+
 ## Copy Rules
 
 - Avoid keyword stuffing.
