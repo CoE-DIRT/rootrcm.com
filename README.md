@@ -2,13 +2,13 @@
 
 ![ROOT social cover](public/brand/covers/root-social-cover.png)
 
-ROOT is Revenue Operations & Outcomes Technology: a public commercial website for independent US physician practices evaluating a healthcare MSO partner across revenue cycle management, credentialing, practice operations, healthcare IT, workflow automation, analytics, DIRT intelligence, and the fixed-fee Revenue Optimization Diagnostic.
+ROOT is Revenue Operations & Outcomes Technology: the public commercial website for healthcare revenue intelligence and operating infrastructure. It connects managed RCM, credentialing, practice operations, healthcare IT, workflow automation and DIRT intelligence; the fixed-fee Diagnostic is an optional entry engagement.
 
 This repository is the deployable static website for `rootrcm.com`. It is built for qualified discovery and Diagnostic opportunities, not PHI intake.
 
 ## Positioning
 
-ROOT combines healthcare operations, revenue cycle execution, credentialing, technology enablement, automation, and data intelligence. The initial commercial entry product is the Revenue Optimization Diagnostic, a $2,500 fixed-scope engagement that turns deidentified operating context and approved reports into a prioritized opportunity register and 90-day roadmap. DIRT is the intelligence layer inside ROOT, not the entire company.
+ROOT connects fragmented healthcare financial data to operational decisions. DIRT — Data Intelligence for Revenue Transformation — is the intelligence capability within ROOT, not a separate company or a finished standalone SaaS product. ROOT pairs that intelligence with managed revenue operations, credentialing as revenue infrastructure, practice operations, and technology. The $2,500 fixed-scope Diagnostic remains a standalone optional entry engagement using deidentified reports.
 
 ## Architecture
 
@@ -168,7 +168,7 @@ Preserve React/Vite, static routing, npm, accessibility, no-PHI boundaries, cons
 
 ## Current Status
 
-Phase 2 platform expansion is merged to `main`. PR #6 contains launch-polish changes for client-facing contact surfaces and approved commercial pricing alignment. Official brand asset import remains a follow-up until the original ChatGPT asset collection files are accessible locally or through the approved asset workflow.
+This repository's production branch is `main`. The unified healthcare revenue intelligence positioning is staged for review in draft PR #25, not deployed through this branch. Approved legal, no-PHI, pricing, and synthetic-proof boundaries remain in force. Canonical public copy: [commercial positioning](docs/website/commercial-positioning-source-of-truth.md). Temporary ChatGPT Site synchronization: [surgical content prompt](docs/website/temporary-chatgpt-site-commercial-upgrade-prompt.md).
 
 ## Useful Links
 

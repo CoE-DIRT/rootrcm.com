@@ -37,8 +37,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
         <div className="lg:col-span-2">
           <p className="text-lg font-semibold text-text">ROOT</p>
           <p className="mt-2 max-w-xs text-sm text-muted">
-            Revenue Operations &amp; Outcomes Technology — RCM, operations, and technology partner for independent
-            physician practices.
+            Revenue Operations &amp; Outcomes Technology — healthcare revenue intelligence, managed RCM, credentialing, and the operating infrastructure behind financial performance.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             {liveOutreach.map((channel) => (

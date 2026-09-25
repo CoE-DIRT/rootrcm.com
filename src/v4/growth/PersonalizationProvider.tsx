@@ -19,7 +19,7 @@ export interface PersonalizationOutputs {
 }
 
 const DEFAULT_OUTPUT: PersonalizationOutputs = {
-  ctaSupport: 'Start with evidence. Expand when the operating case is clear.',
+  ctaSupport: 'Connect the data. Understand revenue exposure. Act on what matters.',
   emphasis: 'default',
   leadMagnet: 'Revenue Optimization Diagnostic',
   resourceHint: '/resources/',
@@ -65,18 +65,18 @@ export function resolvePersonalization(inputs: PersonalizationInputs): Personali
 
   if (inputs.utmCampaign.includes('dirt') || inputs.route.includes('/technology/dirt')) {
     out.emphasis = 'dirt';
-    out.ctaSupport = 'See how DIRT turns leakage signals into owned next actions.';
+    out.ctaSupport = 'See how DIRT connects revenue signals to financially prioritized action.';
     out.bannerId = 'dirt-diagnostic';
   } else if (inputs.utmSource.includes('linkedin') || inputs.utmMedium === 'cpc') {
     out.emphasis = 'diagnostic';
-    out.ctaSupport = 'Campaign visitors often start with the fixed-fee Diagnostic.';
+    out.ctaSupport = 'Explore your financial exposure with ROOT\'s fixed-fee Diagnostic.';
     out.bannerId = 'campaign-diagnostic';
   } else if (inputs.route.includes('/pricing') || inputs.route.includes('/services/rcm')) {
     out.emphasis = 'rcm';
-    out.ctaSupport = 'Compare engagement models, then validate with the Diagnostic.';
+    out.ctaSupport = 'Explore intelligence and operating ownership; start with a scoped Diagnostic.';
     out.bannerId = 'pricing-diagnostic';
   } else if (inputs.isReturning) {
-    out.ctaSupport = 'Welcome back — pick up with the Diagnostic or talk to ROOT.';
+    out.ctaSupport = 'Welcome back — explore revenue intelligence or talk with ROOT.';
     out.bannerId = 'returning';
   }
 

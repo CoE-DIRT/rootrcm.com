@@ -13,19 +13,19 @@ const engagementRows = [
   {
     title: 'Diagnostic',
     eyebrow: '$2,500 fixed entry',
-    copy: 'A focused assessment that turns A/R, denial, workflow, credentialing, and reporting signals into a ranked opportunity register.',
+    copy: 'A focused financial and operating assessment that identifies revenue exposure, underlying causes, and a prioritized action plan.',
     href: '/diagnostic/',
   },
   {
     title: 'Managed RCM',
     eyebrow: 'Operating ownership',
-    copy: 'ROOT runs revenue-cycle execution and improvement across billing, denials, A/R, posting, reporting, and escalation.',
+    copy: 'ROOT connects billing, payer follow-up, denials, posting, and A/R recovery to measurable financial controls.',
     href: '/services/rcm/',
   },
   {
     title: 'DIRT Intelligence',
     eyebrow: '$1,500-$2,500/month when scoped',
-    copy: 'The intelligence layer for revenue leakage, denial patterns, A/R priority, payer behavior, and PracticeOps signals.',
+    copy: 'Connect fragmented RCM data, investigate payer and denial patterns, and prioritize financial opportunities.',
     href: '/technology/dirt/',
   },
   {
@@ -38,7 +38,7 @@ const engagementRows = [
 
 const layers = [
   { title: 'Clinical practice', copy: 'Care delivery stays with the practice. ROOT never claims clinical authority.' },
-  { title: 'DIRT intelligence', copy: 'Signals become findings with financial significance, owners, and next actions.' },
+  { title: 'DIRT intelligence', copy: 'Reconciled financial signals become payer insight, revenue exposure, and financially prioritized recommendations.' },
   { title: 'Management action', copy: 'Queues, cadence, and escalation turn insight into operating change.' },
 ];
 
@@ -51,15 +51,14 @@ export function PlatformPage() {
         </div>
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Operating platform</p>
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tight text-text sm:text-5xl">
-          One operating layer for your practice.
+          The operating infrastructure behind healthcare revenue.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT connects revenue operations, practice operations, and technology so leadership sees one accountable system —
-          not a stack of disconnected vendors.
+          ROOT connects managed revenue operations, credentialing, healthcare technology, and DIRT data intelligence to give leadership one coherent view of financial performance and operational accountability.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="platform-hero" data-destination="/diagnostic/">
-            Start the $2,500 Diagnostic
+            Discover Revenue Exposure
           </LinkButton>
           <LinkButton href="/technology/dirt/" variant="outline">
             Explore DIRT
@@ -68,7 +67,7 @@ export function PlatformPage() {
       </Section>
 
       <Section tone="soft">
-        <SectionHeader eyebrow="Architecture" title="Clinical practice at the center." />
+        <SectionHeader eyebrow="Architecture" title="Connected operations. Clear financial decisions." />
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {layers.map((layer) => (
             <div key={layer.title} className="rounded-[var(--radius-root)] border border-border bg-panel/50 p-5">
@@ -87,7 +86,7 @@ export function PlatformPage() {
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="Domains" title="What the platform owns." />
+        <SectionHeader eyebrow="Domains" title="Every capability connected to revenue performance." />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {platformNodes.map((node: { label: string; copy: string }) => (
             <div key={node.label} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
@@ -101,7 +100,7 @@ export function PlatformPage() {
       <Section tone="grid" wide>
         <SectionHeader
           eyebrow="Practice lifecycle"
-          title="Every business-side stage, owned."
+          title="From provider readiness to final reimbursement."
           description="Clinical practice stays at the center — ROOT owns the operating stages around it."
         />
         <div className="mt-8">
@@ -112,7 +111,7 @@ export function PlatformPage() {
       <Section tone="soft" wide>
         <SectionHeader
           eyebrow="Operating loop"
-          title="A continuous improvement loop, not a one-time fix."
+          title="Find the financial signal. Close the operational loop."
           description="Every engagement runs the same cycle: detect, explain, prioritize, improve, govern."
         />
         <div className="mt-8">
@@ -123,7 +122,7 @@ export function PlatformPage() {
       <Section wide>
         <SectionHeader
           eyebrow="Growth path"
-          title="Start focused. Expand when the evidence earns it."
+          title="Build financial control without replacing the practice."
           description="A real sequence of ROOT engagements — not a hypothetical roadmap."
         />
         <div className="mt-8">
@@ -132,7 +131,7 @@ export function PlatformPage() {
       </Section>
 
       <Section tone="soft">
-        <SectionHeader eyebrow="Engagement choices" title="Start focused. Expand when the evidence earns it." />
+        <SectionHeader eyebrow="Engagement choices" title="Build financial control without replacing the practice." />
         <ul className="mt-8 space-y-4">
           {engagementRows.map((item) => (
             <li key={item.title} className="grid gap-3 rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 md:grid-cols-[1fr_2fr_auto] md:items-center">

@@ -1,6 +1,6 @@
 # Solution Architecture
 
-ROOT Phase 2 organizes solutions by practice problem, not by internal service line.
+ROOT organizes solutions around revenue exposure and operational constraints, not internal departments. ROOT is the healthcare revenue intelligence and operating partner; DIRT is its embedded Data Intelligence for Revenue Transformation capability.
 
 ## Solution Pages
 
@@ -28,5 +28,5 @@ The solution pages ladder back to the platform architecture:
 
 - Clinical Practice remains the center.
 - ROOT is the business operating layer.
-- DIRT is the intelligence layer inside ROOT.
+- DIRT is the embedded intelligence capability inside ROOT, not a second company or a standalone production SaaS claim.
 - Diagnostic is the front-door assessment.

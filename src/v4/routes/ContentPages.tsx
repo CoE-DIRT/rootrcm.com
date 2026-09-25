@@ -20,10 +20,9 @@ export function SolutionsHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Solutions' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Solutions by practice problem</h1>
+        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Solutions for the revenue behind healthcare</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Start from the operating constraint — leakage, aging A/R, denials, credentialing, visibility — then map to ROOT
-          services and DIRT.
+          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. ROOT brings intelligence and execution together.
         </p>
       </Section>
       <Section tone="soft">
@@ -76,7 +75,7 @@ export function SolutionPage({ page }: { page: Solution }) {
       <Section tone="grid" wide>
             {'problem' in page && page.problem ? (
           <>
-            <SectionHeader title="The operating problem" description={String(page.problem)} />
+            <SectionHeader title="The financial and operating problem" description={String(page.problem)} />
             {'rootResponse' in page && page.rootResponse ? (
               <p className="mt-4 text-sm text-muted">{String(page.rootResponse)}</p>
             ) : null}

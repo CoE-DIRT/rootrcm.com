@@ -4,14 +4,14 @@ test.describe('ROOT V4 smoke', () => {
   test('V4 home renders brand hero and diagnostic CTA', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByText('RCM + Operations + Technology', { exact: true }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: /Start the \$2,500 Diagnostic/i }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /Discover Your Revenue Exposure|Discover Revenue Exposure/i }).first()).toBeVisible();
     await expect(page.locator('.v4-root').first()).toBeVisible();
     await expect(page.locator('[data-dirt-command]').first()).toBeVisible();
   });
 
   test('DIRT command center route renders charts and queue', async ({ page }) => {
     await page.goto('/technology/dirt/');
-    await expect(page.getByRole('heading', { name: /Revenue intelligence, connected to action/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeVisible();
     await expect(page.getByText(/aging landscape/i).first()).toBeVisible();
     await expect(page.locator('[data-dirt-command]')).toBeVisible();
   });
