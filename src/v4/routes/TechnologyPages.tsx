@@ -10,6 +10,15 @@ import { CompetitiveTable } from '@/components/sections/CompetitiveTable';
 import { Callout } from '@/components/ui/Callout';
 import { mediaAssets } from '../../siteData.js';
 
+const intelligenceStages = [
+  ['Connect', 'Approved EHR/PM exports, payer and clearinghouse data, payment and enrollment records.'],
+  ['Reconcile', 'Normalize source fields, map records, document lineage, and validate financial totals.'],
+  ['Explain', 'Investigate revenue leakage, denial patterns, underpayments, payer delays, and aging A/R.'],
+  ['Prioritize', 'Rank financially significant findings by value, age, recoverability, and operational risk.'],
+  ['Act', 'Route validated findings to a named owner, workflow, and review cadence.'],
+  ['Measure', 'Track follow-through and compare results with a documented baseline.'],
+];
+
 const dirtSections = [
   { id: 'orient', label: 'Orient' },
   { id: 'signal', label: 'Signal' },
@@ -105,6 +114,23 @@ export function DirtPage() {
         <DirtSectionNav items={dirtSections} className="mt-8" />
       </Section>
 
+      <Section tone="soft">
+        <SectionHeader
+          eyebrow="DIRT intelligence architecture"
+          title="Connect → Reconcile → Explain → Prioritize → Act → Measure."
+          description="The intelligence advantage is the closed loop: source-data reliability, financial interpretation, and operating follow-through — not another isolated dashboard."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {intelligenceStages.map(([name, detail], index) => (
+            <div key={name} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
+              <p className="text-xs font-semibold tracking-[0.14em] text-data-blue">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-text">{name}</h3>
+              <p className="mt-2 text-sm text-muted">{detail}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
       <Section id="signal" tone="soft">
         <DirtSignalFlow />
       </Section>
@@ -148,10 +174,21 @@ export function DirtPage() {
         />
       </Section>
 
+      <Section tone="soft">
+        <SectionHeader
+          eyebrow="Advanced intelligence roadmap"
+          title="From explainable rules to validated predictive models."
+          description="Denial-risk scoring, cash-flow forecasting, anomaly detection, and human-reviewed automation are development directions, not claims of live production AI on this public site."
+        />
+        <p className="mt-4 max-w-3xl text-sm text-muted">
+          Models require adequate historical data, validation by payer and specialty, versioned logic, exception controls, and documented monitoring before use in client operations.
+        </p>
+      </Section>
+
       <Section id="action">
         <SectionHeader
           title="Turn your revenue data into an operating advantage."
-          description="Start with a scoped Revenue Intelligence Diagnostic to identify exposure, investigate root causes, and agree on the next operating intervention."
+          description="Start with a scoped Revenue Optimization Diagnostic to identify exposure, investigate root causes, and agree on the next operating intervention."
         />
         <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic" data-destination="/diagnostic/">
           Start Diagnostic
