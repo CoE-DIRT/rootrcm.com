@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { resourceArticles, servicePages, solutionPages } from './src/siteData.js';
+import { resourceArticles, routeMeta, servicePages, solutionPages } from './src/siteData.js';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 const routeInputs = {
@@ -55,6 +55,35 @@ function commercialPricingGuard() {
   };
 }
 
+function canonicalRouteMetadata() {
+  const escape = (value) => String(value).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  return {
+    name: 'root-canonical-route-metadata',
+    transformIndexHtml(html, context) {
+      const path = context.path.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+      const meta = routeMeta[path];
+      if (!meta) return html;
+      // Bots and social crawlers must receive the same copy as the hydrated app.
+      let output = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escape(meta.title)}</title>`);
+      for (const [attribute, key, value] of [
+        ['name', 'description', meta.description],
+        ['property', 'og:title', meta.title],
+        ['property', 'og:description', meta.description],
+        ['name', 'twitter:title', meta.title],
+        ['name', 'twitter:description', meta.description],
+      ]) {
+        output = output.replace(new RegExp(`<meta ${attribute}="${key}" content="[^"]*"\\s*\\/?>`),
+          () => `<meta ${attribute}="${key}" content="${escape(value)}" />`);
+      }
+      return output.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (match, start, content, end) => {
+        const data = JSON.parse(content);
+        if (data['@type'] !== 'WebPage') return match;
+        return start + JSON.stringify({ ...data, name: meta.title, description: meta.description }).replaceAll('<', '\\u003c') + end;
+      });
+    },
+  };
+}
+
 function productionIsolation() {
   return {
     name: 'root-production-isolation',
@@ -68,13 +97,19 @@ function productionIsolation() {
 
 export default defineConfig(({ mode }) => {
   const production = mode === 'production';
+  const env = loadEnv(mode, rootDir, 'VITE_');
+  if (production && env.VITE_CONTACT_MODE === 'owned') {
+    if (!env.VITE_TURNSTILE_SITE_KEY || !/^https:\/\//.test(env.VITE_FORM_ENDPOINT || '')) {
+      throw new Error('Owned contact mode requires a public Turnstile site key and HTTPS Function endpoint.');
+    }
+  }
   const excludedFromProduction = new Set(['caseStudyDirtPoc01', 'v4Lab']);
   const inputs = production
     ? Object.fromEntries(Object.entries(routeInputs).filter(([name]) => !excludedFromProduction.has(name)))
     : routeInputs;
 
   return {
-  plugins: [commercialPricingGuard(), production ? productionIsolation() : null, tailwindcss(), react()].filter(Boolean),
+  plugins: [commercialPricingGuard(), canonicalRouteMetadata(), production ? productionIsolation() : null, tailwindcss(), react()].filter(Boolean),
   resolve: {
     alias: {
       '@': resolve(rootDir, 'src/v4'),

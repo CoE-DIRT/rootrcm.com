@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('ROOT V4 smoke', () => {
   test('V4 home renders brand hero and diagnostic CTA', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByText('RCM + Operations + Technology', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('Healthcare Revenue Intelligence + Operating Infrastructure', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('link', { name: /Discover Your Revenue Exposure|Discover Revenue Exposure/i }).first()).toBeVisible();
     await expect(page.locator('.v4-root').first()).toBeVisible();
     await expect(page.locator('[data-dirt-command]').first()).toBeVisible();
@@ -28,7 +28,7 @@ test.describe('ROOT V4 smoke', () => {
     await page.goto('/__v4-lab/');
     await page.getByRole('button', { name: 'Services' }).click();
     await expect(
-      page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Revenue Cycle Management' }),
+      page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Revenue Cycle Management' }),
     ).toBeVisible();
   });
 

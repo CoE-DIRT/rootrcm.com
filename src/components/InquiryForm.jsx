@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
 import { getExperimentContext } from '../experiments.js';
-import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
+import { buildDeliveryPayload, getInquiryEndpoint, isDeliveryAcknowledged } from '../modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
+import InquiryVerification from './InquiryVerification.jsx';
 
 const initialState = {
   name: '',
@@ -40,6 +41,9 @@ export default function InquiryForm({ variant = 'contact' }) {
   const [experiment] = useState(() => getExperimentContext(typeof window === 'undefined' ? '' : window.location.pathname));
   const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
+  const [verificationToken, setVerificationToken] = useState('');
+  const ownedDelivery = import.meta.env.VITE_CONTACT_MODE === 'owned';
+  const verificationKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
   const configuredEndpoint = import.meta.env.VITE_FORM_ENDPOINT || '';
   const endpoint = getInquiryEndpoint(configuredEndpoint);
 
@@ -52,7 +56,7 @@ export default function InquiryForm({ variant = 'contact' }) {
   }), [form, attribution, experiment, variant, configuredEndpoint]);
   const mailto = useMemo(() => buildInquiryMailto(payload), [payload]);
   const summary = useMemo(() => buildInquirySummary(payload), [payload]);
-  const canSubmit = form.name && form.email && form.organization && form.noPhi && (variant === 'contact' ? form.focus : form.providers && form.challenge);
+  const canSubmit = form.name && form.email && form.organization && form.noPhi && (!ownedDelivery || (configuredEndpoint && verificationKey && verificationToken)) && (variant === 'contact' ? form.focus : form.providers && form.challenge);
 
   const update = (field) => (event) => {
     const value = field === 'noPhi' ? event.target.checked : event.target.value;
@@ -61,13 +65,21 @@ export default function InquiryForm({ variant = 'contact' }) {
 
   const submit = async (event) => {
     event.preventDefault();
-    if (!canSubmit || form._honey) return;
+    if (!canSubmit || form._honey || status === 'sending') return;
+    // React clears currentTarget after the synchronous event handler returns.
+    const formElement = event.currentTarget;
 
     setStatus('sending');
     try {
-      const deliveryPayload = buildDeliveryPayload(
+      const deliveryPayload = ownedDelivery ? {
+        name: form.name, email: form.email, organization: form.organization,
+        need: variant === 'diagnostic' ? 'Revenue Optimization Diagnostic' : 'Commercial inquiry',
+        message: variant === 'diagnostic' ? `Providers: ${form.providers}\nSystem: ${form.system}\nChallenge: ${form.challenge}` : form.focus,
+        no_phi_acknowledgement: form.noPhi,
+        'cf-turnstile-response': verificationToken,
+      } : buildDeliveryPayload(
         payload,
-        typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.href,
+        typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.origin + window.location.pathname,
       );
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -76,12 +88,16 @@ export default function InquiryForm({ variant = 'contact' }) {
           Accept: 'application/json',
         },
         body: JSON.stringify(deliveryPayload),
+        signal: AbortSignal.timeout(70000),
       });
       if (!response.ok) throw new Error('Submission failed');
-      event.currentTarget.dispatchEvent(new CustomEvent('root:form-success'));
+      const result = await response.json();
+      if (!isDeliveryAcknowledged(result, ownedDelivery)) throw new Error('Delivery not acknowledged');
+      formElement.dispatchEvent(new CustomEvent('root:form-success'));
       window.location.assign('/thank-you/?delivery=form');
     } catch {
-      event.currentTarget.dispatchEvent(new CustomEvent('root:form-failure'));
+      formElement.dispatchEvent(new CustomEvent('root:form-failure'));
+      setVerificationToken('');
       setStatus('fallback');
     }
   };
@@ -97,7 +113,7 @@ export default function InquiryForm({ variant = 'contact' }) {
       <div className="glassCard formFallback" role="status">
         <ShieldCheck size={28} />
         <h3>Your deidentified inquiry is ready.</h3>
-        <p>The form relay could not complete this submission. Nothing sensitive was stored by ROOT's public site. Continue by email or copy the summary.</p>
+        <p>We could not confirm delivery. Your inquiry is still available here. Continue by email or copy the summary.</p>
         <div className="formActions">
           <a className="button primary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto:info@rootrcm.com" data-engagement-type={variant}><Mail size={16} /> Email info@rootrcm.com</a>
           <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
@@ -169,6 +185,8 @@ export default function InquiryForm({ variant = 'contact' }) {
         <input required type="checkbox" checked={form.noPhi} onChange={update('noPhi')} />
         <span>I understand this is a commercial inquiry. I have not included and will not submit Protected Health Information (PHI) through this form.</span>
       </label>
+
+      {ownedDelivery && <InquiryVerification siteKey={verificationKey} onToken={setVerificationToken} />}
 
       <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination="info@rootrcm.com" data-engagement-type={variant}>
         {status === 'sending' ? 'Sending…' : variant === 'diagnostic' ? 'Request Diagnostic' : 'Start the Conversation'} <ArrowRight size={17} />

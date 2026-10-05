@@ -10,7 +10,15 @@ This repository is the deployable static website for `rootrcm.com`. It is built 
 
 ROOT connects fragmented healthcare financial data to operational decisions. DIRT — Data Intelligence for Revenue Transformation — is the intelligence capability within ROOT, not a separate company or a finished standalone SaaS product. ROOT pairs that intelligence with managed revenue operations, credentialing as revenue infrastructure, practice operations, and technology. The $2,500 fixed-scope Diagnostic remains a standalone optional entry engagement using deidentified reports.
 
-## Architecture
+## Production migration
+
+Appwrite Sites is the approved production destination under ROOT Technology v3. The domain
+currently remains on the temporary ChatGPT Site until the destination and contact delivery
+are verified. [Migration decision](docs/adr/ADR-008-appwrite-production-hosting.md) and
+[release / rollback runbook](docs/deployment/appwrite-cutover.md) supersede older hosting
+statements below. The static React/Vite application and `dist-staging` output are retained.
+
+## Architecture (legacy deployment; migration pending)
 
 ```mermaid
 flowchart LR
