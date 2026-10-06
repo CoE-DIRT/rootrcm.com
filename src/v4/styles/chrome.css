@@ -1,0 +1,141 @@
+/* Shared site chrome: fixed header, footer CTA band, floating dock.
+   Token-driven so it follows the active theme (see src/theme/theme.css). */
+
+.v4-root {
+  --v4-header-h: 4.25rem;
+}
+
+/* The header is fixed so it can sit transparently over the hero; main clears it. */
+.v4-root main#main-content {
+  padding-top: var(--v4-header-h);
+}
+
+/* Home hero bleeds under the header: same background, header overlays it. */
+.v4-root .homeHero {
+  margin-top: calc(var(--v4-header-h) * -1);
+  padding-top: var(--v4-header-h);
+}
+
+.v4-header {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+.v4-header[data-scrolled='true'] {
+  background: color-mix(in srgb, var(--color-bg-deep) 84%, transparent);
+  border-bottom-color: var(--color-border);
+  box-shadow: var(--shadow-panel-soft);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .v4-header[data-scrolled='true'] {
+    background: var(--color-bg-deep);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v4-header {
+    transition: none;
+  }
+}
+
+/* Footer "Talk to us" band. */
+.v4-footer-cta {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--color-intelligence) 14%, transparent), transparent 55%),
+    color-mix(in srgb, var(--color-panel) 78%, transparent);
+}
+
+/* Floating dock: compact, theme-aware. Legacy dock rules live in src/visual-recovery.css and hard-code dark colors. */
+.floatingFollow > button.floatingFollowButton {
+  width: 48px;
+  min-width: 48px;
+  padding: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-panel);
+  color: var(--color-text);
+  box-shadow: var(--shadow-panel-soft);
+}
+
+.floatingFollow > button.floatingFollowButton:hover {
+  border-color: var(--color-accent);
+}
+
+.floatingContact > button {
+  border-radius: 9999px;
+  box-shadow: var(--shadow-panel-soft);
+}
+
+.floatingFollow > button:focus-visible,
+.floatingContact > button:focus-visible {
+  outline: 2px solid var(--color-data-blue);
+  outline-offset: 2px;
+}
+
+.assistantPanel,
+.followPanel {
+  border-color: var(--color-border-strong);
+  background: var(--color-panel);
+  color: var(--color-text);
+  box-shadow: var(--shadow-root);
+}
+
+.assistantPanel strong,
+.followPanel strong,
+.floatingPanelClose {
+  color: var(--color-text);
+}
+
+.assistantPanel p,
+.followPanel p {
+  color: var(--color-muted);
+}
+
+.assistantChannelList a {
+  color: var(--color-accent);
+  border-color: var(--color-border);
+}
+
+/* Contrast patches for legacy form captions that sat just under WCAG AA on the dark surface. */
+.formNote,
+.optional {
+  color: #93a79d;
+}
+
+/* Footer contact block: legacy `address` rules (src/styles.css) set a grid with accent, heavy links. */
+.v4-footer address {
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.v4-footer address p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.v4-footer address strong {
+  color: var(--color-text);
+}
+
+.v4-footer address a {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* Legacy src/styles.css makes `.diagnosticHero` a multi-column grid with its own gutters. The v4 Diagnostic page
+   keeps the class only for the experiment DOM hooks, so neutralise the grid (same pattern as `.homeHero`). */
+.v4-root .diagnosticHero {
+  display: block;
+  grid-template-columns: none;
+  min-height: auto;
+  background: none;
+  padding-inline: 0;
+  padding-top: clamp(2.5rem, 4vw, 3.5rem);
+  padding-bottom: clamp(3rem, 5vw, 5rem);
+}

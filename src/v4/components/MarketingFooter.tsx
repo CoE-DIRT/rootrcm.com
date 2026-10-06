@@ -1,131 +1,178 @@
-import { servicePages, solutionPages, companyInfo, socialProfiles, outreachChannels } from '../../siteData.js';
-import { FollowRoot } from './FollowRoot';
+import { ArrowRight, Mail, MessageCircle, Phone } from 'lucide-react';
+import { LinkButton } from '@/components/ui/Button';
+import { SocialLinks } from '@/components/SocialLinks';
 import { CookieSettings } from '../consent/CookieSettings';
+import { companyInfo, footerGroups, legalLinks, outreachChannels } from '../../siteData.js';
 
 interface MarketingFooterProps {
   minimal?: boolean;
 }
 
-const resourceLinks = [
-  { label: 'Resources', href: '/resources/' },
-  { label: 'Case Studies', href: '/case-studies/' },
-  { label: 'Diagnostic', href: '/diagnostic/' },
-];
+interface Channel {
+  label: string;
+  href?: string;
+  status: string;
+  cta: string;
+  engagementType: string;
+}
 
-const legalLinks = [
-  { label: 'Privacy', href: '/legal/privacy/' },
-  { label: 'Terms', href: '/legal/terms/' },
-  { label: 'Cookies', href: '/legal/cookies/' },
-];
+const channelIcons: Record<string, typeof Phone> = { 'instant-chat': MessageCircle, phone: Phone, email: Mail };
 
 export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
+  const year = new Date().getFullYear();
+
   if (minimal) {
     return (
-      <footer className="v4-root border-t border-border bg-bg-soft py-8 text-center text-xs text-muted">
-        © {new Date().getFullYear()} ROOT — Revenue Operations &amp; Outcomes Technology.
+      <footer className="border-t border-border bg-bg-soft py-8 text-center text-xs text-muted">
+        <p>
+          © {year} {companyInfo.legalName}. No PHI is collected through this public website.
+        </p>
+        <ul className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
+          {legalLinks.map((link: { label: string; href: string }) => (
+            <li key={link.href}>
+              <a href={link.href} className="hover:text-text">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </footer>
     );
   }
 
-  const liveOutreach = (
-    outreachChannels as { label: string; href?: string; status: string; cta: string; engagementType: string }[]
-  ).filter((channel) => channel.status === 'Live' && channel.href);
+  const liveChannels = (outreachChannels as Channel[]).filter((channel) => channel.status === 'Live' && channel.href);
 
   return (
-    <footer className="v4-root border-t border-border bg-gradient-to-b from-bg-deep to-bg py-16">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
-        <div className="lg:col-span-2">
-          <p className="text-lg font-semibold text-text">ROOT</p>
-          <p className="mt-2 max-w-xs text-sm text-muted">
-            Revenue Operations &amp; Outcomes Technology — healthcare revenue intelligence, managed RCM, credentialing, and the operating infrastructure behind financial performance.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            {liveOutreach.map((channel) => (
-              <a
-                key={channel.label}
-                href={channel.href}
-                data-cta={channel.cta}
-                data-location="footer-outreach"
-                data-engagement-type={channel.engagementType}
-                className="rounded-[var(--radius-root)] border border-border px-3 py-1.5 text-xs font-medium text-muted hover:border-accent hover:text-text"
-                target={channel.href?.startsWith('http') ? '_blank' : undefined}
-                rel={channel.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+    <footer className="v4-footer border-t border-border bg-gradient-to-b from-bg-deep to-bg">
+      <div className="mx-auto w-full max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
+        <section aria-labelledby="footer-talk-heading" className="v4-footer-cta rounded-[var(--radius-hero)] border border-border p-6 md:p-10">
+          <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+            <div>
+              <h2 id="footer-talk-heading" className="text-2xl font-semibold text-text sm:text-3xl">
+                Talk to ROOT about your revenue cycle.
+              </h2>
+              <p className="mt-3 max-w-xl text-sm text-muted sm:text-base">
+                Bring a deidentified revenue question. We will recommend the right next step, starting with the fixed-fee Revenue Optimization Diagnostic when it fits.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+              <LinkButton
+                href="/contact/"
+                variant="primary"
+                size="lg"
+                data-cta="talk-to-root"
+                data-location="footer"
+                data-destination="/contact/"
+                data-engagement-type="consultation"
               >
-                {channel.label}
-              </a>
-            ))}
+                Talk to us <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </LinkButton>
+              <LinkButton
+                href="/book/"
+                variant="outline"
+                size="lg"
+                data-cta="book-conversation"
+                data-location="footer"
+                data-destination="/book/"
+                data-engagement-type="consultation"
+              >
+                Book a conversation
+              </LinkButton>
+            </div>
           </div>
-          <FollowRoot className="mt-5" />
-          <p className="mt-4 text-xs text-muted">{companyInfo.legalName}</p>
-          <p className="text-xs text-muted">{companyInfo.phone}</p>
-          <p className="text-xs text-muted">{companyInfo.email}</p>
+          <ul className="mt-6 flex flex-wrap gap-3 border-t border-border pt-5" aria-label="Direct contact channels">
+            {liveChannels.map((channel) => {
+              const Icon = channelIcons[channel.engagementType] ?? MessageCircle;
+              const external = channel.href?.startsWith('http');
+              return (
+                <li key={channel.label}>
+                  <a
+                    href={channel.href}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noopener noreferrer' : undefined}
+                    data-cta={channel.cta}
+                    data-location="footer-outreach"
+                    data-destination={channel.label}
+                    data-engagement-type={channel.engagementType}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text transition-colors hover:border-accent hover:bg-panel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue motion-reduce:transition-none"
+                  >
+                    <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
+                    {channel.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <div className="grid gap-10 py-14 lg:grid-cols-[1.3fr_repeat(4,1fr)]">
+          <div>
+            <a href="/" aria-label="ROOT home" className="inline-flex items-center gap-2 text-lg font-semibold text-text">
+              <img src="/brand/logos/root/root-mark-76.webp" alt="" width={28} height={28} className="h-7 w-7" loading="lazy" />
+              ROOT
+            </a>
+            <p className="mt-3 max-w-xs text-sm text-muted">
+              Revenue Operations &amp; Outcomes Technology — healthcare revenue intelligence, managed RCM, credentialing, and the operating infrastructure behind financial performance.
+            </p>
+            <address className="mt-5 space-y-1 text-sm not-italic text-muted">
+              <p className="font-medium text-text">{companyInfo.legalName}</p>
+              {companyInfo.addressLines.map((line: string) => (
+                <p key={line}>{line}</p>
+              ))}
+              <p>
+                <a
+                  href={companyInfo.phoneHref}
+                  data-cta="phone-call"
+                  data-location="footer-contact"
+                  data-engagement-type="phone"
+                  className="hover:text-text hover:underline"
+                >
+                  {companyInfo.phone}
+                </a>
+              </p>
+              <p>
+                <a href={companyInfo.emailHref} data-cta="email-root" data-location="footer-contact" data-engagement-type="email" className="hover:text-text hover:underline">
+                  {companyInfo.email}
+                </a>
+              </p>
+            </address>
+            <SocialLinks className="mt-5" location="footer-social" />
+          </div>
+
+          {footerGroups.map((group: { title: string; links: { label: string; href: string }[] }) => (
+            <nav key={group.title} aria-label={group.title}>
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">{group.title}</h3>
+              <ul className="flex flex-col gap-2">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="text-sm text-muted transition-colors hover:text-text hover:underline motion-reduce:transition-none">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
         </div>
 
-        <nav aria-label="Services">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Services</p>
-          <ul className="flex flex-col gap-2">
-            {servicePages.slice(0, 6).map((service: { slug: string; title: string }) => (
-              <li key={service.slug}>
-                <a href={`/services/${service.slug}/`} className="text-sm text-muted hover:text-text">
-                  {service.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <nav aria-label="Solutions">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Solutions</p>
-          <ul className="flex flex-col gap-2">
-            {solutionPages.slice(0, 6).map((page: { slug: string; title: string }) => (
-              <li key={page.slug}>
-                <a href={`/solutions/${page.slug}/`} className="text-sm text-muted hover:text-text">
-                  {page.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <nav aria-label="Company &amp; legal">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Company</p>
-          <ul className="flex flex-col gap-2">
-            {resourceLinks.map((link) => (
+        <div className="flex flex-col gap-4 border-t border-border py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
+          <p>
+            © {year} {companyInfo.legalName}. Public website: commercial inquiries only — do not send PHI.
+          </p>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2" aria-label="Legal">
+            {legalLinks.map((link: { label: string; href: string }) => (
               <li key={link.href}>
-                <a href={link.href} className="text-sm text-muted hover:text-text">
+                <a href={link.href} className="hover:text-text hover:underline">
                   {link.label}
                 </a>
               </li>
             ))}
             <li>
-              <a href="/company/about/" className="text-sm text-muted hover:text-text">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="/contact/" className="text-sm text-muted hover:text-text">
-                Contact
-              </a>
+              <CookieSettings className="hover:text-text hover:underline" />
             </li>
           </ul>
-        </nav>
-      </div>
-
-      <div className="mx-auto mt-12 flex w-full max-w-6xl flex-col gap-4 border-t border-border px-4 pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <p>
-          © {new Date().getFullYear()} ROOT — Revenue Operations &amp; Outcomes Technology.{' '}
-          {companyInfo?.legalName ?? ''}
-        </p>
-        <div className="flex flex-wrap gap-4">
-          {legalLinks.map((link) => (
-            <a key={link.href} href={link.href} className="hover:text-text">
-              {link.label}
-            </a>
-          ))}
-          <CookieSettings className="hover:text-text" />
         </div>
       </div>
-      <span className="sr-only">{socialProfiles.length} approved social channels</span>
     </footer>
   );
 }

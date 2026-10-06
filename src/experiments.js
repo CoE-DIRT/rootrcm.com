@@ -134,16 +134,6 @@ export function applyPageExperiment(pathname) {
   return {};
 }
 
-export function applyOperationalCopy(pathname) {
-  if (typeof document === 'undefined' || normalizedPath(pathname) !== '/legal/privacy') return;
-  const headings = Array.from(document.querySelectorAll('h2'));
-  const inquiryHeading = headings.find((heading) => heading.textContent.trim() === 'Public inquiry data');
-  const paragraph = inquiryHeading?.nextElementSibling;
-  if (paragraph) {
-    paragraph.textContent = 'Information voluntarily provided for a commercial inquiry may include business contact information, practice name, provider count, operational concerns, and campaign attribution. Public form submissions are relayed to info@rootrcm.com through the current commercial form processor. Do not submit PHI or other sensitive patient information through this channel.';
-  }
-}
-
 export function resetExperimentAssignments() {
   if (typeof window !== 'undefined') window.localStorage.removeItem(STORAGE_KEY);
 }

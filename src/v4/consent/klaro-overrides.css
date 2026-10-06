@@ -1,15 +1,15 @@
 /* Thin ROOT/DIRT brand pass over Klaro's default theme. Klaro ships its own CSS
-   (imported at runtime in CookieConsent.tsx); this file only re-tints it to the
-   canonical V4 token surface so consent UI does not reintroduce the legacy green panel. */
+   (imported at runtime in CookieConsent.tsx); this file re-tints it with the canonical
+   V4 tokens so the consent UI follows the active (dark/light) theme. */
 .klaro .cookie-notice,
 .klaro .cm-modal {
-  --klaro-bg: #0f172a;
+  --klaro-bg: var(--color-panel);
   background: var(--klaro-bg) !important;
-  border: 1px solid rgb(255 255 255 / 12%) !important;
-  color: #f3f4f6 !important;
+  border: 1px solid var(--color-border-strong) !important;
+  color: var(--color-text) !important;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
   border-radius: 0.85rem !important;
-  box-shadow: 0 18px 48px rgb(0 0 0 / 28%) !important;
+  box-shadow: var(--shadow-root) !important;
 }
 
 .klaro .cookie-notice {
@@ -19,10 +19,17 @@
 
 .klaro .cookie-notice .cn-buttons .cm-btn.cm-btn-success,
 .klaro .cm-modal .cm-btn.cm-btn-success {
-  background: #70e0ad !important;
-  color: #062016 !important;
-  border-color: #70e0ad !important;
+  background: var(--color-accent) !important;
+  color: var(--color-accent-ink) !important;
+  border-color: var(--color-accent) !important;
   border-radius: 9999px !important;
+}
+
+.klaro .cookie-notice .cn-buttons .cm-btn:not(.cm-btn-success),
+.klaro .cm-modal .cm-btn:not(.cm-btn-success) {
+  background: transparent !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border-strong) !important;
 }
 
 .klaro .cookie-notice .cn-buttons .cm-btn,
@@ -33,5 +40,23 @@
 
 .klaro .cookie-notice a,
 .klaro .cm-modal a {
-  color: #0ea5e9 !important;
+  color: var(--color-data-blue) !important;
+}
+
+.klaro .cookie-notice .cm-btn:focus-visible,
+.klaro .cm-modal .cm-btn:focus-visible,
+.klaro .cookie-notice a:focus-visible {
+  outline: 2px solid var(--color-data-blue);
+  outline-offset: 2px;
+}
+
+/* Klaro sets its own text colors on inner elements; make them follow the theme. */
+.klaro .cookie-notice :where(p, li, h1, h2, h3, h4, span, label, strong, div):not(.cm-btn),
+.klaro .cm-modal :where(p, li, h1, h2, h3, h4, span, label, strong, div):not(.cm-btn) {
+  color: var(--color-text) !important;
+}
+
+.klaro .cookie-notice :where(a),
+.klaro .cm-modal :where(a) {
+  color: var(--color-data-blue) !important;
 }

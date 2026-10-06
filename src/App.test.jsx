@@ -52,12 +52,13 @@ describe('ROOT commercial site', () => {
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
-    expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
-    expect(screen.getAllByText(/^Platform$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Solutions$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Services$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
+    const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
+    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact.
+    const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
+    expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
+    expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
     expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
     expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
@@ -211,7 +212,7 @@ describe('ROOT commercial site', () => {
     fireEvent.click(followButton);
     expect(screen.queryByRole('dialog', { name: /Talk to ROOT/i })).toBeNull();
     expect(screen.getByRole('dialog', { name: /Follow ROOT/i })).toBeTruthy();
-    expect(screen.getAllByRole('link', { name: /ROOT on LinkedIn/i })[0].getAttribute('href')).toBe('https://www.linkedin.com/company/rootrcm/posts/?viewAsMember=true');
+    expect(screen.getAllByRole('link', { name: /ROOT on LinkedIn/i })[0].getAttribute('href')).toBe('https://www.linkedin.com/company/rootrcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Facebook/i })[0].getAttribute('href')).toBe('https://www.facebook.com/root.rcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Instagram/i })[0].getAttribute('href')).toBe('https://www.instagram.com/root.rcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Pinterest/i })[0].getAttribute('href')).toBe('https://pinterest.com/root.rcm/');
@@ -285,7 +286,8 @@ describe('ROOT commercial site', () => {
     renderRoute('/does-not-exist/');
 
     expect(screen.getByText('404')).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Revenue Diagnostic/i }).getAttribute('data-cta')).toBe('book-diagnostic');
+    const recovery = screen.getAllByRole('link', { name: /Revenue Diagnostic/i }).find((link) => link.dataset.location === '404');
+    expect(recovery.getAttribute('data-cta')).toBe('book-diagnostic');
   });
 
   it('keeps content schema and six approved social profiles', () => {

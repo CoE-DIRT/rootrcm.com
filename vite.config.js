@@ -4,42 +4,12 @@ import tailwindcss from '@tailwindcss/vite';
 import { rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { resourceArticles, routeMeta, servicePages, solutionPages } from './src/siteData.js';
+import { buildInputs } from './src/seo/routeRegistry.js';
+import { renderPageHtml } from './src/seo/head.js';
+import { buildRobots, buildSitemap } from './src/seo/sitemap.js';
+import { assertSafePublicEnv } from './src/build/envGuard.js';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
-const routeInputs = {
-  home: 'index.html',
-  platform: 'platform/index.html',
-  solutions: 'solutions/index.html',
-  services: 'services/index.html',
-  technology: 'technology/index.html',
-  dirt: 'technology/dirt/index.html',
-  caseStudies: 'case-studies/index.html',
-  caseStudyDirtPoc01: 'case-studies/dirt-poc-01/index.html',
-  pricing: 'pricing/index.html',
-  resources: 'resources/index.html',
-  diagnostic: 'diagnostic/index.html',
-  about: 'company/about/index.html',
-  contact: 'contact/index.html',
-  privacy: 'legal/privacy/index.html',
-  terms: 'legal/terms/index.html',
-  cookies: 'legal/cookies/index.html',
-  thankYou: 'thank-you/index.html',
-  notFound: '404.html',
-  v4Lab: '__v4-lab/index.html',
-};
-
-solutionPages.forEach((page) => {
-  routeInputs[`solution-${page.slug}`] = `solutions/${page.slug}/index.html`;
-});
-
-servicePages.forEach((service) => {
-  routeInputs[`service-${service.slug}`] = `services/${service.slug}/index.html`;
-});
-
-resourceArticles.forEach((article) => {
-  routeInputs[`resource-${article.slug}`] = `resources/${article.slug}/index.html`;
-});
 
 function commercialPricingGuard() {
   return {
@@ -55,34 +25,35 @@ function commercialPricingGuard() {
   };
 }
 
-function canonicalRouteMetadata() {
-  const escape = (value) => String(value).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+/**
+ * Writes unique, canonical metadata, social tags, JSON-LD, the no-flash theme bootstrap and a no-JS
+ * fallback into every route's HTML so crawlers see what the hydrated app renders (src/seo/head.js).
+ */
+function rootHtmlHead({ siteEnv, gscVerification }) {
   return {
-    name: 'root-canonical-route-metadata',
+    name: 'root-html-head',
     transformIndexHtml(html, context) {
-      const path = context.path.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
-      const meta = routeMeta[path] || (path === '/404.html' ? {
-        title: 'Page Not Found | ROOT',
-        description: 'The requested ROOT page was not found. Return to the ROOT healthcare revenue intelligence homepage.',
-      } : null);
-      if (!meta) return html;
-      // Bots and social crawlers must receive the same copy as the hydrated app.
-      let output = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escape(meta.title)}</title>`);
-      for (const [attribute, key, value] of [
-        ['name', 'description', meta.description],
-        ['property', 'og:title', meta.title],
-        ['property', 'og:description', meta.description],
-        ['name', 'twitter:title', meta.title],
-        ['name', 'twitter:description', meta.description],
-      ]) {
-        output = output.replace(new RegExp(`<meta ${attribute}="${key}" content="[^"]*"\\s*\\/?>`),
-          () => `<meta ${attribute}="${key}" content="${escape(value)}" />`);
-      }
-      return output.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (match, start, content, end) => {
-        const data = JSON.parse(content);
-        if (data['@type'] !== 'WebPage') return match;
-        return start + JSON.stringify({ ...data, name: meta.title, description: meta.description }).replaceAll('<', '\\u003c') + end;
+      return renderPageHtml(html, context.path, { siteEnv, gscVerification });
+    },
+  };
+}
+
+/** sitemap.xml and robots.txt are generated from the route registry so they cannot drift from the site. */
+function rootSeoArtifacts({ siteEnv }) {
+  const files = { '/sitemap.xml': ['application/xml', () => buildSitemap()], '/robots.txt': ['text/plain', () => buildRobots({ siteEnv })] };
+  return {
+    name: 'root-seo-artifacts',
+    configureServer(server) {
+      server.middlewares.use((request, response, next) => {
+        const entry = files[(request.url || '').split('?')[0]];
+        if (!entry) return next();
+        response.setHeader('content-type', `${entry[0]}; charset=utf-8`);
+        response.end(entry[1]());
       });
+    },
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: buildSitemap() });
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: buildRobots({ siteEnv }) });
     },
   };
 }
@@ -101,18 +72,24 @@ function productionIsolation() {
 export default defineConfig(({ mode }) => {
   const production = mode === 'production';
   const env = loadEnv(mode, rootDir, 'VITE_');
+  assertSafePublicEnv(env);
   if (production && env.VITE_CONTACT_MODE === 'owned') {
     if (!env.VITE_TURNSTILE_SITE_KEY || !/^https:\/\//.test(env.VITE_FORM_ENDPOINT || '')) {
       throw new Error('Owned contact mode requires a public Turnstile site key and HTTPS Function endpoint.');
     }
   }
-  const excludedFromProduction = new Set(['caseStudyDirtPoc01', 'v4Lab']);
-  const inputs = production
-    ? Object.fromEntries(Object.entries(routeInputs).filter(([name]) => !excludedFromProduction.has(name)))
-    : routeInputs;
+  const siteEnv = env.VITE_SITE_ENV || 'production';
+  const inputs = buildInputs({ production });
 
   return {
-  plugins: [commercialPricingGuard(), canonicalRouteMetadata(), production ? productionIsolation() : null, tailwindcss(), react()].filter(Boolean),
+  plugins: [
+    commercialPricingGuard(),
+    rootHtmlHead({ siteEnv, gscVerification: env.VITE_GSC_VERIFICATION || '' }),
+    rootSeoArtifacts({ siteEnv }),
+    production ? productionIsolation() : null,
+    tailwindcss(),
+    react(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       '@': resolve(rootDir, 'src/v4'),

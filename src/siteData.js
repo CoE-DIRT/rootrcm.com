@@ -71,7 +71,7 @@ export const outreachChannels = [
 
 /** Founder-supplied public social targets — used by footer and Follow ROOT dock. */
 export const socialProfiles = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/rootrcm/posts/?viewAsMember=true' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/rootrcm/' },
   { label: 'Facebook', href: 'https://www.facebook.com/root.rcm/' },
   { label: 'Instagram', href: 'https://www.instagram.com/root.rcm/' },
   { label: 'Pinterest', href: 'https://pinterest.com/root.rcm/' },
@@ -432,148 +432,207 @@ export const diagnosticFaq = [
   ['How is sensitive data handled?', 'The public website does not accept PHI. Any later PHI-enabled workflow is activated only after the appropriate agreement, access controls, approved storage, and secure transfer process are in place.'],
 ];
 
-export const siteNav = [
-  {
-    label: 'Platform',
-    href: '/platform/',
-    description: 'How ROOT integrates revenue operations, credentialing, practice operations, technology, automation, analytics, and DIRT.',
-    children: platformNodes.slice(0, 5).map((node) => ({ label: node.label, href: '/platform/', description: node.copy })),
-  },
-  {
-    label: 'Solutions',
-    href: '/solutions/',
-    description: 'Start from the business problem: leakage, aging A/R, denials, credentialing, efficiency, visibility, and growth.',
-    children: solutionPages.map((page) => ({ label: page.title, href: `/solutions/${page.slug}/`, description: page.summary })),
-  },
-  {
-    label: 'Services',
-    href: '/services/',
-    description: 'Managed services and projects across RCM, operations, healthcare IT, automation, analytics, and credentialing.',
-    children: servicePages.map((service) => ({ label: service.title, href: `/services/${service.slug}/`, description: service.summary })),
-  },
-  {
-    label: 'Technology',
-    href: '/technology/',
-    description: 'DIRT revenue intelligence, data architecture, interoperability planning, analytics, and monitored workflow automation.',
-    children: [
-      { label: 'Technology Hub', href: '/technology/', description: 'Healthcare data architecture, revenue intelligence, EHR/PM alignment, and monitored automation.' },
-      { label: 'DIRT Intelligence', href: '/technology/dirt/', description: 'Data Intelligence for Revenue Transformation: connect fragmented data to revenue decisions.' },
-      { label: 'Proof of Capability', href: '/case-studies/', description: 'Anonymized proof scenarios and revenue-intelligence evidence.' },
-      { label: 'Workflow Automation', href: '/services/workflow-automation/', description: 'Monitored automation for stable administrative workflows.' },
-      { label: 'Reporting & Analytics', href: '/services/reporting-analytics/', description: 'Decision-grade operating visibility.' },
-    ],
-  },
-  { label: 'Pricing', href: '/pricing/', description: 'Diagnostic, managed RCM, DIRT, projects, credentialing, and full MSO engagement models.' },
-  {
-    label: 'Resources',
-    href: '/resources/',
-    description: 'Guides for revenue leakage, A/R, denials, credentialing, KPIs, and automation readiness.',
-    children: resourceArticles.map((article) => ({ label: article.title, href: `/resources/${article.slug}/`, description: article.summary })),
-  },
-  {
-    label: 'Company',
-    href: '/company/about/',
-    description: 'About ROOT, contact, and commercial boundaries.',
-    children: [
-      { label: 'About ROOT', href: '/company/about/', description: 'The operating philosophy behind ROOT.' },
-      { label: 'Contact', href: '/contact/', description: 'Talk with ROOT about a deidentified commercial inquiry.' },
-      { label: 'Privacy', href: '/legal/privacy/', description: 'Public site data and no-PHI boundary.' },
-      { label: 'Terms', href: '/legal/terms/', description: 'Commercial website terms and limitations.' },
-    ],
-  },
+/**
+ * Primary navigation, in the required order:
+ * Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact, then the primary CTA.
+ * `menu` marks items that open a mega menu in the desktop header.
+ */
+export const primaryNav = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Services', href: '/services/', menu: 'services' },
+  { label: 'Solutions', href: '/solutions/', menu: 'solutions' },
+  { label: 'Case Studies', href: '/case-studies/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: 'Contact', href: '/contact/' },
 ];
+
+export const primaryCta = {
+  label: 'Book a Diagnostic',
+  href: '/diagnostic/',
+  cta: 'book-diagnostic',
+  engagementType: 'diagnostic',
+};
+
+/** Pages that are not in the primary order but must stay one click from navigation (no orphans). */
+export const productLinks = [
+  { label: 'ROOT Platform', href: '/platform/', description: 'How revenue operations, credentialing, technology and DIRT connect.' },
+  { label: 'Technology', href: '/technology/', description: 'Healthcare data architecture and monitored automation.' },
+  { label: 'DIRT Intelligence', href: '/technology/dirt/', description: 'Data Intelligence for Revenue Transformation.' },
+  { label: 'Revenue Diagnostic', href: '/diagnostic/', description: 'Fixed-fee $2,500 diagnostic for independent practices.' },
+];
+
+export const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy-policy/' },
+  { label: 'Terms', href: '/terms/' },
+  { label: 'Refund Policy', href: '/refund-policy/' },
+  { label: 'Cookies', href: '/legal/cookies/' },
+];
+
+/** Legacy structure kept for any consumer that still reads it; derived from the primary order. */
+export const siteNav = primaryNav.map((item) => {
+  if (item.menu === 'services') {
+    return { ...item, description: 'Managed services and projects across RCM, operations, healthcare IT, automation, analytics, and credentialing.', children: servicePages.map((service) => ({ label: service.title, href: `/services/${service.slug}/`, description: service.summary })) };
+  }
+  if (item.menu === 'solutions') {
+    return { ...item, description: 'Start from the business problem: leakage, aging A/R, denials, credentialing, efficiency, visibility, and growth.', children: solutionPages.map((page) => ({ label: page.title, href: `/solutions/${page.slug}/`, description: page.summary })) };
+  }
+  return item;
+});
 
 export const footerGroups = [
   {
-    title: 'Platform',
+    title: 'Company',
+    links: [
+      { label: 'About ROOT', href: '/about/' },
+      { label: 'Case Studies', href: '/case-studies/' },
+      { label: 'Pricing', href: '/pricing/' },
+      { label: 'FAQ', href: '/faq/' },
+      { label: 'Contact', href: '/contact/' },
+      { label: 'Book a conversation', href: '/book/' },
+    ],
+  },
+  {
+    title: 'Services',
+    links: [{ label: 'All services', href: '/services/' }, ...servicePages.slice(0, 6).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))],
+  },
+  {
+    title: 'Solutions',
+    links: [{ label: 'All solutions', href: '/solutions/' }, ...solutionPages.slice(0, 6).map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` }))],
+  },
+  {
+    title: 'Platform & resources',
     links: [
       { label: 'ROOT Platform', href: '/platform/' },
       { label: 'Technology', href: '/technology/' },
       { label: 'DIRT Intelligence', href: '/technology/dirt/' },
-      { label: 'Proof of Capability', href: '/case-studies/' },
-      { label: 'Pricing', href: '/pricing/' },
-    ],
-  },
-  { title: 'Solutions', links: solutionPages.map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` })) },
-  { title: 'Services', links: [{ label: 'Services Hub', href: '/services/' }, ...servicePages.slice(0, 8).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))] },
-  { title: 'Resources', links: [{ label: 'Resource Library', href: '/resources/' }, ...resourceArticles.slice(0, 4).map((article) => ({ label: article.title, href: `/resources/${article.slug}/` }))] },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About ROOT', href: '/company/about/' },
-      { label: 'Contact', href: '/contact/' },
-      { label: 'Diagnostic', href: '/diagnostic/' },
-      { label: 'Privacy', href: '/legal/privacy/' },
-      { label: 'Terms', href: '/legal/terms/' },
+      { label: 'Revenue Diagnostic', href: '/diagnostic/' },
+      { label: 'Resource library', href: '/resources/' },
     ],
   },
 ];
 
+/**
+ * Per-route metadata. Keys are normalised paths (no trailing slash). Every title and description
+ * must be unique (enforced by src/seo/seo.test.js). `h1` is the on-page H1 and feeds the no-JS fallback.
+ * Legacy alias paths (/company/about, /legal/privacy, /legal/terms) resolve to the canonical entries below.
+ */
 export const routeMeta = {
   '/': {
     title: 'ROOT | Healthcare Revenue Intelligence & RCM Technology',
-    description: 'ROOT connects healthcare revenue cycle management, credentialing, practice operations, data architecture and DIRT revenue intelligence to uncover financial exposure and turn insight into accountable action.',
+    description: 'ROOT connects revenue cycle management, credentialing, practice operations and DIRT revenue intelligence to turn financial exposure into accountable action.',
+    h1: 'The intelligence behind healthcare revenue.',
+    image: brandAssets.og,
+  },
+  '/about': {
+    title: 'About ROOT | Revenue Operations & Outcomes Technology',
+    description: 'ROOT joins managed revenue cycle management, credentialing, practice operations and DIRT data intelligence in one accountable operating model for healthcare.',
+    h1: 'Built for the business behind healthcare.',
     image: brandAssets.og,
   },
   '/platform': {
     title: 'ROOT Platform | Healthcare Revenue & Operating Infrastructure',
     description: 'See how ROOT integrates revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
+    h1: 'The operating infrastructure behind healthcare revenue.',
     image: brandAssets.og,
   },
   '/solutions': {
     title: 'Revenue Cycle Intelligence & Healthcare Solutions | ROOT',
     description: 'Solutions for revenue leakage, aging A/R, denials, credentialing bottlenecks, operational efficiency, reporting visibility, and scaling practice operations.',
+    h1: 'Healthcare revenue solutions, organized by the problem you need to solve.',
     image: brandAssets.og,
   },
   '/services': {
     title: 'Healthcare RCM, Credentialing & Operations Services | ROOT',
-    description: 'ROOT services include medical billing, A/R recovery, denial management, credentialing, practice operations, healthcare IT, automation, analytics, and consulting.',
+    description: 'Medical billing, A/R recovery, denial management, credentialing, practice operations, healthcare IT, automation, analytics and consulting from ROOT.',
+    h1: 'Healthcare revenue & operating services',
     image: brandAssets.og,
   },
   '/technology': {
     title: 'Healthcare Data Architecture & Revenue Intelligence | ROOT',
     description: 'Explore ROOT healthcare data architecture, EHR/PM integration planning, workflow automation, and DIRT revenue intelligence for connected financial decisions.',
+    h1: 'Healthcare technology built around revenue decisions.',
     image: brandAssets.og,
   },
   '/technology/dirt': {
     title: 'DIRT | Healthcare Revenue Intelligence & Analytics | ROOT',
-    description: 'DIRT is ROOT\'s Data Intelligence for Revenue Transformation capability: connect fragmented RCM data, analyze denials and payer performance, and prioritize revenue recovery.',
+    description: 'DIRT is ROOT\'s Data Intelligence for Revenue Transformation: connect fragmented RCM data, analyze denials and payer performance, and prioritize recovery.',
+    h1: 'Your data already contains the signals. DIRT connects them.',
     image: brandAssets.og,
   },
   '/case-studies': {
-    title: 'Proof of Capability | ROOT',
-    description: 'Browse ROOT anonymized proof-of-capability scenarios that show how revenue intelligence becomes prioritized operating action.',
+    title: 'Case Studies & Proof of Capability | ROOT',
+    description: 'Browse ROOT anonymized proof-of-capability scenarios that show how revenue intelligence becomes prioritized operating action. No client results are claimed.',
+    h1: 'Proof of capability',
     image: brandAssets.og,
   },
   '/pricing': {
     title: 'ROOT Pricing | Diagnostic, Managed RCM, DIRT & MSO Models',
     description: 'Explore ROOT engagement models: Diagnostic, managed RCM, DIRT/Data Intelligence, projects, credentialing, and full MSO partnership.',
+    h1: 'Intelligence and execution, scoped to your business.',
     image: brandAssets.og,
   },
   '/resources': {
     title: 'Healthcare Revenue Cycle Resources | ROOT',
     description: 'Guides for revenue leakage, aging A/R, denial management, credentialing operations, practice KPIs, and healthcare automation readiness.',
+    h1: 'Healthcare revenue cycle resources',
     image: brandAssets.og,
   },
   '/diagnostic': {
     title: 'Revenue Optimization Diagnostic | ROOT',
     description: 'A fixed-fee $2,500 Diagnostic for independent practices: A/R analysis, denial root causes, opportunity register, workflow review, and 90-day roadmap.',
-    image: brandAssets.og,
-  },
-  '/company/about': {
-    title: 'About ROOT | Revenue Intelligence & Healthcare Operations',
-    description: 'ROOT combines healthcare revenue intelligence with managed RCM, credentialing as revenue infrastructure, practice operations, and technology-led execution.',
+    h1: 'See where your revenue system is leaking.',
     image: brandAssets.og,
   },
   '/contact': {
     title: 'Contact ROOT | Healthcare Revenue Intelligence & RCM',
-    description: 'Discuss healthcare revenue intelligence, ASC and multispecialty RCM, payer underpayments, denial prevention, credentialing, data architecture, and practice operations.',
+    description: 'Discuss healthcare revenue intelligence, ASC and multispecialty RCM, payer underpayments, denial prevention, credentialing, and practice operations with ROOT.',
+    h1: 'Bring us the revenue question your systems cannot answer.',
     image: brandAssets.og,
   },
-  '/legal/privacy': { title: 'Privacy | ROOT', description: 'ROOT public website privacy boundary and no-PHI intake policy.', image: brandAssets.og },
-  '/legal/terms': { title: 'Terms | ROOT', description: 'ROOT commercial website terms of use.', image: brandAssets.og },
-  '/legal/cookies': { title: 'Cookies | ROOT', description: 'ROOT cookie and storage key disclosure, consent categories, and preference controls.', image: brandAssets.og },
-  '/thank-you': { title: 'Request Received | ROOT', description: 'ROOT has received your deidentified commercial inquiry.', image: brandAssets.og },
+  '/book': {
+    title: 'Book a Diagnostic or Discovery Conversation | ROOT',
+    description: 'Request a ROOT discovery conversation or start with the fixed-fee $2,500 Revenue Optimization Diagnostic. Commercial inquiries only; do not send PHI.',
+    h1: 'Book a conversation about your revenue cycle.',
+    image: brandAssets.og,
+  },
+  '/faq': {
+    title: 'Healthcare RCM & Diagnostic FAQ | ROOT',
+    description: 'Answers about ROOT\'s Revenue Optimization Diagnostic, data and privacy boundaries, engagement models, DIRT intelligence, and how to get started.',
+    h1: 'Frequently asked questions',
+    image: brandAssets.og,
+  },
+  '/privacy-policy': {
+    title: 'Privacy Policy | ROOT',
+    description: 'How ROOT\'s public website handles commercial inquiry data, cookies and analytics, and why it never accepts PHI or patient information.',
+    h1: 'Privacy Policy',
+    image: brandAssets.og,
+  },
+  '/terms': {
+    title: 'Terms of Use | ROOT',
+    description: 'Terms for using the ROOT commercial website: general information only, no guarantees of financial outcomes, and no PHI through public channels.',
+    h1: 'Terms of Use',
+    image: brandAssets.og,
+  },
+  '/refund-policy': {
+    title: 'Refund & Cancellation Policy | ROOT',
+    description: 'How refunds and cancellations are handled for ROOT engagements, including the fixed-fee Revenue Optimization Diagnostic.',
+    h1: 'Refund & Cancellation Policy',
+    image: brandAssets.og,
+  },
+  '/legal/cookies': {
+    title: 'Cookie Policy | ROOT',
+    description: 'ROOT cookie and storage key disclosure, consent categories, and preference controls for analytics and marketing.',
+    h1: 'Cookies and browser storage',
+    image: brandAssets.og,
+  },
+  '/thank-you': {
+    title: 'Request Received | ROOT',
+    description: 'ROOT has received your deidentified commercial inquiry.',
+    h1: 'Request received.',
+    image: brandAssets.og,
+  },
 };
 
 if (import.meta.env?.DEV === true) {
@@ -590,13 +649,13 @@ if (import.meta.env?.DEV === true) {
 }
 
 solutionPages.forEach((page) => {
-  routeMeta[`/solutions/${page.slug}`] = { title: `${page.title} Solution | ROOT`, description: page.summary, image: brandAssets.og };
+  routeMeta[`/solutions/${page.slug}`] = { title: `${page.title} Solution | ROOT`, description: page.summary, h1: page.title, image: brandAssets.og };
 });
 
 servicePages.forEach((service) => {
-  routeMeta[`/services/${service.slug}`] = { title: `${service.title} Services | ROOT`, description: service.summary, image: brandAssets.og };
+  routeMeta[`/services/${service.slug}`] = { title: `${service.title} Services | ROOT`, description: service.summary, h1: service.title, image: brandAssets.og };
 });
 
 resourceArticles.forEach((article) => {
-  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, image: brandAssets.og };
+  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, h1: article.title, image: brandAssets.og };
 });

@@ -45,7 +45,7 @@ export function CookiesLegalPage() {
       <MarketingHeader />
       <main id="main-content">
         <Section className="pt-10">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Legal', href: '/legal/privacy/' }, { label: 'Cookies' }]} />
+          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Privacy', href: '/privacy-policy/' }, { label: 'Cookies' }]} />
           <SectionHeader
             eyebrow="Legal"
             title="Cookies"

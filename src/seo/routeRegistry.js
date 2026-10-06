@@ -1,0 +1,98 @@
+import { resourceArticles, servicePages, solutionPages } from '../siteData.js';
+
+/**
+ * Single source of truth for every static route in the multi-page build.
+ * Consumed by vite.config.js (inputs), the sitemap/robots generator, the head
+ * renderer and the SEO tests. Add a route here and create its `<path>/index.html`.
+ */
+export const SITE_ORIGIN = 'https://rootrcm.com';
+
+const staticRoutes = [
+  { key: 'home', path: '/', entry: 'index.html' },
+  { key: 'about', path: '/about/', entry: 'about/index.html' },
+  { key: 'services', path: '/services/', entry: 'services/index.html' },
+  { key: 'solutions', path: '/solutions/', entry: 'solutions/index.html' },
+  { key: 'caseStudies', path: '/case-studies/', entry: 'case-studies/index.html' },
+  { key: 'pricing', path: '/pricing/', entry: 'pricing/index.html' },
+  { key: 'resources', path: '/resources/', entry: 'resources/index.html' },
+  { key: 'contact', path: '/contact/', entry: 'contact/index.html' },
+  { key: 'book', path: '/book/', entry: 'book/index.html' },
+  { key: 'faq', path: '/faq/', entry: 'faq/index.html' },
+  { key: 'privacyPolicy', path: '/privacy-policy/', entry: 'privacy-policy/index.html' },
+  { key: 'terms', path: '/terms/', entry: 'terms/index.html' },
+  { key: 'refundPolicy', path: '/refund-policy/', entry: 'refund-policy/index.html' },
+  { key: 'cookies', path: '/legal/cookies/', entry: 'legal/cookies/index.html' },
+  { key: 'thankYou', path: '/thank-you/', entry: 'thank-you/index.html', noindex: true },
+  { key: 'platform', path: '/platform/', entry: 'platform/index.html' },
+  { key: 'technology', path: '/technology/', entry: 'technology/index.html' },
+  { key: 'dirt', path: '/technology/dirt/', entry: 'technology/dirt/index.html' },
+  { key: 'diagnostic', path: '/diagnostic/', entry: 'diagnostic/index.html' },
+  // Host fallback document (Appwrite / GitHub Pages serve it for unknown URLs). Never listed in the sitemap.
+  { key: 'notFound', path: '/404.html', entry: '404.html', noindex: true, system: true },
+];
+
+/**
+ * Legacy URLs that still resolve (old links, bookmarks, PR #27 production build) but whose
+ * canonical home is a new clean URL. They render the same page, point `rel=canonical`
+ * at the canonical path and stay out of the sitemap.
+ */
+export const canonicalAliases = {
+  '/company/about/': '/about/',
+  '/legal/privacy/': '/privacy-policy/',
+  '/legal/terms/': '/terms/',
+};
+
+const aliasRoutes = [
+  { key: 'aliasAbout', path: '/company/about/', entry: 'company/about/index.html', alias: true },
+  { key: 'aliasPrivacy', path: '/legal/privacy/', entry: 'legal/privacy/index.html', alias: true },
+  { key: 'aliasTerms', path: '/legal/terms/', entry: 'legal/terms/index.html', alias: true },
+];
+
+const dynamicRoutes = [
+  ...solutionPages.map((page) => ({ key: `solution-${page.slug}`, path: `/solutions/${page.slug}/`, entry: `solutions/${page.slug}/index.html` })),
+  ...servicePages.map((service) => ({ key: `service-${service.slug}`, path: `/services/${service.slug}/`, entry: `services/${service.slug}/index.html` })),
+  ...resourceArticles.map((article) => ({ key: `resource-${article.slug}`, path: `/resources/${article.slug}/`, entry: `resources/${article.slug}/index.html` })),
+];
+
+/** Development/internal routes: built in dev, excluded from production output and the sitemap. */
+export const internalRoutes = [
+  { key: 'caseStudyDirtPoc01', path: '/case-studies/dirt-poc-01/', entry: 'case-studies/dirt-poc-01/index.html', internal: true, noindex: true },
+  { key: 'v4Lab', path: '/__v4-lab/', entry: '__v4-lab/index.html', internal: true, noindex: true },
+];
+
+export const allRoutes = [...staticRoutes, ...aliasRoutes, ...dynamicRoutes, ...internalRoutes];
+
+/** Rollup inputs for `vite build`. Internal routes only exist outside production. */
+export function buildInputs({ production }) {
+  return Object.fromEntries(
+    allRoutes.filter((route) => !(production && route.internal)).map((route) => [route.key, route.entry]),
+  );
+}
+
+/** Indexable, canonical, public URLs — the sitemap source. */
+export function sitemapPaths() {
+  return allRoutes.filter((route) => !route.internal && !route.alias && !route.noindex && !route.system).map((route) => route.path);
+}
+
+export function findRoute(path) {
+  return allRoutes.find((route) => route.path === path);
+}
+
+/** `/a/b` and `/a/b/` and `/a/b/index.html` all normalise to `/a/b`. */
+export function normalizePath(pathname) {
+  if (!pathname || pathname === '/') return '/';
+  return pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+}
+
+/** Canonical trailing-slash form of a normalised path (`/`, `/about/`, `/404.html`). */
+export function canonicalForm(path) {
+  if (path === '/') return '/';
+  if (path.endsWith('.html')) return path;
+  return `${path}/`;
+}
+
+/** Resolve a (possibly legacy) path to the path whose metadata and canonical URL apply. */
+export function resolveCanonicalPath(pathname) {
+  const form = canonicalForm(normalizePath(pathname));
+  return canonicalAliases[form] || form;
+}

@@ -14,8 +14,8 @@ export function NavigationMenuTrigger({ className, children, ...props }: React.C
   return (
     <RadixNav.Trigger
       className={cn(
-        'group flex items-center gap-1 rounded-[var(--radius-root)] px-3 py-2 text-sm font-medium text-text',
-        'hover:bg-panel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+        'group flex cursor-pointer items-center gap-1 rounded-[var(--radius-root)] border-0 bg-transparent px-3 py-2 text-sm font-medium text-text/90',
+        'hover:bg-panel hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue',
         className,
       )}
       {...props}
