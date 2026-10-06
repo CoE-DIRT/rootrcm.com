@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Appwrite Function: Stripe test-mode Checkout session creation and verification (ADR-010, proposed)"
+  "description": "Appwrite Function: Stripe test-mode Checkout session creation and verification (ADR-010, accepted)"
 }

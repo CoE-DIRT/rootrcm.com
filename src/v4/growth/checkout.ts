@@ -2,7 +2,7 @@ import { track } from '../analytics/tracker';
 import { getProduct } from './catalog';
 
 /**
- * Stripe TEST-MODE checkout (ADR-010, proposed). The browser never holds a secret and never decides an amount:
+ * Stripe TEST-MODE checkout (ADR-010, accepted). The browser never holds a secret and never decides an amount:
  * it asks the `checkout` Function to create a Stripe-hosted Checkout session for a catalogued product, redirects to
  * Stripe's page, and after the return asks the Function to verify the session. Card data never touches ROOT.
  *

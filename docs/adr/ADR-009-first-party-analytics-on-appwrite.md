@@ -66,7 +66,7 @@ identifier and the endpoint is public. The `target_key` the browser sends is not
 - It does **not** create a general backend. `tracking-ingest` accepts one fixed JSON shape and writes one table.
 - It does **not** store contact messages, form content or payment data, and it does not enable authentication or uploads.
 - It does **not** authorize any other Function, table, database or bucket. Anything further needs its own ADR.
-- Payments are **not** covered by this decision. See ADR-010 (proposed).
+- Payments are **not** covered by this decision. See ADR-010 (accepted), which covers Stripe test mode only.
 
 ## Consequences
 

@@ -40,7 +40,7 @@ which hosted Checkout does not actually need; it exists so the build can assert 
 
 ### Accepted `AGENTS.md` wording
 
-> A dedicated Appwrite Function may create Stripe Checkout sessions in Stripe test mode only, for catalogued public products, and a separate Function may verify Stripe webhook signatures. They must not receive or store card data, customer personal data, PHI, or contact-message content, and must not use live Stripe keys.
+> Under accepted ADR-010, dedicated Appwrite Functions may create Stripe Checkout sessions and verify Stripe test-mode webhook signatures only for catalogued public products. They must not use live keys, receive or store card data, customer personal data, PHI, contact-message content, or fulfilment data.
 
 ## Risks and mitigations
 

@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Appwrite Function: Stripe webhook signature verification placeholder (ADR-010, proposed)"
+  "description": "Appwrite Function: Stripe webhook signature verification placeholder (ADR-010, accepted)"
 }
