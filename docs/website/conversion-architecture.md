@@ -2,9 +2,9 @@
 
 ## Primary Paths
 
-- Explore ROOT: platform education for buyers who need the full MSO story.
-- Book a Diagnostic: fixed-fee entry offer for practices ready to assess revenue leakage.
-- Talk to ROOT: consultative path for broader MSO, project, or service needs.
+- Explore ROOT: revenue intelligence and operating infrastructure for buyers who need connected financial visibility and execution.
+- Discover Revenue Exposure: primary commercial CTA to the fixed-fee Revenue Optimization Diagnostic for practices ready to understand financial and operational risk.
+- Talk to ROOT: consultative path for intelligence, managed RCM, ASC/multispecialty operations, projects, or MSO needs.
 - WhatsApp instant chat: immediate deidentified commercial conversation path.
 - Call and email: direct launch-ready contact options for ROOT Revenue Operations & Outcomes Technology Incorporated.
 - Social/profile destinations: hidden until official URLs are verified; do not render placeholder or `Coming soon` buttons on the client-facing launch site.

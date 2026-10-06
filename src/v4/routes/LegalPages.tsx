@@ -17,8 +17,8 @@ export function PrivacyPage() {
         <h2 className="mt-10 text-2xl font-semibold text-text">Public inquiry data</h2>
         <p className="mt-3 text-muted">
           Information voluntarily provided for a commercial inquiry may include business contact information, practice
-          name, provider count, operational concerns, and campaign attribution parameters. A future secure form endpoint
-          will be documented before activation.
+          name, provider count, operational concerns, and campaign attribution parameters. Public inquiries are processed
+          through the configured email delivery service and sent to ROOT&apos;s business inbox. Do not use this form for sensitive data.
         </p>
         <h2 className="mt-10 text-2xl font-semibold text-text">Analytics</h2>
         <p className="mt-3 text-muted">

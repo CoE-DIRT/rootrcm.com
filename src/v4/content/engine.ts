@@ -93,7 +93,7 @@ export function buildSocialPack(): { platform: string; href: string; shareText: 
   return socialProfiles.map((profile: { label: string; href: string }) => ({
     platform: profile.label,
     href: profile.href,
-    shareText: `ROOT — Revenue Operations & Outcomes Technology for independent practices. ${profile.href}`,
+    shareText: `ROOT — Healthcare Revenue Intelligence & Operating Infrastructure. ${profile.href}`,
   }));
 }
 

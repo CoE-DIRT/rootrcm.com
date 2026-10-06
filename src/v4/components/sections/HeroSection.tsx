@@ -31,7 +31,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
             {title}
           </h1>
           <p className="lede measure-hero-support text-pretty text-base text-muted md:text-lg">{description}</p>
-          <p className="text-sm font-medium text-text">One operating partner for the business side of medicine.</p>
+          <p className="text-sm font-medium text-text">Where revenue cycle management meets data intelligence.</p>
           {supportLine ? <p className="max-w-2xl text-sm text-accent/90">{supportLine}</p> : null}
           <CTAGroup>
             <LinkButton
@@ -43,7 +43,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               data-destination="/diagnostic/"
               data-engagement-type="diagnostic"
             >
-              Start the $2,500 Diagnostic <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              Discover Your Revenue Exposure <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </LinkButton>
             <LinkButton href="/contact/" variant="outline" size="lg" data-cta="talk-to-root" data-location="home-hero">
               Talk to ROOT
@@ -54,7 +54,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
           </NoPhiBanner>
           <p className="hero-support-line flex items-center gap-2 text-sm text-muted">
             <ShieldCheck className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-            Independent-practice operating partner for billing, denials, A/R, credentialing, and technology.
+            Healthcare revenue intelligence, managed RCM, credentialing, and operational accountability.
           </p>
         </div>
         {mockup}

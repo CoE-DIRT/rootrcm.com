@@ -51,7 +51,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                     <NavigationMenuTrigger>Services</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                        MSO service directory
+                        Healthcare revenue services
                       </p>
                       <div className="grid grid-cols-2 gap-x-8 gap-y-3 md:grid-cols-3">
                         {servicePages.map((service: { slug: string; title: string }) => (
@@ -107,7 +107,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                 Contact
               </LinkButton>
               <LinkButton href="/diagnostic/" variant="primary" size="sm" data-cta="book-diagnostic" data-location="header" data-destination="/diagnostic/">
-                Get the Diagnostic
+                Explore the Diagnostic
               </LinkButton>
             </div>
 
@@ -136,7 +136,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                       Contact
                     </LinkButton>
                     <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="mobile-nav" data-destination="/diagnostic/">
-                      Get the Diagnostic
+                      Explore the Diagnostic
                     </LinkButton>
                   </div>
                 </nav>

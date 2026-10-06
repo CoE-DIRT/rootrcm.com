@@ -2,16 +2,16 @@ const STORAGE_KEY = 'root-conversion-experiments-v1';
 
 const experiments = {
   homeHero: {
-    id: 'home-hero-revenue-framing-v1',
+    id: 'home-hero-revenue-intelligence-v2',
     path: '/',
     variants: {
       a: {
-        headline: 'Run the business side of medicine better.',
-        lede: 'ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.',
+        headline: 'The intelligence behind healthcare revenue.',
+        lede: 'ROOT connects revenue cycle management, credentialing, practice operations, and data intelligence to expose financial risk, understand payer performance, and turn findings into accountable action.',
       },
       b: {
-        headline: 'Find where your practice is losing revenue—and what to fix first.',
-        lede: 'ROOT is the operating partner for independent physician practices—managing billing, denials, A/R, credentialing, practice operations, and technology.',
+        headline: 'Your data already contains the signals. ROOT connects them.',
+        lede: 'ROOT connects revenue cycle management, credentialing, practice operations, and data intelligence to expose financial risk, understand payer performance, and turn findings into accountable action.',
       },
     },
   },

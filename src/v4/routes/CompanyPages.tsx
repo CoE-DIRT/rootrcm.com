@@ -29,11 +29,10 @@ export function ContactPage() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Contact ROOT</p>
             <h1 className="mt-3 text-4xl font-semibold text-text sm:text-5xl">
-              Talk through your practice&apos;s operating problem.
+              Bring us the revenue question your systems cannot answer.
             </h1>
             <p className="mt-4 text-lg text-muted">
-              Share deidentified commercial context about A/R, denials, reporting, credentialing, or practice operations.
-              ROOT will route the conversation to the right next step.
+              Tell ROOT about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
             </p>
             <p className="mt-6 flex items-start gap-2 text-sm text-muted">
               <ShieldCheck className="mt-0.5 h-4 w-4 text-accent" aria-hidden="true" />
@@ -93,12 +92,10 @@ export function AboutPage() {
       <Section className="pt-10 md:pt-14">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Company</p>
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold text-text sm:text-5xl">
-          Built around the business side of independent medicine.
+          Built for the business behind healthcare.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT exists to give independent practices an accountable operating partner across revenue cycle, credentialing,
-          practice operations, analytics, automation, and technology, without confusing business support with clinical
-          authority.
+          ROOT brings revenue cycle management, data intelligence, credentialing, practice operations, and healthcare technology into one accountable operating model. We connect financial insight to the people and processes needed to act on it; clinical authority remains with your practice.
         </p>
       </Section>
       <Section tone="soft">
@@ -111,27 +108,25 @@ export function AboutPage() {
           />
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">How ROOT operates</p>
-            <h2 className="mt-2 text-2xl font-semibold text-text">Revenue first. Evidence before complexity.</h2>
+            <h2 className="mt-2 text-2xl font-semibold text-text">Revenue intelligence with execution behind it.</h2>
             <p className="mt-4 text-sm text-muted">
-              ROOT prioritizes cash impact, client acquisition, delivery, retention, operational leverage, commercial
-              credibility, automation, and then technical sophistication.
+              After years working across US healthcare revenue operations, recurring denials, aging balances, fragmented EHR and payer reports, and credentialing delays made one pattern clear: organizations need a connected financial picture, not another isolated workflow.
             </p>
             <p className="mt-3 text-sm text-muted">
-              DIRT extends that model with analytical discipline: identify the constraint, quantify the opportunity,
-              prioritize action, and measure what changes.
+              ROOT was founded to join revenue operations with data intelligence. DIRT connects financial signals, helps explain revenue exposure, and informs prioritized action; ROOT provides the operating ownership to follow through.
             </p>
           </div>
         </div>
       </Section>
       <Section tone="grid" wide>
-        <SectionHeader eyebrow="Responsibility areas" title="How ROOT is organized around your practice." />
+        <SectionHeader eyebrow="Responsibility areas" title="Intelligence and execution across the healthcare business." />
         <div className="mt-8">
           <WorkforceGrid />
         </div>
       </Section>
 
       <Section>
-        <SectionHeader title="Bring us the number that does not make sense." />
+        <SectionHeader title="Bring us the financial question your systems cannot answer." />
         <LinkButton href="/contact/" variant="primary" size="md" className="mt-6" data-cta="talk-to-root">
           Start a Conversation
         </LinkButton>
