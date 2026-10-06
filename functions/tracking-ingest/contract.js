@@ -137,7 +137,7 @@ function safeText(value, max) {
   return value;
 }
 
-/** A pathname exactly as the browser sanitiser emits it: no query, no fragment, lower case, ids redacted as ":id". */
+/** Format check for a pathname: no query, no fragment, lower case, no long digit runs or UUID-like segments. Which pages are stored is decided by the page allowlist (allowlists.js), not by this check. */
 function safePath(value, max = LIMITS.pathLength) {
   if (typeof value !== 'string' || !value.startsWith('/') || value.length > max) return null;
   if (value.includes('//') || !/^\/[a-z0-9._~:/-]*$/.test(value)) return null;

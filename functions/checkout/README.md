@@ -8,7 +8,11 @@ One endpoint, `POST` with a JSON body (any content type; the browser sends `text
 | Request | Result |
 | --- | --- |
 | `{"action":"create","product_id":"revenue-optimization-diagnostic"}` | `200 {"ok":true,"url":"https://checkout.stripe.com/..."}` |
-| `{"action":"verify","session_id":"cs_test_..."}` | `200 {"ok":true,"paid":true,"product_id","amount":2500,"currency":"USD"}` or `{"ok":true,"paid":false}` |
+| `{"action":"verify","session_id":"cs_test_..."}` | `200 {"ok":true,"paid":true,"product_id","amount":2500,"currency":"USD","transaction_ref"}` or `{"ok":true,"paid":false}` |
+
+`transaction_ref` is the only payment identifier analytics ever receives: 32 hex characters derived from the verified session id with a
+keyed digest (HMAC-SHA256 under a domain-separated key derived from `STRIPE_SECRET_KEY`, truncated to 128 bits). It cannot be turned back into the
+session id, and the session id is never echoed in a response. Rotating the Stripe key changes every reference.
 
 Everything else is `400` (strict shapes: an amount, price, URL, customer field or extra key is refused, not ignored), `403`
 (origin), `405`, `413` (over 2 KiB), `500` (misconfigured or non-test key) or `502` (Stripe failed or returned something unsafe).
