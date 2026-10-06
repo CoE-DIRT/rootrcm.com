@@ -1,3 +1,16 @@
 # SEO
 
-SEO is implemented through route-specific static HTML heads, `public/sitemap.xml`, `public/robots.txt`, canonical URLs, Open Graph tags, Twitter card tags, and selected structured data.
+Status: implemented in code and tested; **nothing here asserts indexing, ranking or verification.** Search Console and
+Google Business Profile are manual owner actions (see below) and are **not** done.
+
+| Topic | Where |
+| --- | --- |
+| How heads, canonicals, sitemap, robots and structured data are produced | [technical-seo.md](technical-seo.md) |
+| Page-to-keyword assignment and copy rules | [page-keyword-map.md](page-keyword-map.md) |
+| Evidence behind the keyword choices (qualitative, limited) | [keyword-evidence.md](keyword-evidence.md) |
+| Search Console: verify, submit the sitemap, monitor | [search-console.md](search-console.md) |
+| Google Business Profile: eligibility, setup, what must not be claimed | [google-business-profile.md](google-business-profile.md) |
+| The route list | [../website/sitemap.md](../website/sitemap.md) |
+
+Single source of truth for every static route: `src/seo/routeRegistry.js`. Titles, descriptions and H1s live in `routeMeta`
+(`src/siteData.js`); FAQ content lives in `src/faqData.js` and feeds both the page and its `FAQPage` markup.

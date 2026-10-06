@@ -39,13 +39,11 @@ flowchart TB
 
 ## Technology Stack
 
-- React + Vite
-- npm and `package-lock.json`
-- Vitest + Testing Library
-- ESLint
-- Static multi-page GitHub Pages build
-- CSS design tokens for the Clinical Glass visual system
-- Lucide React icons
+- React + Vite (TypeScript and JavaScript) with npm and `package-lock.json`
+- Tailwind CSS v4 tokens and Radix UI primitives over the Clinical Glass design system; Lucide icons
+- Vitest + Testing Library (unit and integration), Playwright (browser), ESLint, `tsc --noEmit`
+- Static multi-page build to `dist-staging` (compatible with static hosting such as GitHub Pages)
+- Klaro for cookie consent; optional, consent-gated analytics (see below)
 
 ## Repository Structure
 
@@ -68,53 +66,42 @@ npm run dev -- --host 127.0.0.1
 ```bash
 npm run lint
 npm test
+npx tsc --noEmit
 npm run build
+git diff --check
+```
+
+Browser checks (Playwright) run against local dev servers and stub every external call:
+
+```bash
+npx playwright test
 ```
 
 The production build output directory is `dist-staging`.
 
-## Static Route Map
+## Routes
 
-- `/`
-- `/platform/`
-- `/solutions/`
-- `/solutions/revenue-leakage/`
-- `/solutions/aging-ar/`
-- `/solutions/denials/`
-- `/solutions/credentialing-bottlenecks/`
-- `/solutions/operational-efficiency/`
-- `/solutions/reporting-visibility/`
-- `/solutions/scaling-practice-ops/`
-- `/services/`
-- `/diagnostic/`
-- `/services/rcm/`
-- `/services/medical-billing/`
-- `/services/ar-recovery/`
-- `/services/denial-management/`
-- `/services/payment-posting/`
-- `/services/patient-balances/`
-- `/services/credentialing/`
-- `/services/practice-ops/`
-- `/services/healthcare-it/`
-- `/services/workflow-automation/`
-- `/services/reporting-analytics/`
-- `/services/operational-consulting/`
-- `/technology/`
-- `/technology/dirt/`
-- `/pricing/`
-- `/resources/`
-- `/resources/revenue-leakage-guide/`
-- `/resources/aging-ar-playbook/`
-- `/resources/denial-management-root-cause/`
-- `/resources/credentialing-operations-checklist/`
-- `/resources/practice-ops-kpi-model/`
-- `/resources/healthcare-automation-readiness/`
-- `/company/about/`
-- `/contact/`
-- `/legal/privacy/`
-- `/legal/terms/`
-- `/thank-you/`
-- `/404.html`
+Every static route is defined once in `src/seo/routeRegistry.js`; the sitemap, robots, page heads and tests are generated from it. The public
+navigation is Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact and the primary call to action. See
+[docs/website/sitemap.md](docs/website/sitemap.md) for the full list, including `/book/`, `/faq/`, `/privacy-policy/`, `/terms/`,
+`/refund-policy/`, `/thank-you/` and the `404.html` fallback.
+
+## Optional measurement, experiments and payments (all off until configured)
+
+None of these runs, loads a script or stores anything until it is configured **and** the visitor consents. Public configuration only; secrets
+never use the `VITE_` prefix and the build refuses secret-shaped `VITE_*` variables (`src/build/envGuard.js`). See `.env.example`.
+
+| Capability | Status | Docs |
+| --- | --- | --- |
+| Google Analytics 4 | **Disabled**: no Measurement ID supplied (`VITE_GA_MEASUREMENT_ID`) | [docs/analytics/tracking-plan.md](docs/analytics/tracking-plan.md) |
+| First-party analytics (Appwrite `tracking-ingest` + private table) | Code, tests and provisioning script ready; **not deployed** | [ADR-009](docs/adr/ADR-009-first-party-analytics-on-appwrite.md), [runbook](docs/deployment/appwrite-analytics.md) |
+| A/B experiments | Built; **off in production** unless `VITE_EXPERIMENTS_ENABLED=true`; no results exist | [docs/analytics/experiments.md](docs/analytics/experiments.md) |
+| Stripe test-mode checkout | Code and tests ready, **inert**; needs owner approval first | [ADR-010 (proposed)](docs/adr/ADR-010-stripe-test-mode-checkout.md), [runbook](docs/deployment/stripe-test-mode.md) |
+| Search Console, Business Profile | **Not done** (manual owner steps) | [docs/seo/](docs/seo/README.md) |
+
+Appwrite Functions live in `functions/` (`contact`, `tracking-ingest`, `checkout`, `stripe-webhook`); each has its own README. `contact` is the approved
+commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and `checkout` and `stripe-webhook` wait on ADR-010. None of the four is confirmed
+deployed from this repository.
 
 ## Deployment Model
 
