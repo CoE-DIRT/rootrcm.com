@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
-import { getExperimentContext } from '../experiments.js';
+import { getExperimentContext } from '../v4/experiments/engine.ts';
 import { buildDeliveryPayload, getInquiryEndpoint, isDeliveryAcknowledged } from '../modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 import InquiryVerification from './InquiryVerification.jsx';
@@ -39,7 +39,6 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
   const analyticsFormId = formId || (variant === 'diagnostic' ? 'diagnostic-inquiry' : 'contact-inquiry');
   const [form, setForm] = useState(initialState);
   const [attribution] = useState(getAttribution);
-  const [experiment] = useState(() => getExperimentContext(typeof window === 'undefined' ? '' : window.location.pathname));
   const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
   const [verificationToken, setVerificationToken] = useState('');
@@ -51,10 +50,9 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
   const payload = useMemo(() => ({
     ...form,
     ...attribution,
-    ...experiment,
     inquiryType: variant,
     form_provider: configuredEndpoint ? 'configured-endpoint' : 'formsubmit-relay',
-  }), [form, attribution, experiment, variant, configuredEndpoint]);
+  }), [form, attribution, variant, configuredEndpoint]);
   const mailto = useMemo(() => buildInquiryMailto(payload), [payload]);
   const summary = useMemo(() => buildInquirySummary(payload), [payload]);
   const canSubmit = form.name && form.email && form.organization && form.noPhi && (!ownedDelivery || (configuredEndpoint && verificationKey && verificationToken)) && (variant === 'contact' ? form.focus : form.providers && form.challenge);
@@ -72,6 +70,8 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
 
     setStatus('sending');
     try {
+      // Read at submit time: by now every A/B surface on the page has resolved, so the context is complete.
+      const experiment = getExperimentContext();
       const deliveryPayload = ownedDelivery ? {
         name: form.name, email: form.email, organization: form.organization,
         need: variant === 'diagnostic' ? 'Revenue Optimization Diagnostic' : 'Commercial inquiry',
@@ -86,7 +86,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
         experiment: experiment.experiment,
         experiment_variant: experiment.experiment_variant,
       } : buildDeliveryPayload(
-        payload,
+        { ...payload, ...experiment },
         typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.origin + window.location.pathname,
       );
       const response = await fetch(endpoint, {

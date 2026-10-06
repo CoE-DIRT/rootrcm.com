@@ -2,6 +2,7 @@ import { ArrowRight, Mail, MessageCircle, Phone } from 'lucide-react';
 import { LinkButton } from '@/components/ui/Button';
 import { SocialLinks } from '@/components/SocialLinks';
 import { CookieSettings } from '../consent/CookieSettings';
+import { useExperiment } from '@/experiments/useExperiment';
 import { companyInfo, footerGroups, legalLinks, outreachChannels } from '../../siteData.js';
 
 interface MarketingFooterProps {
@@ -17,6 +18,16 @@ interface Channel {
 }
 
 const channelIcons: Record<string, typeof Phone> = { 'instant-chat': MessageCircle, phone: Phone, email: Mail };
+
+/** Footer social controls; the icon-only vs labeled design is an A/B test (exp-follow-us-design-v1). */
+function FooterSocial() {
+  const experiment = useExperiment('followUsDesign');
+  return (
+    <div className="mt-5" {...experiment.attrs}>
+      <SocialLinks variant={experiment.variant === 'labeled' ? 'labeled' : 'icons'} location="footer-social" />
+    </div>
+  );
+}
 
 export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
   const year = new Date().getFullYear();
@@ -136,7 +147,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
                 </a>
               </p>
             </address>
-            <SocialLinks className="mt-5" location="footer-social" />
+            <FooterSocial />
           </div>
 
           {footerGroups.map((group: { title: string; links: { label: string; href: string }[] }) => (

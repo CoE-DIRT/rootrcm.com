@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
-import { applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
@@ -120,7 +119,6 @@ export default function App() {
 
   useEffect(() => {
     syncDocumentMeta(path);
-    applyPageExperiment(path);
   }, [path]);
 
   useEffect(() => {
@@ -147,7 +145,7 @@ export default function App() {
     function handleCtaClick(event) {
       const target = event.target.closest('[data-cta]');
       if (!target) return;
-      // An element rendered by a running experiment carries its own context (data-experiment / data-variant).
+      // An element rendered by an A/B test carries its own context (data-experiment / data-variant, see useExperiment).
       const experimentEl = target.closest('[data-experiment]');
       window.dispatchEvent(new CustomEvent('root:cta', {
         detail: {
@@ -156,7 +154,6 @@ export default function App() {
           destination: target.dataset.destination,
           engagementType: target.dataset.engagementType,
           page: path,
-          ...getExperimentContext(path),
           ...(experimentEl ? { experiment: experimentEl.dataset.experiment, experiment_variant: experimentEl.dataset.variant } : {}),
         },
       }));

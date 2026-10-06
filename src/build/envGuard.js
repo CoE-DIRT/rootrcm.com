@@ -9,6 +9,7 @@ const PUBLIC_ALLOWLIST = new Set(['VITE_TURNSTILE_SITE_KEY']);
 
 const GA4_ID = /^G-[A-Z0-9]{4,20}$/;
 const SITE_ENVS = new Set(['production', 'preview', 'development']);
+const GSC_TOKEN = /^[A-Za-z0-9_-]{20,100}$/;
 
 export function assertSafePublicEnv(env = {}) {
   const problems = [];
@@ -31,10 +32,16 @@ export function assertSafePublicEnv(env = {}) {
   const siteEnv = String(env.VITE_SITE_ENV || '').trim();
   if (siteEnv && !SITE_ENVS.has(siteEnv)) problems.push('VITE_SITE_ENV must be production, preview or development.');
 
-  for (const name of ['VITE_TRACKING_ENDPOINT', 'VITE_CHECKOUT_ENDPOINT']) {
+  for (const name of ['VITE_TRACKING_ENDPOINT', 'VITE_CHECKOUT_ENDPOINT', 'VITE_BOOKING_URL']) {
     const value = String(env[name] || '').trim();
     if (value && !/^https:\/\//.test(value)) problems.push(`${name} must be an https:// URL.`);
   }
+
+  const experiments = String(env.VITE_EXPERIMENTS_ENABLED || '').trim().toLowerCase();
+  if (experiments && experiments !== 'true' && experiments !== 'false') problems.push('VITE_EXPERIMENTS_ENABLED must be true, false or empty.');
+
+  const gsc = String(env.VITE_GSC_VERIFICATION || '').trim();
+  if (gsc && !GSC_TOKEN.test(gsc)) problems.push('VITE_GSC_VERIFICATION must be the verification token only (letters, digits, - and _), not a full meta tag.');
 
   if (problems.length) throw new Error(`Unsafe public configuration:\n- ${problems.join('\n- ')}`);
 }

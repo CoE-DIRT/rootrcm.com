@@ -1,16 +1,29 @@
-# ROOT V4 — Cookie & Storage Key Manifest
+# ROOT — Cookie & Storage Key Manifest
 
-Also published on-site at `/legal/cookies/` (`src/v4/routes/CookiesLegalPage.tsx`).
-Must stay in sync with `src/v4/consent/klaroConfig.ts` services.
+Published on-site at `/legal/cookies/`. **The source of truth is
+[`src/v4/consent/storageInventory.ts`](../../src/v4/consent/storageInventory.ts)**: the cookie policy table is
+generated from it, and rows tied to an optional vendor appear only when that vendor is configured in the build.
+Consent services are defined in `src/v4/consent/klaroConfig.ts` (`KLARO_CONFIG_VERSION = 2`).
 
-| Key | Provider | Purpose | Category | Duration | Set before consent? |
-|-----|----------|---------|----------|----------|----------------------|
-| `root_consent` | ROOT (Klaro) | Consent preferences | Necessary | 365 days | Yes |
-| `root-conversion-experiments-v1` | ROOT (`experiments.js`) | Legacy A/B assignment | Functional | localStorage | Yes |
-| `root-v4-experiments-v1` | ROOT (`v4/growth/experiments.ts`) | V4 A/B+MVT assignment | Functional / analytics-adjacent | localStorage | Yes (assignment only; no third-party) |
-| `ph_*` | PostHog | Analytics / replay when configured | Analytics | Per PostHog | **No** — requires analytics consent + `VITE_PUBLIC_POSTHOG_KEY` |
+| Key | Provider | Purpose | Category | Set before consent? |
+| --- | --- | --- | --- | --- |
+| `root_consent` (cookie) | ROOT (Klaro) | Stores the visitor's consent choices | Necessary | Yes |
+| `root-theme` (localStorage) | ROOT | Light/dark theme choice | Functional | Yes |
+| `root-attribution` (sessionStorage) | ROOT | UTM values carried with an inquiry the visitor chooses to send | Functional | Yes |
+| `root-return-visitor`, `root-intent-banner-dismissed`, `root-intent-banner-shown` | ROOT | On-page guidance preferences | Functional | Yes |
+| `root-aid` (localStorage) | ROOT | Random anonymous browser id for first-party measurement | Analytics | **No** — only after first-party analytics consent |
+| `root-sid`, `root-utm` (sessionStorage) | ROOT | Random session id, first-touch campaign values | Analytics | **No** |
+| `root-analytics-seen` (local/sessionStorage) | ROOT | De-duplication markers (test exposure per session, confirmed purchase per visitor) | Analytics | **No** |
+| `root-exp-v2` (localStorage) | ROOT | Which website-test variant was shown | Analytics | **No** — only after consent, and only when tests run |
+| `_ga`, `_ga_*` (cookies) | Google Analytics 4 | Aggregate measurement | Analytics | **No** — only when a Measurement ID is configured and consent is given; removed on withdrawal |
+| `ph_*` (cookies) | PostHog | Product analytics and masked replay | Analytics | **No** — only when a PostHog key is configured and consent is given |
 
-Klaro services: `root-session` (required), `root-analytics`, `posthog` (optional).
-Session replay masks inputs (`maskAllInputs`, `.ph-no-capture` / `data-ph-mask` on forms).
+Klaro services: `root-session` (required), `root-first-party-analytics` and `google-analytics` (each registered only
+when its destination is configured), and the optional PostHog services.
 
-Config version: `KLARO_CONFIG_VERSION = 1`.
+Withdrawing consent deletes `root-aid`, `root-sid`, `root-utm`, `root-analytics-seen`, `root-exp-v2` and the GA4
+cookies. Global Privacy Control is treated as a refusal for all analytics services.
+
+Superseded keys `root-conversion-experiments-v1` and `root-v4-experiments-v1` belonged to the removed legacy
+experiment code and are no longer written. Session replay masks inputs (`maskAllInputs`, `.ph-no-capture` /
+`data-ph-mask` on forms).

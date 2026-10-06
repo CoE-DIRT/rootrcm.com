@@ -409,17 +409,29 @@ describe('tracker', () => {
     window.history.pushState({}, '', '/');
   });
 
-  it('de-duplicates by key within a page load, and across loads when persisted', async () => {
+  it('de-duplicates within a page load by default, within a session or for the whole visitor when asked', async () => {
     const fetchMock = await setup();
-    track('page_view', {}, { dedupeKey: 'page_view:/' });
-    track('page_view', {}, { dedupeKey: 'page_view:/' });
-    track('purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8' }, { dedupeKey: 'purchase:cs_test_a1B2c3D4e5F6g7H8', persistDedupe: true });
-    resetTrackerForTests(); // simulates a reload: in-memory state is gone, storage remains
-    track('purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8' }, { dedupeKey: 'purchase:cs_test_a1B2c3D4e5F6g7H8', persistDedupe: true });
+    const purchase = () => track('purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8' }, { dedupeKey: 'purchase:cs_test_a1B2c3D4e5F6g7H8', dedupeScope: 'visitor' });
+    const exposure = () => track('experiment_exposure', { experiment_id: 'exp-header-cta-v1', variant: 'explore' }, { dedupeKey: 'exposure:exp-header-cta-v1', dedupeScope: 'session' });
+    const pageView = () => track('page_view', {}, { dedupeKey: 'page_view:/' });
+
+    pageView();
+    pageView();
+    purchase();
+    exposure();
+    resetTrackerForTests(); // a reload: in-memory state is gone, browser storage remains
+    pageView(); // load scope: counted again on the next load
+    purchase(); // visitor scope: still remembered
+    exposure(); // session scope: still remembered
+    window.sessionStorage.clear(); // a new browser session
+    resetTrackerForTests();
+    exposure(); // counted again in the new session
+    purchase(); // never counted twice for the visitor
     await vi.advanceTimersByTimeAsync(2_100);
     const names = bodies(fetchMock).map((event) => event.event_name);
-    expect(names.filter((name) => name === 'page_view')).toHaveLength(1);
+    expect(names.filter((name) => name === 'page_view')).toHaveLength(2);
     expect(names.filter((name) => name === 'purchase')).toHaveLength(1);
+    expect(names.filter((name) => name === 'experiment_exposure')).toHaveLength(2);
   });
 
   it('forgets identifiers and stops sending when consent is withdrawn', async () => {

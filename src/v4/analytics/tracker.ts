@@ -13,11 +13,16 @@ import { getProduct } from '../growth/catalog';
  * property sanitisation once, then fans out to GA4 (when configured) and the first-party Function (when configured).
  * It never throws and never blocks the page.
  */
+export type DedupeScope = 'load' | 'session' | 'visitor';
+
 export interface TrackOptions {
-  /** Skip duplicates within this key's scope. */
+  /** Skip duplicates of this key. */
   dedupeKey?: string;
-  /** Remember the key across page loads (e.g. a purchase must never be counted twice). */
-  persistDedupe?: boolean;
+  /**
+   * How long the key is remembered: this page load (default), this browser session (sessionStorage), or this
+   * visitor (localStorage, e.g. a purchase must never be counted twice). Cleared when analytics consent is withdrawn.
+   */
+  dedupeScope?: DedupeScope;
   /** Flush to the network now (events issued right before navigation). */
   immediate?: boolean;
 }
@@ -26,14 +31,16 @@ const SEEN_KEY = 'root-analytics-seen';
 const seenThisLoad = new Set<string>();
 let consentWired = false;
 
-function alreadySeen(key: string, persist: boolean): boolean {
+function alreadySeen(key: string, scope: DedupeScope): boolean {
   if (seenThisLoad.has(key)) return true;
   seenThisLoad.add(key);
-  if (!persist) return false;
+  if (scope === 'load') return false;
   try {
-    const stored = JSON.parse(window.localStorage.getItem(SEEN_KEY) || '[]') as string[];
+    const storage = scope === 'session' ? window.sessionStorage : window.localStorage;
+    const parsed: unknown = JSON.parse(storage.getItem(SEEN_KEY) || '[]');
+    const stored = Array.isArray(parsed) ? (parsed as string[]) : [];
     if (stored.includes(key)) return true;
-    window.localStorage.setItem(SEEN_KEY, JSON.stringify([...stored, key].slice(-50)));
+    storage.setItem(SEEN_KEY, JSON.stringify([...stored, key].slice(-50)));
   } catch {
     /* storage unavailable: in-memory dedupe still applies */
   }
@@ -106,7 +113,7 @@ export function track(name: AnalyticsEventName, rawProperties?: Record<string, u
     if (!isAnalyticsEventName(name) || typeof window === 'undefined') return;
     wireConsent();
     if (!analyticsAllowed()) return;
-    if (options.dedupeKey && alreadySeen(options.dedupeKey, Boolean(options.persistDedupe))) return;
+    if (options.dedupeKey && alreadySeen(options.dedupeKey, options.dedupeScope ?? 'load')) return;
 
     const consent = getAnalyticsConsent();
     const properties = sanitizeProperties(rawProperties);

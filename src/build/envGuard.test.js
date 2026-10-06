@@ -12,6 +12,9 @@ describe('public build configuration guard', () => {
         VITE_STRIPE_PUBLISHABLE_KEY: 'pk_test_exampleexample',
         VITE_TRACKING_ENDPOINT: 'https://track.example.test/',
         VITE_SITE_ENV: 'preview',
+        VITE_EXPERIMENTS_ENABLED: 'true',
+        VITE_BOOKING_URL: 'https://booking.example.test/root',
+        VITE_GSC_VERIFICATION: 'abcdefghijklmnopqrstuvwxyz0123456789_-AB',
       }),
     ).not.toThrow();
     expect(() => assertSafePublicEnv({})).not.toThrow();
@@ -40,6 +43,9 @@ describe('public build configuration guard', () => {
     expect(() => assertSafePublicEnv({ VITE_SITE_ENV: 'staging' })).toThrow(/VITE_SITE_ENV/);
     expect(() => assertSafePublicEnv({ VITE_TRACKING_ENDPOINT: 'http://insecure.example.test' })).toThrow(/https/);
     expect(() => assertSafePublicEnv({ VITE_CHECKOUT_ENDPOINT: 'ftp://x' })).toThrow(/https/);
+    expect(() => assertSafePublicEnv({ VITE_BOOKING_URL: 'http://booking.example.test' })).toThrow(/VITE_BOOKING_URL/);
+    expect(() => assertSafePublicEnv({ VITE_EXPERIMENTS_ENABLED: 'yes' })).toThrow(/VITE_EXPERIMENTS_ENABLED/);
+    expect(() => assertSafePublicEnv({ VITE_GSC_VERIFICATION: '<meta name="google-site-verification" content="x">' })).toThrow(/VITE_GSC_VERIFICATION/);
   });
 
   it('reports every problem at once', () => {

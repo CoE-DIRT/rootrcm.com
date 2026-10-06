@@ -4,6 +4,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { ArrowRight, MessageCircle, Share2, X } from 'lucide-react';
 import { outreachChannels } from '../siteData.js';
 import { SocialLinks } from '../v4/components/SocialLinks.tsx';
+import { useExperiment } from '../v4/experiments/useExperiment.ts';
 
 export function Breadcrumbs({ items }) {
   return (
@@ -128,6 +129,10 @@ export function FloatingSiteControls() {
   const [openPanel, setOpenPanel] = useState(null);
   const offset = useViewportDockOffset();
   const liveChannels = outreachChannels.filter((channel) => channel.href);
+  // A/B test exp-talk-to-us-placement-v1: the "footer-only" variant drops the floating Talk to us control
+  // (the header button and the footer Talk to us band remain).
+  const placement = useExperiment('talkToUsPlacement');
+  const showFloatingContact = placement.variant !== 'footer-only';
 
   useEffect(() => {
     function closePanels() {
@@ -192,65 +197,68 @@ export function FloatingSiteControls() {
         </div>
       </Popover.Root>
 
-      <Popover.Root open={openPanel === 'contact'} onOpenChange={(open) => setOpenPanel(open ? 'contact' : null)}>
-        <div className="floatingContact">
-          <Popover.Trigger asChild>
-            <button type="button" aria-controls="assistant-panel" aria-label="Talk to us">
-              <MessageCircle size={20} aria-hidden="true" /> Talk to us
-            </button>
-          </Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Content
-              id="assistant-panel"
-              className="assistantPanel"
-              side="top"
-              align="end"
-              sideOffset={12}
-              collisionPadding={12}
-              avoidCollisions
-              sticky="always"
-              aria-labelledby="assistant-panel-title"
-              aria-describedby="assistant-panel-description"
-              onOpenAutoFocus={(event) => {
-                const first = event.currentTarget.querySelector('a');
-                if (first instanceof HTMLElement) {
-                  event.preventDefault();
-                  first.focus();
-                }
-              }}
-            >
-              <div className="floatingPanelHeader">
-                <strong id="assistant-panel-title">Talk to ROOT</strong>
-                <Popover.Close asChild>
-                  <button type="button" className="floatingPanelClose" aria-label="Close Talk to us">
-                    <X size={18} aria-hidden="true" />
-                  </button>
-                </Popover.Close>
-              </div>
-              <p id="assistant-panel-description">Discuss your practice&apos;s operations. Do not include PHI.</p>
-              <div className="assistantChannelList">
-                <a href="/contact/" data-cta="talk-to-root" data-location="floating-contact" data-destination="/contact/" data-engagement-type="consultation">
-                  Contact ROOT <ArrowRight size={14} />
-                </a>
-                {liveChannels.map((channel) => (
-                  <a
-                    key={channel.label}
-                    href={channel.href}
-                    data-cta={channel.cta}
-                    data-location="floating-contact"
-                    data-destination={channel.href}
-                    data-engagement-type={channel.engagementType}
-                    target={channel.href.startsWith('http') ? '_blank' : undefined}
-                    rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  >
-                    {channel.label} <ArrowRight size={14} />
+      {showFloatingContact ? (
+        <Popover.Root open={openPanel === 'contact'} onOpenChange={(open) => setOpenPanel(open ? 'contact' : null)}>
+          <div className="floatingContact">
+            <Popover.Trigger asChild>
+              <button type="button" aria-controls="assistant-panel" aria-label="Talk to us">
+                <MessageCircle size={20} aria-hidden="true" /> Talk to us
+              </button>
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content
+                id="assistant-panel"
+                className="assistantPanel"
+                side="top"
+                align="end"
+                sideOffset={12}
+                collisionPadding={12}
+                avoidCollisions
+                sticky="always"
+                aria-labelledby="assistant-panel-title"
+                aria-describedby="assistant-panel-description"
+                {...placement.attrs}
+                onOpenAutoFocus={(event) => {
+                  const first = event.currentTarget.querySelector('a');
+                  if (first instanceof HTMLElement) {
+                    event.preventDefault();
+                    first.focus();
+                  }
+                }}
+              >
+                <div className="floatingPanelHeader">
+                  <strong id="assistant-panel-title">Talk to ROOT</strong>
+                  <Popover.Close asChild>
+                    <button type="button" className="floatingPanelClose" aria-label="Close Talk to us">
+                      <X size={18} aria-hidden="true" />
+                    </button>
+                  </Popover.Close>
+                </div>
+                <p id="assistant-panel-description">Discuss your practice&apos;s operations. Do not include PHI.</p>
+                <div className="assistantChannelList">
+                  <a href="/contact/" data-cta="talk-to-root" data-location="floating-contact" data-destination="/contact/" data-engagement-type="consultation">
+                    Contact ROOT <ArrowRight size={14} />
                   </a>
-                ))}
-              </div>
-            </Popover.Content>
-          </Popover.Portal>
-        </div>
-      </Popover.Root>
+                  {liveChannels.map((channel) => (
+                    <a
+                      key={channel.label}
+                      href={channel.href}
+                      data-cta={channel.cta}
+                      data-location="floating-contact"
+                      data-destination={channel.href}
+                      data-engagement-type={channel.engagementType}
+                      target={channel.href.startsWith('http') ? '_blank' : undefined}
+                      rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    >
+                      {channel.label} <ArrowRight size={14} />
+                    </a>
+                  ))}
+                </div>
+              </Popover.Content>
+            </Popover.Portal>
+          </div>
+        </Popover.Root>
+      ) : null}
     </div>
   );
 

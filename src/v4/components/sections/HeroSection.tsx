@@ -5,6 +5,7 @@ import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { NoPhiBanner } from '@/components/ui/NoPhiBanner';
+import { useExperiment } from '@/experiments/useExperiment';
 
 export interface HeroSectionProps {
   eyebrow: string;
@@ -15,10 +16,9 @@ export interface HeroSectionProps {
 }
 
 export function HeroSection({ eyebrow, title, description, supportLine, mockup }: HeroSectionProps) {
+  const heroCta = useExperiment('heroCta');
   return (
-    // "homeHero" + "heroCopy"/"lede" hooks are read directly by src/experiments.js
-    // (applyPageExperiment) for the live home-hero A/B test — keep them even though
-    // this component now owns the DIRT-led markup/visual system.
+    // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative" data-reveal>
       <div
         aria-hidden="true"
@@ -42,8 +42,9 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               data-location="home-hero"
               data-destination="/diagnostic/"
               data-engagement-type="diagnostic"
+              {...heroCta.attrs}
             >
-              Discover Your Revenue Exposure <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              {heroCta.label ?? 'Discover Your Revenue Exposure'} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </LinkButton>
             <LinkButton href="/contact/" variant="outline" size="lg" data-cta="talk-to-root" data-location="home-hero">
               Talk to ROOT

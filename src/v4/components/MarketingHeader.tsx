@@ -12,6 +12,7 @@ import {
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/Sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/cn';
+import { useExperiment } from '@/experiments/useExperiment';
 import { primaryCta, primaryNav, productLinks, servicePages, solutionPages } from '../../siteData.js';
 import { normalizePath, resolveCanonicalPath } from '../../seo/routeRegistry.js';
 
@@ -63,6 +64,29 @@ const linkClass =
   'data-[current=page]:text-text data-[current=page]:after:absolute data-[current=page]:after:inset-x-3 ' +
   'data-[current=page]:after:-bottom-0.5 data-[current=page]:after:h-0.5 data-[current=page]:after:rounded-full data-[current=page]:after:bg-accent ' +
   'data-[current=section]:text-text';
+
+/**
+ * The header's primary button. Its own component so the header A/B test (label only) is resolved, and its
+ * exposure recorded, only where the button is actually rendered.
+ */
+function PrimaryCtaLink({ location, size, className }: { location: string; size: 'sm' | 'md'; className?: string }) {
+  const experiment = useExperiment('headerCta');
+  return (
+    <LinkButton
+      href={primaryCta.href}
+      variant="primary"
+      size={size}
+      className={className}
+      data-cta={primaryCta.cta}
+      data-location={location}
+      data-destination={primaryCta.href}
+      data-engagement-type={primaryCta.engagementType}
+      {...experiment.attrs}
+    >
+      {experiment.label ?? primaryCta.label}
+    </LinkButton>
+  );
+}
 
 export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -174,18 +198,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
 
             <div className="flex items-center gap-2 sm:gap-3">
               <ThemeToggle />
-              <LinkButton
-                href={primaryCta.href}
-                variant="primary"
-                size="sm"
-                className="hidden whitespace-nowrap sm:inline-flex"
-                data-cta={primaryCta.cta}
-                data-location="header"
-                data-destination={primaryCta.href}
-                data-engagement-type={primaryCta.engagementType}
-              >
-                {primaryCta.label}
-              </LinkButton>
+              <PrimaryCtaLink location="header" size="sm" className="hidden whitespace-nowrap sm:inline-flex" />
 
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                 <SheetTrigger asChild>
@@ -225,18 +238,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                       </a>
                     ))}
                     <div className="mt-5 border-t border-border pt-5">
-                      <LinkButton
-                        href={primaryCta.href}
-                        variant="primary"
-                        size="md"
-                        className="w-full"
-                        data-cta={primaryCta.cta}
-                        data-location="mobile-nav"
-                        data-destination={primaryCta.href}
-                        data-engagement-type={primaryCta.engagementType}
-                      >
-                        {primaryCta.label}
-                      </LinkButton>
+                      <PrimaryCtaLink location="mobile-nav" size="md" className="w-full" />
                     </div>
                   </nav>
                 </SheetContent>
