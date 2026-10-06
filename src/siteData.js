@@ -1,3 +1,5 @@
+import { internalRoutesEnabled } from './build/buildMode.js';
+
 export const brandAssets = {
   mark: '/brand/logos/root/root-mark-76.webp',
   markSource: '/brand/logos/root/root-mark.png',
@@ -647,7 +649,9 @@ export const routeMeta = {
   },
 };
 
-if (import.meta.env?.DEV === true) {
+// Evaluated by the Node-side build too, where `import.meta.env` does not exist: nothing is added there, and src/seo/head.js forces
+// noindex on an internal page if one is ever built.
+if (internalRoutesEnabled({ dev: import.meta.env?.DEV, mode: import.meta.env?.MODE })) {
   routeMeta['/case-studies/dirt-poc-01'] = {
     title: 'DIRT Revenue Intelligence | Proof of Capability | ROOT',
     description: 'Anonymized proof of concept showing how DIRT turns revenue-cycle signals into prioritized management action. Publication review required.',

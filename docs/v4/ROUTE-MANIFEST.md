@@ -37,5 +37,6 @@ Every page is a V4 page (`src/v4/routes/*`). The old split between "legacy" and 
 
 **Counts.** 50 public HTML entries are built for every deployable build (a production build or any other non-`development` Vite
 mode such as `preview`): 43 are indexable and listed in `sitemap.xml`; the rest are `noindex` system pages (thank-you, the two
-checkout pages, the 404 fallback) and the three legacy aliases. `/__v4-lab/` and `/case-studies/dirt-poc-01/` exist only on the dev server:
-they are left out of every deployable build and, if one were ever built, its head is forced to `noindex`.
+checkout pages, the 404 fallback) and the three legacy aliases. `/__v4-lab/` and `/case-studies/dirt-poc-01/` exist only on the dev server, in the test runner and in an explicit
+`--mode development` build (`internalRoutesEnabled` in `src/build/buildMode.js` decides this for the route table, the route metadata, the
+case-study data and the Vite inputs alike): they are left out of every deployable build and, if one were ever built, its head is forced to `noindex`.

@@ -3,6 +3,7 @@ import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
 import { getSiteEnv } from './v4/analytics/config.ts';
+import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
 import { V4LabPage } from './v4/routes/V4LabPage.tsx';
 import { HomePage } from './v4/routes/HomePage.tsx';
@@ -23,17 +24,20 @@ import {
 import { PrivacyPage, TermsPage, RefundPolicyPage, ThankYouPage, NotFoundPage } from './v4/routes/LegalPages.tsx';
 import { CheckoutSuccessPage, CheckoutCancelPage } from './v4/routes/CheckoutPages.tsx';
 
+// The same rule the build uses to decide whether to emit these pages (src/build/buildMode.js).
+const showInternalRoutes = internalRoutesEnabled({ dev: import.meta.env.DEV, mode: import.meta.env.MODE });
+
 const routes = {
   '/': HomePage,
   '/legal/cookies': CookiesLegalPage,
-  ...(!import.meta.env.PROD ? { '/__v4-lab': V4LabPage } : {}),
+  ...(showInternalRoutes ? { '/__v4-lab': V4LabPage } : {}),
   '/platform': PlatformPage,
   '/solutions': SolutionsHubPage,
   '/services': ServicesHubPage,
   '/technology': TechnologyHubPage,
   '/technology/dirt': DirtPage,
   '/case-studies': CaseStudiesHubPage,
-  ...(!import.meta.env.PROD ? { '/case-studies/dirt-poc-01': () => <CaseStudyDetailPage slug="dirt-poc-01" /> } : {}),
+  ...(showInternalRoutes ? { '/case-studies/dirt-poc-01': () => <CaseStudyDetailPage slug="dirt-poc-01" /> } : {}),
   '/pricing': PricingPage,
   '/resources': ResourcesHubPage,
   '/diagnostic': DiagnosticPage,
