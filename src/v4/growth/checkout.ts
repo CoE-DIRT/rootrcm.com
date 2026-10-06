@@ -80,14 +80,25 @@ export async function startDiagnosticCheckout(context: CheckoutContext = {}, nav
 
 export type CheckoutVerification = { state: 'paid' } | { state: 'unpaid' } | { state: 'unavailable' };
 
-/** Ask the Function whether Stripe reports this session as paid. `paid` is the only state that may lead to a purchase event. */
-export async function verifyCheckoutSession(sessionId: string): Promise<CheckoutVerification> {
-  if (!isCheckoutSessionId(sessionId)) return { state: 'unpaid' };
+const verifying = new Map<string, Promise<CheckoutVerification>>();
+
+async function verify(sessionId: string): Promise<CheckoutVerification> {
   const data = await callCheckout({ action: 'verify', session_id: sessionId });
   if (!data || data.ok !== true) return { state: 'unavailable' };
   const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
   const paid = data.paid === true && product !== undefined && data.product_id === product.id && data.amount === product.amountUsd && data.currency === product.currency;
   return { state: paid ? 'paid' : 'unpaid' };
+}
+
+/**
+ * Ask the Function whether Stripe reports this session as paid. `paid` is the only state that may lead to a purchase event.
+ * Concurrent calls for one session share a single request (React StrictMode runs effects twice in development).
+ */
+export function verifyCheckoutSession(sessionId: string): Promise<CheckoutVerification> {
+  if (!isCheckoutSessionId(sessionId)) return Promise.resolve({ state: 'unpaid' });
+  const pending = verifying.get(sessionId) ?? verify(sessionId).finally(() => verifying.delete(sessionId));
+  verifying.set(sessionId, pending);
+  return pending;
 }
 
 /** Record the purchase for a session the server has verified as paid. At most once per visitor, and only with consent. */

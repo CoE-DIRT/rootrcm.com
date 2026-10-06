@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
+import { getSiteEnv } from './v4/analytics/config.ts';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
 import { V4LabPage } from './v4/routes/V4LabPage.tsx';
 import { HomePage } from './v4/routes/HomePage.tsx';
@@ -104,8 +105,9 @@ function syncDocumentMeta(path) {
   upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: meta.title });
   upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: meta.description });
   upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: meta.image });
-  // Unknown URLs and system pages (thank-you) must not be indexed; everything else follows the build output.
-  if (!known || findRoute(canonicalPath)?.noindex) upsertRobots(true);
+  // Unknown URLs and system pages (thank-you, checkout) must not be indexed; everything else follows the build output.
+  // A build served from any host other than the production hostnames (a preview deployment, GitHub Pages) is never indexed either.
+  if (!known || findRoute(canonicalPath)?.noindex || getSiteEnv() === 'preview') upsertRobots(true);
 
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {

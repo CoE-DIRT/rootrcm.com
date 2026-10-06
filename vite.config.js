@@ -117,6 +117,11 @@ export default defineConfig(({ mode }) => {
       },
     },
   },
-  test: { environment: 'jsdom', exclude: ['node_modules/**', 'dist-staging/**', 'tests/playwright/**'] },
+  test: {
+    environment: 'jsdom',
+    exclude: ['node_modules/**', 'dist-staging/**', 'tests/playwright/**'],
+    // Klaro keeps its consent managers in module state. Inlining it lets tests that call vi.resetModules() get a fresh one.
+    server: { deps: { inline: ['klaro'] } },
+  },
   };
 });

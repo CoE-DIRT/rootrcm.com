@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 import { faqItems } from './faqData.js';
 import { companyInfo, legalLinks, socialProfiles } from './siteData.js';
@@ -11,6 +11,7 @@ function renderRoute(path = '/') {
 
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
   document.head.querySelectorAll('meta[name="robots"], link[rel="canonical"]').forEach((node) => node.remove());
   window.history.pushState({}, '', '/');
   localStorage.clear();
@@ -85,6 +86,36 @@ describe('legacy URLs and canonical metadata', () => {
     cleanup();
     document.head.querySelector('meta[name="robots"]')?.remove();
     renderRoute('/does-not-exist/');
+    expect(robotsContent()).toBe('noindex, nofollow');
+  });
+});
+
+describe('indexing by host', () => {
+  const renderOnHost = (hostname, path) => {
+    window.history.pushState({}, '', path);
+    vi.stubGlobal('location', { ...window.location, hostname });
+    return render(<App />);
+  };
+
+  it('never lets a preview or unknown host be indexed, even for pages that are indexable in production', () => {
+    for (const hostname of ['preview-123.appwrite.network', 'coe-dirt.github.io', 'staging.example.test']) {
+      renderOnHost(hostname, '/contact/');
+      expect(robotsContent(), hostname).toBe('noindex, nofollow');
+      cleanup();
+      document.head.querySelector('meta[name="robots"]')?.remove();
+    }
+  });
+
+  it('leaves indexable pages indexable on the production hostnames', () => {
+    for (const hostname of ['rootrcm.com', 'www.rootrcm.com']) {
+      renderOnHost(hostname, '/contact/');
+      expect(robotsContent(), hostname).toBeUndefined();
+      cleanup();
+    }
+  });
+
+  it('still marks system pages noindex on the production hostnames', () => {
+    renderOnHost('rootrcm.com', '/checkout/success/');
     expect(robotsContent()).toBe('noindex, nofollow');
   });
 });

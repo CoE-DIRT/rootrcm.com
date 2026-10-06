@@ -44,17 +44,26 @@ export function subscribeAnalyticsConsent(listener: (consent: AnalyticsConsent) 
   return () => listeners.delete(listener);
 }
 
-/** Synchronous read of a previously saved choice (Klaro's cookie) so returning visitors need no flicker. */
-export function readStoredConsent(): AnalyticsConsent {
-  if (typeof document === 'undefined') return NONE;
+/**
+ * The visitor's saved per-service choices, read synchronously from Klaro's cookie. Klaro writes the cookie before it
+ * notifies anyone, so this is the single source of truth for both returning visitors (no flicker) and a choice made
+ * just now. It never depends on a Klaro global: the bundled Klaro does not expose one.
+ */
+export function readStoredServices(): Record<string, unknown> {
+  if (typeof document === 'undefined') return {};
   try {
     const entry = document.cookie.split('; ').find((part) => part.startsWith(`${CONSENT_COOKIE}=`));
-    if (!entry) return NONE;
-    const parsed = JSON.parse(decodeURIComponent(entry.slice(CONSENT_COOKIE.length + 1))) as Record<string, unknown>;
-    return { firstParty: parsed[SERVICE_FIRST_PARTY] === true, ga4: parsed[SERVICE_GA4] === true };
+    if (!entry) return {};
+    const parsed: unknown = JSON.parse(decodeURIComponent(entry.slice(CONSENT_COOKIE.length + 1)));
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : {};
   } catch {
-    return NONE;
+    return {};
   }
+}
+
+export function readStoredConsent(): AnalyticsConsent {
+  const stored = readStoredServices();
+  return { firstParty: stored[SERVICE_FIRST_PARTY] === true, ga4: stored[SERVICE_GA4] === true };
 }
 
 /** Test helper: reset module state. */

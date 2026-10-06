@@ -22,7 +22,6 @@ function wipe() {
     if (name) document.cookie = `${name}=; Max-Age=0; path=/`;
   });
   document.body.innerHTML = '';
-  delete window.klaro;
   delete window.dataLayer;
   delete window.gtag;
 }
@@ -189,30 +188,44 @@ describe('AnalyticsBoot (no consent)', () => {
     expect(window.localStorage.getItem('root-aid')).toBeNull();
   });
 
-  it('starts when the visitor grants consent in the Klaro dialog and stops when it is withdrawn', async () => {
-    let granted = false;
-    const watchers: Array<(event: { event?: string }) => void> = [];
-    window.klaro = {
-      getManager: () => ({
-        getConsent: (name: string) => granted && name === 'root-first-party-analytics',
-        watch: (callback) => watchers.push(callback),
-      }),
-    };
+  // Klaro saves the visitor's choice to the root_consent cookie and then notifies watchers; CookieConsent turns that
+  // notification into the root:consent-change event. (consent-integration.test.tsx drives the real Klaro.)
+  const announce = () => act(() => void window.dispatchEvent(new CustomEvent('root:consent-change')));
+
+  it('starts when a saved choice is announced and stops when it is withdrawn', async () => {
     render(<AnalyticsBoot />);
     await flush();
     expect(fetchMock).not.toHaveBeenCalled();
 
-    granted = true;
-    act(() => watchers.forEach((watcher) => watcher({ event: 'saveConsents' })));
+    setConsentCookie({ 'root-first-party-analytics': true });
+    announce();
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
 
-    granted = false;
+    setConsentCookie({ 'root-first-party-analytics': false });
     fetchMock.mockClear();
-    act(() => watchers.forEach((watcher) => watcher({ event: 'saveConsents' })));
+    announce();
     dispatchCta({ cta: 'book-diagnostic', location: 'home-hero' });
     await flush();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(window.localStorage.getItem('root-aid')).toBeNull();
+  });
+
+  it('ignores a cookie that is malformed or not an object', async () => {
+    for (const raw of ['not json', '[]', 'null', '"x"']) {
+      document.cookie = `root_consent=${encodeURIComponent(raw)}; path=/`;
+      render(<AnalyticsBoot />);
+      announce();
+      await flush();
+      cleanup();
+    }
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('does not treat the withdrawal of an unrelated service as a withdrawal of analytics', async () => {
+    setConsentCookie({ 'root-first-party-analytics': true, 'root-analytics': false });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
   });
 });

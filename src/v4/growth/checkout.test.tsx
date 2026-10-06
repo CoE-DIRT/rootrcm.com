@@ -186,6 +186,15 @@ describe('verifying a returned session', () => {
     expect(await verifyCheckoutSession(SESSION)).toEqual({ state: 'unavailable' });
   });
 
+  it('shares one request between concurrent verifications of the same session (StrictMode runs effects twice)', async () => {
+    const [first, second] = await Promise.all([verifyCheckoutSession(SESSION), verifyCheckoutSession(SESSION)]);
+    expect(first).toEqual({ state: 'paid' });
+    expect(second).toEqual({ state: 'paid' });
+    expect(functionBodies()).toHaveLength(1);
+    await verifyCheckoutSession(SESSION); // a later, separate verification is a new request
+    expect(functionBodies()).toHaveLength(2);
+  });
+
   it('never asks the Function about something that is not a test-mode session id', async () => {
     for (const id of ['cs_live_a1B2c3D4e5F6g7H8i9J0', 'garbage', '../x']) expect(await verifyCheckoutSession(id)).toEqual({ state: 'unpaid' });
     expect(callsTo(CHECKOUT)).toHaveLength(0);

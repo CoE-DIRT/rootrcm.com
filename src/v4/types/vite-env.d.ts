@@ -16,7 +16,7 @@ declare module 'klaro' {
   const Klaro: {
     setup: (config: unknown) => void;
     show: (config: unknown, modal?: boolean) => void;
-    getManager: (config: unknown) => { watch: (watcher: unknown) => void };
+    getManager: (config: unknown) => { watch: (watcher: unknown) => void; unwatch: (watcher: unknown) => void };
   };
   export default Klaro;
 }
