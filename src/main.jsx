@@ -7,6 +7,13 @@ import'./stabilization.css';
 import'./revenue-hotfix.css';
 import'./visual-recovery.css';
 import'./v4/styles/tailwind.css';
+import'./v4/styles/chrome.css';
+import'./theme/theme.css';
+import{applyAnalyticsConsent}from'./v4/analytics/consent.ts';
+import{readConfirmedConsent}from'./v4/consent/confirmedConsent.ts';
+
+// Returning visitors: restore their saved analytics choice before the first render so A/B surfaces do not flicker.
+applyAnalyticsConsent(readConfirmedConsent());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
-import { getExperimentAssignment, resetExperimentAssignments } from './experiments.js';
+import { resetAnalyticsConsent } from './v4/analytics/consent.ts';
+import { resetExperimentsForTests } from './v4/experiments/engine.ts';
 import { buildDeliveryPayload, getInquiryEndpoint, ROOT_FORM_RELAY } from './modules/glass-core/formDelivery.js';
 import { buildInquiryMailto, buildInquirySummary } from './modules/glass-core/inquiryTemplate.js';
 import { validateContentSchemas, buildSocialPack } from './v4/content/engine.ts';
@@ -18,7 +19,8 @@ afterEach(() => {
   window.history.pushState({}, '', '/');
   sessionStorage.clear();
   localStorage.clear();
-  resetExperimentAssignments();
+  resetAnalyticsConsent();
+  resetExperimentsForTests();
   vi.restoreAllMocks();
 });
 
@@ -52,12 +54,13 @@ describe('ROOT commercial site', () => {
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
-    expect(screen.getByRole('navigation', { name: /primary navigation/i })).toBeTruthy();
-    expect(screen.getAllByText(/^Platform$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Solutions$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Services$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Pricing$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Resources$/i).length).toBeGreaterThan(0);
+    const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
+    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact.
+    const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
+    expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
+    expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
     expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
     expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
@@ -152,9 +155,10 @@ describe('ROOT commercial site', () => {
       location: 'home-hero',
       destination: '/diagnostic/',
       page: '/',
-      experiment: 'home-hero-revenue-intelligence-v2',
-      experiment_variant: 'a',
     });
+    // Visitors who have not consented are never put in a test, so no experiment context is attached.
+    expect(ctaEvents[0].experiment).toBeUndefined();
+    expect(ctaEvents[0].experiment_variant).toBeUndefined();
     expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
   });
 
@@ -211,7 +215,7 @@ describe('ROOT commercial site', () => {
     fireEvent.click(followButton);
     expect(screen.queryByRole('dialog', { name: /Talk to ROOT/i })).toBeNull();
     expect(screen.getByRole('dialog', { name: /Follow ROOT/i })).toBeTruthy();
-    expect(screen.getAllByRole('link', { name: /ROOT on LinkedIn/i })[0].getAttribute('href')).toBe('https://www.linkedin.com/company/rootrcm/posts/?viewAsMember=true');
+    expect(screen.getAllByRole('link', { name: /ROOT on LinkedIn/i })[0].getAttribute('href')).toBe('https://www.linkedin.com/company/rootrcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Facebook/i })[0].getAttribute('href')).toBe('https://www.facebook.com/root.rcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Instagram/i })[0].getAttribute('href')).toBe('https://www.instagram.com/root.rcm/');
     expect(screen.getAllByRole('link', { name: /ROOT on Pinterest/i })[0].getAttribute('href')).toBe('https://pinterest.com/root.rcm/');
@@ -263,29 +267,32 @@ describe('ROOT commercial site', () => {
       organization: 'Northstar Clinic',
       inquiryType: 'diagnostic',
       noPhi: true,
-      experiment: 'diagnostic-hero-value-framing-v1',
-      experiment_variant: 'a',
+      experiment: 'exp-hero-cta-v1',
+      experiment_variant: 'control',
     }, 'https://rootrcm.com/diagnostic/');
 
     expect(delivery._subject).toContain('Revenue Optimization Diagnostic');
     expect(delivery._replyto).toBe('alex@northstar.example');
     expect(delivery._url).toBe('https://rootrcm.com/diagnostic/');
-    expect(delivery.experiment_variant).toBe('a');
+    expect(delivery.experiment_variant).toBe('control');
   });
 
-  it('supports deterministic experiment overrides for QA', () => {
-    window.history.pushState({}, '', '/?exp_homeHero=b');
-    expect(getExperimentAssignment('homeHero')).toBe('b');
-    render(<App />);
-    expect(screen.getByRole('heading', { name: /your data already contains the signals. ROOT connects them/i })).toBeTruthy();
-    expect(document.querySelector('.homeHero')?.dataset.variant).toBe('b');
+  it('supports deterministic A/B overrides for QA that carry no experiment attribution', () => {
+    renderRoute('/?exp_heroCta=fixed-fee');
+    const hero = screen.getAllByRole('link', { name: /^Book the \$2,500 Diagnostic/i }).find((link) => link.dataset.location === 'home-hero');
+    expect(hero).toBeTruthy();
+    expect(hero.getAttribute('href')).toBe('/diagnostic/');
+    expect(hero.hasAttribute('data-experiment')).toBe(false);
+    // The headline is never part of a test: the hero narrative is unchanged.
+    expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
   });
 
   it('renders the 404 fallback route', () => {
     renderRoute('/does-not-exist/');
 
     expect(screen.getByText('404')).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Revenue Diagnostic/i }).getAttribute('data-cta')).toBe('book-diagnostic');
+    const recovery = screen.getAllByRole('link', { name: /Revenue Diagnostic/i }).find((link) => link.dataset.location === '404');
+    expect(recovery.getAttribute('data-cta')).toBe('book-diagnostic');
   });
 
   it('keeps content schema and six approved social profiles', () => {

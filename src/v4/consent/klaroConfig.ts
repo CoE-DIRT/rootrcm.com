@@ -1,13 +1,91 @@
+import { getGaMeasurementId, getTrackingEndpoint } from '../analytics/config';
+import { SERVICE_FIRST_PARTY, SERVICE_GA4, SERVICE_POSTHOG } from '../analytics/consent';
+import { getPostHogKey } from '../analytics/adapter';
+
 /**
  * Klaro consent configuration for ROOT V4.
- * No analytics/marketing vendor IDs are registered — none are verified as live in this
- * codebase. Categories exist so consent state is ready the moment a real vendor ships;
- * do not add a service here without a verified, non-fabricated vendor identifier.
+ * A consent service is registered ONLY when its vendor/endpoint is actually configured for this build
+ * (verified Measurement ID, tracking endpoint, project key). Nothing is listed that cannot run, and
+ * nothing non-essential runs before the visitor opts in.
+ *
+ * `version: 2` is Klaro's configuration SCHEMA marker (it skips the legacy `apps` migration); it is not a content version.
+ * Klaro asks again when a visitor's saved choice no longer covers every configured service, so adding or renaming a
+ * service re-prompts. Analytics applies the same rule (`confirmedConsent.ts`). To force a new prompt after a material
+ * change to what a service does, give that service a new `name`.
  */
-export const KLARO_CONFIG_VERSION = 1;
+export const KLARO_CONFIG_SCHEMA_VERSION = 2;
+
+interface KlaroService {
+  name: string;
+  title: string;
+  purposes: string[];
+  required: boolean;
+  default?: boolean;
+  cookies: (RegExp | [RegExp, string, string])[];
+  description?: string;
+  onlyOnce?: boolean;
+}
+
+export function buildKlaroServices(): KlaroService[] {
+  const services: KlaroService[] = [
+    {
+      name: 'root-session',
+      title: 'ROOT session state',
+      purposes: ['necessary'],
+      required: true,
+      cookies: [/^root_consent$/],
+    },
+  ];
+
+  if (getTrackingEndpoint()) {
+    services.push({
+      name: SERVICE_FIRST_PARTY,
+      title: 'ROOT first-party analytics',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [],
+      description:
+        'Counts page views, scrolling, button clicks and form results on ROOT\'s own systems using random anonymous identifiers. Never includes names, emails, phone numbers, form messages or PHI.',
+    });
+  }
+
+  if (getGaMeasurementId()) {
+    services.push({
+      name: SERVICE_GA4,
+      title: 'Google Analytics 4',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [
+        [/^_ga/, '/', '.rootrcm.com'],
+        [/^_ga/, '/', 'rootrcm.com'],
+        [/^_ga/, '/', 'www.rootrcm.com'],
+        /^_ga/,
+      ],
+      description: 'Aggregate website measurement by Google. Advertising features are off. No names, emails, phone numbers, form messages or PHI are sent.',
+    });
+  }
+
+  if (getPostHogKey()) {
+    services.push({
+      name: SERVICE_POSTHOG,
+      title: 'PostHog',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [/^ph_/],
+      onlyOnce: true,
+      description:
+        'Product analytics, click and scroll heatmaps and session replay by PostHog. Page addresses are reduced to the page name, text you type is masked, and no names, emails, phone numbers, form messages or PHI are recorded.',
+    });
+  }
+
+  return services;
+}
 
 export const klaroConfig = {
-  version: KLARO_CONFIG_VERSION,
+  version: KLARO_CONFIG_SCHEMA_VERSION,
   elementID: 'klaro',
   storageMethod: 'cookie' as const,
   cookieName: 'root_consent',
@@ -24,7 +102,7 @@ export const klaroConfig = {
       consentModal: {
         title: 'Cookie preferences',
         description:
-          'ROOT uses necessary cookies to run this site. Analytics and marketing cookies are off until you allow them.',
+          'ROOT uses necessary cookies to run this site. Analytics and marketing are off until you allow them. We also honor the Global Privacy Control signal.',
       },
       consentNotice: {
         description:
@@ -39,11 +117,12 @@ export const klaroConfig = {
       },
       necessary: {
         title: 'Necessary',
-        description: 'Required for core site functionality (navigation, security, form submission state).',
+        description: 'Required for core site functionality (navigation, security, your theme and consent choices, form submission state).',
       },
       analytics: {
         title: 'Analytics',
-        description: 'Would help ROOT understand aggregate site usage. No analytics vendor is active yet.',
+        description:
+          'Aggregate measurement of how the website is used (page views, scrolling, clicks). Never includes names, emails, phone numbers, form messages or PHI.',
       },
       marketing: {
         title: 'Marketing',
@@ -61,34 +140,7 @@ export const klaroConfig = {
     },
   },
   purposes: ['necessary', 'analytics', 'marketing', 'externalMedia'],
-  services: [
-    {
-      name: 'root-session',
-      title: 'ROOT session state',
-      purposes: ['necessary'],
-      required: true,
-      cookies: [/^root_consent$/],
-    },
-    {
-      name: 'root-analytics',
-      title: 'ROOT analytics adapter',
-      purposes: ['analytics'],
-      required: false,
-      default: false,
-      cookies: [/^ph_/, /^root-v4-experiments/],
-      description: 'Consent gate for analytics, heatmaps, and session replay. Inactive until a project key is configured.',
-    },
-    {
-      name: 'posthog',
-      title: 'PostHog (optional)',
-      purposes: ['analytics'],
-      required: false,
-      default: false,
-      cookies: [/^ph_/],
-      onlyOnce: true,
-      description: 'Product analytics / session replay when VITE_PUBLIC_POSTHOG_KEY is set. Inputs masked; no PHI.',
-    },
-  ],
+  services: buildKlaroServices(),
 };
 
 export type KlaroConfig = typeof klaroConfig;

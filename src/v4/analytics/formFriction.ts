@@ -1,4 +1,5 @@
 import { trackAnalytics } from './adapter';
+import { sanitizePath } from './sanitize';
 
 export type FormFrictionEvent =
   | 'form_view'
@@ -34,7 +35,8 @@ export function trackFormFriction(name: FormFrictionEvent, payload: FormFriction
       step: payload.step,
       elapsed_ms: payload.elapsedMs,
       device_class: payload.deviceClass ?? inferDeviceClass(),
-      route: payload.route ?? (typeof window !== 'undefined' ? window.location.pathname : undefined),
+      // A registered page path only: a visitor-typed address must not reach PostHog through this property either.
+      route: sanitizePath(payload.route ?? (typeof window !== 'undefined' ? window.location.pathname : '/')),
       experiment_variant: payload.experimentVariant,
     },
   });

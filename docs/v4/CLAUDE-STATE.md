@@ -1,5 +1,9 @@
 # ROOT V4 — Execution Ledger
 
+> **Historical record.** Written during the earlier V4 rebuild; it describes the repository as it was then. Routes, sitemap and robots
+> are now defined by `src/seo/routeRegistry.js` and generated at build time (`docs/seo/technical-seo.md`, `docs/v4/ROUTE-MANIFEST.md`);
+> `vite.config.js` no longer has `routeInputs`, and there are no static `public/sitemap.xml` or `public/robots.txt` files.
+
 Spec: `ROOT-V4-01-CLAUDE-COMPONENT-FACTORY.md` (user-supplied, not in repo).
 Baseline: `97dba87`. Branch: `feat/frontend-v4-clean-rebuild`.
 

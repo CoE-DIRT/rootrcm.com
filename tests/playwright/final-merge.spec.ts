@@ -17,9 +17,9 @@ test.describe('DIRT-led merge — final QA', () => {
   });
 
   const routes = [
-    '/', '/platform/', '/services/', '/services/rcm/', '/technology/', '/technology/dirt/',
-    '/pricing/', '/diagnostic/', '/solutions/', '/case-studies/', '/resources/',
-    '/company/about/', '/contact/', '/legal/cookies/',
+    '/', '/about/', '/services/', '/services/rcm/', '/solutions/', '/solutions/revenue-leakage/', '/case-studies/', '/pricing/',
+    '/resources/', '/contact/', '/book/', '/faq/', '/privacy-policy/', '/terms/', '/refund-policy/', '/thank-you/',
+    '/checkout/success/', '/checkout/cancel/', '/platform/', '/technology/', '/technology/dirt/', '/diagnostic/', '/legal/cookies/',
   ];
 
   test('no horizontal overflow at 390px / 430px on core routes', async ({ page, isMobile }) => {

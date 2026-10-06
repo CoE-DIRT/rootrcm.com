@@ -1,6 +1,8 @@
 // Proof of Capability registry.
 // POC 01 remains PUBLICATION REVIEW REQUIRED — do not treat as a client success story.
-const isDevelopment = import.meta.env?.DEV === true;
+import { internalRoutesEnabled } from '../build/buildMode.js';
+
+const isDevelopment = internalRoutesEnabled({ dev: import.meta.env?.DEV, mode: import.meta.env?.MODE });
 const stagingCaseStudies = isDevelopment ? [
   {
     slug: 'dirt-poc-01',

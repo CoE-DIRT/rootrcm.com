@@ -5,6 +5,7 @@ import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { NoPhiBanner } from '@/components/ui/NoPhiBanner';
+import { useExperiment } from '@/experiments/useExperiment';
 
 export interface HeroSectionProps {
   eyebrow: string;
@@ -15,14 +16,13 @@ export interface HeroSectionProps {
 }
 
 export function HeroSection({ eyebrow, title, description, supportLine, mockup }: HeroSectionProps) {
+  const heroCta = useExperiment('heroCta');
   return (
-    // "homeHero" + "heroCopy"/"lede" hooks are read directly by src/experiments.js
-    // (applyPageExperiment) for the live home-hero A/B test — keep them even though
-    // this component now owns the DIRT-led markup/visual system.
+    // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative" data-reveal>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-8 h-64 bg-[radial-gradient(circle_at_18%_10%,rgba(99,102,241,0.12),transparent_45%)]"
+        className="pointer-events-none absolute inset-x-0 -top-8 h-72 bg-[radial-gradient(circle_at_18%_10%,rgba(99,102,241,0.12),transparent_45%)] [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
       />
       <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
         <div className="heroCopy flex flex-col gap-5">
@@ -42,8 +42,9 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               data-location="home-hero"
               data-destination="/diagnostic/"
               data-engagement-type="diagnostic"
+              {...heroCta.attrs}
             >
-              Discover Your Revenue Exposure <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              {heroCta.label ?? 'Discover Your Revenue Exposure'} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </LinkButton>
             <LinkButton href="/contact/" variant="outline" size="lg" data-cta="talk-to-root" data-location="home-hero">
               Talk to ROOT

@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
-import { applyOperationalCopy, applyPageExperiment, getExperimentContext } from './experiments.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
+import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
+import { getSiteEnv } from './v4/analytics/config.ts';
+import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
 import { V4LabPage } from './v4/routes/V4LabPage.tsx';
 import { HomePage } from './v4/routes/HomePage.tsx';
@@ -10,7 +12,7 @@ import { ServicesHubPage, ServicePage } from './v4/routes/ServicesPages.tsx';
 import { TechnologyHubPage, DirtPage } from './v4/routes/TechnologyPages.tsx';
 import { PricingPage } from './v4/routes/PricingPage.tsx';
 import { DiagnosticPage } from './v4/routes/DiagnosticPage.tsx';
-import { ContactPage, AboutPage } from './v4/routes/CompanyPages.tsx';
+import { ContactPage, AboutPage, FaqPage, BookPage } from './v4/routes/CompanyPages.tsx';
 import {
   SolutionsHubPage,
   SolutionPage,
@@ -19,27 +21,40 @@ import {
   CaseStudiesHubPage,
   CaseStudyDetailPage,
 } from './v4/routes/ContentPages.tsx';
-import { PrivacyPage, TermsPage, ThankYouPage, NotFoundPage } from './v4/routes/LegalPages.tsx';
+import { PrivacyPage, TermsPage, RefundPolicyPage, ThankYouPage, NotFoundPage } from './v4/routes/LegalPages.tsx';
+import { CheckoutSuccessPage, CheckoutCancelPage } from './v4/routes/CheckoutPages.tsx';
+
+// The same rule the build uses to decide whether to emit these pages (src/build/buildMode.js).
+const showInternalRoutes = internalRoutesEnabled({ dev: import.meta.env.DEV, mode: import.meta.env.MODE });
 
 const routes = {
   '/': HomePage,
   '/legal/cookies': CookiesLegalPage,
-  ...(!import.meta.env.PROD ? { '/__v4-lab': V4LabPage } : {}),
+  ...(showInternalRoutes ? { '/__v4-lab': V4LabPage } : {}),
   '/platform': PlatformPage,
   '/solutions': SolutionsHubPage,
   '/services': ServicesHubPage,
   '/technology': TechnologyHubPage,
   '/technology/dirt': DirtPage,
   '/case-studies': CaseStudiesHubPage,
-  ...(!import.meta.env.PROD ? { '/case-studies/dirt-poc-01': () => <CaseStudyDetailPage slug="dirt-poc-01" /> } : {}),
+  ...(showInternalRoutes ? { '/case-studies/dirt-poc-01': () => <CaseStudyDetailPage slug="dirt-poc-01" /> } : {}),
   '/pricing': PricingPage,
   '/resources': ResourcesHubPage,
   '/diagnostic': DiagnosticPage,
-  '/company/about': AboutPage,
+  '/about': AboutPage,
+  '/faq': FaqPage,
+  '/book': BookPage,
   '/contact': ContactPage,
+  '/privacy-policy': PrivacyPage,
+  '/terms': TermsPage,
+  '/refund-policy': RefundPolicyPage,
+  // Legacy URLs keep working; their canonical link points at the clean URLs above.
+  '/company/about': AboutPage,
   '/legal/privacy': PrivacyPage,
   '/legal/terms': TermsPage,
   '/thank-you': ThankYouPage,
+  '/checkout/success': CheckoutSuccessPage,
+  '/checkout/cancel': CheckoutCancelPage,
 };
 
 solutionPages.forEach((page) => {
@@ -54,11 +69,6 @@ resourceArticles.forEach((article) => {
   routes[`/resources/${article.slug}`] = () => <ResourceArticlePage article={article} />;
 });
 
-function normalizePath(pathname) {
-  if (!pathname || pathname === '/') return '/';
-  return pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
-}
-
 function upsertMeta(selector, attrs) {
   let element = document.head.querySelector(selector);
   if (!element) {
@@ -68,15 +78,26 @@ function upsertMeta(selector, attrs) {
   Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
 }
 
+function upsertRobots(noindex) {
+  const existing = document.head.querySelector('meta[name="robots"]');
+  if (!noindex) {
+    existing?.remove();
+    return;
+  }
+  upsertMeta('meta[name="robots"]', { name: 'robots', content: 'noindex, nofollow' });
+}
+
 function syncDocumentMeta(path) {
+  const canonicalPath = resolveCanonicalPath(path);
+  const metaKey = normalizePath(canonicalPath);
   const isUnavailableCaseStudy = path === '/case-studies/dirt-poc-01' && !getCaseStudyBySlug('dirt-poc-01');
-  const meta = (!isUnavailableCaseStudy && routeMeta[path]) || {
+  const known = !isUnavailableCaseStudy && routeMeta[metaKey];
+  const meta = known || {
     title: 'Page Not Found | ROOT',
     description: 'The requested ROOT public website page could not be found.',
     image: brandAssets.og,
   };
-  const canonicalPath = path === '/' ? '/' : `${path}/`;
-  const canonicalUrl = `https://rootrcm.com${canonicalPath}`;
+  const canonicalUrl = `${SITE_ORIGIN}${canonicalPath}`;
 
   document.title = meta.title;
   upsertMeta('meta[name="description"]', { name: 'description', content: meta.description });
@@ -88,6 +109,9 @@ function syncDocumentMeta(path) {
   upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: meta.title });
   upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: meta.description });
   upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: meta.image });
+  // Unknown URLs and system pages (thank-you, checkout) must not be indexed; everything else follows the build output.
+  // A build served from any host other than the production hostnames (a preview deployment, GitHub Pages) is never indexed either.
+  if (!known || findRoute(canonicalPath)?.noindex || getSiteEnv() === 'preview') upsertRobots(true);
 
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
@@ -104,8 +128,6 @@ export default function App() {
 
   useEffect(() => {
     syncDocumentMeta(path);
-    applyPageExperiment(path);
-    applyOperationalCopy(path);
   }, [path]);
 
   useEffect(() => {
@@ -132,6 +154,8 @@ export default function App() {
     function handleCtaClick(event) {
       const target = event.target.closest('[data-cta]');
       if (!target) return;
+      // An element rendered by an A/B test carries its own context (data-experiment / data-variant, see useExperiment).
+      const experimentEl = target.closest('[data-experiment]');
       window.dispatchEvent(new CustomEvent('root:cta', {
         detail: {
           cta: target.dataset.cta,
@@ -139,7 +163,7 @@ export default function App() {
           destination: target.dataset.destination,
           engagementType: target.dataset.engagementType,
           page: path,
-          ...getExperimentContext(path),
+          ...(experimentEl ? { experiment: experimentEl.dataset.experiment, experiment_variant: experimentEl.dataset.variant } : {}),
         },
       }));
     }

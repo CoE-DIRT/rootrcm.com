@@ -8,7 +8,7 @@ const liveSources = [
   'src/v4/routes/TechnologyPages.tsx',
   'src/v4/routes/CompanyPages.tsx',
   'src/v4/components/sections/HeroSection.tsx',
-  'src/experiments.js',
+  'src/v4/experiments/registry.ts',
   'src/pages.jsx',
 ];
 

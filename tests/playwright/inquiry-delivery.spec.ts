@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+// The site scrolls smoothly and keeps a fixed header and cookie notice on screen. On a loaded CI runner Playwright's
+// scroll-into-view can chase a moving target and time out ("element is not stable"), which failed one mobile run of this
+// spec on a commit that passed in its sibling run. Reduced motion makes scrolling instant and leaves what is verified here
+// (delivery, failure handling, preserved input) unchanged.
+test.use({ reducedMotion: 'reduce' });
+
 async function completeInquiry(page) {
   await page.goto('/contact/');
   await page.getByLabel('Name', { exact: true }).fill('Synthetic Website QA');

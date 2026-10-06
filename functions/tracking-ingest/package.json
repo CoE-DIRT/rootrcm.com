@@ -1,0 +1,10 @@
+{
+  "name": "root-tracking-ingest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Appwrite Function: deidentified website analytics ingestion (ADR-009)",
+  "dependencies": {
+    "node-appwrite": "29.0.0"
+  }
+}

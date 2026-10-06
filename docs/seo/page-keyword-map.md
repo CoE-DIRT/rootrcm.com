@@ -49,3 +49,8 @@ Each page has one primary intent; support with natural examples and internal lin
 - Avoid keyword stuffing.
 - Keep ROOT as the master brand and DIRT as the intelligence layer.
 - Avoid unsupported statistics, guarantees, or compliance claims.
+
+## Research evidence
+
+See [keyword-evidence.md](keyword-evidence.md) for the qualitative, limited public-evidence reading behind these targets (no volumes, no rankings), including which
+phrases need an owner decision before any page or copy exists.

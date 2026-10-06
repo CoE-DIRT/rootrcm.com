@@ -11,7 +11,7 @@ export function CookieSettings({ children = 'Cookie Settings', className }: { ch
       type="button"
       onClick={openCookieSettings}
       className={cn(
-        'rounded text-sm text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+        'cursor-pointer rounded border-0 bg-transparent p-0 text-sm text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue',
         className,
       )}
     >
