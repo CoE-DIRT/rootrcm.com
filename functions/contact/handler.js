@@ -2,6 +2,8 @@
 const SITEVERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 const ALLOWED_ORIGINS = new Set(['https://rootrcm.com', 'https://www.rootrcm.com']);
 const ALLOWED_HOSTNAMES = new Set([...ALLOWED_ORIGINS].map(origin => new URL(origin).hostname));
+const TURNSTILE_TIMEOUT_MS = 8000;
+const RELAY_TIMEOUT_MS = 15000;
 
 const jsonResponse = (body, status, origin) => {
   const headers = new Headers({
@@ -25,6 +27,7 @@ const isValidEmail = (value) =>
   typeof value === 'string' && value.length <= 254 && /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(value);
 
 const failureMessage = "We couldn't send your inquiry just yet. Your information is still here — please try again.";
+const metadataValue = (value) => typeof value === 'string' ? value.trim().slice(0, 200) : '';
 
 async function sendInquiry(payload, env, url) {
   // Sites has no raw TCP sockets. Only this authenticated HTTPS relay uses SMTP.
@@ -36,7 +39,20 @@ async function sendInquiry(payload, env, url) {
     name: payload.name.trim(), email: payload.email.trim(), organization: payload.organization.trim(),
     need: payload.need.trim(), message: payload.message.trim(),
     submittedAt: new Date().toISOString(), sourcePage: url.origin + '/', hostname: url.hostname,
-    requestId: crypto.randomUUID()
+    requestId: crypto.randomUUID(),
+    metadata: {
+      inquiryType: payload.inquiryType === 'diagnostic' ? 'diagnostic' : 'contact',
+      attribution: {
+        utm_source: metadataValue(payload.utm_source),
+        utm_medium: metadataValue(payload.utm_medium),
+        utm_campaign: metadataValue(payload.utm_campaign),
+        utm_content: metadataValue(payload.utm_content),
+      },
+      experiment: {
+        id: metadataValue(payload.experiment),
+        variant: metadataValue(payload.experiment_variant),
+      },
+    }
   });
   const timestamp = String(Math.floor(Date.now() / 1000));
   const encoder = new TextEncoder();
@@ -45,7 +61,7 @@ async function sendInquiry(payload, env, url) {
   const signature = Array.from(new Uint8Array(await crypto.subtle.sign('HMAC', key,
     encoder.encode(timestamp + '.' + body))), byte => byte.toString(16).padStart(2, '0')).join('');
   const response = await fetch(relay.href, {
-    method: 'POST', redirect: 'error', signal: AbortSignal.timeout(60000),
+    method: 'POST', redirect: 'error', signal: AbortSignal.timeout(RELAY_TIMEOUT_MS),
     headers: { 'content-type': 'application/json', 'x-root-timestamp': timestamp, 'x-root-signature': signature },
     body
   });
@@ -125,7 +141,7 @@ export async function handleContact(request, env) {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: verifyBody,
-      signal: AbortSignal.timeout(10000)
+      signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS)
     });
     if (!verifyResponse.ok) {
       return jsonResponse({ ok: false, message: 'Verification could not be completed.' }, 502, origin);

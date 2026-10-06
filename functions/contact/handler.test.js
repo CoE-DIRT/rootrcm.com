@@ -4,7 +4,7 @@ import { createHmac } from 'node:crypto';
 import { handleContact } from './handler.js';
 
 const env = { TURNSTILE_SECRET_KEY: 'synthetic-test-secret', CONTACT_RELAY_URL: 'https://relay.example.test/contact', CONTACT_RELAY_SECRET: 'synthetic-secret-only-for-tests-32-characters' };
-const payload = { name: 'Synthetic QA', email: 'qa@example.test', organization: 'Synthetic Organization', need: 'Commercial inquiry', message: 'Synthetic test, no patient data.', no_phi_acknowledgement: true, 'cf-turnstile-response': 'synthetic-token' };
+const payload = { name: 'Synthetic QA', email: 'qa@example.test', organization: 'Synthetic Organization', need: 'Commercial inquiry', message: 'Synthetic test, no patient data.', no_phi_acknowledgement: true, 'cf-turnstile-response': 'synthetic-token', inquiryType: 'contact', utm_source: 'linkedin', utm_medium: 'social', utm_campaign: 'launch', utm_content: 'hero', experiment: 'home-hero-revenue-intelligence-v2', experiment_variant: 'b' };
 function request(data = payload, origin = 'https://rootrcm.com') {
   return new Request('https://rootrcm.com/api/contact', { method: 'POST', headers: { origin, 'content-type': 'application/json' }, body: JSON.stringify(data) });
 }
@@ -36,6 +36,11 @@ describe('owned contact delivery boundary', () => {
       if (url.includes('siteverify')) return Response.json({ success: true, hostname: 'rootrcm.com', action: 'contact' });
       const signature = createHmac('sha256', env.CONTACT_RELAY_SECRET).update(options.headers['x-root-timestamp'] + '.' + options.body).digest('hex');
       expect(options.headers['x-root-signature']).toBe(signature);
+      expect(JSON.parse(options.body).metadata).toEqual({
+        inquiryType: 'contact',
+        attribution: { utm_source: 'linkedin', utm_medium: 'social', utm_campaign: 'launch', utm_content: 'hero' },
+        experiment: { id: 'home-hero-revenue-intelligence-v2', variant: 'b' },
+      });
       return Response.json({ ok: true, smtpAccepted: true, requestId: JSON.parse(options.body).requestId });
     });
     vi.stubGlobal('fetch', fetch);

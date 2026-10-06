@@ -30,6 +30,8 @@ Domain guidance: https://appwrite.io/docs/products/sites/domains
 
 ## Owned contact settings prepared in this branch
 - Function source: `functions/contact`, entrypoint `main.js`, Node 22, no dependencies.
+- Function execute access: `Any` (public anonymous execution). Configure and verify this
+  before wiring the frontend; Appwrite does not grant execute permission by default.
 - Site build variables: `VITE_CONTACT_MODE=owned`, `VITE_FORM_ENDPOINT` = verified public Function URL,
   `VITE_TURNSTILE_SITE_KEY` = public widget key.
 - Server-only Function variables: `TURNSTILE_SECRET_KEY`, `CONTACT_RELAY_URL`, `CONTACT_RELAY_SECRET`.
@@ -45,7 +47,8 @@ Domain guidance: https://appwrite.io/docs/products/sites/domains
 3. Production output excludes __v4-lab and unpublished case-study material.
 4. Initial HTML metadata agrees with src/siteData.js, without requiring JavaScript.
 5. Configure and verify owned contact delivery, including Turnstile server verification,
-   no-PHI acknowledgement, allowed origins, payload limits and SMTP acceptance.
+   no-PHI acknowledgement, allowed origins, payload limits, public Function execute access
+   (`Any`), timeout budgets and SMTP acceptance.
 6. Test both inquiry variants using synthetic content with explicit authorization to send;
    confirm mailbox receipt. Browser-mocked tests do not establish real email delivery.
 7. Verify Appwrite generated URL, assets, deep links, error page and TLS before DNS writes.

@@ -77,6 +77,13 @@ export default function InquiryForm({ variant = 'contact' }) {
         message: variant === 'diagnostic' ? `Providers: ${form.providers}\nSystem: ${form.system}\nChallenge: ${form.challenge}` : form.focus,
         no_phi_acknowledgement: form.noPhi,
         'cf-turnstile-response': verificationToken,
+        inquiryType: variant,
+        utm_source: attribution.utm_source,
+        utm_medium: attribution.utm_medium,
+        utm_campaign: attribution.utm_campaign,
+        utm_content: attribution.utm_content,
+        experiment: experiment.experiment,
+        experiment_variant: experiment.experiment_variant,
       } : buildDeliveryPayload(
         payload,
         typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.origin + window.location.pathname,
@@ -88,7 +95,7 @@ export default function InquiryForm({ variant = 'contact' }) {
           Accept: 'application/json',
         },
         body: JSON.stringify(deliveryPayload),
-        signal: AbortSignal.timeout(70000),
+        signal: AbortSignal.timeout(25000),
       });
       if (!response.ok) throw new Error('Submission failed');
       const result = await response.json();

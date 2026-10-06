@@ -1,9 +1,15 @@
 # ROOT owned commercial contact function
 
 Prepared for Appwrite; not yet deployed. Node 22, root `functions/contact`, entrypoint
-`main.js`, no dependencies, no Appwrite API scopes. Set execution timeout above 70 seconds.
+`main.js`, no dependencies, no Appwrite API scopes. Configure the Function with a
+30-second-or-greater runtime timeout; the synchronous HTTP path remains below 30 seconds.
 The public Function URL is `VITE_FORM_ENDPOINT`; set `VITE_CONTACT_MODE=owned` and
 `VITE_TURNSTILE_SITE_KEY` on the Appwrite Site before its production build.
+
+The synchronous request path is intentionally bounded below Appwrite's 30-second HTTP
+budget: Turnstile verification is limited to 8 seconds, relay delivery to 15 seconds,
+and the browser request to 25 seconds. The relay body contains only the validated
+inquiry fields plus bounded campaign and experiment metadata.
 
 Server-only Function variables: `TURNSTILE_SECRET_KEY`, `CONTACT_RELAY_URL`,
 `CONTACT_RELAY_SECRET`. Reuse the existing approved HTTPS-to-SMTP relay configuration

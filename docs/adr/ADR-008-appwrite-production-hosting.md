@@ -23,6 +23,11 @@ authenticated HTTPS-to-SMTP relay. These are not equivalent implementations. Mig
 must preserve the owned anti-bot and confirmed-email-delivery path before domain cutover.
 Never copy server-only Turnstile/SMTP/relay secrets into VITE_* or committed files.
 
+The Appwrite Function is an approved narrow exception to the static-site boundary solely
+to relay deidentified commercial inquiries to the existing authenticated HTTPS-to-SMTP
+service. It must not become a general application backend, database, authentication,
+upload, or PHI intake path.
+
 Existing Pages hosting is a legacy rollback exception during migration. Do not remove
 its CNAME or change existing deployments until the destination is verified. After cutover,
 Pages is documentation/project hosting only under the v3 standard.

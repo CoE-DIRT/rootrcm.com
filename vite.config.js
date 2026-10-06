@@ -61,7 +61,10 @@ function canonicalRouteMetadata() {
     name: 'root-canonical-route-metadata',
     transformIndexHtml(html, context) {
       const path = context.path.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
-      const meta = routeMeta[path];
+      const meta = routeMeta[path] || (path === '/404.html' ? {
+        title: 'Page Not Found | ROOT',
+        description: 'The requested ROOT page was not found. Return to the ROOT healthcare revenue intelligence homepage.',
+      } : null);
       if (!meta) return html;
       // Bots and social crawlers must receive the same copy as the hydrated app.
       let output = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escape(meta.title)}</title>`);
