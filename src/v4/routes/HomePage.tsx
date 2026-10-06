@@ -22,6 +22,7 @@ import { syntheticPractice } from '../../proofData.js';
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
 const healthcareSegments = [
+  { name: 'Behavioral Health Groups', signal: 'Documentation-driven denials, payer enrollment timelines, and revenue visibility across group practices.', href: '/solutions/denials/' },
   { name: 'Ambulatory Surgery Centers', signal: 'Case reimbursement, authorization exposure, payer performance, and facility A/R.', href: '/solutions/revenue-leakage/' },
   { name: 'Office-Based Surgery & Labs', signal: 'Procedure economics, site-of-service workflows, participation, and reimbursement variance.', href: '/solutions/reporting-visibility/' },
   { name: 'Anesthesia Groups', signal: 'Provider enrollment, professional claims, payer follow-up, and aging A/R.', href: '/solutions/credentialing-bottlenecks/' },
