@@ -1,12 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import process from 'node:process';
 import { describe, expect, it } from 'vitest';
-import { experimentList } from './registry';
+import { experimentList } from './registry.ts';
 
 const doc = readFileSync(resolve(process.cwd(), 'docs/analytics/experiments.md'), 'utf8');
 
 describe('experiments documentation', () => {
-  it.each(experimentList.map((definition) => [definition.id, definition] as const))('documents %s, its variants and their copy', (_id, definition) => {
+  it.each(experimentList.map((definition) => [definition.id, definition]))('documents %s, its variants and their copy', (_id, definition) => {
     expect(doc).toContain(`\`${definition.id}\``);
     for (const variant of definition.variants) {
       expect(doc, variant.id).toContain(`\`${variant.id}\``);

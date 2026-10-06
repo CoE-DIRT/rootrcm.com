@@ -5,6 +5,9 @@
  */
 export const SCHEMA_VERSION = 1;
 
+/** Longest page path or internal destination that is stored (index-safe in the TablesDB table; see functions/tracking-ingest/contract.js). */
+export const MAX_PATH_LENGTH = 190;
+
 export const EVENT_NAMES = [
   'page_view',
   'scroll',

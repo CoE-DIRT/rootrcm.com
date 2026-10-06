@@ -1,4 +1,4 @@
-import { ALLOWED_PROPERTY_KEYS, type AllowedPropertyKey, type EventProperties } from './taxonomy';
+import { ALLOWED_PROPERTY_KEYS, MAX_PATH_LENGTH, type AllowedPropertyKey, type EventProperties } from './taxonomy';
 
 /**
  * The privacy boundary for everything that leaves the browser. Nothing is sent unless it passes these
@@ -39,7 +39,7 @@ export function sanitizePath(input: unknown): string {
     return safe ? segment : ':id';
   });
   if (segments[segments.length - 1] === 'index.html') segments[segments.length - 1] = '';
-  return (segments.join('/') || '/').slice(0, 200);
+  return (segments.join('/') || '/').slice(0, MAX_PATH_LENGTH);
 }
 
 function finiteNumber(value: unknown, min: number, max: number, decimals = 0): number | null {

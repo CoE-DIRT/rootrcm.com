@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { referrerHost, sanitizeCampaign, sanitizePath, sanitizeProperties, sanitizeText } from './sanitize';
-import { ALLOWED_PROPERTY_KEYS } from './taxonomy';
+import { ALLOWED_PROPERTY_KEYS, MAX_PATH_LENGTH } from './taxonomy';
 
 describe('sanitizeText', () => {
   it.each([
@@ -45,7 +45,7 @@ describe('sanitizePath', () => {
   });
 
   it('bounds the length', () => {
-    expect(sanitizePath(`/${'a'.repeat(500)}`).length).toBeLessThanOrEqual(200);
+    expect(sanitizePath(`/${'a'.repeat(500)}`).length).toBe(MAX_PATH_LENGTH);
   });
 });
 
