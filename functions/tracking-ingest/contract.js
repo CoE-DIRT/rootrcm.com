@@ -3,9 +3,27 @@
 // event that fails any rule is dropped, never "cleaned up" into something that might still be personal.
 //
 // Keep EVENT_NAMES, PROPERTY_KEYS and SCHEMA_VERSION identical to src/v4/analytics/taxonomy.ts.
-// src/v4/analytics/contract-parity.test.js fails if they drift. allowlists.js (page paths and UTM labels) is generated
-// from the site's route registry and campaign registry; allowlists.test.js fails when it is stale.
-import { KNOWN_PATHS, NOT_FOUND_PATH, UTM_CAMPAIGNS, UTM_MEDIUMS, UTM_SOURCES } from './allowlists.js';
+// src/v4/analytics/contract-parity.test.js fails if they drift. allowlists.js (page paths, UTM labels and the descriptive
+// vocabularies: call to action, location, engagement, form, status, product, destination, experiment) is generated from the
+// site's registries; allowlists.test.js fails when it is stale.
+//
+// Format rules alone cannot keep a name out of the table (an HTTP client can send any Origin header, and "jane-smith" looks like
+// "home-hero"), so every descriptive value is also checked against its registry and stored only when it is listed.
+import {
+  CTA_IDS,
+  CTA_LOCATIONS,
+  DESTINATION_LABELS,
+  ENGAGEMENT_TYPES,
+  EXPERIMENT_VARIANTS,
+  FORM_IDS,
+  KNOWN_PATHS,
+  NOT_FOUND_PATH,
+  PRODUCT_IDS,
+  STATUSES,
+  UTM_CAMPAIGNS,
+  UTM_MEDIUMS,
+  UTM_SOURCES,
+} from './allowlists.js';
 
 export const SCHEMA_VERSION = 1;
 
@@ -119,6 +137,21 @@ const HOSTNAME = /^[a-z0-9.-]+$/;
 const KNOWN_PATH_SET = new Set(KNOWN_PATHS);
 const CAMPAIGN_LABELS = { utm_source: new Set(UTM_SOURCES), utm_medium: new Set(UTM_MEDIUMS), utm_campaign: new Set(UTM_CAMPAIGNS) };
 
+/**
+ * The registered values of each descriptive property. A destination is one of the site's pages or the label of a channel. A
+ * variant is not listed here because it only means something together with its experiment (see validateEvent).
+ */
+const REGISTRIES = {
+  cta_id: new Set(CTA_IDS),
+  cta_location: new Set(CTA_LOCATIONS),
+  destination: new Set([...KNOWN_PATHS, ...DESTINATION_LABELS]),
+  engagement_type: new Set(ENGAGEMENT_TYPES),
+  form_id: new Set(FORM_IDS),
+  status: new Set(STATUSES),
+  product_id: new Set(PRODUCT_IDS),
+  experiment_id: new Set(Object.keys(EXPERIMENT_VARIANTS)),
+};
+
 const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
 
 /**
@@ -153,12 +186,11 @@ function number(value, min, max, decimals) {
   return Math.round(value * factor) / factor === value ? value : null;
 }
 
+/** Format of a destination: an internal path or a short label, never a link address. Whether it is registered is decided by REGISTRIES. */
 function destination(value) {
   if (typeof value !== 'string' || !value || value !== value.trim() || SCHEME_PREFIX.test(value) || value.includes('?') || value.includes('@')) return null;
   if (!value.startsWith('/')) return safeText(value, 64);
-  // An internal destination is one of the site's own pages; anything else is not something the browser would send.
-  const path = safePath(value, COLUMN_SIZES.destination);
-  return path !== null && KNOWN_PATH_SET.has(path) ? path : null;
+  return safePath(value, COLUMN_SIZES.destination);
 }
 
 const PROPERTY_VALIDATORS = {
@@ -226,7 +258,11 @@ export function validateEvent(event, { now, retentionDays }) {
     environment: event.environment,
   };
 
-  if (!optionalText(event, 'target_key', (value) => safeText(value, LIMITS.targetKeyLength), row)) return { ok: false, reason: 'target_key' };
+  // The browser also sends a target key (`cta_id.cta_location`) for clicks. It is free text, so it is never stored as sent: its
+  // format is checked and the Function builds the key itself from the registered values it kept (below).
+  if (hasOwn(event, 'target_key') && event.target_key !== undefined && safeText(event.target_key, LIMITS.targetKeyLength) === null) {
+    return { ok: false, reason: 'target_key' };
+  }
   if (!optionalText(event, 'referrer_host', (value) => (typeof value === 'string' && value.length <= LIMITS.referrerHostLength && HOSTNAME.test(value) ? value : null), row)) {
     return { ok: false, reason: 'referrer_host' };
   }
@@ -240,14 +276,36 @@ export function validateEvent(event, { now, retentionDays }) {
 
   const properties = event.properties === undefined ? {} : event.properties;
   if (!isPlainObject(properties)) return { ok: false, reason: 'properties' };
+  const required = new Set(REQUIRED_PROPERTIES[event.event_name]);
+  let variant;
   for (const key of Object.keys(properties)) {
     if (!PROPERTY_KEYS.includes(key)) return { ok: false, reason: 'unknown_property' };
     const clean = PROPERTY_VALIDATORS[key](properties[key]);
     if (clean === null) return { ok: false, reason: `property_${key}` };
+    if (key === 'variant') {
+      variant = clean;
+      continue;
+    }
+    // Well formed but not registered (a name, a typo, a probe): never stored. An event that cannot do without the value is
+    // dropped; for any other property the value is discarded and the event itself still counts, as for an unregistered UTM label.
+    if (hasOwn(REGISTRIES, key) && !REGISTRIES[key].has(clean)) {
+      if (required.has(key)) return { ok: false, reason: `unregistered_${key}` };
+      continue;
+    }
     row[key] = clean;
   }
-  for (const key of REQUIRED_PROPERTIES[event.event_name]) {
+  // A variant is stored only together with a registered experiment that lists it.
+  if (variant !== undefined) {
+    const variants = hasOwn(row, 'experiment_id') ? EXPERIMENT_VARIANTS[row.experiment_id] : undefined;
+    if (variants && variants.includes(variant)) row.variant = variant;
+    else if (required.has('variant')) return { ok: false, reason: 'unregistered_variant' };
+  }
+  for (const key of required) {
     if (!hasOwn(row, key)) return { ok: false, reason: `missing_${key}` };
+  }
+  if (event.event_name === 'cta_click' || event.event_name === 'phone_click') {
+    const key = [row.cta_id, row.cta_location].filter(Boolean).join('.');
+    if (key) row.target_key = key;
   }
   if (event.event_name === 'form_submit' && row.status !== 'success' && row.status !== 'failure') return { ok: false, reason: 'form_status' };
 

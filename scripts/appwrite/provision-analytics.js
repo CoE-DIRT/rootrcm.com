@@ -76,6 +76,24 @@ const isNotFound = (error) => Boolean(error) && (error.code === 404 || /not_foun
 const isConflict = (error) => Boolean(error) && (error.code === 409 || /already_exists/.test(String(error.type || '')));
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/** Appwrite answers a list call with 25 items unless it is asked for more, and this table has more than 25 columns. */
+const LIST_PAGE_SIZE = 100;
+
+/**
+ * Every item of an Appwrite list, read page by page with explicit limit and offset queries. `list(queries)` makes one call and
+ * `collection` names the array in its answer. Items are keyed by `key`. A short page is the last one; a page that adds nothing
+ * new means the server ignored the offset, so reading stops there instead of looping forever.
+ */
+async function listAll(list, collection, Query) {
+  const items = new Map();
+  for (let offset = 0; ; offset += LIST_PAGE_SIZE) {
+    const page = (await list([Query.limit(LIST_PAGE_SIZE), Query.offset(offset)]))?.[collection] ?? [];
+    const before = items.size;
+    for (const item of page) items.set(item.key, item);
+    if (page.length < LIST_PAGE_SIZE || items.size === before) return [...items.values()];
+  }
+}
+
 function columnCall(tables, column) {
   const base = { databaseId: DATABASE_ID, tableId: TABLE_ID, key: column.key, required: column.required };
   switch (column.type) {
@@ -128,8 +146,12 @@ export function describeIndexMismatches(found, index) {
 /**
  * Idempotent provisioning against an injected TablesDB service. Returns a report of what was created, what already
  * existed and any problem. Throws if the table exists but is not private or a column differs from the plan.
+ * `Query` is the SDK's query builder (only `limit` and `offset` are used), injected like the service so tests need no SDK.
  */
-export async function provision({ tables, log = () => {}, pollMs = 1000, pollAttempts = 60 }) {
+export async function provision({ tables, Query, log = () => {}, pollMs = 1000, pollAttempts = 60 }) {
+  if (!Query || typeof Query.limit !== 'function' || typeof Query.offset !== 'function') throw new Error('provision() needs the SDK Query helpers (limit, offset).');
+  const listColumns = async () => listAll((queries) => tables.listColumns({ databaseId: DATABASE_ID, tableId: TABLE_ID, queries }), 'columns', Query);
+  const listIndexes = async () => listAll((queries) => tables.listIndexes({ databaseId: DATABASE_ID, tableId: TABLE_ID, queries }), 'indexes', Query);
   const report = { created: [], existing: [] };
 
   try {
@@ -156,7 +178,7 @@ export async function provision({ tables, log = () => {}, pollMs = 1000, pollAtt
     log(`created private table ${TABLE_ID}`);
   }
 
-  const present = new Map(((await tables.listColumns({ databaseId: DATABASE_ID, tableId: TABLE_ID })).columns ?? []).map((column) => [column.key, column]));
+  const present = new Map((await listColumns()).map((column) => [column.key, column]));
   // Check every existing column before creating any missing one, so a mismatch aborts without partial changes.
   const mismatches = COLUMNS.flatMap((column) => {
     const found = present.get(column.key);
@@ -178,14 +200,13 @@ export async function provision({ tables, log = () => {}, pollMs = 1000, pollAtt
   }
 
   for (let attempt = 0; attempt < pollAttempts; attempt += 1) {
-    const { columns = [] } = await tables.listColumns({ databaseId: DATABASE_ID, tableId: TABLE_ID });
-    const keys = new Set(columns.filter((column) => column.status === 'available').map((column) => column.key));
+    const keys = new Set((await listColumns()).filter((column) => column.status === 'available').map((column) => column.key));
     if (COLUMNS.every((column) => keys.has(column.key))) break;
     if (attempt === pollAttempts - 1) throw new Error('Timed out waiting for columns to become available.');
     await sleep(pollMs);
   }
 
-  const haveIndexes = new Map(((await tables.listIndexes({ databaseId: DATABASE_ID, tableId: TABLE_ID })).indexes ?? []).map((index) => [index.key, index]));
+  const haveIndexes = new Map((await listIndexes()).map((index) => [index.key, index]));
   const indexMismatches = INDEXES.flatMap((index) => {
     const found = haveIndexes.get(index.key);
     return found ? describeIndexMismatches(found, index).map((difference) => `${index.key} ${difference}`) : [];
@@ -262,9 +283,9 @@ async function main(command = 'plan') {
   }
   if (command === 'apply') {
     requireEnv(['APPWRITE_ENDPOINT', 'APPWRITE_PROJECT_ID', 'APPWRITE_SETUP_API_KEY']);
-    const { Client, TablesDB } = createRequire(new URL('../../functions/tracking-ingest/package.json', import.meta.url))('node-appwrite');
+    const { Client, TablesDB, Query } = createRequire(new URL('../../functions/tracking-ingest/package.json', import.meta.url))('node-appwrite');
     const client = new Client().setEndpoint(process.env.APPWRITE_ENDPOINT).setProject(process.env.APPWRITE_PROJECT_ID).setKey(process.env.APPWRITE_SETUP_API_KEY);
-    const report = await provision({ tables: new TablesDB(client), log: (line) => process.stdout.write(`${line}\n`) });
+    const report = await provision({ tables: new TablesDB(client), Query, log: (line) => process.stdout.write(`${line}\n`) });
     process.stdout.write(`created: ${report.created.length}, already present: ${report.existing.length}\n`);
     return;
   }

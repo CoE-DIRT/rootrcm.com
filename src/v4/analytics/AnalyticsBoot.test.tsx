@@ -93,10 +93,10 @@ describe('AnalyticsBoot (visitor has consented to first-party analytics)', () =>
 
   it('carries the experiment context of the clicked element and never a contact value', async () => {
     render(<AnalyticsBoot />);
-    dispatchCta({ cta: 'book-diagnostic', location: 'header', experiment: 'exp-header-cta-v1', experiment_variant: 'b' });
+    dispatchCta({ cta: 'book-diagnostic', location: 'header', experiment: 'exp-header-cta-v1', experiment_variant: 'explore' });
     await flush();
     const [click] = sentEvents().filter((event) => event.event_name === 'cta_click');
-    expect(click.properties).toMatchObject({ experiment_id: 'exp-header-cta-v1', variant: 'b' });
+    expect(click.properties).toMatchObject({ experiment_id: 'exp-header-cta-v1', variant: 'explore' });
   });
 
   it('reports phone clicks without the number — from CTA events and from bare tel: links', async () => {
@@ -226,7 +226,7 @@ describe('AnalyticsBoot (no consent)', () => {
   });
 
   it('does not treat the withdrawal of an unrelated service as a withdrawal of analytics', async () => {
-    setConsentCookie({ 'root-first-party-analytics': true, 'root-analytics': false });
+    setConsentCookie({ 'root-first-party-analytics': true, posthog: false });
     render(<AnalyticsBoot />);
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
@@ -239,16 +239,54 @@ describe('AnalyticsBoot (PostHog consent)', () => {
     Object.defineProperty(navigator, 'globalPrivacyControl', { configurable: true, value: undefined });
   });
 
-  it('grants the PostHog service only for an explicit root-analytics choice', async () => {
-    setConsentCookie({ 'root-analytics': true });
+  it('starts PostHog for the visitor\'s own yes to the PostHog service', async () => {
+    setConsentCookie({ posthog: true });
     render(<AnalyticsBoot />);
     await flush();
     expect(hasAnalyticsConsent()).toBe(true);
+    expect(fetchMock).not.toHaveBeenCalled(); // first-party analytics is a separate choice, and it was not made
+  });
+
+  it('does not start PostHog because ROOT\'s first-party analytics was accepted while the PostHog service was rejected', async () => {
+    setConsentCookie({ 'root-first-party-analytics': true, posthog: false });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
+    expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1); // first-party analytics still runs
+  });
+
+  it('does not start PostHog on a stale choice that never mentions it, nor on the retired adapter service id', async () => {
+    setConsentCookie({ 'root-first-party-analytics': true });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
+    cleanup();
+    setConsentCookie({ 'root-analytics': true });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
+    cleanup();
+    // The case the two-service setup used to get wrong: the adapter service accepted, the vendor service rejected.
+    setConsentCookie({ 'root-analytics': true, posthog: false });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
+  });
+
+  it('stops PostHog when the visitor withdraws the PostHog service', async () => {
+    setConsentCookie({ posthog: true });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(true);
+    setConsentCookie({ posthog: false });
+    act(() => void window.dispatchEvent(new CustomEvent('root:consent-change')));
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
   });
 
   it('refuses the PostHog service under Global Privacy Control even though the visitor ticked it', async () => {
     Object.defineProperty(navigator, 'globalPrivacyControl', { configurable: true, value: true });
-    setConsentCookie({ 'root-analytics': true, 'root-first-party-analytics': true });
+    setConsentCookie({ posthog: true, 'root-first-party-analytics': true });
     render(<AnalyticsBoot />);
     await flush();
     expect(hasAnalyticsConsent()).toBe(false);

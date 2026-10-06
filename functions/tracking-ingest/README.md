@@ -32,6 +32,16 @@ and a test keeps them identical:
   not one of them is stored as `/404/`, and a malformed one (query string, fragment, long digit runs, UUID-like segments) drops the event;
 - `utm_source`, `utm_medium` and `utm_campaign` only when they are registered labels (`allowlists.js`, generated from
   `src/v4/analytics/campaigns.js`); an unregistered label is discarded and the event is still stored. No campaign is registered yet.
+- `cta_id`, `cta_location`, `engagement_type`, `form_id`, `status`, `product_id`, `experiment_id`, `variant` and a `destination` that
+  is not a site page, only when they are registered values (`allowlists.js`, generated from `src/v4/analytics/dimensions.js`). A
+  well-formed value that is not registered (a name, a typo, a probe) is never stored: an event that needs it (`cta_id` for
+  `cta_click`, `form_id` and `status` for `form_submit`, `product_id` for `checkout_start`, `experiment_id` and `variant` for
+  `experiment_exposure`) is dropped, and for any other property the value is discarded and the event is still stored. A `variant` is
+  stored only with a registered experiment that lists it. A new value reaches the table only after it is added to `dimensions.js`,
+  `node scripts/appwrite/sync-analytics-allowlists.js` is run and this Function is redeployed, so deploy the Function before the site
+  that emits the value;
+- `target_key`: the value the browser sends is checked for format and never stored. The Function builds `cta_id.cta_location` itself
+  from the registered values it kept (clicks and phone clicks only).
 
 An event with **any** unknown field, bad value or value that looks personal (an `@`, a phone-like number, a URL scheme, a query
 string, markup, surrounding whitespace, excess length) is **dropped**. It is never trimmed, redacted or stored in part.

@@ -1,7 +1,9 @@
 /**
  * Provider-agnostic analytics adapter. PostHog boots only when a project key exists
- * AND analytics consent is granted. Never capture PHI or raw form values.
+ * AND the visitor has accepted the PostHog service. Never capture PHI or raw form values; what PostHog may collect is bounded by
+ * `posthogPrivacy.ts`.
  */
+import { buildPostHogConfig } from './posthogPrivacy';
 
 export type AnalyticsCapability =
   | 'pageview'
@@ -68,34 +70,20 @@ async function createPostHogAdapter(): Promise<AnalyticsAdapter | null> {
     id: 'posthog',
     capabilities: ['pageview', 'event', 'heatmap', 'clickmap', 'scrollmap', 'session_replay', 'funnel'],
     init() {
-      posthog.init(key, {
-        api_host: getPostHogHost(),
-        capture_pageview: true,
-        capture_pageleave: true,
-        persistence: 'localStorage+cookie',
-        disable_session_recording: false,
-        session_recording: {
-          maskAllInputs: true,
-          maskTextSelector: 'input, textarea, select, [data-ph-mask], .ph-no-capture',
-          blockSelector: '[data-ph-block], .ph-no-capture',
-        },
-        sanitize_properties(properties) {
-          const next = { ...properties };
-          delete next.email;
-          delete next.phone;
-          delete next.name;
-          delete next.$set;
-          delete next.$set_once;
-          return next;
-        },
-      });
+      posthog.init(key, buildPostHogConfig({ host: getPostHogHost(), pageUrl: window.location.href }));
+      // After a withdrawal the shared PostHog instance is still loaded (init() on it is a no-op) and still opted out, and its
+      // opt-out is remembered across page loads. The visitor has accepted the service again, so lift it explicitly. A fresh
+      // visitor has no opt-out and sends no opt-in event of its own.
+      if (posthog.has_opted_out_capturing()) posthog.opt_in_capturing({ captureEventName: false });
     },
     track({ name, properties }) {
       posthog.capture(name, properties);
     },
     shutdown() {
-      posthog.opt_out_capturing();
+      // reset() clears PostHog's stored consent together with the visitor's identity, so it must come first: an opt-out
+      // recorded before it is wiped, and capturing would carry on for the instance that is still running.
       posthog.reset();
+      posthog.opt_out_capturing();
     },
   };
 }

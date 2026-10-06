@@ -65,7 +65,7 @@ describe('browser storage governance', () => {
   const disclosed = (key) => storageInventory.some((row) => row.key.split(/[\s/,]+/).includes(key));
 
   // Klaro service ids look like storage keys but are not stored under that name.
-  const SERVICE_IDS = new Set(['root-session', 'root-analytics', 'root-first-party-analytics']);
+  const SERVICE_IDS = new Set(['root-session', 'root-first-party-analytics']);
 
   it('discloses every root-* / root_* key written by the source on the cookie policy', () => {
     const keys = new Map();

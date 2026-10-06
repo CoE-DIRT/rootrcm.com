@@ -338,6 +338,50 @@ describe('first-party transport', () => {
     expect(queuedFirstPartyCount()).toBeLessThanOrEqual(50);
   });
 
+  it('treats 408 and 429 as transient: bounded retries that wait out a short Retry-After and give up on a long one', async () => {
+    vi.stubEnv('VITE_TRACKING_ENDPOINT', ENDPOINT);
+    for (const status of [408, 429]) {
+      resetFirstPartyForTests();
+      const limited = stubFetch(async () => new Response('slow down', { status }));
+      enqueueFirstParty(sampleEvent(), { immediate: true });
+      await vi.advanceTimersByTimeAsync(30_000);
+      expect(limited, String(status)).toHaveBeenCalledTimes(3); // first try + two retries, then dropped
+    }
+
+    // Retry-After as seconds: the retry is not sent before the server said it could be.
+    resetFirstPartyForTests();
+    const paced = stubFetch(async () => new Response('slow down', { status: 429, headers: { 'retry-after': '10' } }));
+    enqueueFirstParty(sampleEvent(), { immediate: true });
+    await vi.advanceTimersByTimeAsync(9_000);
+    expect(paced).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(1_500);
+    expect(paced).toHaveBeenCalledTimes(2);
+
+    // Retry-After as an HTTP date.
+    resetFirstPartyForTests();
+    const dated = stubFetch(async () => new Response('slow down', { status: 429, headers: { 'retry-after': new Date(Date.now() + 8_000).toUTCString() } }));
+    enqueueFirstParty(sampleEvent(), { immediate: true });
+    await vi.advanceTimersByTimeAsync(5_000);
+    expect(dated).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(4_500);
+    expect(dated).toHaveBeenCalledTimes(2);
+
+    // A pause longer than the cap is not waited out: the batch is dropped instead of being held or hammered.
+    resetFirstPartyForTests();
+    const refused = stubFetch(async () => new Response('slow down', { status: 429, headers: { 'retry-after': '3600' } }));
+    enqueueFirstParty(sampleEvent(), { immediate: true });
+    await vi.advanceTimersByTimeAsync(120_000);
+    expect(refused).toHaveBeenCalledTimes(1);
+    expect(vi.getTimerCount()).toBe(0);
+
+    // A malformed header falls back to the normal backoff.
+    resetFirstPartyForTests();
+    const garbled = stubFetch(async () => new Response('slow down', { status: 429, headers: { 'retry-after': 'soon' } }));
+    enqueueFirstParty(sampleEvent(), { immediate: true });
+    await vi.advanceTimersByTimeAsync(30_000);
+    expect(garbled).toHaveBeenCalledTimes(3);
+  });
+
   it('does not retry rejected payloads (4xx) but retries transient failures a bounded number of times', async () => {
     vi.stubEnv('VITE_TRACKING_ENDPOINT', ENDPOINT);
     const rejected = stubFetch(async () => new Response('bad', { status: 400 }));

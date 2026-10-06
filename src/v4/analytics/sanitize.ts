@@ -1,5 +1,6 @@
 import { NOT_FOUND_ANALYTICS_PATH, analyticsPaths, canonicalForm, normalizePath } from '../../seo/routeRegistry.js';
 import { UTM_CAMPAIGNS, UTM_MEDIUMS, UTM_SOURCES } from './campaigns.js';
+import { CTA_IDS, CTA_LOCATIONS, DESTINATION_LABELS, ENGAGEMENT_TYPES, EXPERIMENT_VARIANTS, FORM_IDS, PRODUCT_IDS, STATUSES } from './dimensions.js';
 import { ALLOWED_PROPERTY_KEYS, type AllowedPropertyKey, type EventProperties } from './taxonomy';
 
 /**
@@ -16,6 +17,19 @@ const SCHEME_PREFIX = /^(?:tel|mailto|sms|whatsapp|https?|ftp|javascript|data):/
 const PURCHASE_REFERENCE = /^[0-9a-f]{32}$/;
 const KNOWN_PATHS: ReadonlySet<string> = new Set(analyticsPaths());
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+const REGISTERED: Record<'cta_id' | 'cta_location' | 'engagement_type' | 'form_id' | 'status' | 'product_id' | 'destination', ReadonlySet<string>> = {
+  cta_id: new Set(CTA_IDS),
+  cta_location: new Set(CTA_LOCATIONS),
+  engagement_type: new Set(ENGAGEMENT_TYPES),
+  form_id: new Set(FORM_IDS),
+  status: new Set(STATUSES),
+  product_id: new Set(PRODUCT_IDS),
+  destination: new Set(DESTINATION_LABELS),
+};
+const EXPERIMENTS: Readonly<Record<string, readonly string[]>> = EXPERIMENT_VARIANTS;
+const ALL_VARIANTS: ReadonlySet<string> = new Set(Object.values(EXPERIMENTS).flat());
+const isExperimentId = (value: string): boolean => Object.prototype.hasOwnProperty.call(EXPERIMENTS, value);
 
 /** Bounded, conservative free text: short, no '@', no phone-like or long numeric runs, restricted charset. */
 export function sanitizeText(value: unknown, max = 100): string | null {
@@ -63,28 +77,46 @@ function finiteNumber(value: unknown, min: number, max: number, decimals = 0): n
   return Math.round(number * factor) / factor;
 }
 
-/** A destination is only useful when it is an internal path or a short label; anything else may carry PII. */
+/**
+ * A descriptive value, only if it is one of the registered labels for that dimension (dimensions.js). A character filter cannot
+ * tell a name from an identifier, so anything unregistered is dropped, never "cleaned up".
+ */
+function registered(dimension: keyof typeof REGISTERED, max: number): (value: unknown) => string | null {
+  return (value) => {
+    const text = sanitizeText(value, max);
+    return text !== null && REGISTERED[dimension].has(text) ? text : null;
+  };
+}
+
+/** A destination is one of the site's own pages or the registered label of a channel; a link address is never sent, because it may carry PII. */
 function sanitizeDestination(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   const text = value.trim();
   if (!text || SCHEME_PREFIX.test(text) || text.includes('?') || text.includes('@')) return null;
   if (text.startsWith('/')) return knownPath(text);
-  return sanitizeText(text, 64);
+  return REGISTERED.destination.has(text) ? text : null;
 }
 
 const validators: Record<AllowedPropertyKey, (value: unknown) => string | number | null> = {
-  cta_id: (value) => sanitizeText(value, 64),
-  cta_location: (value) => sanitizeText(value, 64),
+  cta_id: registered('cta_id', 64),
+  cta_location: registered('cta_location', 64),
   destination: sanitizeDestination,
-  engagement_type: (value) => sanitizeText(value, 32),
-  form_id: (value) => sanitizeText(value, 64),
-  status: (value) => sanitizeText(value, 32),
+  engagement_type: registered('engagement_type', 32),
+  form_id: registered('form_id', 64),
+  status: registered('status', 32),
   percent_scrolled: (value) => finiteNumber(value, 0, 100),
-  product_id: (value) => sanitizeText(value, 64),
+  product_id: registered('product_id', 64),
   currency: (value) => (typeof value === 'string' && /^[A-Za-z]{3}$/.test(value) ? value.toUpperCase() : null),
   value: (value) => finiteNumber(value, 0, 1_000_000, 2),
-  variant: (value) => sanitizeText(value, 32),
-  experiment_id: (value) => sanitizeText(value, 64),
+  // Pairing a variant with its experiment is checked in sanitizeProperties; here the label only has to exist.
+  variant: (value) => {
+    const text = sanitizeText(value, 32);
+    return text !== null && ALL_VARIANTS.has(text) ? text : null;
+  },
+  experiment_id: (value) => {
+    const text = sanitizeText(value, 64);
+    return text !== null && isExperimentId(text) ? text : null;
+  },
   transaction_id: (value) => (typeof value === 'string' && PURCHASE_REFERENCE.test(value) ? value : null),
 };
 
@@ -97,6 +129,11 @@ export function sanitizeProperties(raw: Record<string, unknown> | undefined | nu
     if (!Object.prototype.hasOwnProperty.call(raw, key)) continue;
     const clean = validators[key](raw[key]);
     if (clean !== null) out[key] = clean as never;
+  }
+  // A variant means something only together with the experiment that defines it.
+  if (out.variant !== undefined) {
+    const variants = typeof out.experiment_id === 'string' && isExperimentId(out.experiment_id) ? EXPERIMENTS[out.experiment_id] : undefined;
+    if (!variants || !variants.includes(String(out.variant))) delete out.variant;
   }
   return out;
 }

@@ -1,5 +1,5 @@
 import { getGaMeasurementId, getTrackingEndpoint } from '../analytics/config';
-import { SERVICE_FIRST_PARTY, SERVICE_GA4 } from '../analytics/consent';
+import { SERVICE_FIRST_PARTY, SERVICE_GA4, SERVICE_POSTHOG } from '../analytics/consent';
 import { getPostHogKey } from '../analytics/adapter';
 
 /**
@@ -68,27 +68,17 @@ export function buildKlaroServices(): KlaroService[] {
   }
 
   if (getPostHogKey()) {
-    services.push(
-      {
-        name: 'root-analytics',
-        title: 'ROOT analytics adapter',
-        purposes: ['analytics'],
-        required: false,
-        default: false,
-        cookies: [/^ph_/],
-        description: 'Consent gate for product analytics, heatmaps and session replay (inputs masked, no PHI).',
-      },
-      {
-        name: 'posthog',
-        title: 'PostHog',
-        purposes: ['analytics'],
-        required: false,
-        default: false,
-        cookies: [/^ph_/],
-        onlyOnce: true,
-        description: 'Product analytics and session replay. Inputs masked; form values are never recorded.',
-      },
-    );
+    services.push({
+      name: SERVICE_POSTHOG,
+      title: 'PostHog',
+      purposes: ['analytics'],
+      required: false,
+      default: false,
+      cookies: [/^ph_/],
+      onlyOnce: true,
+      description:
+        'Product analytics, click and scroll heatmaps and session replay by PostHog. Page addresses are reduced to the page name, text you type is masked, and no names, emails, phone numbers, form messages or PHI are recorded.',
+    });
   }
 
   return services;

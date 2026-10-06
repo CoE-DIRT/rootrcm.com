@@ -75,9 +75,12 @@ production is approved.
 
 ## 4. Deploy without activating
 
-Before deploying, regenerate and check the generated allowlists (page paths and campaign labels) so the Function matches the site
-you are about to deploy: `node scripts/appwrite/sync-analytics-allowlists.js --check` (run it without `--check` to refresh, then
-commit). Deploy the Function **before** the site that links to a new route; until then that page's views are counted as `/404/`.
+Before deploying, regenerate and check the generated allowlists (page paths, campaign labels and the descriptive values: call to
+action, location, engagement type, form, status, product, channel label, experiment) so the Function matches the site you are about
+to deploy: `node scripts/appwrite/sync-analytics-allowlists.js --check` (run it without `--check` to refresh, then commit). Deploy the
+Function **before** the site that links to a new route or emits a new value; until then that page's views are counted as `/404/`, and
+a new call to action, form or experiment is dropped by the Function (an unlisted location, engagement type or destination is stored
+without that value).
 
 ```sh
 appwrite functions create-deployment --function-id tracking-ingest --code functions/tracking-ingest \
@@ -110,6 +113,8 @@ Verify each of the following and record the result:
 | Execution list (`appwrite functions list-executions --function-id tracking-ingest`) | no request headers, IP or user-agent persisted |
 | A page view for `"page_path":"/patients/synthetic/"` (well formed, not a site page) | `202`; the stored `page_path` is `/404/` |
 | `"utm_campaign":"synthetic-name"` | `202`; no `utm_campaign` stored (no campaign is registered) |
+| A click with `"cta_id":"synthetic-name"` | `400`; no row (the call to action is not registered) |
+| A click with `"cta_id":"book-diagnostic","cta_location":"synthetic-name"` | `202`; the row has no `cta_location`, and its `target_key` is `book-diagnostic` |
 | After a scheduled run (Appwrite delivers the cron schedule as a **POST** with trigger `schedule`; GET is accepted too) or a manual cron test | rows past `expires_at` deleted |
 
 ## 6. Connect a preview build

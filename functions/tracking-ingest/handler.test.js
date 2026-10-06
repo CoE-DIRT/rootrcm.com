@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { CTA_IDS, CTA_LOCATIONS, DESTINATION_LABELS, ENGAGEMENT_TYPES, EXPERIMENT_VARIANTS, FORM_IDS, KNOWN_PATHS, PRODUCT_IDS, STATUSES } from './allowlists.js';
 import { COLUMN_SIZES, EVENT_NAMES, LIMITS, PROPERTY_KEYS, REQUIRED_PROPERTIES, validateEvent } from './contract.js';
 import { handleTracking, parseConfig } from './handler.js';
 import { createAppwriteStore } from './store.js';
@@ -221,6 +222,102 @@ describe('tracking-ingest: accepting events', () => {
   });
 });
 
+describe('tracking-ingest: registered values only', () => {
+  // A character filter cannot tell a name from an identifier, and an HTTP client can send any Origin header, so a descriptive
+  // value is stored only when it is in the registry the browser also uses (allowlists.js, generated from dimensions.js).
+  const validate = (overrides) => validateEvent(event(overrides), { now: NOW, retentionDays: 90 });
+  const stored = (overrides) => {
+    const result = validate(overrides);
+    expect(result, JSON.stringify(result)).toMatchObject({ ok: true });
+    return result.row;
+  };
+  const exposure = (properties) => ({ event_name: 'experiment_exposure', target_key: undefined, properties });
+
+  it('stores every registered value of every descriptive property', () => {
+    for (const cta_id of CTA_IDS) expect(stored({ properties: { cta_id } }), cta_id).toMatchObject({ cta_id });
+    for (const cta_location of CTA_LOCATIONS) expect(stored({ properties: { cta_id: 'book-diagnostic', cta_location } }), cta_location).toMatchObject({ cta_location });
+    for (const engagement_type of ENGAGEMENT_TYPES) expect(stored({ properties: { cta_id: 'book-diagnostic', engagement_type } }), engagement_type).toMatchObject({ engagement_type });
+    for (const destination of [...KNOWN_PATHS, ...DESTINATION_LABELS]) expect(stored({ properties: { cta_id: 'book-diagnostic', destination } }), destination).toMatchObject({ destination });
+    for (const status of STATUSES) expect(stored({ properties: { cta_id: 'book-diagnostic', status } }), status).toMatchObject({ status });
+    for (const form_id of FORM_IDS) {
+      for (const status of ['success', 'failure']) expect(stored({ event_name: 'form_submit', target_key: undefined, properties: { form_id, status } }), form_id).toMatchObject({ form_id, status });
+    }
+    for (const product_id of PRODUCT_IDS) expect(stored({ event_name: 'checkout_start', target_key: undefined, properties: { product_id } }), product_id).toMatchObject({ product_id });
+    for (const [experiment_id, variants] of Object.entries(EXPERIMENT_VARIANTS)) {
+      for (const variant of variants) expect(stored(exposure({ experiment_id, variant })), `${experiment_id} ${variant}`).toMatchObject({ experiment_id, variant });
+    }
+  });
+
+  it('discards a well-formed value that is not registered and still counts the event, when the event can do without it', () => {
+    const row = stored({
+      properties: { cta_id: 'book-diagnostic', cta_location: 'jane-smith', destination: '/patients/jane-doe/', engagement_type: 'patient-jane', status: 'maybe' },
+    });
+    expect(row).toMatchObject({ event_name: 'cta_click', cta_id: 'book-diagnostic' });
+    for (const key of ['cta_location', 'destination', 'engagement_type', 'status']) expect(row, key).not.toHaveProperty(key);
+    expect(JSON.stringify(row)).not.toMatch(/jane|patient|maybe/);
+    // A label that looks like a channel but is not one of them.
+    expect(stored({ properties: { cta_id: 'social-click', destination: 'Jane Smith Pediatrics' } })).not.toHaveProperty('destination');
+    expect(stored({ properties: { cta_id: 'social-click', destination: 'linkedin' } })).not.toHaveProperty('destination'); // registered labels are case-sensitive
+  });
+
+  it.each([
+    ['a call to action that is not registered', 'cta_click', { cta_id: 'jane-smith', cta_location: 'home-hero' }, 'unregistered_cta_id'],
+    ['a form that is not registered', 'form_submit', { form_id: 'patient-jane', status: 'success' }, 'unregistered_form_id'],
+    ['a form result that is not registered', 'form_submit', { form_id: 'contact-inquiry', status: 'maybe' }, 'unregistered_status'],
+    ['a product that is not registered', 'checkout_start', { product_id: 'jane-product' }, 'unregistered_product_id'],
+    ['an experiment that is not registered', 'experiment_exposure', { experiment_id: 'exp-jane-v1', variant: 'control' }, 'unregistered_experiment_id'],
+    ['a variant that is not one of the experiment\'s', 'experiment_exposure', { experiment_id: 'exp-header-cta-v1', variant: 'fixed-fee' }, 'unregistered_variant'],
+    ['a variant that is registered nowhere', 'experiment_exposure', { experiment_id: 'exp-header-cta-v1', variant: 'jane' }, 'unregistered_variant'],
+  ])('drops an event whose required value is not registered: %s', (_label, name, properties, reason) => {
+    expect(validate({ event_name: name, target_key: undefined, properties })).toEqual({ ok: false, reason });
+  });
+
+  it('stores a variant only together with the experiment that defines it', () => {
+    expect(stored({ properties: { cta_id: 'book-diagnostic', experiment_id: 'exp-hero-cta-v1', variant: 'fixed-fee' } })).toMatchObject({ experiment_id: 'exp-hero-cta-v1', variant: 'fixed-fee' });
+    // Without an experiment, with another experiment's variant, or with an experiment that is not registered: no variant.
+    expect(stored({ properties: { cta_id: 'book-diagnostic', variant: 'fixed-fee' } })).not.toHaveProperty('variant');
+    expect(stored({ properties: { cta_id: 'book-diagnostic', experiment_id: 'exp-header-cta-v1', variant: 'fixed-fee' } })).not.toHaveProperty('variant');
+    const unknown = stored({ properties: { cta_id: 'book-diagnostic', experiment_id: 'exp-jane-v1', variant: 'control' } });
+    expect(unknown).not.toHaveProperty('experiment_id');
+    expect(unknown).not.toHaveProperty('variant');
+  });
+
+  it('keeps a direct caller from storing a name in any descriptive column', () => {
+    const result = validate({
+      target_key: 'jane-smith.jane-smith',
+      properties: { cta_id: 'book-diagnostic', cta_location: 'jane-smith', form_id: 'patient-jane', engagement_type: 'jane-smith', destination: 'jane-smith', experiment_id: 'jane-smith', variant: 'jane-smith', status: 'jane-smith', product_id: 'jane-smith' },
+    });
+    expect(result.ok).toBe(true);
+    expect(JSON.stringify(result.row)).not.toMatch(/jane|patient|smith/);
+  });
+
+  it('builds the target key itself from the registered values it kept, and never stores the one the browser sent', () => {
+    expect(stored({ target_key: 'jane-smith.home-hero', properties: { cta_id: 'book-diagnostic', cta_location: 'home-hero' } }).target_key).toBe('book-diagnostic.home-hero');
+    expect(stored({ target_key: 'jane-smith', properties: { cta_id: 'book-diagnostic', cta_location: 'not-a-place' } }).target_key).toBe('book-diagnostic');
+    expect(stored({ event_name: 'phone_click', target_key: 'jane', properties: { cta_location: 'footer-contact' } }).target_key).toBe('footer-contact');
+    expect(stored({ event_name: 'phone_click', target_key: 'jane', properties: {} })).not.toHaveProperty('target_key');
+    expect(stored({ event_name: 'page_view', target_key: 'jane', properties: {} })).not.toHaveProperty('target_key');
+    expect(stored({ target_key: undefined, properties: { cta_id: 'book-diagnostic', cta_location: 'header' } }).target_key).toBe('book-diagnostic.header');
+  });
+
+  it('fits the longest possible target key in its column', () => {
+    const longest = Math.max(...CTA_IDS.map((id) => id.length)) + 1 + Math.max(...CTA_LOCATIONS.map((location) => location.length));
+    expect(longest).toBeLessThanOrEqual(COLUMN_SIZES.target_key);
+  });
+
+  it('keeps every registered value within its column and within the Function\'s own text rules', () => {
+    const sizes = { cta_id: CTA_IDS, cta_location: CTA_LOCATIONS, engagement_type: ENGAGEMENT_TYPES, form_id: FORM_IDS, status: STATUSES, product_id: PRODUCT_IDS, destination: DESTINATION_LABELS, experiment_id: Object.keys(EXPERIMENT_VARIANTS), variant: [...new Set(Object.values(EXPERIMENT_VARIANTS).flat())] };
+    for (const [column, values] of Object.entries(sizes)) {
+      for (const value of values) {
+        expect(value.length, `${column}: ${value}`).toBeLessThanOrEqual(COLUMN_SIZES[column]);
+        expect(value, `${column}: ${value}`).toMatch(/^[A-Za-z0-9][A-Za-z0-9 _.:/#+-]*$/);
+        expect(/\d{6,}|@/.test(value), `${column}: ${value}`).toBe(false);
+      }
+      expect(new Set(values).size, `${column} has a duplicate`).toBe(values.length);
+    }
+  });
+});
+
 describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => {
   const rejects = async (overrides, reason) => {
     expect(validateEvent(event(overrides), { now: NOW, retentionDays: 90 })).toEqual({ ok: false, reason });
@@ -260,14 +357,13 @@ describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => 
     ['a referrer that is a full URL', { referrer_host: 'https://example.test/path?x=1' }, 'referrer_host'],
     ['a campaign label that is not text', { utm_campaign: { name: 'x' } }, 'utm_campaign'],
     ['properties that are not an object', { properties: ['cta_id'] }, 'properties'],
-    ['an unknown property key', { properties: { cta_id: 'x', email: 'a@b.test' } }, 'unknown_property'],
+    ['an unknown property key', { properties: { cta_id: 'book-diagnostic', email: 'a@b.test' } }, 'unknown_property'],
     ['a property value containing "@"', { properties: { cta_id: 'name@example.test' } }, 'property_cta_id'],
     ['a phone-like property value', { properties: { cta_id: 'call-3025064685' } }, 'property_cta_id'],
-    ['a destination with a scheme', { properties: { cta_id: 'x', destination: 'mailto:info@example.test' } }, 'property_destination'],
-    ['a destination with a query string', { properties: { cta_id: 'x', destination: '/diagnostic/?name=a' } }, 'property_destination'],
-    ['a destination that is a full URL', { properties: { cta_id: 'x', destination: 'https://example.test/page' } }, 'property_destination'],
-    ['a destination that is a phone link', { properties: { cta_id: 'x', destination: 'tel:+13025550100' } }, 'property_destination'],
-    ['an internal destination that is not a site page', { properties: { cta_id: 'x', destination: '/patients/jane-doe/' } }, 'property_destination'],
+    ['a destination with a scheme', { properties: { cta_id: 'book-diagnostic', destination: 'mailto:info@example.test' } }, 'property_destination'],
+    ['a destination with a query string', { properties: { cta_id: 'book-diagnostic', destination: '/diagnostic/?name=a' } }, 'property_destination'],
+    ['a destination that is a full URL', { properties: { cta_id: 'book-diagnostic', destination: 'https://example.test/page' } }, 'property_destination'],
+    ['a destination that is a phone link', { properties: { cta_id: 'book-diagnostic', destination: 'tel:+13025550100' } }, 'property_destination'],
     ['a property value with markup', { properties: { cta_id: '<script>alert(1)</script>' } }, 'property_cta_id'],
     ['a property value with surrounding whitespace', { properties: { cta_id: ' book-diagnostic ' } }, 'property_cta_id'],
     ['a property value that is too long', { properties: { cta_id: 'a'.repeat(COLUMN_SIZES.cta_id + 1) } }, 'property_cta_id'],
@@ -280,7 +376,8 @@ describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => 
     ['scroll', { percent_scrolled: 101 }, 'property_percent_scrolled'],
     ['scroll', { percent_scrolled: 12.5 }, 'property_percent_scrolled'],
     ['scroll', { percent_scrolled: '50' }, 'property_percent_scrolled'],
-    ['form_submit', { form_id: 'contact-inquiry', status: 'maybe' }, 'form_status'],
+    ['form_submit', { form_id: 'contact-inquiry', status: 'paid' }, 'form_status'],
+    ['form_submit', { form_id: 'contact-inquiry', status: 'maybe' }, 'unregistered_status'],
     ['purchase', { transaction_id: 'order-1001' }, 'property_transaction_id'],
     ['purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8' }, 'property_transaction_id'],
     ['purchase', { transaction_id: REF_A, value: 2500.005 }, 'property_value'],

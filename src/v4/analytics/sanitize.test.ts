@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { analyticsPaths } from '../../seo/routeRegistry.js';
 import { referrerHost, sanitizeCampaign, sanitizePath, sanitizeProperties, sanitizeText, type UtmRegistry } from './sanitize';
 import { ALLOWED_PROPERTY_KEYS, MAX_PATH_LENGTH } from './taxonomy';
+import { CTA_IDS, CTA_LOCATIONS, DESTINATION_LABELS, ENGAGEMENT_TYPES, FORM_IDS, PRODUCT_IDS, STATUSES } from './dimensions.js';
 
 // A purchase reference as the checkout Function derives it: 32 lower-case hex characters, never a Stripe id.
 const REFERENCE = '3f2504e04f8941d39a0c0305e82c3301';
@@ -86,7 +87,7 @@ describe('sanitizeProperties', () => {
       currency: 'usd',
       product_id: 'revenue-optimization-diagnostic',
       transaction_id: REFERENCE,
-      variant: 'b',
+      variant: 'fixed-fee',
       experiment_id: 'exp-hero-cta-v1',
       status: 'success',
       form_id: 'contact-inquiry',
@@ -100,10 +101,47 @@ describe('sanitizeProperties', () => {
       currency: 'USD',
       product_id: 'revenue-optimization-diagnostic',
       transaction_id: REFERENCE,
-      variant: 'b',
+      variant: 'fixed-fee',
       experiment_id: 'exp-hero-cta-v1',
       status: 'success',
       form_id: 'contact-inquiry',
+    });
+  });
+
+  describe('descriptive values are registered labels (dimensions.js), never free text', () => {
+    it('keeps every registered value and nothing else', () => {
+      for (const cta_id of CTA_IDS) expect(sanitizeProperties({ cta_id }), cta_id).toEqual({ cta_id });
+      for (const cta_location of CTA_LOCATIONS) expect(sanitizeProperties({ cta_location }), cta_location).toEqual({ cta_location });
+      for (const engagement_type of ENGAGEMENT_TYPES) expect(sanitizeProperties({ engagement_type }), engagement_type).toEqual({ engagement_type });
+      for (const form_id of FORM_IDS) expect(sanitizeProperties({ form_id }), form_id).toEqual({ form_id });
+      for (const status of STATUSES) expect(sanitizeProperties({ status }), status).toEqual({ status });
+      for (const product_id of PRODUCT_IDS) expect(sanitizeProperties({ product_id }), product_id).toEqual({ product_id });
+      for (const destination of DESTINATION_LABELS) expect(sanitizeProperties({ destination }), destination).toEqual({ destination });
+    });
+
+    it('drops a name, a typo or a probe that merely looks like an identifier', () => {
+      const clean = sanitizeProperties({
+        cta_id: 'jane-smith',
+        cta_location: 'jane-smith',
+        engagement_type: 'patient-jane',
+        form_id: 'patient-jane',
+        status: 'jane',
+        product_id: 'jane-product',
+        destination: 'Jane Smith Pediatrics',
+        experiment_id: 'exp-jane-v1',
+        variant: 'jane',
+      });
+      expect(clean).toEqual({});
+      // Registered labels are exact: case and spacing matter.
+      expect(sanitizeProperties({ cta_id: 'Book-Diagnostic', cta_location: 'HOME-HERO', destination: 'linkedin' })).toEqual({});
+    });
+
+    it('keeps a variant only together with the experiment that defines it', () => {
+      expect(sanitizeProperties({ experiment_id: 'exp-header-cta-v1', variant: 'explore' })).toEqual({ experiment_id: 'exp-header-cta-v1', variant: 'explore' });
+      expect(sanitizeProperties({ experiment_id: 'exp-header-cta-v1', variant: 'control' })).toEqual({ experiment_id: 'exp-header-cta-v1', variant: 'control' });
+      expect(sanitizeProperties({ variant: 'explore' })).toEqual({}); // no experiment
+      expect(sanitizeProperties({ experiment_id: 'exp-header-cta-v1', variant: 'fixed-fee' })).toEqual({ experiment_id: 'exp-header-cta-v1' }); // another experiment's variant
+      expect(sanitizeProperties({ experiment_id: 'exp-unknown-v1', variant: 'control' })).toEqual({});
     });
   });
 
@@ -122,6 +160,7 @@ describe('sanitizeProperties', () => {
 
   it('drops allowlisted keys whose values look personal', () => {
     expect(sanitizeProperties({ cta_id: 'alex@example.com', cta_location: '+13025064685', status: 'x'.repeat(40) })).toEqual({});
+    expect(sanitizeProperties({ cta_id: 'book-diagnostic ', status: ' success' })).toEqual({ cta_id: 'book-diagnostic', status: 'success' }); // trimmed, then registered
   });
 
   it('never forwards phone, email or full-URL destinations', () => {
@@ -163,7 +202,7 @@ describe('sanitizeProperties', () => {
     expect(sanitizeProperties(undefined)).toEqual({});
     expect(sanitizeProperties(null)).toEqual({});
     expect(sanitizeProperties('string' as unknown as Record<string, unknown>)).toEqual({});
-    expect(sanitizeProperties({ __proto__: { cta_id: 'x' }, constructor: 'y' } as Record<string, unknown>)).toEqual({});
+    expect(sanitizeProperties({ __proto__: { cta_id: 'book-diagnostic' }, constructor: 'y' } as Record<string, unknown>)).toEqual({});
   });
 
   it('exposes exactly the documented allowlist', () => {

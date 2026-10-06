@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MarketingHeader } from './MarketingHeader';
 import { FloatingSiteControls } from '../../components/SiteChrome.jsx';
@@ -44,6 +44,35 @@ describe('primary navigation current state', () => {
     at('/pricing/');
     expect(screen.getAllByRole('link', { name: 'Pricing' })[0].getAttribute('aria-current')).toBe('page');
     expect(screen.getAllByRole('link', { name: 'About' })[0].getAttribute('aria-current')).toBeNull();
+  });
+});
+
+describe('mobile menu current state', () => {
+  const openMenu = () => fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+  const mobileLink = (name: string) => within(screen.getByRole('navigation', { name: 'Mobile' })).getByRole('link', { name: new RegExp(`^${name}$`) });
+
+  it('marks the exact page and the section that contains it, for assistive technology and visibly', () => {
+    at('/pricing/');
+    openMenu();
+    expect(mobileLink('Pricing').getAttribute('aria-current')).toBe('page');
+    expect(mobileLink('Pricing').getAttribute('data-current')).toBe('page');
+    expect(mobileLink('Pricing').className).toContain('text-accent');
+    expect(mobileLink('About').getAttribute('aria-current')).toBeNull();
+    expect(mobileLink('About').hasAttribute('data-current')).toBe(false);
+    cleanup();
+
+    at('/services/rcm/');
+    openMenu();
+    expect(mobileLink('Services').getAttribute('aria-current')).toBe('true');
+    expect(mobileLink('Services').getAttribute('data-current')).toBe('section');
+    expect(mobileLink('Services').className).toContain('text-accent');
+    expect(mobileLink('Solutions').getAttribute('aria-current')).toBeNull();
+    cleanup();
+
+    at('/solutions/denials/');
+    openMenu();
+    expect(mobileLink('Solutions').getAttribute('aria-current')).toBe('true');
+    expect(mobileLink('Services').getAttribute('aria-current')).toBeNull();
   });
 });
 

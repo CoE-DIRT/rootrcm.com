@@ -221,11 +221,15 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                           key={item.href}
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
-                          aria-current={state === 'page' ? 'page' : undefined}
+                          aria-current={ariaCurrent(state)}
+                          data-current={state}
                           className={cn(
                             'rounded-[var(--radius-root)] px-3 py-3 text-base font-medium text-text hover:bg-bg-soft',
                             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue',
+                            // The page itself is highlighted; the section that contains the page is marked too, so a visitor on
+                            // /services/rcm/ still sees which primary item they are under.
                             state === 'page' && 'bg-bg-soft text-accent',
+                            state === 'section' && 'text-accent',
                           )}
                         >
                           {item.label}

@@ -3,6 +3,10 @@ import * as contract from '../../../functions/tracking-ingest/contract.js';
 import * as allowlists from '../../../functions/tracking-ingest/allowlists.js';
 import { NOT_FOUND_ANALYTICS_PATH, analyticsPaths } from '../../seo/routeRegistry.js';
 import { UTM_CAMPAIGNS, UTM_MEDIUMS, UTM_SOURCES } from './campaigns.js';
+import { CTA_IDS, CTA_LOCATIONS, DESTINATION_LABELS, ENGAGEMENT_TYPES, EXPERIMENT_VARIANTS, FORM_IDS, PRODUCT_IDS, STATUSES } from './dimensions.js';
+import { APPROVED_CTAS } from './approvedCtas.ts';
+import { experimentList } from '../experiments/registry.ts';
+import { PRODUCTS } from '../growth/catalog.ts';
 import { applyAnalyticsConsent, resetAnalyticsConsent } from './consent.ts';
 import { resetFirstPartyForTests } from './firstParty.ts';
 import { resetGa4ForTests } from './ga4.ts';
@@ -36,6 +40,26 @@ describe('analytics contract parity (browser vs tracking-ingest Function)', () =
     expect([...allowlists.UTM_SOURCES]).toEqual([...UTM_SOURCES].sort());
     expect([...allowlists.UTM_MEDIUMS]).toEqual([...UTM_MEDIUMS].sort());
     expect([...allowlists.UTM_CAMPAIGNS]).toEqual([...UTM_CAMPAIGNS].sort());
+  });
+
+  it('accepts exactly the same descriptive values as the browser (call to action, location, engagement, form, status, product, destination, experiment)', () => {
+    const sorted = (values) => [...values].sort();
+    expect([...allowlists.CTA_IDS]).toEqual(sorted(CTA_IDS));
+    expect([...allowlists.CTA_LOCATIONS]).toEqual(sorted(CTA_LOCATIONS));
+    expect([...allowlists.ENGAGEMENT_TYPES]).toEqual(sorted(ENGAGEMENT_TYPES));
+    expect([...allowlists.FORM_IDS]).toEqual(sorted(FORM_IDS));
+    expect([...allowlists.STATUSES]).toEqual(sorted(STATUSES));
+    expect([...allowlists.PRODUCT_IDS]).toEqual(sorted(PRODUCT_IDS));
+    expect([...allowlists.DESTINATION_LABELS]).toEqual(sorted(DESTINATION_LABELS));
+    expect(Object.keys(allowlists.EXPERIMENT_VARIANTS)).toEqual(sorted(Object.keys(EXPERIMENT_VARIANTS)));
+    for (const [id, variants] of Object.entries(EXPERIMENT_VARIANTS)) expect([...allowlists.EXPERIMENT_VARIANTS[id]], id).toEqual(sorted(variants));
+  });
+
+  it('registers the same call-to-action ids, products and experiments as the code that uses them', () => {
+    expect([...APPROVED_CTAS].sort()).toEqual([...CTA_IDS].sort());
+    expect(Object.keys(PRODUCTS).sort()).toEqual([...PRODUCT_IDS].sort());
+    expect(experimentList.map((definition) => definition.id).sort()).toEqual(Object.keys(EXPERIMENT_VARIANTS).sort());
+    for (const definition of experimentList) expect(definition.variants.map((variant) => variant.id).sort(), definition.id).toEqual([...EXPERIMENT_VARIANTS[definition.id]].sort());
   });
 
   it('has a column size for every text property it stores', () => {
@@ -112,7 +136,7 @@ describe('every event the browser emits passes the Function validation', () => {
         anonymous_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3303',
         consent: true,
         environment: 'production',
-        properties: sanitizeProperties({ cta_id: 'x', destination: path }),
+        properties: sanitizeProperties({ cta_id: 'book-diagnostic', destination: path }),
       };
       expect(event.properties.destination, path).toBe(path);
       const result = contract.validateEvent(event, { now: new Date(), retentionDays: 90 });
@@ -121,39 +145,94 @@ describe('every event the browser emits passes the Function validation', () => {
     }
   });
 
-  it('for the values at every limit the sanitizer allows', () => {
-    const longestPath = [...analyticsPaths()].sort((a, b) => b.length - a.length)[0];
+  const eventWith = (event_name, properties, page_path = '/pricing/') => ({
+    schema_version: SCHEMA_VERSION,
+    event_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3301',
+    event_name,
+    timestamp: NOW.toISOString(),
+    page_path,
+    session_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3302',
+    anonymous_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3303',
+    consent: true,
+    environment: 'production',
+    properties,
+  });
+  const accepted = (event) => {
+    const result = contract.validateEvent(event, { now: new Date(), retentionDays: 90 });
+    expect(result, JSON.stringify(event)).toMatchObject({ ok: true });
+    return result.row;
+  };
+
+  it('for every registered value, which the browser keeps and the Function stores unchanged', () => {
+    const each = (values, make) => {
+      for (const value of values) {
+        const properties = sanitizeProperties(make(value));
+        const [key] = Object.keys(make(value));
+        expect(properties[key], String(value)).toBe(value);
+      }
+    };
+    each(CTA_IDS, (cta_id) => ({ cta_id }));
+    each(CTA_LOCATIONS, (cta_location) => ({ cta_location }));
+    each(ENGAGEMENT_TYPES, (engagement_type) => ({ engagement_type }));
+    each(DESTINATION_LABELS, (destination) => ({ destination }));
+    each(FORM_IDS, (form_id) => ({ form_id }));
+    each(STATUSES, (status) => ({ status }));
+    each(PRODUCT_IDS, (product_id) => ({ product_id }));
+
+    for (const cta_id of CTA_IDS) {
+      const properties = sanitizeProperties({ cta_id });
+      expect(accepted(eventWith('cta_click', properties)), cta_id).toMatchObject({ cta_id, target_key: cta_id });
+    }
+    for (const cta_location of CTA_LOCATIONS) {
+      const properties = sanitizeProperties({ cta_id: 'book-diagnostic', cta_location });
+      expect(accepted(eventWith('cta_click', properties)), cta_location).toMatchObject({ cta_location, target_key: `book-diagnostic.${cta_location}` });
+    }
+    for (const engagement_type of ENGAGEMENT_TYPES) expect(accepted(eventWith('cta_click', sanitizeProperties({ cta_id: 'book-diagnostic', engagement_type }))), engagement_type).toMatchObject({ engagement_type });
+    for (const destination of DESTINATION_LABELS) expect(accepted(eventWith('cta_click', sanitizeProperties({ cta_id: 'social-click', destination }))), destination).toMatchObject({ destination });
+    for (const form_id of FORM_IDS) {
+      for (const status of ['success', 'failure']) expect(accepted(eventWith('form_submit', sanitizeProperties({ form_id, status }))), `${form_id} ${status}`).toMatchObject({ form_id, status });
+    }
+    for (const product_id of PRODUCT_IDS) expect(accepted(eventWith('checkout_start', sanitizeProperties({ product_id }))), product_id).toMatchObject({ product_id });
+    expect(accepted(eventWith('purchase', sanitizeProperties({ transaction_id: REFERENCE, status: 'paid' }))).status).toBe('paid');
+    for (const [experiment_id, variants] of Object.entries(EXPERIMENT_VARIANTS)) {
+      for (const variant of variants) {
+        const properties = sanitizeProperties({ experiment_id, variant });
+        expect(properties, `${experiment_id} ${variant}`).toEqual({ experiment_id, variant });
+        expect(accepted(eventWith('experiment_exposure', properties)), `${experiment_id} ${variant}`).toMatchObject({ experiment_id, variant });
+      }
+    }
+  });
+
+  it('for the longest registered values, which fit the columns the Function stores them in', () => {
+    const longest = (values) => [...values].sort((a, b) => b.length - a.length)[0];
+    const longestPath = longest(analyticsPaths());
     expect(longestPath.length).toBeLessThanOrEqual(MAX_PATH_LENGTH);
-    const samples = {
-      cta_id: 'a'.repeat(64),
-      cta_location: 'b'.repeat(64),
+    const properties = sanitizeProperties({
+      cta_id: longest(CTA_IDS),
+      cta_location: longest(CTA_LOCATIONS),
       destination: longestPath,
-      engagement_type: 'c'.repeat(32),
-      form_id: 'd'.repeat(64),
-      status: 'e'.repeat(32),
+      engagement_type: longest(ENGAGEMENT_TYPES),
+      form_id: longest(FORM_IDS),
+      status: longest(STATUSES),
       percent_scrolled: 100,
-      product_id: 'f'.repeat(64),
+      product_id: longest(PRODUCT_IDS),
       currency: 'eur',
       value: 1_000_000,
-      variant: 'g'.repeat(32),
-      experiment_id: 'h'.repeat(64),
+      variant: 'at-a-glance',
+      experiment_id: 'exp-pricing-presentation-v1',
       transaction_id: REFERENCE,
-    };
-    const properties = sanitizeProperties(samples);
+    });
     expect(Object.keys(properties).sort()).toEqual([...ALLOWED_PROPERTY_KEYS].sort());
-    const event = {
-      schema_version: SCHEMA_VERSION,
-      event_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3301',
-      event_name: 'page_view',
-      timestamp: NOW.toISOString(),
-      page_path: longestPath,
-      session_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3302',
-      anonymous_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3303',
-      consent: true,
-      environment: 'production',
-      properties,
-    };
-    expect(contract.validateEvent(event, { now: new Date(), retentionDays: 90 })).toMatchObject({ ok: true });
+    const row = accepted({ ...eventWith('cta_click', properties, longestPath), page_path: longestPath });
+    for (const [column, size] of Object.entries(contract.COLUMN_SIZES)) {
+      if (typeof row[column] === 'string') expect(row[column].length, column).toBeLessThanOrEqual(size);
+    }
+  });
+
+  it('for the case the browser cannot get wrong but a direct caller can: a name where a registered value belongs', () => {
+    const event = eventWith('cta_click', { cta_id: 'book-diagnostic', cta_location: 'jane-smith', form_id: 'patient-jane' });
+    expect(sanitizeProperties(event.properties)).toEqual({ cta_id: 'book-diagnostic' }); // the browser drops them
+    expect(JSON.stringify(accepted(event))).not.toMatch(/jane|patient|smith/); // and the Function stores none of them
   });
 
   it('for a visitor-typed path, which the browser reports as /404/ and the Function would collapse the same way', () => {

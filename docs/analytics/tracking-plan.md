@@ -30,7 +30,7 @@ Experiments are specified separately in [experiments.md](experiments.md). This f
 | --- | --- | --- | --- |
 | Google Analytics 4 | `VITE_GA_MEASUREMENT_ID` (valid `G-...` ID) | `google-analytics` | **Disabled** (no ID) |
 | First-party (Appwrite `tracking-ingest`) | `VITE_TRACKING_ENDPOINT` (https) | `root-first-party-analytics` | **Inert** (Function not deployed) |
-| PostHog (pre-existing, optional) | `VITE_PUBLIC_POSTHOG_KEY` | `root-analytics` / `posthog` | Inactive (no key) |
+| PostHog (pre-existing, optional) | `VITE_PUBLIC_POSTHOG_KEY` | `posthog` | Inactive (no key) |
 
 A consent service is registered in the cookie banner only when its destination is configured, so visitors are never asked to
 consent to something that does not exist.
@@ -39,6 +39,17 @@ consent to something that does not exist.
 local traffic cannot reach the production property. QA against a *separate* test property may opt in per build with
 `VITE_GA_NON_PRODUCTION=true`; never set it on a build that carries the production Measurement ID. The consent service, the privacy
 policy and the cookie table all follow this rule, so none of them describes GA4 where it cannot run.
+
+**PostHog is its own choice, and it is bounded.** PostHog starts only for the visitor's own yes to the `posthog` service; accepting
+ROOT's first-party analytics does not start it, and the reverse. Because PostHog collects page addresses, referrers and campaign
+tags by itself, everything it sends passes through `src/v4/analytics/posthogPrivacy.ts` (PostHog's `before_send` hook): an address on
+this site becomes a registered page path with no query string or fragment (anything else is `/404/`), another site's address keeps
+only its origin, campaign tags survive only as registered labels (`campaigns.js`), click identifiers and person properties are never
+sent, and element text and attributes are not captured. A session replay's page address cannot be rewritten the way an event's can, so
+replay and heatmaps run only on a registered page opened without a query string or fragment. On withdrawal the adapter calls
+`reset()` first and `opt_out_capturing()` second, because `reset()` clears PostHog's stored consent (the other order leaves the
+instance capturing); when the visitor accepts again it calls `opt_in_capturing()`. `src/v4/analytics/adapter.test.ts` runs the real
+library to prove it.
 
 **A saved choice counts only while it is complete.** Klaro asks again when a visitor's saved choice no longer answers for every
 configured service (for example after a service is added); analytics applies the same rule (`src/v4/consent/confirmedConsent.ts`), so
@@ -57,7 +68,7 @@ build can run, and describes the bot-protection challenge only for owned contact
 | --- | --- | --- |
 | `page_view` | once per page load per path, after consent | none (path, referrer host and campaign labels are event context) |
 | `scroll` | the visitor first passes 25, 50, 75 and 90% of a page that scrolls at least 200px | `percent_scrolled` |
-| `cta_click` | a click on an approved `data-cta` element (`src/v4/analytics/approvedCtas.ts`) | `cta_id`, `cta_location`, `destination`, `engagement_type`, `experiment_id`, `variant` |
+| `cta_click` | a click on an approved `data-cta` element (`src/v4/analytics/approvedCtas.ts`; the ids are listed in `dimensions.js`) | `cta_id`, `cta_location`, `destination`, `engagement_type`, `experiment_id`, `variant` |
 | `phone_click` | a phone CTA or any `tel:` link | `cta_id`, `cta_location` (never the number) |
 | `form_submit` | an inquiry form result, by form id | `form_id` (`contact-inquiry`, `diagnostic-inquiry`, `book-inquiry`), `status` (`success` or `failure`) |
 | `checkout_start` | the visitor starts Stripe test-mode checkout | `product_id`, `value`, `currency` |
@@ -72,7 +83,8 @@ tracked (`IGNORED_CTAS`). A governance test fails if a new `data-cta` value is n
 `schema_version`, `event_id` (UUID; the row id, so retries are idempotent), `timestamp`, `page_path` (one of the site's own
 pages, see below), `session_id` and `anonymous_id` (random UUIDs), `consent: true`, `environment` (`production` only on
 rootrcm.com and www.rootrcm.com; otherwise `preview` or `development`), `referrer_host` (hostname only, page views), first-touch
-`utm_source` / `utm_medium` / `utm_campaign` (registered labels only, see below), `target_key` (`cta_id.cta_location`).
+`utm_source` / `utm_medium` / `utm_campaign` (registered labels only, see below), `target_key` (`cta_id.cta_location`, built by the
+Function from the registered values it stored; see below).
 
 **Page paths are an allowlist.** `page_path` is reported only when it is one of the site's public pages or a legacy alias
 (`analyticsPaths()` in `src/seo/routeRegistry.js`, the same registry that drives the sitemap). Any other URL (a typo, a probe, or text a
@@ -87,6 +99,23 @@ difference, so only registered labels are stored (`src/v4/analytics/campaigns.js
 `utm_medium`, and campaigns the owner has registered for `utm_campaign`. **No campaign is registered yet, so `utm_campaign` is never
 stored** until the owner adds one (then run the sync script and redeploy the Function). An unregistered label is dropped by the browser
 and, if a client sends one anyway, discarded by the Function (the view is still counted).
+
+**Descriptive values are a registry too.** The same reasoning applies to `cta_id`, `cta_location`, `engagement_type`, `form_id`,
+`status`, `product_id`, `experiment_id`, `variant` and a non-page `destination`: "jane-smith" passes any character filter, and an HTTP
+client can send any `Origin` header, so the Function stores a value only when it is listed in `src/v4/analytics/dimensions.js` (the
+generated copy is in `functions/tracking-ingest/allowlists.js`; the browser applies the same lists in `sanitize.ts`). When a
+value is not listed: an event that cannot do without it (`cta_id` for `cta_click`, `form_id` and `status` for `form_submit`,
+`product_id` for `checkout_start`, `experiment_id` and `variant` for `experiment_exposure`) is dropped, and for any other property the
+value is discarded and the event is still counted, as for an unlisted campaign label. A `variant` is stored only with a listed
+experiment that defines it. The Function never stores the `target_key` the browser sends (it is free text); it builds
+`cta_id.cta_location` itself from the values it kept.
+
+**Adding a control, location, form or experiment.** Add its value to `dimensions.js`, run
+`node scripts/appwrite/sync-analytics-allowlists.js`, and **redeploy the Function before the site that emits the value goes live**,
+otherwise the Function discards it (or drops the event, for a required value). Two tests keep the registry honest in both
+directions: `src/v4/analytics/dimensions.coverage.test.jsx` renders every public page and scans the source, and fails on a value the
+site emits that is not listed and on a listed value nothing emits; `contract-parity.test.js` proves the browser and the Function
+accept exactly the same values.
 
 ## Property dictionary
 

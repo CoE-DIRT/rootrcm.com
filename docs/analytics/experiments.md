@@ -108,8 +108,9 @@ owner approval before any experiment runs in production.**
 
 1. Add it to the registry with a unique `id` (bump the `-vN` suffix when the design changes), a control first, a hypothesis, primary metric, guardrails and stop rules.
 2. Use `useExperiment('<key>')` on the surface and spread `state.attrs` onto the element the test changes.
-3. Add it to this document and to the tests (`src/v4/experiments/experiments.test.tsx`).
-4. Never put the price, a testimonial, a statistic or any unverified claim in a variant.
+3. Add its `id` and variant ids to `EXPERIMENT_VARIANTS` in `src/v4/analytics/dimensions.js`, run `node scripts/appwrite/sync-analytics-allowlists.js`, and redeploy the `tracking-ingest` Function before the site ships: the Function stores an experiment or variant only when it is listed (`contract-parity.test.js` fails if the list and this registry differ).
+4. Add it to this document and to the tests (`src/v4/experiments/experiments.test.tsx`).
+5. Never put the price, a testimonial, a statistic or any unverified claim in a variant.
 
 ## Superseded code
 

@@ -49,8 +49,10 @@ async function stub(page: Page, { verify = 'paid' }: { verify?: 'paid' | 'unpaid
   await page.route('https://checkout.stripe.com/**', (route) =>
     route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>Stripe-hosted test page (stub)</title><p>stub</p>' }),
   );
-  // This build has no Measurement ID and no PostHog key: no analytics vendor may be contacted.
-  await page.route(/googletagmanager|google-analytics|posthog/, (route) => {
+  // This build has no Measurement ID and no PostHog key: no analytics vendor may be contacted. Match the vendors' HOSTS, not any
+  // URL that contains their name: the dev server serves ROOT's own modules (for example src/v4/analytics/posthogPrivacy.ts) from
+  // localhost, and blocking those would stop the page from loading at all.
+  await page.route(/^https?:\/\/(?:[^/]*\.)?(?:googletagmanager\.com|google-analytics\.com|posthog\.com)(?:[/:?]|$)/i, (route) => {
     captured.vendors.push(route.request().url());
     return route.abort();
   });

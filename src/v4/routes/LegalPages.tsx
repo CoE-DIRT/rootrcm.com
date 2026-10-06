@@ -78,7 +78,7 @@ export function PrivacyPage() {
               ) : null}
               {analytics.posthog ? (
                 <li data-testid="tool-posthog">
-                  <strong className="text-text">PostHog</strong> provides product analytics and session replay. Text you type into form fields is masked and is not recorded.
+                  <strong className="text-text">PostHog</strong> provides product analytics and session replay. Page addresses are reduced to the page name (no query strings), and text you type into form fields is masked and is not recorded.
                 </li>
               ) : null}
             </ul>

@@ -8,6 +8,8 @@
  *  - The first variant is always the control and is the existing, unchanged experience.
  *  - Tests are off in production unless VITE_EXPERIMENTS_ENABLED=true is set at build time, and a visitor is only
  *    assigned after analytics consent. No result has been measured; nothing here claims a winner.
+ *  - The analytics Function stores an experiment id or variant only when it is also listed in EXPERIMENT_VARIANTS in
+ *    src/v4/analytics/dimensions.js (src/v4/analytics/contract-parity.test.js fails when the two differ).
  */
 export const EXPERIMENT_KEYS = ['heroCta', 'headerCta', 'pricingPresentation', 'talkToUsPlacement', 'followUsDesign', 'checkoutCta'] as const;
 export type ExperimentKey = (typeof EXPERIMENT_KEYS)[number];

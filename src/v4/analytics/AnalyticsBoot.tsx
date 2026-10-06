@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { setAnalyticsConsent as setPostHogConsent, bootAnalytics } from './adapter';
-import { applyAnalyticsConsent, analyticsAllowed, globalPrivacyControlEnabled, subscribeAnalyticsConsent } from './consent';
+import { applyAnalyticsConsent, analyticsAllowed, globalPrivacyControlEnabled, subscribeAnalyticsConsent, SERVICE_POSTHOG } from './consent';
 import { readConfirmedConsent, readConfirmedServices } from '../consent/confirmedConsent';
 import { attachAnalyticsListeners, trackPageViewOnce } from './listeners';
 
@@ -24,8 +24,9 @@ export function AnalyticsBoot() {
 
     const apply = () => {
       const stored = readConfirmedServices();
-      // Global Privacy Control is a refusal for every analytics tool, PostHog included.
-      const posthog = (stored['root-analytics'] === true || stored.posthog === true) && !globalPrivacyControlEnabled();
+      // PostHog runs only for the visitor's own, explicit yes to the PostHog service (accepting ROOT's first-party analytics is a
+      // different choice), and Global Privacy Control is a refusal for every analytics tool, PostHog included.
+      const posthog = stored[SERVICE_POSTHOG] === true && !globalPrivacyControlEnabled();
       setPostHogConsent({ analytics: posthog, marketing: false });
       if (posthog) void bootAnalytics();
       applyAnalyticsConsent(readConfirmedConsent());

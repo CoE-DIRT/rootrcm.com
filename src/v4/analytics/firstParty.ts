@@ -11,6 +11,10 @@ const MAX_QUEUE = 50;
 const MAX_BATCH = 20;
 const FLUSH_DELAY_MS = 2_000;
 const RETRY_DELAYS_MS = [1_000, 4_000];
+/** The longest `Retry-After` that is waited out. A server asking for more than this is not retried at all this page view. */
+const MAX_RETRY_AFTER_MS = 30_000;
+/** 4xx answers that mean "later", not "this payload is wrong": request timeout and too many requests. */
+const RETRYABLE_CLIENT_STATUSES: ReadonlySet<number> = new Set([408, 429]);
 const CONTENT_TYPE = 'text/plain;charset=UTF-8';
 
 let queue: TrackingEvent[] = [];
@@ -35,6 +39,19 @@ function schedule(delay: number): void {
   }, delay);
 }
 
+/**
+ * How long the server asked to wait, from a `Retry-After` header in seconds or as an HTTP date. `undefined` when there is
+ * none (a cross-origin response only exposes the header when the server lists it in Access-Control-Expose-Headers, and a
+ * proxy in front of the Function may not), in which case the normal backoff applies.
+ */
+function retryAfterMs(response: Response): number | undefined {
+  const header = response.headers.get('retry-after')?.trim();
+  if (!header) return undefined;
+  if (/^\d+$/.test(header)) return Number(header) * 1_000;
+  const date = Date.parse(header);
+  return Number.isFinite(date) ? Math.max(date - Date.now(), 0) : undefined;
+}
+
 async function post(batch: TrackingEvent[], attempt: number, beacon: boolean, owner: number): Promise<void> {
   const url = endpoint();
   if (!url || !batch.length || owner !== generation) return;
@@ -51,6 +68,7 @@ async function post(batch: TrackingEvent[], attempt: number, beacon: boolean, ow
   const controller = new AbortController();
   controllers.add(controller);
   inFlight += 1;
+  let requestedDelay: number | undefined;
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -61,15 +79,20 @@ async function post(batch: TrackingEvent[], attempt: number, beacon: boolean, ow
       mode: 'cors',
       signal: controller.signal,
     });
-    // 2xx accepted; 4xx means the Function rejected the payload — retrying cannot help.
-    if (response.ok || (response.status >= 400 && response.status < 500)) return;
+    // 2xx accepted. Another 4xx means the Function rejected the payload, and retrying cannot help; 408 and 429 are
+    // transient like a 5xx and take the bounded retry path below.
+    if (response.ok) return;
+    if (response.status >= 400 && response.status < 500 && !RETRYABLE_CLIENT_STATUSES.has(response.status)) return;
+    requestedDelay = retryAfterMs(response);
     throw new Error(`transient ${response.status}`);
   } catch {
-    if (owner === generation && attempt < RETRY_DELAYS_MS.length) {
+    // A server that asks for a longer pause than we are willing to hold the batch for is not asked again this page view.
+    const tooLong = requestedDelay !== undefined && requestedDelay > MAX_RETRY_AFTER_MS;
+    if (owner === generation && attempt < RETRY_DELAYS_MS.length && !tooLong) {
       const retry = setTimeout(() => {
         retryTimers.delete(retry);
         void post(batch, attempt + 1, false, owner);
-      }, RETRY_DELAYS_MS[attempt]);
+      }, Math.max(RETRY_DELAYS_MS[attempt], requestedDelay ?? 0));
       retryTimers.add(retry);
     }
   } finally {

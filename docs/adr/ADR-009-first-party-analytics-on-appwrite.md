@@ -28,12 +28,16 @@ The boundary, as recorded in `AGENTS.md`:
 | The eight events `page_view`, `scroll`, `cta_click`, `form_submit`, `phone_click`, `checkout_start`, `purchase`, `experiment_exposure` | Any other event name |
 | Thirteen allowlisted property keys (`cta_id`, `cta_location`, `destination`, `engagement_type`, `form_id`, `status`, `percent_scrolled`, `product_id`, `currency`, `value`, `variant`, `experiment_id`, `transaction_id`), each validated | Any other key; anything that looks like an email address or phone number; query strings; URL schemes |
 | A random anonymous browser id and session id (created only after consent) | Names, emails, phone numbers, message text, form values, payment data, authentication data, uploads, PHI |
-| One of the site's own page paths (anything else is stored as `/404/`); referrer **host** only; registered channel and campaign labels | Raw IP address, full user-agent string, cookies, full URLs, headers, visitor-typed paths, free-form campaign text, Stripe identifiers |
+| One of the site's own page paths (anything else is stored as `/404/`); referrer **host** only; registered call-to-action, location, form, product, experiment, channel and campaign labels | Raw IP address, full user-agent string, cookies, full URLs, headers, visitor-typed paths, free-form campaign text, Stripe identifiers |
 
 The allowlists live in one place per side and are kept identical by a test:
-`src/v4/analytics/taxonomy.ts` (browser) and `functions/tracking-ingest/contract.js` (Function). The page-path and campaign-label
-lists are generated into the Function (`functions/tracking-ingest/allowlists.js`) from `src/seo/routeRegistry.js` and
-`src/v4/analytics/campaigns.js` by `scripts/appwrite/sync-analytics-allowlists.js`; a test fails when the copy is stale.
+`src/v4/analytics/taxonomy.ts` (browser) and `functions/tracking-ingest/contract.js` (Function). The page-path, campaign-label and
+descriptive-value lists (call to action, location, engagement type, form, status, product, channel label, experiment and its
+variants) are generated into the Function (`functions/tracking-ingest/allowlists.js`) from `src/seo/routeRegistry.js`,
+`src/v4/analytics/campaigns.js` and `src/v4/analytics/dimensions.js` by `scripts/appwrite/sync-analytics-allowlists.js`; a test fails
+when the copy is stale. A descriptive value is stored only when it is listed, because a character filter cannot tell a name from an
+identifier and the endpoint is public. The `target_key` the browser sends is not stored; the Function derives it from the listed
+`cta_id` and `cta_location` it kept.
 
 ### Controls
 

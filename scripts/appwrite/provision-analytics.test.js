@@ -9,6 +9,19 @@ import { COLUMNS, DATABASE_ID, INDEXES, PLAN, TABLE_ID, describeColumnMismatches
 
 const notFound = () => Object.assign(new Error('not found'), { code: 404, type: 'table_not_found' });
 
+/** The two SDK query builders the script uses, as plain descriptors the fake below understands. */
+const fakeQuery = { limit: (value) => ({ method: 'limit', values: [value] }), offset: (value) => ({ method: 'offset', values: [value] }) };
+
+/** Appwrite lists 25 items unless a limit query asks for more, and honours an offset. The fake behaves the same way. */
+const APPWRITE_DEFAULT_PAGE = 25;
+const page = (items, queries = []) => {
+  const limit = queries.find((query) => query.method === 'limit')?.values[0] ?? APPWRITE_DEFAULT_PAGE;
+  const offset = queries.find((query) => query.method === 'offset')?.values[0] ?? 0;
+  return items.slice(offset, offset + limit);
+};
+
+const apply = (tables, options = {}) => provision({ tables, Query: fakeQuery, pollMs: 0, ...options });
+
 /** An in-memory stand-in for the Appwrite TablesDB service. It has no update or delete methods on purpose. */
 function fakeTables({ table = null, columns = [] } = {}) {
   const state = {
@@ -43,13 +56,13 @@ function fakeTables({ table = null, columns = [] } = {}) {
       state.table = { $permissions: params.permissions, rowSecurity: params.rowSecurity };
       return state.table;
     }),
-    listColumns: vi.fn(async () => ({ columns: [...state.columns.values()] })),
+    listColumns: vi.fn(async ({ queries } = {}) => ({ total: state.columns.size, columns: page([...state.columns.values()], queries) })),
     // Appwrite reports every constraint it was created with, so the fake does too.
     createVarcharColumn: vi.fn(async (p) => addColumn({ key: p.key, type: 'varchar', size: p.size, required: p.required, array: false })),
     createDatetimeColumn: vi.fn(async (p) => addColumn({ key: p.key, type: 'datetime', required: p.required, array: false })),
     createIntegerColumn: vi.fn(async (p) => addColumn({ key: p.key, type: 'integer', required: p.required, min: p.min, max: p.max, array: false })),
     createFloatColumn: vi.fn(async (p) => addColumn({ key: p.key, type: 'float', required: p.required, min: p.min, max: p.max, array: false })),
-    listIndexes: vi.fn(async () => ({ indexes: [...state.indexes.values()] })),
+    listIndexes: vi.fn(async ({ queries } = {}) => ({ total: state.indexes.size, indexes: page([...state.indexes.values()], queries) })),
     createIndex: vi.fn(async (p) => {
       record('createIndex');
       state.indexes.set(p.key, { key: p.key, ...p });
@@ -60,7 +73,7 @@ function fakeTables({ table = null, columns = [] } = {}) {
 describe('analytics table provisioning', () => {
   it('creates a PRIVATE table: no permissions and row security off', async () => {
     const tables = fakeTables();
-    const report = await provision({ tables, pollMs: 0 });
+    const report = await apply(tables);
     expect(tables.createTable).toHaveBeenCalledTimes(1);
     expect(tables.createTable).toHaveBeenCalledWith(expect.objectContaining({ databaseId: DATABASE_ID, tableId: TABLE_ID, permissions: [], rowSecurity: false, enabled: true }));
     expect(PLAN.table.permissions).toEqual([]);
@@ -73,24 +86,74 @@ describe('analytics table provisioning', () => {
 
   it('is idempotent: a second run creates nothing', async () => {
     const tables = fakeTables();
-    await provision({ tables, pollMs: 0 });
+    await apply(tables);
     tables.state.calls.length = 0;
-    const second = await provision({ tables, pollMs: 0 });
+    const second = await apply(tables);
     expect(second.created).toEqual([]);
     expect(tables.state.calls).toEqual([]);
   });
 
+  describe('lists past the 25 items Appwrite returns by default', () => {
+    it('has more columns than one default page, which is why the script has to ask for more', () => {
+      expect(COLUMNS.length).toBeGreaterThan(APPWRITE_DEFAULT_PAGE);
+    });
+
+    it('waits for all of the columns, then creates every index (an unqualified list call could never see the last columns)', async () => {
+      const tables = fakeTables();
+      const report = await apply(tables, { pollAttempts: 5 });
+      expect(tables.state.columns.size).toBe(COLUMNS.length);
+      expect(report.created.filter((entry) => entry.startsWith('index:'))).toHaveLength(INDEXES.length);
+      // Every list call asked for an explicit page; none relied on the server default.
+      for (const [params] of tables.listColumns.mock.calls) expect(params.queries.map((query) => query.method)).toEqual(['limit', 'offset']);
+      for (const [params] of tables.listIndexes.mock.calls) expect(params.queries.map((query) => query.method)).toEqual(['limit', 'offset']);
+    });
+
+    it('compares the columns beyond the first page too, instead of treating them as missing', async () => {
+      const planColumns = COLUMNS.map((column) => ({ ...column, array: false, status: 'available' }));
+      const last = planColumns[planColumns.length - 1];
+      const broken = planColumns.map((column) => (column.key === last.key ? { ...column, required: !column.required } : column));
+      const tables = fakeTables({ table: { $permissions: [], rowSecurity: false }, columns: broken });
+      await expect(apply(tables)).rejects.toThrow(new RegExp(`${last.key} required`));
+      expect(tables.state.calls).not.toContain('createColumn');
+    });
+
+    it('is idempotent against a table that already holds every column, without trying to create the last ones again', async () => {
+      const tables = fakeTables();
+      await apply(tables);
+      tables.state.calls.length = 0;
+      tables.createVarcharColumn.mockClear();
+      const second = await apply(tables);
+      expect(second.created).toEqual([]);
+      expect(tables.state.calls).toEqual([]);
+      expect(tables.createVarcharColumn).not.toHaveBeenCalled();
+    });
+
+    it('reads every page of a long list, and stops if the server ignores the offset instead of looping forever', async () => {
+      const tables = fakeTables();
+      tables.listIndexes.mockImplementation(async ({ queries }) => {
+        const limit = queries.find((query) => query.method === 'limit').values[0];
+        return { indexes: Array.from({ length: limit }, (_unused, index) => ({ key: `idx_${index}`, columns: ['x'], orders: ['ASC'] })) }; // always the same full page
+      });
+      await expect(apply(tables)).resolves.toBeTruthy(); // terminates; none of these keys is one the plan creates
+      expect(tables.listIndexes.mock.calls.length).toBeLessThanOrEqual(2);
+    });
+
+    it('refuses to run without the SDK query helpers rather than silently listing 25 items', async () => {
+      await expect(provision({ tables: fakeTables(), pollMs: 0 })).rejects.toThrow(/Query helpers/);
+    });
+  });
+
   it('refuses to continue when the table exists but is not private, and changes nothing', async () => {
     const tables = fakeTables({ table: { $permissions: ['read("any")'], rowSecurity: false } });
-    await expect(provision({ tables, pollMs: 0 })).rejects.toThrow(/NOT private/);
+    await expect(apply(tables)).rejects.toThrow(/NOT private/);
     expect(tables.state.calls).toEqual([]);
     const rowLevel = fakeTables({ table: { $permissions: [], rowSecurity: true } });
-    await expect(provision({ tables: rowLevel, pollMs: 0 })).rejects.toThrow(/NOT private/);
+    await expect(apply(rowLevel)).rejects.toThrow(/NOT private/);
   });
 
   it('refuses to modify a column whose definition differs', async () => {
     const tables = fakeTables({ table: { $permissions: [], rowSecurity: false }, columns: [{ key: 'page_path', type: 'varchar', size: 50 }] });
-    await expect(provision({ tables, pollMs: 0 })).rejects.toThrow(/page_path/);
+    await expect(apply(tables)).rejects.toThrow(/page_path/);
     expect(tables.state.calls).not.toContain('createColumn');
   });
 
@@ -103,7 +166,7 @@ describe('analytics table provisioning', () => {
     it('accepts a table that already matches the plan, creating nothing', async () => {
       const tables = tableOf(planColumns());
       tables.state.indexes = new Map(INDEXES.map((index) => [index.key, { key: index.key, columns: index.columns, orders: index.orders.map((order) => order.toUpperCase()) }]));
-      const report = await provision({ tables, pollMs: 0 });
+      const report = await apply(tables);
       expect(report.created).toEqual([]);
       expect(tables.state.calls).toEqual([]);
     });
@@ -119,7 +182,7 @@ describe('analytics table provisioning', () => {
       ['a column of another type', { value: { type: 'integer' } }, /value type: expected float, found integer/],
     ])('refuses %s and changes nothing', async (_label, alter, message) => {
       const tables = tableOf(planColumns(alter));
-      await expect(provision({ tables, pollMs: 0 })).rejects.toThrow(message);
+      await expect(apply(tables)).rejects.toThrow(message);
       expect(tables.state.calls).toEqual([]);
     });
 
@@ -128,7 +191,7 @@ describe('analytics table provisioning', () => {
         table: { $permissions: [], rowSecurity: false },
         columns: planColumns({ value: { max: 1 }, event_name: { required: false } }).filter((column) => column.key !== 'status'), // one column is also missing
       });
-      await expect(provision({ tables, pollMs: 0 })).rejects.toThrow(/event_name required[\s\S]*value max/);
+      await expect(apply(tables)).rejects.toThrow(/event_name required[\s\S]*value max/);
       expect(tables.state.calls).not.toContain('createColumn');
     });
 
@@ -143,7 +206,7 @@ describe('analytics table provisioning', () => {
       expect(describeIndexMismatches({ key: 'idx_occurred_at', columns: ['occurred_at'] }, INDEXES[0])).toEqual([]); // no order reported
       const tables = tableOf(planColumns());
       tables.state.indexes = new Map([['idx_page_path', { key: 'idx_page_path', columns: ['event_name'], orders: ['ASC'] }]]);
-      await expect(provision({ tables, pollMs: 0 })).rejects.toThrow(/idx_page_path columns/);
+      await expect(apply(tables)).rejects.toThrow(/idx_page_path columns/);
       expect(tables.state.calls).not.toContain('createIndex');
     });
   });
@@ -154,7 +217,7 @@ describe('analytics table provisioning', () => {
       tables.state.columns.set(p.key, { key: p.key, type: 'datetime', status: 'available' });
       throw Object.assign(new Error('exists'), { code: 409, type: 'column_already_exists' });
     });
-    await expect(provision({ tables, pollMs: 0 })).resolves.toBeTruthy();
+    await expect(apply(tables)).resolves.toBeTruthy();
   });
 
   it('stores exactly the columns the Function can write, and indexes timestamp, event name, page path and retention', async () => {
@@ -168,10 +231,11 @@ describe('analytics table provisioning', () => {
       vi.doUnmock('../../functions/tracking-ingest/allowlists.js');
       vi.resetModules();
     }
+    // One event that uses every stored column: a click carries a target key, and every other column is optional.
     const event = {
       schema_version: 1,
       event_id: '3f2504e0-4f89-41d3-9a0c-0305e82c3301',
-      event_name: 'purchase',
+      event_name: 'cta_click',
       timestamp: new Date().toISOString(),
       page_path: '/checkout/success/',
       target_key: 'book-diagnostic.header',
@@ -184,8 +248,8 @@ describe('analytics table provisioning', () => {
       utm_medium: 'social',
       utm_campaign: 'launch',
       properties: {
-        cta_id: 'a', cta_location: 'b', destination: '/diagnostic/', engagement_type: 'c', form_id: 'd', status: 'paid', percent_scrolled: 50,
-        product_id: 'revenue-optimization-diagnostic', currency: 'USD', value: 2500, variant: 'v', experiment_id: 'e', transaction_id: '3f2504e04f8941d39a0c0305e82c3301',
+        cta_id: 'book-diagnostic', cta_location: 'header', destination: '/diagnostic/', engagement_type: 'diagnostic', form_id: 'contact-inquiry', status: 'success', percent_scrolled: 50,
+        product_id: 'revenue-optimization-diagnostic', currency: 'USD', value: 2500, variant: 'fixed-fee', experiment_id: 'exp-hero-cta-v1', transaction_id: '3f2504e04f8941d39a0c0305e82c3301',
       },
     };
     const result = validate(event, { now: new Date(), retentionDays: 90 });
