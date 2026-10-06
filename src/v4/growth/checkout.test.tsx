@@ -26,6 +26,8 @@ const fake = (prefix: string, mode: string): string => [prefix, mode, `SYNTHETIC
 const PUBLISHABLE = fake('pk', 'test');
 const SESSION = 'cs_test_a1B2c3D4e5F6g7H8i9J0';
 const HOSTED = `https://checkout.stripe.com/c/pay/${SESSION}`;
+// What the Function derives for analytics: a keyed digest of the session id, never the id itself.
+const REFERENCE = '3f2504e04f8941d39a0c0305e82c3301';
 
 type FetchCall = [string, RequestInit | undefined];
 let fetchMock: ReturnType<typeof vi.fn>;
@@ -55,7 +57,7 @@ beforeEach(() => {
   resetGa4ForTests();
   resetExperimentsForTests();
   vi.useFakeTimers();
-  functionReply = (body) => (body.action === 'create' ? { body: { ok: true, url: HOSTED } } : { body: { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD' } });
+  functionReply = (body) => (body.action === 'create' ? { body: { ok: true, url: HOSTED } } : { body: { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD', transaction_ref: REFERENCE } });
   fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
     if (url === CHECKOUT) {
       const reply = functionReply(JSON.parse(init?.body as string));
@@ -164,8 +166,16 @@ describe('verifying a returned session', () => {
   beforeEach(() => configure());
 
   it('reports paid only when the server confirms the catalogued $2,500 USD product', async () => {
-    expect(await verifyCheckoutSession(SESSION)).toEqual({ state: 'paid' });
+    expect(await verifyCheckoutSession(SESSION)).toEqual({ state: 'paid', reference: REFERENCE });
     expect(functionBodies()).toEqual([{ action: 'verify', session_id: SESSION }]);
+  });
+
+  it('confirms the payment but offers no reference when the Function sends none or a malformed one', async () => {
+    const paid = { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD' };
+    for (const transaction_ref of [undefined, '', 'cs_test_a1B2c3D4e5F6g7H8i9J0', REFERENCE.toUpperCase(), REFERENCE.slice(1), 5, null]) {
+      functionReply = () => ({ body: { ...paid, transaction_ref } });
+      expect(await verifyCheckoutSession(SESSION), String(transaction_ref)).toEqual({ state: 'paid' });
+    }
   });
 
   it.each([
@@ -188,8 +198,8 @@ describe('verifying a returned session', () => {
 
   it('shares one request between concurrent verifications of the same session (StrictMode runs effects twice)', async () => {
     const [first, second] = await Promise.all([verifyCheckoutSession(SESSION), verifyCheckoutSession(SESSION)]);
-    expect(first).toEqual({ state: 'paid' });
-    expect(second).toEqual({ state: 'paid' });
+    expect(first).toEqual({ state: 'paid', reference: REFERENCE });
+    expect(second).toEqual({ state: 'paid', reference: REFERENCE });
     expect(functionBodies()).toHaveLength(1);
     await verifyCheckoutSession(SESSION); // a later, separate verification is a new request
     expect(functionBodies()).toHaveLength(2);
@@ -204,23 +214,23 @@ describe('verifying a returned session', () => {
 describe('purchase tracking', () => {
   beforeEach(() => configure());
 
-  it('records one purchase per session for the visitor, with the Stripe session id and the catalogued amount', async () => {
+  it('records one purchase per reference for the visitor, with the catalogued amount and no Stripe identifier', async () => {
     applyAnalyticsConsent({ firstParty: true, ga4: false });
-    trackVerifiedPurchase(SESSION);
-    trackVerifiedPurchase(SESSION);
+    trackVerifiedPurchase(REFERENCE);
+    trackVerifiedPurchase(REFERENCE);
     resetTrackerForTests(); // a reload
-    trackVerifiedPurchase(SESSION);
+    trackVerifiedPurchase(REFERENCE);
     await vi.advanceTimersByTimeAsync(2_100);
     const purchases = sentEvents().filter((event) => event.event_name === 'purchase');
     expect(purchases).toHaveLength(1);
-    expect(purchases[0].properties).toEqual({ product_id: 'revenue-optimization-diagnostic', transaction_id: SESSION, value: 2500, currency: 'USD', status: 'paid' });
+    expect(purchases[0].properties).toEqual({ product_id: 'revenue-optimization-diagnostic', transaction_id: REFERENCE, value: 2500, currency: 'USD', status: 'paid' });
+    expect(JSON.stringify([...Object.entries(window.localStorage), ...Object.entries(window.sessionStorage)])).not.toMatch(/cs_(test|live)_/);
   });
 
-  it('records nothing without consent, and ignores anything that is not a test-mode session id', async () => {
-    trackVerifiedPurchase(SESSION);
+  it('records nothing without consent, and refuses anything that is not a purchase reference — a Stripe session id above all', async () => {
+    trackVerifiedPurchase(REFERENCE);
     applyAnalyticsConsent({ firstParty: true, ga4: false });
-    trackVerifiedPurchase('cs_live_a1B2c3D4e5F6g7H8i9J0');
-    trackVerifiedPurchase('order-1');
+    for (const refused of [SESSION, 'cs_live_a1B2c3D4e5F6g7H8i9J0', 'order-1', REFERENCE.toUpperCase(), '']) trackVerifiedPurchase(refused);
     await vi.advanceTimersByTimeAsync(5_000);
     expect(sentEvents().filter((event) => event.event_name === 'purchase')).toHaveLength(0);
   });
@@ -299,7 +309,8 @@ describe('CheckoutButton', () => {
 
 describe('/checkout/success/', () => {
   const consentCookie = () => {
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-first-party-analytics': true }))}; path=/`;
+    // Klaro writes an answer for every configured service; analytics honours only a complete saved choice.
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
   };
   const renderSuccess = (query = `?session_id=${SESSION}`) => {
     window.history.pushState({}, '', `/checkout/success/${query}`);
@@ -319,9 +330,22 @@ describe('/checkout/success/', () => {
     await flush();
     const purchases = sentEvents().filter((event) => event.event_name === 'purchase');
     expect(purchases).toHaveLength(1);
-    expect(purchases[0]).toMatchObject({ page_path: '/checkout/success/', properties: { transaction_id: SESSION, value: 2500, currency: 'USD', status: 'paid' } });
+    expect(purchases[0]).toMatchObject({ page_path: '/checkout/success/', properties: { transaction_id: REFERENCE, value: 2500, currency: 'USD', status: 'paid' } });
     expect(window.location.search).toBe(''); // the session id leaves the address bar
     expect(JSON.stringify(sentEvents())).not.toMatch(/@|pk_test|sk_test/);
+    // Analytics never sees, and never stores, the Stripe session id.
+    expect(JSON.stringify(sentEvents())).not.toContain(SESSION);
+    expect(JSON.stringify([...Object.entries(window.localStorage), ...Object.entries(window.sessionStorage)])).not.toContain(SESSION);
+  });
+
+  it('confirms the payment but records no purchase when the Function supplies no reference', async () => {
+    consentCookie();
+    functionReply = () => ({ body: { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD' } });
+    renderSuccess();
+    await flush();
+    expect(screen.getByRole('heading', { name: 'Payment received.' })).toBeTruthy();
+    await flush();
+    expect(sentEvents().filter((event) => event.event_name === 'purchase')).toHaveLength(0);
   });
 
   it('records no purchase for an unpaid or unverifiable session, however the URL looks', async () => {

@@ -4,6 +4,7 @@ import process from 'node:process';
 import { describe, expect, it } from 'vitest';
 import { APPROVED_CTAS, IGNORED_CTAS } from './approvedCtas.ts';
 import { storageInventory } from '../consent/storageInventory.ts';
+import { assertSafePublicEnv } from '../../build/envGuard.js';
 
 // Governance checks that keep analytics, consent and configuration honest as the code changes.
 // They read the source tree, so a new call to action, storage key or environment variable cannot slip in unclassified.
@@ -27,7 +28,8 @@ const sourceFiles = walk(join(ROOT, 'src')).map((path) => ({ path: relative(ROOT
 const KEBAB = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
 describe('call-to-action governance', () => {
-  // data-cta="x", cta="x" (TrackedLink) and cta: 'x' (channel and CTA data). Capitalised or spaced values are button labels, not ids.
+  // data-cta="x", cta="x" (TrackedLink), cta: 'x' (channel and CTA data) and 'data-cta': 'x' (attribute objects spread onto a link).
+  // Capitalised or spaced values are button labels, not ids.
   const found = new Map();
   const note = (id, path) => {
     if (!KEBAB.test(id)) return;
@@ -35,7 +37,7 @@ describe('call-to-action governance', () => {
     found.get(id).add(path);
   };
   for (const { path, text } of sourceFiles) {
-    for (const match of text.matchAll(/(?:data-cta=|\bcta=)["']([^"']+)["']|\bcta:\s*["']([^"']+)["']/g)) note(match[1] ?? match[2], path);
+    for (const match of text.matchAll(/(?:data-cta=|\bcta=)["']([^"']+)["']|\bcta:\s*["']([^"']+)["']|["']data-cta["']:\s*["']([^"']+)["']/g)) note(match[1] ?? match[2] ?? match[3], path);
     // data-cta={cond ? 'a' : 'b'}: every quoted id inside the braces counts, except values being compared (=== 'x').
     for (const expression of text.matchAll(/data-cta=\{([^}]*)\}/g)) {
       for (const literal of expression[1].matchAll(/(["'])([^"']*)\1/g)) {
@@ -125,7 +127,9 @@ describe('public configuration governance', () => {
   });
 
   it('refuses secret-shaped browser variables and non-test Stripe keys at build time', () => {
-    expect(guard).toMatch(/SECRET\|API_KEY/);
+    expect(() => assertSafePublicEnv({ VITE_STRIPE_SECRET_KEY: 'x' })).toThrow(/looks like a secret/);
+    expect(() => assertSafePublicEnv({ VITE_GITHUB_TOKEN: 'x' })).toThrow(/looks like a secret/);
+    expect(() => assertSafePublicEnv({ VITE_STRIPE_PUBLISHABLE_KEY: 'pk_live_x' })).toThrow(/pk_test_/);
     expect(guard).toMatch(/pk_test_/);
   });
 

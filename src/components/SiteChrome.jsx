@@ -125,13 +125,18 @@ function useViewportDockOffset() {
   return offset;
 }
 
-export function FloatingSiteControls() {
+/**
+ * `placementTest` is false on the minimal shells (diagnostic, thank-you, checkout, legal): they have no header button and
+ * no footer Talk to us band, so removing the floating control there would not test placement, it would remove the only
+ * contact control. The control stays, and those visits are not part of the test.
+ */
+export function FloatingSiteControls({ placementTest = true } = {}) {
   const [openPanel, setOpenPanel] = useState(null);
   const offset = useViewportDockOffset();
   const liveChannels = outreachChannels.filter((channel) => channel.href);
   // A/B test exp-talk-to-us-placement-v1: the "footer-only" variant drops the floating Talk to us control
   // (the header button and the footer Talk to us band remain).
-  const placement = useExperiment('talkToUsPlacement');
+  const placement = useExperiment('talkToUsPlacement', { eligible: placementTest });
   const showFloatingContact = placement.variant !== 'footer-only';
 
   useEffect(() => {

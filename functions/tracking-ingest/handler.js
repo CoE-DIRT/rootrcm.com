@@ -92,9 +92,10 @@ export async function handleTracking(request, { store, config, now = () => new D
   const headers = Object.fromEntries(Object.entries(request.headers || {}).map(([key, value]) => [key.toLowerCase(), String(value)]));
   const origin = headers.origin || '';
 
-  // Appwrite sets this trigger for cron executions. The only thing a scheduled run does is delete expired rows,
-  // and that is also all a forged header could achieve, so an HTTP caller cannot read or write anything this way.
-  if (request.trigger === 'schedule' && method === 'GET') return purge({ store, now, config });
+  // Appwrite sets this trigger for cron executions, which arrive as POST (GET is accepted too). The only thing a scheduled
+  // run does is delete expired rows, and that is also all a forged header could achieve, so an HTTP caller cannot read or
+  // write anything this way.
+  if (request.trigger === 'schedule' && (method === 'GET' || method === 'POST')) return purge({ store, now, config });
 
   if (!config.allowedOrigins.has(origin)) return respond(403, { ok: false }, origin, config);
   if (method === 'OPTIONS') return respond(204, null, origin, config);

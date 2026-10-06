@@ -113,3 +113,41 @@ describe('analytics follows the real cookie banner', () => {
     await waitFor(() => expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1));
   });
 });
+
+describe('a saved choice that predates a newly configured service', () => {
+  // Klaro asks again when the saved choice does not cover every configured service. Analytics must not keep acting on the
+  // old "yes" while the banner is asking, and must pick the new answer up as soon as the visitor gives it.
+  const olderChoice = () =>
+    (document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`);
+
+  beforeEach(() => {
+    vi.stubEnv('VITE_GA_MEASUREMENT_ID', 'G-TEST12345');
+    vi.stubEnv('VITE_GA_NON_PRODUCTION', 'true'); // this service is configured only so the cookie below is stale
+  });
+
+  it('stays silent while the banner is asking again, then starts once the visitor answers', async () => {
+    olderChoice();
+    const firstParty = await load();
+    await screen.findByRole('button', { name: 'Accept all' }); // Klaro is asking again
+    act(() => firstParty.flushFirstParty());
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem('root-aid')).toBeNull();
+    expect(document.querySelector('script[src*="googletagmanager"]')).toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Accept all' }));
+    await waitFor(() => expect(window.localStorage.getItem('root-aid')).not.toBeNull());
+    act(() => firstParty.flushFirstParty());
+    await waitFor(() => expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1));
+    expect(decodeURIComponent(document.cookie)).toContain('"google-analytics":true');
+  });
+
+  it('records nothing when the visitor declines the new question, even though they once said yes', async () => {
+    olderChoice();
+    const firstParty = await load();
+    fireEvent.click(await screen.findByRole('button', { name: 'Reject non-essential' }));
+    await waitFor(() => expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics":false'));
+    act(() => firstParty.flushFirstParty());
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem('root-aid')).toBeNull();
+  });
+});

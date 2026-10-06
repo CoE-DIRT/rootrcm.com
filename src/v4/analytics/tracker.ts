@@ -2,7 +2,7 @@ import { getSiteEnv, getTrackingEndpoint } from './config';
 import { analyticsAllowed, getAnalyticsConsent, subscribeAnalyticsConsent } from './consent';
 import { enqueueFirstParty, clearFirstPartyQueue } from './firstParty';
 import { isGa4Active, sendGa4Event, startGa4, stopGa4 } from './ga4';
-import { clearAnalyticsIds, getAnonymousId, getSessionId, newUuid } from './ids';
+import { clearDedupeMarkers, clearFirstPartyIds, getAnonymousId, getSessionId, newUuid } from './ids';
 import { referrerHost, sanitizeCampaign, sanitizePath, sanitizeProperties, sanitizeText } from './sanitize';
 import { SCHEMA_VERSION, isAnalyticsEventName, type AnalyticsEventName, type EventProperties, type TrackingEvent } from './taxonomy';
 import { getProduct } from '../growth/catalog';
@@ -53,9 +53,9 @@ function campaign(): { utm_source?: string; utm_medium?: string; utm_campaign?: 
     if (stored) return JSON.parse(stored);
     const params = new URLSearchParams(window.location.search);
     const fresh = {
-      utm_source: sanitizeCampaign(params.get('utm_source')),
-      utm_medium: sanitizeCampaign(params.get('utm_medium')),
-      utm_campaign: sanitizeCampaign(params.get('utm_campaign')),
+      utm_source: sanitizeCampaign('utm_source', params.get('utm_source')),
+      utm_medium: sanitizeCampaign('utm_medium', params.get('utm_medium')),
+      utm_campaign: sanitizeCampaign('utm_campaign', params.get('utm_campaign')),
     };
     if (fresh.utm_source || fresh.utm_medium || fresh.utm_campaign) window.sessionStorage.setItem('root-utm', JSON.stringify(fresh));
     return fresh;
@@ -100,11 +100,13 @@ function wireConsent(): void {
   subscribeAnalyticsConsent((consent) => {
     if (consent.ga4) startGa4();
     else if (isGa4Active()) stopGa4();
-    if (!consent.firstParty) clearFirstPartyQueue();
-    if (!consent.firstParty && !consent.ga4) {
-      seenThisLoad.clear();
-      clearAnalyticsIds();
+    // Withdrawing first-party analytics removes ITS identifiers even while GA4 stays on; the shared de-duplication markers go
+    // only when no analytics is left. The per-load marker set is kept so toggling consent never re-sends this page's view.
+    if (!consent.firstParty) {
+      clearFirstPartyQueue();
+      clearFirstPartyIds();
     }
+    if (!consent.firstParty && !consent.ga4) clearDedupeMarkers();
   });
 }
 

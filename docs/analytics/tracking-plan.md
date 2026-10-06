@@ -35,6 +35,22 @@ Experiments are specified separately in [experiments.md](experiments.md). This f
 A consent service is registered in the cookie banner only when its destination is configured, so visitors are never asked to
 consent to something that does not exist.
 
+**GA4 never runs outside production.** Even with a valid ID, GA4 starts only on `rootrcm.com` and `www.rootrcm.com`, so preview and
+local traffic cannot reach the production property. QA against a *separate* test property may opt in per build with
+`VITE_GA_NON_PRODUCTION=true`; never set it on a build that carries the production Measurement ID. The consent service, the privacy
+policy and the cookie table all follow this rule, so none of them describes GA4 where it cannot run.
+
+**A saved choice counts only while it is complete.** Klaro asks again when a visitor's saved choice no longer answers for every
+configured service (for example after a service is added); analytics applies the same rule (`src/v4/consent/confirmedConsent.ts`), so
+an old "yes" is never acted on while the banner is asking again. Global Privacy Control refuses first-party, GA4 and PostHog alike.
+
+**Withdrawal.** Withdrawing first-party analytics deletes its identifiers (`root-aid`, `root-sid`, `root-utm`), drops the queue,
+cancels pending retries and aborts requests in flight, even while GA4 stays on. The de-duplication markers
+(`root-analytics-seen`) are deleted when no analytics service is left. Events still queued at withdrawal are discarded, never replayed.
+
+**The privacy policy follows the build.** `/privacy-policy/` renders from `src/v4/consent/disclosure.ts`: it names only the tools this
+build can run, and describes the bot-protection challenge only for owned contact delivery (`VITE_CONTACT_MODE=owned`).
+
 ## Events
 
 | Event | Fired when | Properties |
@@ -45,7 +61,7 @@ consent to something that does not exist.
 | `phone_click` | a phone CTA or any `tel:` link | `cta_id`, `cta_location` (never the number) |
 | `form_submit` | an inquiry form result, by form id | `form_id` (`contact-inquiry`, `diagnostic-inquiry`, `book-inquiry`), `status` (`success` or `failure`) |
 | `checkout_start` | the visitor starts Stripe test-mode checkout | `product_id`, `value`, `currency` |
-| `purchase` | **only** after the server has verified a paid Checkout Session | `product_id`, `transaction_id`, `value`, `currency`, `status` |
+| `purchase` | **only** after the server has verified a paid Checkout Session | `product_id`, `transaction_id` (the server-derived purchase reference), `value`, `currency`, `status` |
 | `experiment_exposure` | an A/B surface renders for an assigned visitor, once per session | `experiment_id`, `variant` |
 
 Chrome-only CTAs (`logo`) and channels that are not live (`youtube-coming-soon`, `calendly-coming-soon`) are deliberately not
@@ -53,17 +69,35 @@ tracked (`IGNORED_CTAS`). A governance test fails if a new `data-cta` value is n
 
 ### Event context (every first-party event)
 
-`schema_version`, `event_id` (UUID; the row id, so retries are idempotent), `timestamp`, `page_path` (pathname only; ids redacted),
-`session_id` and `anonymous_id` (random UUIDs), `consent: true`, `environment` (`production` only on rootrcm.com and
-www.rootrcm.com; otherwise `preview` or `development`), `referrer_host` (hostname only, page views), first-touch
-`utm_source` / `utm_medium` / `utm_campaign` (lower-case slug-like labels only), `target_key` (`cta_id.cta_location`).
+`schema_version`, `event_id` (UUID; the row id, so retries are idempotent), `timestamp`, `page_path` (one of the site's own
+pages, see below), `session_id` and `anonymous_id` (random UUIDs), `consent: true`, `environment` (`production` only on
+rootrcm.com and www.rootrcm.com; otherwise `preview` or `development`), `referrer_host` (hostname only, page views), first-touch
+`utm_source` / `utm_medium` / `utm_campaign` (registered labels only, see below), `target_key` (`cta_id.cta_location`).
+
+**Page paths are an allowlist.** `page_path` is reported only when it is one of the site's public pages or a legacy alias
+(`analyticsPaths()` in `src/seo/routeRegistry.js`, the same registry that drives the sitemap). Any other URL (a typo, a probe, or text a
+visitor typed into the address bar, which the host answers with its not-found page) is reported as `/404/`, so a path can never carry
+anything personal into the table. The Function enforces the same list from a generated copy
+(`functions/tracking-ingest/allowlists.js`); an internal `destination` must be one of the same pages. When a route is added, run
+`node scripts/appwrite/sync-analytics-allowlists.js`; a test fails if the copy is stale. Deploy the Function **before** the site
+that links to the new route, otherwise its first views are counted as `/404/`.
+
+**Campaign labels are a registry.** A free-form `utm_*` value can carry a person's name and no character filter can tell the
+difference, so only registered labels are stored (`src/v4/analytics/campaigns.js`): generic channel names for `utm_source` and
+`utm_medium`, and campaigns the owner has registered for `utm_campaign`. **No campaign is registered yet, so `utm_campaign` is never
+stored** until the owner adds one (then run the sync script and redeploy the Function). An unregistered label is dropped by the browser
+and, if a client sends one anyway, discarded by the Function (the view is still counted).
 
 ## Property dictionary
 
 `cta_id`, `cta_location`, `engagement_type`, `form_id`, `status`, `product_id`, `variant`, `experiment_id`: short text, restricted
 charset, no `@`, no phone-like or long numeric runs. `destination`: an internal path or a short label, never a URL or a link with a query.
 `percent_scrolled`: integer 0 to 100. `value`: number 0 to 1,000,000 with at most two decimals. `currency`: three capital letters.
-`transaction_id`: a Stripe Checkout Session id (`cs_test_...`).
+`transaction_id`: a **purchase reference**, never a Stripe identifier: 32 lower-case hex characters that the `checkout` Function derives
+from the verified session with a keyed digest (HMAC-SHA256, truncated to 128 bits). It cannot be turned back into the session id, and
+without the server secret it cannot be linked to Stripe; its only purpose is to count a purchase once. The Stripe Checkout Session id
+is never sent to analytics, GA4 or first-party storage. Rotating the Stripe key changes every reference (de-duplication across the
+rotation only).
 
 ## Browser storage written for measurement
 

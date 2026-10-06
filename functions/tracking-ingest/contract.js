@@ -3,8 +3,9 @@
 // event that fails any rule is dropped, never "cleaned up" into something that might still be personal.
 //
 // Keep EVENT_NAMES, PROPERTY_KEYS and SCHEMA_VERSION identical to src/v4/analytics/taxonomy.ts.
-// src/v4/analytics/contract-parity.test.js fails if they drift.
-import { createHash } from 'node:crypto';
+// src/v4/analytics/contract-parity.test.js fails if they drift. allowlists.js (page paths and UTM labels) is generated
+// from the site's route registry and campaign registry; allowlists.test.js fails when it is stale.
+import { KNOWN_PATHS, NOT_FOUND_PATH, UTM_CAMPAIGNS, UTM_MEDIUMS, UTM_SOURCES } from './allowlists.js';
 
 export const SCHEMA_VERSION = 1;
 
@@ -84,7 +85,7 @@ export const COLUMN_SIZES = {
   currency: 3,
   variant: 32,
   experiment_id: 64,
-  transaction_id: 128,
+  transaction_id: 32,
 };
 
 const EVENT_KEYS = new Set([
@@ -110,19 +111,22 @@ const SAFE_TEXT = /^[A-Za-z0-9 _.:/#+-]+$/;
 const PHONE_LIKE = /\+?\d(?:[\s().-]?\d){6,}/;
 const LONG_DIGITS = /\d{6,}/;
 const SCHEME_PREFIX = /^(?:tel|mailto|sms|whatsapp|https?|ftp|javascript|data):/i;
-const STRIPE_SESSION_ID = /^cs_(?:test|live)_[A-Za-z0-9]{10,100}$/;
+/** Server-derived, non-reversible purchase reference (see functions/checkout): 32 lower-case hex characters. */
+const PURCHASE_REFERENCE = /^[0-9a-f]{32}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
 const HOSTNAME = /^[a-z0-9.-]+$/;
-const CAMPAIGN = /^[a-z0-9 _.-]+$/;
+const KNOWN_PATH_SET = new Set(KNOWN_PATHS);
+const CAMPAIGN_LABELS = { utm_source: new Set(UTM_SOURCES), utm_medium: new Set(UTM_MEDIUMS), utm_campaign: new Set(UTM_CAMPAIGNS) };
 
 const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
 
 /**
- * Appwrite row ids are at most 36 characters. A purchase is keyed by a hash of its Stripe Checkout session id (not by the
- * random event id) so it is stored once however many times, from however many browsers or consent states, it is sent.
+ * Appwrite row ids are at most 36 characters. A purchase is keyed by its purchase reference (not by the random event id)
+ * so it is stored once however many times, from however many browsers or consent states, it is sent. The reference is
+ * already a non-reversible digest, so it is safe to use as the id.
  */
-const purchaseRowId = (transactionId) => `p${createHash('sha256').update(`purchase:${transactionId}`).digest('hex').slice(0, 35)}`;
+const purchaseRowId = (reference) => `p${reference}`;
 const isPlainObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 /** Bounded, conservative free text: trimmed, short, no '@', no phone-like or long numeric runs, restricted charset. */
@@ -151,7 +155,10 @@ function number(value, min, max, decimals) {
 
 function destination(value) {
   if (typeof value !== 'string' || !value || value !== value.trim() || SCHEME_PREFIX.test(value) || value.includes('?') || value.includes('@')) return null;
-  return value.startsWith('/') ? safePath(value, COLUMN_SIZES.destination) : safeText(value, 64);
+  if (!value.startsWith('/')) return safeText(value, 64);
+  // An internal destination is one of the site's own pages; anything else is not something the browser would send.
+  const path = safePath(value, COLUMN_SIZES.destination);
+  return path !== null && KNOWN_PATH_SET.has(path) ? path : null;
 }
 
 const PROPERTY_VALIDATORS = {
@@ -167,7 +174,7 @@ const PROPERTY_VALIDATORS = {
   value: (value) => number(value, 0, 1_000_000, 2),
   variant: (value) => safeText(value, COLUMN_SIZES.variant),
   experiment_id: (value) => safeText(value, COLUMN_SIZES.experiment_id),
-  transaction_id: (value) => (typeof value === 'string' && value.length <= COLUMN_SIZES.transaction_id && STRIPE_SESSION_ID.test(value) ? value : null),
+  transaction_id: (value) => (typeof value === 'string' && PURCHASE_REFERENCE.test(value) ? value : null),
 };
 
 function optionalText(event, key, validator, row, column = key) {
@@ -200,8 +207,11 @@ export function validateEvent(event, { now, retentionDays }) {
     return { ok: false, reason: 'timestamp_window' };
   }
 
-  const path = safePath(event.page_path);
-  if (path === null) return { ok: false, reason: 'page_path' };
+  const wellFormed = safePath(event.page_path);
+  if (wellFormed === null) return { ok: false, reason: 'page_path' };
+  // A well-formed path that is not one of the site's pages (a typo, a probe, text someone typed into the address bar) is
+  // counted as a not-found view; the path itself is never stored.
+  const path = KNOWN_PATH_SET.has(wellFormed) ? wellFormed : NOT_FOUND_PATH;
 
   const received = now.toISOString();
   const row = {
@@ -220,9 +230,12 @@ export function validateEvent(event, { now, retentionDays }) {
   if (!optionalText(event, 'referrer_host', (value) => (typeof value === 'string' && value.length <= LIMITS.referrerHostLength && HOSTNAME.test(value) ? value : null), row)) {
     return { ok: false, reason: 'referrer_host' };
   }
-  const campaign = (value) => (typeof value === 'string' && value.length <= LIMITS.campaignLength && CAMPAIGN.test(value) && !PHONE_LIKE.test(value) && !LONG_DIGITS.test(value) ? value : null);
+  // Only registered labels are stored: a free-form utm_* value can carry a name or other personal text. An unregistered
+  // string is discarded (the label is never stored; the view itself is still counted). A non-string is not a label at all.
   for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) {
-    if (!optionalText(event, key, campaign, row)) return { ok: false, reason: key };
+    if (!hasOwn(event, key) || event[key] === undefined) continue;
+    if (typeof event[key] !== 'string') return { ok: false, reason: key };
+    if (CAMPAIGN_LABELS[key].has(event[key])) row[key] = event[key];
   }
 
   const properties = event.properties === undefined ? {} : event.properties;

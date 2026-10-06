@@ -13,6 +13,8 @@ import { getProduct } from './catalog';
 export const DIAGNOSTIC_PRODUCT_ID = 'revenue-optimization-diagnostic';
 
 const SESSION_ID = /^cs_test_[A-Za-z0-9]{10,100}$/;
+/** What the Function returns for analytics: a keyed digest of the session id, never the id itself. */
+const PURCHASE_REFERENCE = /^[0-9a-f]{32}$/;
 const STRIPE_HOSTED_PREFIX = 'https://checkout.stripe.com/';
 const REQUEST_TIMEOUT_MS = 20_000;
 
@@ -78,7 +80,11 @@ export async function startDiagnosticCheckout(context: CheckoutContext = {}, nav
   return { ok: true };
 }
 
-export type CheckoutVerification = { state: 'paid' } | { state: 'unpaid' } | { state: 'unavailable' };
+/**
+ * `reference` is the server-derived, non-reversible purchase reference used to count a purchase once. It is absent if the
+ * Function did not supply one; the payment is still confirmed to the visitor, but no purchase event is recorded.
+ */
+export type CheckoutVerification = { state: 'paid'; reference?: string } | { state: 'unpaid' } | { state: 'unavailable' };
 
 const verifying = new Map<string, Promise<CheckoutVerification>>();
 
@@ -87,7 +93,9 @@ async function verify(sessionId: string): Promise<CheckoutVerification> {
   if (!data || data.ok !== true) return { state: 'unavailable' };
   const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
   const paid = data.paid === true && product !== undefined && data.product_id === product.id && data.amount === product.amountUsd && data.currency === product.currency;
-  return { state: paid ? 'paid' : 'unpaid' };
+  if (!paid) return { state: 'unpaid' };
+  const reference = typeof data.transaction_ref === 'string' && PURCHASE_REFERENCE.test(data.transaction_ref) ? data.transaction_ref : undefined;
+  return reference ? { state: 'paid', reference } : { state: 'paid' };
 }
 
 /**
@@ -101,13 +109,19 @@ export function verifyCheckoutSession(sessionId: string): Promise<CheckoutVerifi
   return pending;
 }
 
-/** Record the purchase for a session the server has verified as paid. At most once per visitor, and only with consent. */
-export function trackVerifiedPurchase(sessionId: string): void {
+export const isPurchaseReference = (value: unknown): value is string => typeof value === 'string' && PURCHASE_REFERENCE.test(value);
+
+/**
+ * Record the purchase for a session the server has verified as paid, identified only by the server's non-reversible
+ * reference (the Stripe session id is never sent to analytics or kept in browser storage by it). At most once per
+ * visitor, and only with consent.
+ */
+export function trackVerifiedPurchase(reference: string): void {
   const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
-  if (!product || !isCheckoutSessionId(sessionId)) return;
+  if (!product || !isPurchaseReference(reference)) return;
   track(
     'purchase',
-    { product_id: product.id, transaction_id: sessionId, value: product.amountUsd, currency: product.currency, status: 'paid' },
-    { dedupeKey: `purchase:${sessionId}`, dedupeScope: 'visitor', immediate: true },
+    { product_id: product.id, transaction_id: reference, value: product.amountUsd, currency: product.currency, status: 'paid' },
+    { dedupeKey: `purchase:${reference}`, dedupeScope: 'visitor', immediate: true },
   );
 }

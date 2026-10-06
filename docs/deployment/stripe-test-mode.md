@@ -48,8 +48,8 @@ In the Stripe **test** Dashboard add an endpoint pointing at the `stripe-webhook
 | `/pricing/` and `/diagnostic/` | a "Pay $2,500 securely" button with the test-mode notice; nothing without the two variables |
 | Click the button | redirect to a `checkout.stripe.com` page showing **Revenue Optimization Diagnostic** and **$2,500.00** |
 | Pay with Stripe's test card `4242 4242 4242 4242`, any future expiry, any CVC | return to `/checkout/success/`, "Payment received." with the test-mode note |
-| First-party table / GA4 DebugView (if configured and consented) | exactly one `purchase` with the session id, 2500, USD; none without consent |
-| Reload the success page; open it in another browser | no second `purchase` row (the table keys a purchase by session) |
+| First-party table / GA4 DebugView (if configured and consented) | exactly one `purchase` with a 32-character hex purchase reference (**not** the session id), 2500, USD; none without consent |
+| Reload the success page; open it in another browser | no second `purchase` row (the table keys a purchase by its purchase reference) |
 | `/checkout/success/?session_id=cs_test_forged0000000000` | "We could not confirm a payment."; no `purchase` |
 | `/checkout/success/` with no session id | neutral page; no network call |
 | Cancel on the Stripe page | `/checkout/cancel/`, "No payment was taken."; no `purchase` |
@@ -59,6 +59,11 @@ In the Stripe **test** Dashboard add an endpoint pointing at the `stripe-webhook
 | Function with a live key (do **not** try with a real one) | covered by unit tests; expected `500` |
 
 Browser console and Network tab must show no secret, no `sk_`, no `whsec_`, and the browser must only navigate to `checkout.stripe.com`.
+
+**What analytics may know about a payment.** The `verify` response carries `transaction_ref`: a keyed digest (HMAC-SHA256 of the session id,
+truncated to 128 bits) that the Function derives from `STRIPE_SECRET_KEY`. Analytics, GA4 and browser storage receive only that
+reference, never a Stripe session, payment, charge or customer id. It exists to count a purchase once. If you rotate the Stripe key,
+references change, so a success page reopened after the rotation could count the same payment again; this matters only for test data.
 
 ## Rollback
 

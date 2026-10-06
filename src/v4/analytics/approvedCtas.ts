@@ -16,6 +16,7 @@ export const APPROVED_CTAS: ReadonlySet<string> = new Set([
   'social-click',
   'explore-dirt',
   'compare-pricing',
+  'pricing-card',
   'view-services',
   'related-solution',
   'engagement-row',

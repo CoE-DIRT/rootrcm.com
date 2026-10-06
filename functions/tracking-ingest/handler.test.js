@@ -8,6 +8,9 @@ const ORIGIN = 'https://rootrcm.com';
 const config = parseConfig({});
 
 const uuid = (n) => `3f2504e0-4f89-41d3-9a0c-${String(n).padStart(12, '0')}`;
+// Purchase references as the checkout Function derives them: 32 lower-case hex characters, never a Stripe id.
+const REF_A = '3f2504e04f8941d39a0c0305e82c3301';
+const REF_B = '9b2c7d1e5a6f4c3d8e0f1a2b3c4d5e6f';
 
 /** A synthetic, schema-valid event. No real person, no real contact data. */
 const event = (overrides = {}) => ({
@@ -76,11 +79,45 @@ describe('tracking-ingest: accepting events', () => {
     for (const stored of store.rows.values()) for (const key of Object.keys(stored)) expect(STORED_COLUMNS.has(key), key).toBe(true);
   });
 
-  it('stores referrer host and coarse campaign labels when present, and nothing else about the visitor', async () => {
+  it('stores the referrer host and registered channel labels when present, and nothing else about the visitor', async () => {
     const store = memoryStore();
-    await run(request([event({ event_name: 'page_view', properties: {}, referrer_host: 'www.google.com', utm_source: 'linkedin', utm_medium: 'social', utm_campaign: 'launch-2026' })]), store);
-    expect(store.rows.get(uuid(1))).toMatchObject({ referrer_host: 'www.google.com', utm_source: 'linkedin', utm_medium: 'social', utm_campaign: 'launch-2026' });
+    await run(request([event({ event_name: 'page_view', properties: {}, referrer_host: 'www.google.com', utm_source: 'linkedin', utm_medium: 'social' })]), store);
+    expect(store.rows.get(uuid(1))).toMatchObject({ referrer_host: 'www.google.com', utm_source: 'linkedin', utm_medium: 'social' });
     for (const key of Object.keys(store.rows.get(uuid(1)))) expect(STORED_COLUMNS.has(key), key).toBe(true);
+  });
+
+  it('never stores an unregistered campaign label (it could be a name), but still counts the view', async () => {
+    const store = memoryStore();
+    const response = await run(
+      request([
+        event({ event_id: uuid(1), event_name: 'page_view', properties: {}, utm_source: 'jane-smith', utm_medium: 'Social', utm_campaign: 'launch-2026' }),
+        event({ event_id: uuid(2), event_name: 'page_view', properties: {}, utm_source: 'linkedin', utm_campaign: '302-506-4685' }),
+      ]),
+      store,
+    );
+    expect(response.body).toEqual({ ok: true, accepted: 2, rejected: 0 });
+    for (const row of store.rows.values()) {
+      expect(row).not.toHaveProperty('utm_campaign');
+      expect(JSON.stringify(row)).not.toMatch(/jane|launch|302/);
+    }
+    expect(store.rows.get(uuid(1))).not.toHaveProperty('utm_source');
+    expect(store.rows.get(uuid(1))).not.toHaveProperty('utm_medium'); // labels are case-sensitive lower case, as the browser sends them
+    expect(store.rows.get(uuid(2))).toMatchObject({ utm_source: 'linkedin' });
+  });
+
+  it('stores a campaign label once the owner has registered it', async () => {
+    vi.resetModules();
+    vi.doMock('./allowlists.js', async (importOriginal) => ({ ...(await importOriginal()), UTM_CAMPAIGNS: ['launch-2026'] }));
+    try {
+      const registered = await import('./contract.js');
+      const row = (label) => registered.validateEvent(event({ utm_campaign: label }), { now: NOW, retentionDays: 90 }).row;
+      expect(row('launch-2026')).toMatchObject({ utm_campaign: 'launch-2026' });
+      expect(row('launch-2027')).not.toHaveProperty('utm_campaign');
+      expect(row('Launch-2026')).not.toHaveProperty('utm_campaign');
+    } finally {
+      vi.doUnmock('./allowlists.js');
+      vi.resetModules();
+    }
   });
 
   it('accepts a retried event idempotently (duplicate event id) and collapses repeats inside one batch', async () => {
@@ -93,20 +130,43 @@ describe('tracking-ingest: accepting events', () => {
     expect(store.rows.size).toBe(1);
   });
 
-  it('stores a purchase once per Stripe session, whatever event id, browser or consent state sent it', async () => {
+  it('stores a purchase once per purchase reference, whatever event id, browser or consent state sent it', async () => {
     const store = memoryStore();
-    const purchase = (n, anonymous, transaction = 'cs_test_a1B2c3D4e5F6g7H8') =>
+    const purchase = (n, anonymous, transaction = REF_A) =>
       event({ event_id: uuid(n), anonymous_id: uuid(anonymous), event_name: 'purchase', target_key: undefined, properties: { transaction_id: transaction, product_id: 'revenue-optimization-diagnostic', value: 2500, currency: 'USD', status: 'paid' } });
-    const first = await run(request([purchase(1, 801), purchase(2, 801)]), store); // same session twice in one batch
+    const first = await run(request([purchase(1, 801), purchase(2, 801)]), store); // same purchase twice in one batch
     expect(first.body).toEqual({ ok: true, accepted: 1, rejected: 1 });
-    await run(request([purchase(3, 802)]), store); // same session again, new event id and new anonymous id
+    await run(request([purchase(3, 802)]), store); // same purchase again, new event id and new anonymous id
     expect(store.rows.size).toBe(1);
     const [rowId] = [...store.rows.keys()];
-    expect(rowId).toMatch(/^p[0-9a-f]{35}$/);
-    expect(rowId).toHaveLength(36);
+    expect(rowId).toBe(`p${REF_A}`);
+    expect(rowId).toHaveLength(33);
     expect([uuid(1), uuid(2), uuid(3)]).not.toContain(rowId);
-    await run(request([purchase(4, 801, 'cs_test_Z9y8X7w6V5u4T3s2')]), store); // a different session is a different purchase
+    await run(request([purchase(4, 801, REF_B)]), store); // a different purchase
     expect(store.rows.size).toBe(2);
+  });
+
+  it('collapses a page path that is well formed but not one of the site pages to /404/, and stores nothing of it', async () => {
+    const store = memoryStore();
+    await run(
+      request([
+        event({ event_id: uuid(1), event_name: 'page_view', properties: {}, page_path: '/patients/jane-doe/' }),
+        event({ event_id: uuid(2), event_name: 'page_view', properties: {}, page_path: '/services/jane-doe/' }),
+        event({ event_id: uuid(3), event_name: 'page_view', properties: {}, page_path: '/pricing/' }),
+        event({ event_id: uuid(4), event_name: 'page_view', properties: {}, page_path: '/legal/cookies/' }),
+      ]),
+      store,
+    );
+    expect([...store.rows.values()].map((row) => row.page_path)).toEqual(['/404/', '/404/', '/pricing/', '/legal/cookies/']);
+    expect(JSON.stringify([...store.rows.values()])).not.toMatch(/jane|patients/);
+  });
+
+  it('stores a purchase reference but refuses every Stripe identifier', () => {
+    const properties = (transaction_id) => ({ transaction_id, product_id: 'revenue-optimization-diagnostic', value: 2500, currency: 'USD' });
+    expect(validateEvent(event({ event_name: 'purchase', target_key: undefined, properties: properties(REF_A) }), { now: NOW, retentionDays: 90 })).toMatchObject({ ok: true, rowId: `p${REF_A}` });
+    for (const stripeId of ['cs_test_a1B2c3D4e5F6g7H8', 'cs_live_a1B2c3D4e5F6g7H8', 'pi_3Abc123def', 'ch_3Abc123def', REF_A.toUpperCase(), REF_A.slice(1), `${REF_A}0`]) {
+      expect(validateEvent(event({ event_name: 'purchase', target_key: undefined, properties: properties(stripeId) }), { now: NOW, retentionDays: 90 }), stripeId).toEqual({ ok: false, reason: 'property_transaction_id' });
+    }
   });
 
   it('keys every other event by its own event id', async () => {
@@ -150,7 +210,7 @@ describe('tracking-ingest: accepting events', () => {
       form_submit: { form_id: 'contact-inquiry', status: 'success' },
       phone_click: { cta_location: 'footer-contact' },
       checkout_start: { product_id: 'revenue-optimization-diagnostic' },
-      purchase: { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8', value: 2500, currency: 'USD', product_id: 'revenue-optimization-diagnostic' },
+      purchase: { transaction_id: REF_A, value: 2500, currency: 'USD', product_id: 'revenue-optimization-diagnostic' },
       experiment_exposure: { experiment_id: 'exp-header-cta-v1', variant: 'explore' },
     };
     expect(Object.keys(sample).sort()).toEqual([...EVENT_NAMES].sort());
@@ -198,7 +258,7 @@ describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => 
     ['a path with a double slash', { page_path: '/pricing//' }, 'page_path'],
     ['a target key containing an email', { target_key: 'a@b.test' }, 'target_key'],
     ['a referrer that is a full URL', { referrer_host: 'https://example.test/path?x=1' }, 'referrer_host'],
-    ['a campaign label containing a phone number', { utm_campaign: '302-506-4685' }, 'utm_campaign'],
+    ['a campaign label that is not text', { utm_campaign: { name: 'x' } }, 'utm_campaign'],
     ['properties that are not an object', { properties: ['cta_id'] }, 'properties'],
     ['an unknown property key', { properties: { cta_id: 'x', email: 'a@b.test' } }, 'unknown_property'],
     ['a property value containing "@"', { properties: { cta_id: 'name@example.test' } }, 'property_cta_id'],
@@ -207,6 +267,7 @@ describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => 
     ['a destination with a query string', { properties: { cta_id: 'x', destination: '/diagnostic/?name=a' } }, 'property_destination'],
     ['a destination that is a full URL', { properties: { cta_id: 'x', destination: 'https://example.test/page' } }, 'property_destination'],
     ['a destination that is a phone link', { properties: { cta_id: 'x', destination: 'tel:+13025550100' } }, 'property_destination'],
+    ['an internal destination that is not a site page', { properties: { cta_id: 'x', destination: '/patients/jane-doe/' } }, 'property_destination'],
     ['a property value with markup', { properties: { cta_id: '<script>alert(1)</script>' } }, 'property_cta_id'],
     ['a property value with surrounding whitespace', { properties: { cta_id: ' book-diagnostic ' } }, 'property_cta_id'],
     ['a property value that is too long', { properties: { cta_id: 'a'.repeat(COLUMN_SIZES.cta_id + 1) } }, 'property_cta_id'],
@@ -221,9 +282,10 @@ describe('tracking-ingest: rejecting events (dropped, never cleaned up)', () => 
     ['scroll', { percent_scrolled: '50' }, 'property_percent_scrolled'],
     ['form_submit', { form_id: 'contact-inquiry', status: 'maybe' }, 'form_status'],
     ['purchase', { transaction_id: 'order-1001' }, 'property_transaction_id'],
-    ['purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8', value: 2500.005 }, 'property_value'],
-    ['purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8', currency: 'usd' }, 'property_currency'],
-    ['purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8', value: -1 }, 'property_value'],
+    ['purchase', { transaction_id: 'cs_test_a1B2c3D4e5F6g7H8' }, 'property_transaction_id'],
+    ['purchase', { transaction_id: REF_A, value: 2500.005 }, 'property_value'],
+    ['purchase', { transaction_id: REF_A, currency: 'usd' }, 'property_currency'],
+    ['purchase', { transaction_id: REF_A, value: -1 }, 'property_value'],
   ])('drops a %s event with invalid values %j', async (name, properties, reason) => {
     await rejects({ event_name: name, target_key: undefined, properties }, reason);
   });
@@ -332,14 +394,39 @@ describe('tracking-ingest: retention purge', () => {
     expect(store.purgeExpired).toHaveBeenCalledWith('2026-10-06T12:00:00.000Z');
   });
 
-  it('never purges for ordinary HTTP callers, whatever the method', async () => {
+  it('purges for a scheduled run delivered as POST, which is how Appwrite invokes a cron schedule, with no origin and no body', async () => {
+    const store = memoryStore();
+    const counts = [300, 0];
+    store.purgeExpired.mockImplementation(async () => counts.shift() ?? 0);
+    for (const bodyText of ['', '{}']) {
+      counts.splice(0, counts.length, 300, 0);
+      const response = await run({ method: 'POST', headers: {}, bodyText, trigger: 'schedule' }, store);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ ok: true, purged: 300 });
+    }
+    expect(store.purgeExpired).toHaveBeenCalledWith('2026-10-06T12:00:00.000Z');
+    expect(store.createEvent).not.toHaveBeenCalled(); // a scheduled run never stores an event, whatever the body says
+  });
+
+  it('never purges for ordinary HTTP callers, whatever the method or origin', async () => {
     const store = memoryStore();
     for (const request of [
       { method: 'GET', headers: { origin: ORIGIN }, bodyText: '', trigger: 'http' },
       { method: 'GET', headers: {}, bodyText: '' },
-      { method: 'POST', headers: { origin: ORIGIN }, bodyText: '{}', trigger: 'schedule' },
+      { method: 'POST', headers: { origin: ORIGIN }, bodyText: '{}', trigger: 'http' },
+      { method: 'POST', headers: {}, bodyText: '{}' },
+      { method: 'POST', headers: { origin: ORIGIN }, bodyText: '{}', trigger: 'event' },
     ]) {
       await run(request, store);
+    }
+    expect(store.purgeExpired).not.toHaveBeenCalled();
+  });
+
+  it('does not treat a scheduled trigger with any other method as a purge', async () => {
+    const store = memoryStore();
+    for (const method of ['PUT', 'PATCH', 'DELETE', 'OPTIONS']) {
+      const response = await run({ method, headers: {}, bodyText: '', trigger: 'schedule' }, store);
+      expect(response.status, method).toBe(403); // the ordinary origin check applies
     }
     expect(store.purgeExpired).not.toHaveBeenCalled();
   });

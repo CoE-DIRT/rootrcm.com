@@ -25,9 +25,13 @@ and a test keeps them identical:
 - eight event names: `page_view`, `scroll`, `cta_click`, `form_submit`, `phone_click`, `checkout_start`, `purchase`, `experiment_exposure`;
 - thirteen property keys: `cta_id`, `cta_location`, `destination`, `engagement_type`, `form_id`, `status`, `percent_scrolled`,
   `product_id`, `currency`, `value`, `variant`, `experiment_id`, `transaction_id`;
-- required properties per event (for example `scroll` needs `percent_scrolled`, `purchase` needs a Stripe Checkout session id);
+- required properties per event (for example `scroll` needs `percent_scrolled`, `purchase` needs a purchase reference: 32 lower-case hex
+  characters derived by the `checkout` Function, never a Stripe identifier);
 - UUID event, session and anonymous ids, `consent: true`, schema version 1, an environment of `production`, `preview` or `development`;
-- a sanitised pathname (no query string, fragment, long digit runs or UUID-like segments).
+- a page path that is one of the site's own pages (`allowlists.js`, generated from the route registry): a well-formed path that is
+  not one of them is stored as `/404/`, and a malformed one (query string, fragment, long digit runs, UUID-like segments) drops the event;
+- `utm_source`, `utm_medium` and `utm_campaign` only when they are registered labels (`allowlists.js`, generated from
+  `src/v4/analytics/campaigns.js`); an unregistered label is discarded and the event is still stored. No campaign is registered yet.
 
 An event with **any** unknown field, bad value or value that looks personal (an `@`, a phone-like number, a URL scheme, a query
 string, markup, surrounding whitespace, excess length) is **dropped**. It is never trimmed, redacted or stored in part.
@@ -49,7 +53,7 @@ Generic by design: status codes and counts only; no configuration, identifiers, 
 
 ## What is stored
 
-One row per event; the **event id is the row id**, so duplicates are rejected by the database and treated as success. A `purchase` is the exception: its row id is a hash of the Stripe Checkout session id, so a purchase is stored **once** however many times, from however many browsers or consent states, it is sent.
+One row per event; the **event id is the row id**, so duplicates are rejected by the database and treated as success. A `purchase` is the exception: its row id is `p` plus its purchase reference (a keyed digest, not a Stripe identifier), so a purchase is stored **once** however many times, from however many browsers or consent states, it is sent.
 Columns: `event_name`, `occurred_at` (client time, validated), `received_at` (server time), `expires_at`, `schema_version`,
 `page_path`, `target_key`, `session_id`, `anonymous_id`, `environment`, `referrer_host`, `utm_source`, `utm_medium`,
 `utm_campaign`, and the thirteen property columns. The provisioning script creates exactly these (and a test proves it).
@@ -62,7 +66,7 @@ text, form values, payment data, authentication data, uploads, PHI. The Function
 
 `expires_at = received_at + TRACKING_RETENTION_DAYS` (default 90, allowed 1 to 365). The **same** Function runs daily on a cron
 schedule and deletes rows past `expires_at` in bounded batches (500 rows, at most 40 batches, 20 seconds per run). A scheduled
-run is recognised by `x-appwrite-trigger: schedule` with `GET`; an ordinary HTTP caller cannot read, write or purge anything
+run is recognised by `x-appwrite-trigger: schedule` with `POST` (how Appwrite delivers a cron schedule) or `GET`; an ordinary HTTP caller cannot read, write or purge anything
 through that path.
 
 ## Configuration

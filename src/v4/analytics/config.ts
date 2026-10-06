@@ -8,10 +8,22 @@ const readEnv = (name: string): string => {
   return typeof value === 'string' ? value.trim() : '';
 };
 
-/** GA4 Measurement ID. Empty means GA4 stays disabled — never substitute a placeholder. */
+/**
+ * GA4 Measurement ID usable in THIS environment. Empty means GA4 stays disabled — never substitute a placeholder.
+ * Preview and local traffic must not reach the production property, so GA4 runs only on the production hostnames unless a
+ * build explicitly opts in with VITE_GA_NON_PRODUCTION=true (for QA against a separate test property).
+ */
+export function resolveGaMeasurementId({ configured, siteEnv, nonProductionOptIn }: { configured: string; siteEnv: SiteEnv; nonProductionOptIn: boolean }): string {
+  if (!GA4_ID.test(configured)) return '';
+  return siteEnv === 'production' || nonProductionOptIn ? configured : '';
+}
+
 export function getGaMeasurementId(): string {
-  const value = readEnv('VITE_GA_MEASUREMENT_ID');
-  return GA4_ID.test(value) ? value : '';
+  return resolveGaMeasurementId({
+    configured: readEnv('VITE_GA_MEASUREMENT_ID'),
+    siteEnv: getSiteEnv(),
+    nonProductionOptIn: readEnv('VITE_GA_NON_PRODUCTION').toLowerCase() === 'true',
+  });
 }
 
 /** Public URL of the `tracking-ingest` Function. HTTPS only; empty disables first-party transport. */

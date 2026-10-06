@@ -14,3 +14,7 @@ Google Business Profile are manual owner actions (see below) and are **not** don
 
 Single source of truth for every static route: `src/seo/routeRegistry.js`. Titles, descriptions and H1s live in `routeMeta`
 (`src/siteData.js`); FAQ content lives in `src/faqData.js` and feeds both the page and its `FAQPage` markup.
+
+**Adding a route:** add it to the registry, create its `<path>/index.html`, add its `routeMeta` entry, then run
+`node scripts/appwrite/sync-analytics-allowlists.js` so the analytics Function recognises the page (a test fails if you forget).
+Deploy the Function before the site that links to the new page; until then its views are counted as `/404/`.

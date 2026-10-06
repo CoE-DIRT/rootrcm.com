@@ -4,6 +4,7 @@
 interface ImportMetaEnv {
   readonly VITE_SITE_ENV?: string;
   readonly VITE_GA_MEASUREMENT_ID?: string;
+  readonly VITE_GA_NON_PRODUCTION?: string;
   readonly VITE_TRACKING_ENDPOINT?: string;
   readonly VITE_STRIPE_PUBLISHABLE_KEY?: string;
   readonly VITE_CHECKOUT_ENDPOINT?: string;

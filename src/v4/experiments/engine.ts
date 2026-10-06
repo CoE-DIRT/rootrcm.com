@@ -1,7 +1,7 @@
 import { getGaMeasurementId, getSiteEnv, getTrackingEndpoint } from '../analytics/config';
 import { analyticsAllowed, subscribeAnalyticsConsent } from '../analytics/consent';
 import type { SiteEnv } from '../analytics/taxonomy';
-import { EXPERIMENTS, type ExperimentDefinition, type ExperimentKey } from './registry';
+import { EXPERIMENT_KEYS, EXPERIMENTS, type ExperimentDefinition, type ExperimentKey } from './registry';
 
 /**
  * Experiment assignment. Rules, in order:
@@ -105,10 +105,27 @@ function overrideFor(key: ExperimentKey, definition: ExperimentDefinition) {
   }
 }
 
+const controls = new Map<ExperimentKey, Resolution>();
+
+/**
+ * The control with no assignment, no storage and no exposure: what a surface shows when the test does not apply to it
+ * (see `useExperiment(key, { eligible: false })`). The same object every time, as `useSyncExternalStore` requires.
+ */
+export function controlResolution(key: ExperimentKey): Resolution {
+  let resolution = controls.get(key);
+  if (!resolution) {
+    const definition = EXPERIMENTS[key];
+    const control = definition.variants[0];
+    resolution = { key, experimentId: definition.id, variant: control.id, source: 'off', label: control.label };
+    controls.set(key, resolution);
+  }
+  return resolution;
+}
+
 function compute(key: ExperimentKey): Resolution {
   const definition = EXPERIMENTS[key];
   const control = definition.variants[0];
-  const off: Resolution = { key, experimentId: definition.id, variant: control.id, source: 'off', label: control.label };
+  const off = controlResolution(key);
   if (typeof window === 'undefined' || !experimentsEnabled()) return off;
 
   const override = overrideFor(key, definition);
@@ -159,15 +176,25 @@ export function subscribeExperiments(listener: () => void): () => void {
 }
 
 /**
- * Experiment context for a commercial inquiry: the tests this visitor is actually assigned to on this page.
- * Ids and variants only (comma-joined, parallel lists); the contact Function bounds each to 200 characters.
+ * Experiment context for a commercial inquiry: every test this visitor is assigned to. The site is a multi-page app and
+ * the inquiry page (/diagnostic/ uses the minimal shell) renders none of the header, footer or home surfaces, so the
+ * context comes from the persisted assignments, not from what this page happened to resolve. Ids and variants only
+ * (comma-joined, parallel lists); the contact Function bounds each to 200 characters.
+ * Nothing is reported without analytics consent, and a QA override (never stored, never tracked) is never reported.
  */
 export function getExperimentContext(): { experiment?: string; experiment_variant?: string } {
-  const assigned = [...cache.values()].filter((resolution) => resolution.source === 'assigned');
+  if (typeof window === 'undefined' || !experimentsEnabled() || !experimentsMeasurable() || !analyticsAllowed()) return {};
+  const store = readStore();
+  const assigned = EXPERIMENT_KEYS.flatMap((key) => {
+    const definition = EXPERIMENTS[key];
+    const variant = store[definition.id];
+    if (overrideFor(key, definition)) return [];
+    return definition.variants.some((candidate) => candidate.id === variant) ? [{ id: definition.id, variant }] : [];
+  });
   if (!assigned.length) return {};
   return {
-    experiment: assigned.map((resolution) => resolution.experimentId).join(','),
-    experiment_variant: assigned.map((resolution) => resolution.variant).join(','),
+    experiment: assigned.map((entry) => entry.id).join(','),
+    experiment_variant: assigned.map((entry) => entry.variant).join(','),
   };
 }
 

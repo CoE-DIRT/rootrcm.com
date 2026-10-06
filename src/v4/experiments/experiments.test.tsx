@@ -215,6 +215,57 @@ describe('experiment resolution', () => {
     resolveExperiment('headerCta');
     expect(getExperimentContext()).toEqual({ experiment: 'exp-hero-cta-v1,exp-header-cta-v1', experiment_variant: 'fixed-fee,explore' });
   });
+
+  describe('inquiry context from stored assignments', () => {
+    const store = (assignments: Record<string, string>) => window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify(assignments));
+
+    it('includes assignments made on earlier pages even though this page resolved none of them', () => {
+      // Home assigned these; the visitor then navigated (a full page load) to /diagnostic/, whose minimal shell has no A/B surface.
+      store({ 'exp-hero-cta-v1': 'fixed-fee', 'exp-header-cta-v1': 'explore' });
+      consent();
+      expect(getExperimentContext()).toEqual({ experiment: 'exp-hero-cta-v1,exp-header-cta-v1', experiment_variant: 'fixed-fee,explore' });
+    });
+
+    it('reports nothing without consent, when tests are disabled, or when there is nowhere to measure', () => {
+      store({ 'exp-hero-cta-v1': 'fixed-fee' });
+      expect(getExperimentContext()).toEqual({}); // no consent
+      consent();
+      expect(getExperimentContext()).not.toEqual({});
+      vi.stubEnv('VITE_EXPERIMENTS_ENABLED', 'false');
+      expect(getExperimentContext()).toEqual({});
+      vi.stubEnv('VITE_EXPERIMENTS_ENABLED', 'true');
+      vi.stubEnv('VITE_TRACKING_ENDPOINT', '');
+      expect(getExperimentContext()).toEqual({});
+    });
+
+    it('ignores unknown experiments, unknown variants and non-object stores, and keeps registry order', () => {
+      consent();
+      store({ 'exp-header-cta-v1': 'explore', 'exp-hero-cta-v1': 'no-such-variant', 'exp-retired-v0': 'x', 'exp-follow-us-design-v1': 'control' });
+      const context = getExperimentContext();
+      expect(context.experiment?.split(',')).toEqual(['exp-header-cta-v1', 'exp-follow-us-design-v1']);
+      expect(context.experiment_variant).toBe('explore,control');
+      window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, '["exp-header-cta-v1"]');
+      expect(getExperimentContext()).toEqual({});
+      window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, 'not json');
+      expect(getExperimentContext()).toEqual({});
+    });
+
+    it('never reports an experiment the visitor is only seeing through a QA override', () => {
+      consent();
+      store({ 'exp-header-cta-v1': 'control', 'exp-hero-cta-v1': 'fixed-fee' });
+      window.history.pushState({}, '', '/?exp_headerCta=explore');
+      expect(getExperimentContext()).toEqual({ experiment: 'exp-hero-cta-v1', experiment_variant: 'fixed-fee' });
+    });
+
+    it('stays within the 200 characters the contact Function accepts, even with every experiment assigned', () => {
+      consent();
+      store(Object.fromEntries(experimentList.map((definition) => [definition.id, definition.variants[definition.variants.length - 1].id])));
+      const context = getExperimentContext();
+      expect((context.experiment ?? '').split(',')).toHaveLength(EXPERIMENT_KEYS.length);
+      expect((context.experiment ?? '').length).toBeLessThanOrEqual(200);
+      expect((context.experiment_variant ?? '').length).toBeLessThanOrEqual(200);
+    });
+  });
 });
 
 describe('useExperiment', () => {
@@ -337,9 +388,90 @@ describe('experiment surfaces (QA overrides)', () => {
   });
 });
 
+describe('pricing-card links (the pricing test metric)', () => {
+  const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const cards = () => Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-cta="pricing-card"]'));
+
+  it('reports every core and specialised card as an approved cta_click with its destination and model', () => {
+    window.history.pushState({}, '', '/pricing/');
+    render(<App />);
+    const models = pricingModels.slice(1); // the featured Diagnostic card has its own book-diagnostic link
+    expect(
+      cards().map((link) => ({
+        text: link.textContent,
+        href: link.getAttribute('href'),
+        destination: link.getAttribute('data-destination'),
+        location: link.getAttribute('data-location'),
+        engagement: link.getAttribute('data-engagement-type'),
+      })),
+    ).toEqual(
+      models.map((model: (typeof pricingModels)[number], index: number) => ({
+        text: model.cta,
+        href: model.href,
+        destination: model.href,
+        location: index < 2 ? 'pricing-core' : 'pricing-specialized',
+        engagement: slug(model.name),
+      })),
+    );
+    expect(new Set(cards().map((link) => link.getAttribute('data-engagement-type'))).size).toBe(models.length);
+  });
+
+  it('turns a card click into a tracked cta_click', async () => {
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    consent();
+    window.history.pushState({}, '', '/pricing/');
+    render(<App />);
+    const managed = cards().find((link) => link.getAttribute('data-engagement-type') === 'managed-rcm') as HTMLElement;
+    managed.addEventListener('click', (event) => event.preventDefault(), { once: true });
+    act(() => managed.click());
+    await flush();
+    const clicks = sentEvents().filter((event) => event.event_name === 'cta_click');
+    expect(clicks.map((event) => event.properties)).toContainEqual(
+      expect.objectContaining({ cta_id: 'pricing-card', cta_location: 'pricing-core', destination: '/contact/', engagement_type: 'managed-rcm' }),
+    );
+  });
+});
+
+describe('talk to us placement on minimal shells', () => {
+  const returningVisitor = (assignment: Record<string, string> = {}) => {
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify(assignment));
+    consent();
+  };
+  const go = (path: string) => {
+    window.history.pushState({}, '', path);
+    return render(<App />);
+  };
+  const exposures = () => sentEvents().filter((event) => event.event_name === 'experiment_exposure').map((event) => event.properties.experiment_id);
+
+  it('removes the floating control for an assigned visitor on a page that has the footer band', async () => {
+    returningVisitor({ 'exp-talk-to-us-placement-v1': 'footer-only' });
+    go('/pricing/');
+    expect(screen.queryByRole('button', { name: /^Talk to us$/ })).toBeNull();
+    await flush();
+    expect(exposures()).toContain('exp-talk-to-us-placement-v1');
+  });
+
+  it('keeps the floating control on the minimal shell, where nothing else offers contact, and records no exposure', async () => {
+    returningVisitor({ 'exp-talk-to-us-placement-v1': 'footer-only' });
+    go('/diagnostic/');
+    expect(screen.getByRole('button', { name: /^Talk to us$/ })).toBeTruthy();
+    expect(document.querySelector('[data-experiment="exp-talk-to-us-placement-v1"]')).toBeNull();
+    await flush();
+    expect(exposures()).not.toContain('exp-talk-to-us-placement-v1');
+  });
+
+  it('ignores a QA override on the minimal shell too', () => {
+    go('/diagnostic/?exp_talkToUsPlacement=footer-only');
+    expect(screen.getByRole('button', { name: /^Talk to us$/ })).toBeTruthy();
+  });
+});
+
 describe('experiment surfaces (assigned visitors)', () => {
   it('attribute clicks to the assigned variant and leave other clicks untagged', () => {
     window.history.pushState({}, '', '/');
+    // A returning visitor: the saved choice is in Klaro's cookie, which AnalyticsBoot reads when the page mounts.
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
     consent();
     setExperimentRandomForTests(() => 0.9);
     render(<App />);

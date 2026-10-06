@@ -17,6 +17,11 @@ let queue: TrackingEvent[] = [];
 let timer: ReturnType<typeof setTimeout> | undefined;
 let listenersInstalled = false;
 let inFlight = 0;
+// Withdrawing consent bumps the generation, cancels pending retries and aborts requests still in flight, so nothing
+// that was queued before the withdrawal can be sent after it.
+let generation = 0;
+const retryTimers = new Set<ReturnType<typeof setTimeout>>();
+const controllers = new Set<AbortController>();
 
 function endpoint(): string {
   return getTrackingEndpoint();
@@ -30,9 +35,9 @@ function schedule(delay: number): void {
   }, delay);
 }
 
-async function post(batch: TrackingEvent[], attempt: number, beacon: boolean): Promise<void> {
+async function post(batch: TrackingEvent[], attempt: number, beacon: boolean, owner: number): Promise<void> {
   const url = endpoint();
-  if (!url || !batch.length) return;
+  if (!url || !batch.length || owner !== generation) return;
   const body = JSON.stringify({ events: batch });
 
   if (beacon && typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
@@ -43,6 +48,8 @@ async function post(batch: TrackingEvent[], attempt: number, beacon: boolean): P
     }
   }
 
+  const controller = new AbortController();
+  controllers.add(controller);
   inFlight += 1;
   try {
     const response = await fetch(url, {
@@ -52,16 +59,21 @@ async function post(batch: TrackingEvent[], attempt: number, beacon: boolean): P
       keepalive: true,
       credentials: 'omit',
       mode: 'cors',
-      cache: 'no-store',
+      signal: controller.signal,
     });
     // 2xx accepted; 4xx means the Function rejected the payload — retrying cannot help.
     if (response.ok || (response.status >= 400 && response.status < 500)) return;
     throw new Error(`transient ${response.status}`);
   } catch {
-    if (attempt < RETRY_DELAYS_MS.length) {
-      setTimeout(() => void post(batch, attempt + 1, false), RETRY_DELAYS_MS[attempt]);
+    if (owner === generation && attempt < RETRY_DELAYS_MS.length) {
+      const retry = setTimeout(() => {
+        retryTimers.delete(retry);
+        void post(batch, attempt + 1, false, owner);
+      }, RETRY_DELAYS_MS[attempt]);
+      retryTimers.add(retry);
     }
   } finally {
+    controllers.delete(controller);
     inFlight -= 1;
   }
 }
@@ -74,7 +86,7 @@ export function flushFirstParty({ beacon = false }: { beacon?: boolean } = {}): 
   }
   while (queue.length) {
     const batch = queue.splice(0, MAX_BATCH);
-    void post(batch, 0, beacon);
+    void post(batch, 0, beacon, generation);
   }
 }
 
@@ -87,13 +99,18 @@ export function enqueueFirstParty(event: TrackingEvent, { immediate = false }: {
   else schedule(FLUSH_DELAY_MS);
 }
 
-/** Drop anything not yet sent (consent withdrawn). */
+/** Consent withdrawn: drop the queue, cancel every pending retry and abort requests still in flight. */
 export function clearFirstPartyQueue(): void {
   queue = [];
+  generation += 1;
   if (timer !== undefined) {
     clearTimeout(timer);
     timer = undefined;
   }
+  retryTimers.forEach((retry) => clearTimeout(retry));
+  retryTimers.clear();
+  controllers.forEach((controller) => controller.abort());
+  controllers.clear();
 }
 
 function installFlushListeners(): void {

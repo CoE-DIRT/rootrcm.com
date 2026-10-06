@@ -49,7 +49,7 @@ export function subscribeAnalyticsConsent(listener: (consent: AnalyticsConsent) 
  * notifies anyone, so this is the single source of truth for both returning visitors (no flicker) and a choice made
  * just now. It never depends on a Klaro global: the bundled Klaro does not expose one.
  */
-export function readStoredServices(): Record<string, unknown> {
+export function readSavedChoice(): Record<string, unknown> {
   if (typeof document === 'undefined') return {};
   try {
     const entry = document.cookie.split('; ').find((part) => part.startsWith(`${CONSENT_COOKIE}=`));
@@ -61,8 +61,23 @@ export function readStoredServices(): Record<string, unknown> {
   }
 }
 
-export function readStoredConsent(): AnalyticsConsent {
-  const stored = readStoredServices();
+/**
+ * Klaro only treats a saved choice as confirmed when it answers for every service configured today (its
+ * consent-manager `_checkConsents`); otherwise it asks again and ignores the old answers. Mirror that rule so a stale cookie
+ * that predates a newly added service never counts as consent while the banner is asking again.
+ */
+export function isChoiceComplete(saved: Record<string, unknown>, configured: readonly string[]): boolean {
+  return configured.every((name) => typeof saved[name] === 'boolean');
+}
+
+/** The saved per-service choices, or nothing when they no longer cover the configured services. */
+export function readStoredServices(configured: readonly string[]): Record<string, unknown> {
+  const saved = readSavedChoice();
+  return isChoiceComplete(saved, configured) ? saved : {};
+}
+
+export function readStoredConsent(configured: readonly string[]): AnalyticsConsent {
+  const stored = readStoredServices(configured);
   return { firstParty: stored[SERVICE_FIRST_PARTY] === true, ga4: stored[SERVICE_GA4] === true };
 }
 

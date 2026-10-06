@@ -24,7 +24,7 @@ export function V4Shell({ children, minimal = false, className }: V4ShellProps) 
         <MarketingHeader minimal={minimal} />
         <main id="main-content">{children}</main>
         <MarketingFooter minimal={minimal} />
-        <FloatingSiteControls />
+        <FloatingSiteControls placementTest={!minimal} />
         <IntentBannerHost />
       </PersonalizationProvider>
     </div>

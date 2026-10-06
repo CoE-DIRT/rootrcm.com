@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
 import { track } from '../analytics/tracker';
-import { resolveExperiment, subscribeExperiments } from './engine';
+import { controlResolution, resolveExperiment, subscribeExperiments } from './engine';
 import type { ExperimentKey } from './registry';
 
 export interface ExperimentState {
@@ -21,8 +21,11 @@ export interface ExperimentState {
  * assigned. Exposure means "this surface rendered for a consented visitor"; on narrow screens that includes
  * visitors who never open the mobile menu, which dilutes both arms equally.
  */
-export function useExperiment(key: ExperimentKey): ExperimentState {
-  const resolution = useSyncExternalStore(subscribeExperiments, () => resolveExperiment(key), () => resolveExperiment(key));
+export function useExperiment(key: ExperimentKey, { eligible = true }: { eligible?: boolean } = {}): ExperimentState {
+  // `eligible: false` is for a surface the test cannot fairly compare (e.g. the control's fallback does not exist there):
+  // it shows the control and neither assigns, stores nor records an exposure.
+  const read = () => (eligible ? resolveExperiment(key) : controlResolution(key));
+  const resolution = useSyncExternalStore(subscribeExperiments, read, read);
 
   useEffect(() => {
     if (resolution.source !== 'assigned') return;

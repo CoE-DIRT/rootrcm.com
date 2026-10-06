@@ -2,11 +2,13 @@
 //
 // Two operations over one POST endpoint (JSON body, any content type):
 //   { "action": "create", "product_id": "revenue-optimization-diagnostic" }  -> { ok, url }  (Stripe-hosted Checkout)
-//   { "action": "verify", "session_id": "cs_test_..." }                      -> { ok, paid, ... } (server-side verification)
+//   { "action": "verify", "session_id": "cs_test_..." }                      -> { ok, paid, ..., transaction_ref } (server-side verification)
 //
 // Nothing is trusted from the browser except which catalogued product to buy: the amount, currency, product name,
 // success and cancel URLs are all decided here. Card data never touches ROOT. No database, no logging, no PHI.
 // Live-mode keys and live sessions are refused. Pure logic: main.js supplies the environment and fetch.
+
+import { createHmac } from 'node:crypto';
 
 const STRIPE_API = 'https://api.stripe.com/v1/checkout/sessions';
 const STRIPE_HOSTED_PREFIX = 'https://checkout.stripe.com/';
@@ -107,6 +109,17 @@ async function createSession({ origin, productId, secretKey, fetchImpl, now, all
   return respond(200, { ok: true, url: session.url }, origin, allowedOrigins);
 }
 
+/**
+ * The reference the browser may send to analytics for a paid session. A Stripe Checkout Session id is a payment-system
+ * identifier and never goes to analytics: the browser receives only this keyed digest (HMAC-SHA256, domain-separated,
+ * truncated to 128 bits). It cannot be turned back into the session id, and without the server secret it cannot be linked
+ * to Stripe. Rotating the Stripe key changes every reference, which affects only de-duplication across the rotation.
+ */
+export function purchaseReference(secretKey, sessionId) {
+  const key = createHmac('sha256', secretKey).update('root-analytics-purchase-reference-v1').digest();
+  return createHmac('sha256', key).update(sessionId).digest('hex').slice(0, 32);
+}
+
 async function verifySession({ origin, sessionId, secretKey, fetchImpl, allowedOrigins }) {
   const result = await stripeRequest(fetchImpl, secretKey, `${STRIPE_API}/${encodeURIComponent(sessionId)}`, { method: 'GET' });
   if (result.status === 404) return respond(200, { ok: true, paid: false }, origin, allowedOrigins);
@@ -125,7 +138,10 @@ async function verifySession({ origin, sessionId, secretKey, fetchImpl, allowedO
     session.amount_total === product.unitAmount &&
     String(session.currency || '').toLowerCase() === product.currency;
 
-  return respond(200, paid ? { ok: true, paid: true, product_id: productId, amount: product.unitAmount / 100, currency: product.currency.toUpperCase() } : { ok: true, paid: false }, origin, allowedOrigins);
+  const body = paid
+    ? { ok: true, paid: true, product_id: productId, amount: product.unitAmount / 100, currency: product.currency.toUpperCase(), transaction_ref: purchaseReference(secretKey, sessionId) }
+    : { ok: true, paid: false };
+  return respond(200, body, origin, allowedOrigins);
 }
 
 /**

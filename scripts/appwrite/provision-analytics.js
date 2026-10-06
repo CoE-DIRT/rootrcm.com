@@ -4,16 +4,21 @@
 //   node scripts/appwrite/provision-analytics.js apply            # creates what is missing, never modifies or deletes
 //   node scripts/appwrite/provision-analytics.js verify-private   # proves unauthenticated callers cannot read or write
 //
-// `apply` needs a setup-time API key (scopes: databases.write, tables.write, columns.write, indexes.write)
-// in the environment, never in a file or on the command line:
+// `apply` needs a setup-time API key in the environment, never in a file or on the command line. Scopes: the write scopes
+// (databases.write, tables.write, columns.write, indexes.write) to create what is missing AND the matching read scopes
+// (databases.read, tables.read, columns.read, indexes.read), because every run first reads what already exists.
+// Delete the key afterwards.
 //   APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_SETUP_API_KEY
 // Install the SDK first:  npm ci --prefix functions/tracking-ingest
 //
 // The table is created with NO permissions and row security OFF, so only server-side API keys can read or write it.
 // Re-running is safe: existing resources are verified, never overwritten. A table that is not private is reported and
 // left untouched.
+import { realpathSync } from 'node:fs';
 import process from 'node:process';
 import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { COLUMN_SIZES } from '../../functions/tracking-ingest/contract.js';
 
 export const DATABASE_ID = 'web_analytics';
@@ -88,6 +93,39 @@ function columnCall(tables, column) {
 }
 
 /**
+ * Differences between a column that already exists and the plan, over every declared constraint (type, size, required, bounds,
+ * not an array). Empty means the column is what the plan says. A column that is looser or stricter than the Function expects
+ * would make valid events fail after this script reported success, so any difference is an error.
+ */
+export function describeColumnMismatches(found, column) {
+  const differences = [];
+  const compare = (label, actual, expected) => {
+    if (actual !== expected) differences.push(`${label}: expected ${String(expected)}, found ${String(actual)}`);
+  };
+  compare('type', found.type, column.type);
+  compare('required', found.required === true, column.required === true);
+  compare('array', found.array === true, false);
+  if (column.type === 'varchar') compare('size', found.size, column.size);
+  if (column.type === 'integer' || column.type === 'float') {
+    compare('min', Number(found.min), column.min);
+    compare('max', Number(found.max), column.max);
+  }
+  return differences;
+}
+
+const sameList = (a, b) => Array.isArray(a) && a.length === b.length && a.every((value, index) => String(value).toLowerCase() === String(b[index]).toLowerCase());
+
+/** Differences between an existing index and the plan: its columns, and its order when Appwrite reports one. */
+export function describeIndexMismatches(found, index) {
+  const differences = [];
+  if (!sameList(found.columns, index.columns)) differences.push(`columns: expected ${index.columns.join(',')}, found ${(found.columns ?? []).join(',')}`);
+  if (Array.isArray(found.orders) && found.orders.length && !sameList(found.orders, index.orders)) {
+    differences.push(`orders: expected ${index.orders.join(',')}, found ${found.orders.join(',')}`);
+  }
+  return differences;
+}
+
+/**
  * Idempotent provisioning against an injected TablesDB service. Returns a report of what was created, what already
  * existed and any problem. Throws if the table exists but is not private or a column differs from the plan.
  */
@@ -120,12 +158,11 @@ export async function provision({ tables, log = () => {}, pollMs = 1000, pollAtt
 
   const present = new Map(((await tables.listColumns({ databaseId: DATABASE_ID, tableId: TABLE_ID })).columns ?? []).map((column) => [column.key, column]));
   // Check every existing column before creating any missing one, so a mismatch aborts without partial changes.
-  for (const column of COLUMNS) {
+  const mismatches = COLUMNS.flatMap((column) => {
     const found = present.get(column.key);
-    if (found && (found.type !== column.type || (column.type === 'varchar' && found.size !== column.size))) {
-      throw new Error(`Column ${column.key} exists with a different definition (${found.type}${found.size ? `(${found.size})` : ''}). Refusing to modify it.`);
-    }
-  }
+    return found ? describeColumnMismatches(found, column).map((difference) => `${column.key} ${difference}`) : [];
+  });
+  if (mismatches.length) throw new Error(`Existing columns differ from the plan (${mismatches.join('; ')}). Refusing to modify them.`);
   for (const column of COLUMNS) {
     if (present.has(column.key)) {
       report.existing.push(`column:${column.key}`);
@@ -148,7 +185,12 @@ export async function provision({ tables, log = () => {}, pollMs = 1000, pollAtt
     await sleep(pollMs);
   }
 
-  const haveIndexes = new Set(((await tables.listIndexes({ databaseId: DATABASE_ID, tableId: TABLE_ID })).indexes ?? []).map((index) => index.key));
+  const haveIndexes = new Map(((await tables.listIndexes({ databaseId: DATABASE_ID, tableId: TABLE_ID })).indexes ?? []).map((index) => [index.key, index]));
+  const indexMismatches = INDEXES.flatMap((index) => {
+    const found = haveIndexes.get(index.key);
+    return found ? describeIndexMismatches(found, index).map((difference) => `${index.key} ${difference}`) : [];
+  });
+  if (indexMismatches.length) throw new Error(`Existing indexes differ from the plan (${indexMismatches.join('; ')}). Refusing to modify them.`);
   for (const index of INDEXES) {
     if (haveIndexes.has(index.key)) {
       report.existing.push(`index:${index.key}`);
@@ -165,9 +207,14 @@ export async function provision({ tables, log = () => {}, pollMs = 1000, pollAtt
   return report;
 }
 
+/** The statuses Appwrite answers an unauthenticated caller with when it is refused: unauthorised or forbidden. */
+const REFUSAL_STATUSES = new Set([401, 403]);
+
 /**
- * Prove the table is private: unauthenticated requests (project header only, no key, no session) must be refused.
- * Any 2xx means the table is publicly reachable. Uses synthetic data only.
+ * Prove the table is private: unauthenticated requests (project header only, no key, no session) must be refused with an
+ * authorisation denial (401 or 403). A 2xx means the table is publicly reachable. Anything else (404 from the wrong endpoint,
+ * project or path, 429, 5xx, a network failure) proves nothing about this table, so it is "inconclusive" and fails the check
+ * rather than certifying it. Uses synthetic data only.
  */
 export async function verifyPrivate({ endpoint, projectId, fetchImpl = fetch }) {
   const base = `${endpoint.replace(/\/$/, '')}/tablesdb/${DATABASE_ID}/tables/${TABLE_ID}`;
@@ -179,10 +226,16 @@ export async function verifyPrivate({ endpoint, projectId, fetchImpl = fetch }) 
   ];
   const results = [];
   for (const [label, url, init] of probes) {
-    const response = await fetchImpl(url, init);
-    results.push({ label, status: response.status, refused: response.status >= 400 && response.status < 500 });
+    let status = 0;
+    try {
+      status = (await fetchImpl(url, init)).status;
+    } catch {
+      /* unreachable: inconclusive */
+    }
+    const outcome = REFUSAL_STATUSES.has(status) ? 'refused' : status >= 200 && status < 300 ? 'allowed' : 'inconclusive';
+    results.push({ label, status, outcome, refused: outcome === 'refused' });
   }
-  return { ok: results.every((result) => result.refused), results };
+  return { ok: results.every((result) => result.outcome === 'refused'), results };
 }
 
 function describePlan() {
@@ -218,9 +271,13 @@ async function main(command = 'plan') {
   if (command === 'verify-private') {
     requireEnv(['APPWRITE_ENDPOINT', 'APPWRITE_PROJECT_ID']);
     const result = await verifyPrivate({ endpoint: process.env.APPWRITE_ENDPOINT, projectId: process.env.APPWRITE_PROJECT_ID });
-    for (const probe of result.results) process.stdout.write(`${probe.refused ? 'refused ' : 'ALLOWED '} ${probe.status}  ${probe.label}\n`);
-    if (!result.ok) {
+    const words = { refused: 'refused     ', allowed: 'ALLOWED     ', inconclusive: 'INCONCLUSIVE' };
+    for (const probe of result.results) process.stdout.write(`${words[probe.outcome]} ${probe.status}  ${probe.label}\n`);
+    if (result.results.some((probe) => probe.outcome === 'allowed')) {
       process.stderr.write('The table is reachable without credentials. Treat this as a blocker and fix its permissions.\n');
+      process.exitCode = 1;
+    } else if (!result.ok) {
+      process.stderr.write('Inconclusive: a probe was not an authorisation denial (wrong endpoint or project, rate limit, outage). The table is NOT certified private; fix the cause and run again.\n');
       process.exitCode = 1;
     }
     return;
@@ -228,7 +285,17 @@ async function main(command = 'plan') {
   throw new Error('Usage: provision-analytics.js [plan|apply|verify-private]');
 }
 
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+/** True when this file is the script node was started with, whether it was given as a relative, absolute or symlinked path. */
+export function isEntryPoint(metaUrl, argv1) {
+  if (!argv1) return false;
+  try {
+    return metaUrl === pathToFileURL(realpathSync(resolve(argv1))).href;
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint(import.meta.url, process.argv[1])) {
   main(process.argv[2]).catch((error) => {
     process.stderr.write(`${error.message}\n`);
     process.exitCode = 1;

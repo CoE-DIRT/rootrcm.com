@@ -1,8 +1,12 @@
 /**
  * Build-time guard for browser-exposed configuration. Vite inlines every `VITE_*` variable into the
  * public bundle, so anything secret-shaped must fail the build instead of shipping.
+ *
+ * Names are matched, not values, because a secret has no recognisable shape. The list errs on the side of refusing: any
+ * name that says "token", "credential", "webhook" or "passphrase", or names a private kind of key, is refused. The public
+ * keys (VITE_STRIPE_PUBLISHABLE_KEY, VITE_PUBLIC_POSTHOG_KEY, VITE_TURNSTILE_SITE_KEY) do not use those words.
  */
-const SECRET_NAME = /(SECRET|API_KEY|APIKEY|PRIVATE|PASSWORD|PASSWD|ACCESS_TOKEN|AUTH_TOKEN)/i;
+const SECRET_NAME = /(SECRET|API_?KEY|ACCESS_?KEY|SIGNING_?KEY|ENCRYPTION_?KEY|MASTER_?KEY|SERVICE_?KEY|PRIVATE|PASSWORD|PASSWD|PASSPHRASE|CREDENTIAL|TOKEN|BEARER|JWT|WEBHOOK)/i;
 
 /** Public identifiers whose names merely contain a secret-looking word. */
 const PUBLIC_ALLOWLIST = new Set(['VITE_TURNSTILE_SITE_KEY']);
@@ -37,8 +41,10 @@ export function assertSafePublicEnv(env = {}) {
     if (value && !/^https:\/\//.test(value)) problems.push(`${name} must be an https:// URL.`);
   }
 
-  const experiments = String(env.VITE_EXPERIMENTS_ENABLED || '').trim().toLowerCase();
-  if (experiments && experiments !== 'true' && experiments !== 'false') problems.push('VITE_EXPERIMENTS_ENABLED must be true, false or empty.');
+  for (const name of ['VITE_EXPERIMENTS_ENABLED', 'VITE_GA_NON_PRODUCTION']) {
+    const flag = String(env[name] || '').trim().toLowerCase();
+    if (flag && flag !== 'true' && flag !== 'false') problems.push(`${name} must be true, false or empty.`);
+  }
 
   const gsc = String(env.VITE_GSC_VERIFICATION || '').trim();
   if (gsc && !GSC_TOKEN.test(gsc)) problems.push('VITE_GSC_VERIFICATION must be the verification token only (letters, digits, - and _), not a full meta tag.');

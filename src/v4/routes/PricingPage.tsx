@@ -11,6 +11,17 @@ import { useExperiment } from '@/experiments/useExperiment';
 
 type PricingModel = (typeof pricingModels)[number];
 
+/** Lowercase slug used as the engagement type of a pricing-card click (a label, never visitor data). */
+const modelSlug = (name: string): string => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+/** Attributes that make a pricing-card link a reportable `cta_click` (the pricing test's metric counts these). */
+const cardTracking = (model: PricingModel, location: 'pricing-core' | 'pricing-specialized') => ({
+  'data-cta': 'pricing-card',
+  'data-location': location,
+  'data-destination': model.href,
+  'data-engagement-type': modelSlug(model.name),
+});
+
 /** Variant of the pricing A/B test: the same published models in one comparison table. No new claims or numbers. */
 function PricingGlance() {
   return (
@@ -112,7 +123,7 @@ export function PricingPage() {
                     <li key={item}>· {item}</li>
                   ))}
                 </ul>
-                <LinkButton href={model.href} variant="ghost" size="sm" className="mt-4">
+                <LinkButton href={model.href} variant="ghost" size="sm" className="mt-4" {...cardTracking(model, 'pricing-core')}>
                   {model.cta}
                 </LinkButton>
               </GlassCard>
@@ -133,7 +144,7 @@ export function PricingPage() {
                 <p className="mt-2 text-sm text-accent">{model.price}</p>
                 <p className="mt-2 text-sm text-muted">{model.bestFor}</p>
                 <p className="mt-3 text-xs text-muted">Scope and outcomes</p>
-                <LinkButton href={model.href} variant="ghost" size="sm" className="mt-3">
+                <LinkButton href={model.href} variant="ghost" size="sm" className="mt-3" {...cardTracking(model, 'pricing-specialized')}>
                   {model.cta}
                 </LinkButton>
               </GlassCard>

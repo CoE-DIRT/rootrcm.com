@@ -11,6 +11,8 @@ const TRACKING = 'https://tracking.example.test/ingest';
 const CHECKOUT = 'https://checkout-fn.example.test/run';
 const SESSION = 'cs_test_a1B2c3D4e5F6g7H8i9J0';
 const HOSTED = `https://checkout.stripe.com/c/pay/${SESSION}`;
+// The server-derived purchase reference the (stubbed) Function returns; analytics never sees the session id.
+const REFERENCE = '3f2504e04f8941d39a0c0305e82c3301';
 const cors = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'POST, OPTIONS' };
 
 test.use({ baseURL: CONFIGURED });
@@ -40,7 +42,7 @@ async function stub(page: Page, { verify = 'paid' }: { verify?: 'paid' | 'unpaid
       body.action === 'create'
         ? { ok: true, url: HOSTED }
         : verify === 'paid'
-          ? { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD' }
+          ? { ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD', transaction_ref: REFERENCE }
           : { ok: true, paid: false };
     return route.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/json' }, body: JSON.stringify(json) });
   });
@@ -116,6 +118,16 @@ test.describe('first-party analytics follows the real cookie banner', () => {
     await page.waitForTimeout(3_000);
     expect(captured.events).toHaveLength(0);
     expect(await storage(page)).toEqual({ aid: null, sid: null, exp: null, seen: null });
+  });
+
+  test('a URL that is not a ROOT page is reported as /404/, with no trace of the typed path or query', async ({ page }) => {
+    const captured = await stub(page);
+    await page.goto('/patients/jane-doe/records/?mrn=12345678&utm_campaign=jane-smith');
+    await accept(page);
+    await expect.poll(() => named(captured, 'page_view').length, { timeout: 10_000 }).toBe(1);
+    expect(named(captured, 'page_view')[0].page_path).toBe('/404/');
+    expect(JSON.stringify(captured.events)).not.toMatch(/jane|patients|records|mrn|12345678/i);
+    expect(named(captured, 'page_view')[0]).not.toHaveProperty('utm_campaign');
   });
 
   test('withdrawing in the preferences dialog deletes identifiers and stops events', async ({ page }) => {
@@ -238,7 +250,8 @@ test.describe('Stripe test-mode checkout (every Stripe and Function call is stub
     await expect(page.getByRole('heading', { name: 'Payment received.' })).toBeVisible();
     await expect(page.getByText(/test payment and no real money was taken/)).toBeVisible();
     await expect.poll(() => named(captured, 'purchase').length, { timeout: 10_000 }).toBe(1);
-    expect(named(captured, 'purchase')[0].properties).toEqual({ product_id: 'revenue-optimization-diagnostic', transaction_id: SESSION, value: 2500, currency: 'USD', status: 'paid' });
+    expect(named(captured, 'purchase')[0].properties).toEqual({ product_id: 'revenue-optimization-diagnostic', transaction_id: REFERENCE, value: 2500, currency: 'USD', status: 'paid' });
+    expect(JSON.stringify(captured.events)).not.toContain(SESSION); // the Stripe session id never reaches analytics
     expect(page.url()).not.toContain('session_id');
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
 

@@ -20,6 +20,8 @@ const sessionFromLocation = (): string | null => {
 export function CheckoutSuccessPage() {
   const [sessionId] = useState<string | null>(sessionFromLocation);
   const [state, setState] = useState<PageState>(sessionId ? 'verifying' : 'invalid');
+  // The server's non-reversible purchase reference: the only thing about the payment that analytics ever sees.
+  const [reference, setReference] = useState<string | null>(null);
   // Follows the visitor's analytics choice, including one made after this page loaded.
   const consented = useSyncExternalStore(subscribeAnalyticsConsent, analyticsAllowed, () => false);
 
@@ -29,8 +31,11 @@ export function CheckoutSuccessPage() {
     void verifyCheckoutSession(sessionId).then((result) => {
       if (!current) return;
       setState(result.state);
-      // Drop the session id from the address bar once it has served its purpose.
-      if (result.state === 'paid') window.history.replaceState(null, '', window.location.pathname);
+      if (result.state === 'paid') {
+        setReference(result.reference ?? null);
+        // Drop the session id from the address bar once it has served its purpose.
+        window.history.replaceState(null, '', window.location.pathname);
+      }
     });
     return () => {
       current = false;
@@ -38,13 +43,13 @@ export function CheckoutSuccessPage() {
   }, [sessionId]);
 
   // A visitor who accepts analytics only after the page loaded is still counted, and only once in this page's lifetime
-  // (withdrawing and re-granting consent must not send it again; the server also stores one row per Stripe session).
+  // (withdrawing and re-granting consent must not send it again; the server also stores one row per purchase reference).
   const purchaseSent = useRef(false);
   useEffect(() => {
-    if (state !== 'paid' || !sessionId || !consented || purchaseSent.current) return;
+    if (state !== 'paid' || !reference || !consented || purchaseSent.current) return;
     purchaseSent.current = true;
-    trackVerifiedPurchase(sessionId);
-  }, [state, sessionId, consented]);
+    trackVerifiedPurchase(reference);
+  }, [state, reference, consented]);
 
   return (
     <V4Shell minimal>

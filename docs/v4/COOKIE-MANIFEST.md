@@ -3,7 +3,7 @@
 Published on-site at `/legal/cookies/`. **The source of truth is
 [`src/v4/consent/storageInventory.ts`](../../src/v4/consent/storageInventory.ts)**: the cookie policy table is
 generated from it, and rows tied to an optional vendor appear only when that vendor is configured in the build.
-Consent services are defined in `src/v4/consent/klaroConfig.ts` (`KLARO_CONFIG_VERSION = 2`).
+Consent services are defined in `src/v4/consent/klaroConfig.ts` (`KLARO_CONFIG_SCHEMA_VERSION = 2` is Klaro's config-schema marker, not a content version; adding or renaming a service re-prompts visitors and analytics ignores an older saved choice until they answer).
 
 | Key | Provider | Purpose | Category | Set before consent? |
 | --- | --- | --- | --- | --- |

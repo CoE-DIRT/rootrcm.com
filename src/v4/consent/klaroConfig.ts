@@ -7,9 +7,13 @@ import { getPostHogKey } from '../analytics/adapter';
  * A consent service is registered ONLY when its vendor/endpoint is actually configured for this build
  * (verified Measurement ID, tracking endpoint, project key). Nothing is listed that cannot run, and
  * nothing non-essential runs before the visitor opts in.
- * Bump KLARO_CONFIG_VERSION whenever services or their descriptions change: Klaro then asks again.
+ *
+ * `version: 2` is Klaro's configuration SCHEMA marker (it skips the legacy `apps` migration); it is not a content version.
+ * Klaro asks again when a visitor's saved choice no longer covers every configured service, so adding or renaming a
+ * service re-prompts. Analytics applies the same rule (`confirmedConsent.ts`). To force a new prompt after a material
+ * change to what a service does, give that service a new `name`.
  */
-export const KLARO_CONFIG_VERSION = 2;
+export const KLARO_CONFIG_SCHEMA_VERSION = 2;
 
 interface KlaroService {
   name: string;
@@ -91,7 +95,7 @@ export function buildKlaroServices(): KlaroService[] {
 }
 
 export const klaroConfig = {
-  version: KLARO_CONFIG_VERSION,
+  version: KLARO_CONFIG_SCHEMA_VERSION,
   elementID: 'klaro',
   storageMethod: 'cookie' as const,
   cookieName: 'root_consent',

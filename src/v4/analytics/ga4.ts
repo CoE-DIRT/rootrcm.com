@@ -27,6 +27,17 @@ function externalGtagPresent(id: string): boolean {
   return foreign || Boolean(window.google_tag_manager && id in window.google_tag_manager);
 }
 
+/** The standard gtag queue function (it must push the real `arguments` object, not an array). */
+function ensureGtag(): (...args: unknown[]) => void {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag =
+    window.gtag ||
+    function gtag() {
+      window.dataLayer!.push(arguments);
+    };
+  return window.gtag;
+}
+
 /** Start GA4 (idempotent). Returns true when events can be sent. */
 export function startGa4(): boolean {
   const id = getGaMeasurementId();
@@ -37,24 +48,19 @@ export function startGa4(): boolean {
     window.gtag?.('consent', 'update', { analytics_storage: 'granted' });
     return true;
   }
-  // Another snippet (e.g. a tag manager outside this repo) already owns this property: reuse it, never install twice.
+  // Another snippet (e.g. a tag manager outside this repo) already owns this property: reuse it, never install twice. That
+  // snippet may have defaulted storage to denied, so the visitor's consent still has to be passed on to it.
   if (externalGtagPresent(id)) {
+    ensureGtag()('consent', 'update', { analytics_storage: 'granted' });
     started = true;
     return true;
   }
 
-  window.dataLayer = window.dataLayer || [];
-  window.gtag =
-    window.gtag ||
-    function gtag() {
-      // gtag requires the real `arguments` object, not an array.
-      window.dataLayer!.push(arguments);
-    };
-
-  window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
-  window.gtag('consent', 'update', { analytics_storage: 'granted' });
-  window.gtag('js', new Date());
-  window.gtag('config', id, {
+  const gtag = ensureGtag();
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  gtag('consent', 'update', { analytics_storage: 'granted' });
+  gtag('js', new Date());
+  gtag('config', id, {
     send_page_view: false,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
@@ -76,8 +82,10 @@ export function startGa4(): boolean {
 function expireCookie(name: string): void {
   const host = window.location.hostname;
   const domains = ['', host, `.${host.replace(/^www\./, '')}`];
+  // Same flags the cookie was set with (cookie_flags in startGa4), so strict browsers accept the expiry.
+  const flags = `; SameSite=Lax${window.location.protocol === 'https:' ? '; Secure' : ''}`;
   for (const domain of domains) {
-    document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ''}`;
+    document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ''}${flags}`;
   }
 }
 

@@ -36,11 +36,8 @@ function readOrCreate(store: 'local' | 'session', key: string): string {
 export const getAnonymousId = (): string => readOrCreate('local', ANON_KEY);
 export const getSessionId = (): string => readOrCreate('session', SESSION_KEY);
 
-/** Forget every analytics identifier (consent withdrawn). */
-export function clearAnalyticsIds(): void {
-  delete memory[ANON_KEY];
-  delete memory[SESSION_KEY];
-  for (const key of [ANON_KEY, SESSION_KEY, 'root-utm', 'root-analytics-seen']) {
+function removeKeys(keys: string[]): void {
+  for (const key of keys) {
     try {
       window.localStorage.removeItem(key);
       window.sessionStorage.removeItem(key);
@@ -48,4 +45,22 @@ export function clearAnalyticsIds(): void {
       /* nothing to clear */
     }
   }
+}
+
+/** First-party analytics withdrawn: forget the identifiers that exist only for it (GA4 has its own cookies). */
+export function clearFirstPartyIds(): void {
+  delete memory[ANON_KEY];
+  delete memory[SESSION_KEY];
+  removeKeys([ANON_KEY, SESSION_KEY, 'root-utm']);
+}
+
+/** Every analytics sink withdrawn: forget the de-duplication markers as well. */
+export function clearDedupeMarkers(): void {
+  removeKeys(['root-analytics-seen']);
+}
+
+/** Forget every analytics identifier and marker (all analytics withdrawn). */
+export function clearAnalyticsIds(): void {
+  clearFirstPartyIds();
+  clearDedupeMarkers();
 }

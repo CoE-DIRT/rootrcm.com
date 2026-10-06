@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CATALOG, handleCheckout, parseOrigins } from './handler.js';
+import { CATALOG, handleCheckout, parseOrigins, purchaseReference } from './handler.js';
 
 const ORIGIN = 'https://rootrcm.com';
 const NOW = Date.parse('2026-10-06T12:00:00.000Z');
@@ -169,8 +169,44 @@ describe('checkout: verifying a session (the only basis for purchase analytics)'
   it('reports paid only for a completed, paid, test-mode, catalogued $2,500 session, with no personal data', async () => {
     const response = await verify(paidSession({ customer_details: { email: 'private@example.test', name: 'Synthetic Person' } }));
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ ok: true, paid: true, product_id: 'revenue-optimization-diagnostic', amount: 2500, currency: 'USD' });
+    expect(response.body).toEqual({
+      ok: true,
+      paid: true,
+      product_id: 'revenue-optimization-diagnostic',
+      amount: 2500,
+      currency: 'USD',
+      transaction_ref: purchaseReference(KEY, SESSION),
+    });
     expect(JSON.stringify(response)).not.toMatch(/private@example|Synthetic Person/);
+  });
+
+  describe('the purchase reference (what analytics may know about a payment)', () => {
+    it('is 128 bits of hex that contains no part of the Stripe session id and cannot be turned back into it', () => {
+      const reference = purchaseReference(KEY, SESSION);
+      expect(reference).toMatch(/^[0-9a-f]{32}$/);
+      expect(SESSION).not.toContain(reference);
+      for (const fragment of [SESSION.slice(8), SESSION.slice(8, 20), 'cs_test']) expect(reference).not.toContain(fragment);
+    });
+
+    it('is stable for one session and key, different per session, and different per key', () => {
+      expect(purchaseReference(KEY, SESSION)).toBe(purchaseReference(KEY, SESSION));
+      expect(purchaseReference(KEY, SESSION)).not.toBe(purchaseReference(KEY, 'cs_test_Z9y8X7w6V5u4T3s2R1q0'));
+      // Without the server secret the reference cannot be recomputed from a session id (no unkeyed hash lookup).
+      expect(purchaseReference(fake('sk', 'test').replace('SYNTHETIC', 'DIFFERENT'), SESSION)).not.toBe(purchaseReference(KEY, SESSION));
+    });
+
+    it('is the only payment identifier in the response: the session id is never echoed', async () => {
+      const response = await verify(paidSession());
+      const text = JSON.stringify(response);
+      expect(text).not.toContain(SESSION);
+      expect(text).not.toMatch(/cs_(test|live)_|pi_|ch_/);
+      expect(Object.keys(response.body).sort()).toEqual(['amount', 'currency', 'ok', 'paid', 'product_id', 'transaction_ref']);
+    });
+
+    it('is not issued for a session that is not paid', async () => {
+      const response = await verify(paidSession({ payment_status: 'unpaid' }));
+      expect(response.body).toEqual({ ok: true, paid: false });
+    });
   });
 
   it('asks Stripe for exactly the requested session', async () => {

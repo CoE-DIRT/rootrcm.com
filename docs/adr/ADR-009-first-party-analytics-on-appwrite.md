@@ -28,10 +28,12 @@ The boundary, as recorded in `AGENTS.md`:
 | The eight events `page_view`, `scroll`, `cta_click`, `form_submit`, `phone_click`, `checkout_start`, `purchase`, `experiment_exposure` | Any other event name |
 | Thirteen allowlisted property keys (`cta_id`, `cta_location`, `destination`, `engagement_type`, `form_id`, `status`, `percent_scrolled`, `product_id`, `currency`, `value`, `variant`, `experiment_id`, `transaction_id`), each validated | Any other key; anything that looks like an email address or phone number; query strings; URL schemes |
 | A random anonymous browser id and session id (created only after consent) | Names, emails, phone numbers, message text, form values, payment data, authentication data, uploads, PHI |
-| Page path without query string or fragment; referrer **host** only; coarse campaign labels | Raw IP address, full user-agent string, cookies, full URLs, headers |
+| One of the site's own page paths (anything else is stored as `/404/`); referrer **host** only; registered channel and campaign labels | Raw IP address, full user-agent string, cookies, full URLs, headers, visitor-typed paths, free-form campaign text, Stripe identifiers |
 
 The allowlists live in one place per side and are kept identical by a test:
-`src/v4/analytics/taxonomy.ts` (browser) and `functions/tracking-ingest/contract.js` (Function).
+`src/v4/analytics/taxonomy.ts` (browser) and `functions/tracking-ingest/contract.js` (Function). The page-path and campaign-label
+lists are generated into the Function (`functions/tracking-ingest/allowlists.js`) from `src/seo/routeRegistry.js` and
+`src/v4/analytics/campaigns.js` by `scripts/appwrite/sync-analytics-allowlists.js`; a test fails when the copy is stale.
 
 ### Controls
 
@@ -40,7 +42,7 @@ The allowlists live in one place per side and are kept identical by a test:
 - **Strict validation, server side.** The Function does not trust the browser: every field is re-validated against the
   allowlist; an event with an unknown field, a bad identifier, an out-of-range timestamp or a value that looks personal is
   dropped, never "cleaned up". Body size and batch size are capped. Duplicate `event_id` values are accepted
-  idempotently (the event id is the row id; a purchase is keyed by a hash of its Stripe session id so it is stored once).
+  idempotently (the event id is the row id; a purchase is keyed by its server-derived purchase reference, a keyed digest that is not a Stripe identifier, so it is stored once).
 - **Private storage.** The table has empty permissions and row security off, so no client, public or guest role can
   read or write it. Only the Function's server-side API key (scopes `rows.read`, `rows.write` only) can.
 - **No secrets in the browser.** The API key and project/table identifiers are Function variables. The only browser
@@ -74,7 +76,7 @@ The allowlists live in one place per side and are kept identical by a test:
 
 ## Release gates
 
-1. Provision the table with `scripts/appwrite/provision-analytics.mjs` (dry run first) and confirm in the console that the
+1. Provision the table with `scripts/appwrite/provision-analytics.js` (dry run first) and confirm in the console that the
    table has no public permissions.
 2. Deploy `tracking-ingest` as a **new** Function. Do not touch the active `root-website` Site deployment or the `contact` Function.
 3. Send synthetic events only; confirm rows, duplicate handling, rejection of oversized and malformed payloads, and that an

@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AnalyticsBoot } from './AnalyticsBoot';
+import { hasAnalyticsConsent, setAnalyticsConsent } from './adapter';
 import { resetAnalyticsConsent } from './consent';
 import { resetFirstPartyForTests } from './firstParty';
 import { resetGa4ForTests } from './ga4';
@@ -10,8 +11,10 @@ import type { TrackingEvent } from './taxonomy';
 
 const ENDPOINT = 'https://tracking.example.test/ingest';
 
+// Klaro writes an answer for EVERY configured service (the required session service is always true), and analytics only
+// honours a saved choice that is complete in that sense.
 function setConsentCookie(services: Record<string, boolean>) {
-  document.cookie = `root_consent=${encodeURIComponent(JSON.stringify(services))}; path=/`;
+  document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': false, ...services }))}; path=/`;
 }
 
 function wipe() {
@@ -227,5 +230,28 @@ describe('AnalyticsBoot (no consent)', () => {
     render(<AnalyticsBoot />);
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
+  });
+});
+
+describe('AnalyticsBoot (PostHog consent)', () => {
+  afterEach(() => {
+    setAnalyticsConsent({ analytics: false, marketing: false });
+    Object.defineProperty(navigator, 'globalPrivacyControl', { configurable: true, value: undefined });
+  });
+
+  it('grants the PostHog service only for an explicit root-analytics choice', async () => {
+    setConsentCookie({ 'root-analytics': true });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(true);
+  });
+
+  it('refuses the PostHog service under Global Privacy Control even though the visitor ticked it', async () => {
+    Object.defineProperty(navigator, 'globalPrivacyControl', { configurable: true, value: true });
+    setConsentCookie({ 'root-analytics': true, 'root-first-party-analytics': true });
+    render(<AnalyticsBoot />);
+    await flush();
+    expect(hasAnalyticsConsent()).toBe(false);
+    expect(fetchMock).not.toHaveBeenCalled(); // first-party analytics is refused by the same signal
   });
 });

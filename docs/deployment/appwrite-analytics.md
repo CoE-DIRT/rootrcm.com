@@ -21,8 +21,9 @@ npm ci --prefix functions/tracking-ingest
 node scripts/appwrite/provision-analytics.js plan           # prints the plan; no network, no credentials
 ```
 
-Create a **setup** API key in the console with scopes `databases.write`, `tables.write`, `columns.write`, `indexes.write`
-(delete it afterwards), then in your own shell:
+Create a **setup** API key in the console with the write scopes `databases.write`, `tables.write`, `columns.write`,
+`indexes.write` **and** the matching read scopes `databases.read`, `tables.read`, `columns.read`, `indexes.read` (every run first
+reads what already exists, so a write-only key fails with an authorisation error). Delete the key afterwards. Then, in your own shell:
 
 ```sh
 export APPWRITE_ENDPOINT='<endpoint from the console>'
@@ -33,9 +34,15 @@ node scripts/appwrite/provision-analytics.js verify-private  # unauthenticated r
 ```
 
 Expected: `database web_analytics`, `table tracking_events` (no permissions, row security off), 27 columns, 4 indexes
-(timestamp, event name, page path, retention). `verify-private` must print `refused` for all three probes; any `ALLOWED` is a
-blocker. Also confirm in the console: **Databases > web_analytics > tracking_events > Settings > Permissions is empty and Row
-security is off**.
+(timestamp, event name, page path, retention). `apply` compares every existing column with the plan (type, size, required, min,
+max, not an array) and every existing index (columns, order); any difference stops it before it changes anything, and it never
+modifies or deletes what exists.
+
+`verify-private` must print `refused` for all three probes. A probe counts as `refused` only for an authorisation denial (**401 or
+403**). `ALLOWED` (a 2xx) means the table is public: a blocker. `INCONCLUSIVE` (404 from a wrong endpoint, project or path, a rate
+limit, a server error, no network) means nothing was proven: the command exits non-zero and the table is **not** certified; fix the
+cause and run it again. Also confirm in the console: **Databases > web_analytics > tracking_events > Settings > Permissions is
+empty and Row security is off**.
 
 ## 2. Create the Function's API key
 
@@ -68,6 +75,10 @@ production is approved.
 
 ## 4. Deploy without activating
 
+Before deploying, regenerate and check the generated allowlists (page paths and campaign labels) so the Function matches the site
+you are about to deploy: `node scripts/appwrite/sync-analytics-allowlists.js --check` (run it without `--check` to refresh, then
+commit). Deploy the Function **before** the site that links to a new route; until then that page's views are counted as `/404/`.
+
 ```sh
 appwrite functions create-deployment --function-id tracking-ingest --code functions/tracking-ingest \
   --entrypoint main.js --commands "npm install"          # no --activate: inspect the build first
@@ -97,7 +108,9 @@ Verify each of the following and record the result:
 | `GET` | `405` |
 | Unauthenticated Databases API read/write (`verify-private`) | refused |
 | Execution list (`appwrite functions list-executions --function-id tracking-ingest`) | no request headers, IP or user-agent persisted |
-| After a scheduled run (or a manual cron test) | rows past `expires_at` deleted |
+| A page view for `"page_path":"/patients/synthetic/"` (well formed, not a site page) | `202`; the stored `page_path` is `/404/` |
+| `"utm_campaign":"synthetic-name"` | `202`; no `utm_campaign` stored (no campaign is registered) |
+| After a scheduled run (Appwrite delivers the cron schedule as a **POST** with trigger `schedule`; GET is accepted too) or a manual cron test | rows past `expires_at` deleted |
 
 ## 6. Connect a preview build
 
