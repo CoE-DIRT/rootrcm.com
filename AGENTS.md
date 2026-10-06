@@ -10,6 +10,7 @@ This repository is the static public website for ROOT, not a secure intake app.
 - Do not modify DNS, registrar settings, GitHub Pages production settings, or `public/CNAME`.
 - Do not add a backend merely for visual or commercial website work. The approved Appwrite Function is a narrow, documented exception for deidentified commercial inquiry relay only; it is not a general application backend, database, authentication, upload, or PHI intake path.
 - A dedicated Appwrite Function and private Appwrite TablesDB table may ingest deidentified website analytics events only. It must not receive PHI, contact-message content, names, emails, phone numbers, payment data, authentication data, uploads, or arbitrary application data. Analytics rows must not be publicly readable or writable.
+- Under accepted ADR-010, dedicated Appwrite Functions may create Stripe Checkout sessions and verify Stripe test-mode webhook signatures only for catalogued public products. They must not use live keys, receive or store card data, customer personal data, PHI, contact-message content, or fulfilment data.
 - Do not place secrets, API keys, or private endpoints in client code.
 - Do not collect, commit, log, test with, or ask for PHI.
 - Preserve the no-PHI acknowledgement in inquiry flows.

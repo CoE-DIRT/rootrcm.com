@@ -1,7 +1,7 @@
 import process from 'node:process';
 import { handleStripeWebhook } from './handler.js';
 
-// Appwrite HTTP Function adapter for the Stripe webhook PLACEHOLDER (ADR-010, proposed: do not deploy until accepted).
+// Appwrite HTTP Function adapter for the Stripe webhook PLACEHOLDER (ADR-010 accepted; do not deploy until preview gates and test credentials are ready).
 // Server-only variable (never VITE_*): STRIPE_WEBHOOK_SECRET (whsec_...). The raw request body is required for the
 // signature check, so it is passed through untouched. Nothing is logged, stored or sent onward.
 export default async ({ req, res, error }) => {

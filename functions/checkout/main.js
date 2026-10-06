@@ -1,7 +1,7 @@
 import process from 'node:process';
 import { handleCheckout } from './handler.js';
 
-// Appwrite HTTP Function adapter for Stripe TEST-MODE checkout (ADR-010, proposed: do not deploy until accepted).
+// Appwrite HTTP Function adapter for Stripe TEST-MODE checkout (ADR-010 accepted; do not deploy until preview gates and test credentials are ready).
 // Server-only variables (never VITE_*): STRIPE_SECRET_KEY (sk_test_ or rk_test_ only), ALLOWED_ORIGINS.
 // No database, no logging of requests, no card data. Failures log a constant string only.
 export default async ({ req, res, error }) => {

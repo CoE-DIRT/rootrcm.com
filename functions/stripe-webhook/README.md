@@ -1,7 +1,6 @@
 # Stripe webhook placeholder Function (`stripe-webhook`)
 
-**Proposed in [ADR-010](../../docs/adr/ADR-010-stripe-test-mode-checkout.md). Not deployed. Do not create it until the owner accepts
-the ADR.** It verifies and acknowledges; it does **not** fulfil, store, email or log anything.
+**Accepted in [ADR-010](../../docs/adr/ADR-010-stripe-test-mode-checkout.md). Not deployed. Do not create it until the preview test-mode release gates are completed.** It verifies and acknowledges; it does **not** fulfil, store, email or log anything.
 
 - `POST` only. Requires a `Stripe-Signature` header and the **raw** request body (the adapter passes `req.bodyText` untouched).
 - Verification follows Stripe's manual scheme: `signed_payload = timestamp + "." + body`, HMAC-SHA256 with the endpoint secret, only `v1`

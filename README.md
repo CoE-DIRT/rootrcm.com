@@ -96,11 +96,11 @@ never use the `VITE_` prefix and the build refuses secret-shaped `VITE_*` variab
 | Google Analytics 4 | **Disabled**: no Measurement ID supplied (`VITE_GA_MEASUREMENT_ID`) | [docs/analytics/tracking-plan.md](docs/analytics/tracking-plan.md) |
 | First-party analytics (Appwrite `tracking-ingest` + private table) | Code, tests and provisioning script ready; **not deployed** | [ADR-009](docs/adr/ADR-009-first-party-analytics-on-appwrite.md), [runbook](docs/deployment/appwrite-analytics.md) |
 | A/B experiments | Built; **off in production** unless `VITE_EXPERIMENTS_ENABLED=true`; no results exist | [docs/analytics/experiments.md](docs/analytics/experiments.md) |
-| Stripe test-mode checkout | Code and tests ready, **inert**; needs owner approval first | [ADR-010 (proposed)](docs/adr/ADR-010-stripe-test-mode-checkout.md), [runbook](docs/deployment/stripe-test-mode.md) |
+| Stripe test-mode checkout | Code and tests ready, **inert**; ADR-010 accepted, awaiting test credentials and preview gates | [ADR-010](docs/adr/ADR-010-stripe-test-mode-checkout.md), [runbook](docs/deployment/stripe-test-mode.md) |
 | Search Console, Business Profile | **Not done** (manual owner steps) | [docs/seo/](docs/seo/README.md) |
 
 Appwrite Functions live in `functions/` (`contact`, `tracking-ingest`, `checkout`, `stripe-webhook`); each has its own README. `contact` is the approved
-commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and `checkout` and `stripe-webhook` wait on ADR-010. None of the four is confirmed
+commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and the test-mode-only `checkout` and `stripe-webhook` Functions are authorized by ADR-010 but remain undeployed. None of the four is confirmed
 deployed from this repository.
 
 ## Deployment Model
@@ -163,7 +163,7 @@ Preserve React/Vite, static routing, npm, accessibility, no-PHI boundaries, cons
 
 ## Current Status
 
-This repository's production branch is `main`. The unified healthcare revenue intelligence positioning is staged for review in draft PR #25, not deployed through this branch. Approved legal, no-PHI, pricing, and synthetic-proof boundaries remain in force. Canonical public copy: [commercial positioning](docs/website/commercial-positioning-source-of-truth.md). Temporary ChatGPT Site synchronization: [surgical content prompt](docs/website/temporary-chatgpt-site-commercial-upgrade-prompt.md).
+This repository's production branch is `main`. The 2026 website major revision is in the repository, but Appwrite resources, GA4, Stripe test checkout, and production traffic remain gated by the documented release runbooks. The temporary ChatGPT Sites deployment remains the rollback backup. Approved legal, no-PHI, pricing, and synthetic-proof boundaries remain in force. Canonical public copy: [commercial positioning](docs/website/commercial-positioning-source-of-truth.md). Temporary ChatGPT Site synchronization: [surgical content prompt](docs/website/temporary-chatgpt-site-commercial-upgrade-prompt.md).
 
 ## Useful Links
 

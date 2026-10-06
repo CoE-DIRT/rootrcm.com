@@ -1,4 +1,4 @@
-// Stripe Checkout (TEST MODE ONLY) for the fixed-fee Revenue Optimization Diagnostic. See docs/adr/ADR-010 (proposed).
+// Stripe Checkout (TEST MODE ONLY) for the fixed-fee Revenue Optimization Diagnostic. See docs/adr/ADR-010 (accepted; preview deployment gates still apply).
 //
 // Two operations over one POST endpoint (JSON body, any content type):
 //   { "action": "create", "product_id": "revenue-optimization-diagnostic" }  -> { ok, url }  (Stripe-hosted Checkout)

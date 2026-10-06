@@ -1,7 +1,7 @@
 # ADR-010: Stripe test-mode checkout Functions
 
 Date: 2026-10-06
-Status: **Proposed. Owner approval is required before any deployment.** `AGENTS.md` has **not** been changed for this decision.
+Status: **Accepted. Owner approval was recorded in the 2026-10-06 merge instruction.** `AGENTS.md` now contains the narrow test-mode-only exception.
 Deployment status: code and tests only; no Function, Stripe object or Appwrite resource has been created.
 Relates to: ADR-007 (no PHI), ADR-008 (contact Function boundary), ADR-009 (analytics Function).
 
@@ -13,7 +13,7 @@ session creation, success and cancel pages and a webhook placeholder, but its on
 analytics. Rather than widen `AGENTS.md` beyond what was authorized, the Stripe code is committed **inert and undeployed** and
 this ADR asks the owner to decide.
 
-## Proposed decision
+## Decision
 
 Two new, dedicated Appwrite Functions, both **Stripe test mode only**:
 
@@ -38,7 +38,7 @@ The browser holds only a **publishable test key** declaration (`VITE_STRIPE_PUBL
 which hosted Checkout does not actually need; it exists so the build can assert test mode. Secrets (`STRIPE_SECRET_KEY`,
 `STRIPE_WEBHOOK_SECRET`) live only in Function variables.
 
-### Proposed `AGENTS.md` wording if accepted
+### Accepted `AGENTS.md` wording
 
 > A dedicated Appwrite Function may create Stripe Checkout sessions in Stripe test mode only, for catalogued public products, and a separate Function may verify Stripe webhook signatures. They must not receive or store card data, customer personal data, PHI, or contact-message content, and must not use live Stripe keys.
 
@@ -56,7 +56,7 @@ which hosted Checkout does not actually need; it exists so the build can assert 
 
 ## Release gates
 
-1. Owner accepts this ADR and the `AGENTS.md` wording (or rejects it, in which case the Stripe code stays dormant).
+1. Acceptance is recorded in this ADR and the corresponding `AGENTS.md` wording; deployment remains blocked until the remaining test-mode release gates are completed.
 2. A Stripe **test** account and a restricted test key are created by the owner; no key is shared in chat, files or commits.
 3. Functions are created as **new** resources and deployed per `docs/deployment/stripe-test-mode.md`; the active production Site
    deployment is untouched.

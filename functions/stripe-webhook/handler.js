@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 
-// Stripe webhook endpoint: PLACEHOLDER (ADR-010, proposed). It verifies the signature and acknowledges test-mode
+// Stripe webhook endpoint: PLACEHOLDER (ADR-010 accepted). It verifies the signature and acknowledges test-mode
 // events; it does not fulfil, store, email or log anything, because no fulfilment process has been approved.
 // Signature scheme: https://docs.stripe.com/webhooks#verify-manually. Only `v1` signatures count (other schemes are
 // ignored to prevent downgrade attacks), the comparison is constant-time, and a timestamp outside the tolerance is refused.

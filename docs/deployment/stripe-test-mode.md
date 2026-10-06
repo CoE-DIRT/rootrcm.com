@@ -1,6 +1,6 @@
 # Stripe test-mode checkout: preview runbook
 
-**Status: not executed. Blocked on [ADR-010](../adr/ADR-010-stripe-test-mode-checkout.md) acceptance by the owner.** Nothing has
+**Status: not executed. ADR-010 is accepted; blocked on owner-supplied Stripe test credentials and preview configuration.** Nothing has
 been run against Stripe; the Functions are tested with a mocked `fetch`. No Stripe key, webhook secret or account detail exists in
 this repository or this session.
 
@@ -9,7 +9,7 @@ Appwrite console or your own shell; do not touch the active `root-website` Site 
 
 ## 1. Owner decisions before starting
 
-- ADR-010 accepted, and the proposed `AGENTS.md` wording added (or the Stripe code stays dormant).
+- ADR-010 accepted and the corresponding `AGENTS.md` wording present; do not create Functions until test credentials and preview release gates are ready.
 - A Stripe account in **test mode**. Create a **restricted** test key (`rk_test_...`) that can write Checkout Sessions only (confirm the
   exact permission names in the Stripe Dashboard), or a standard `sk_test_...` key if restricted keys are unavailable.
 - Counsel reviews `/terms/` and `/refund-policy/` before any real payment is ever considered (out of scope here).

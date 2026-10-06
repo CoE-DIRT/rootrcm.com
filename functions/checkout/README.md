@@ -1,7 +1,6 @@
 # Stripe test-mode checkout Function (`checkout`)
 
-**Proposed in [ADR-010](../../docs/adr/ADR-010-stripe-test-mode-checkout.md). Not deployed. Do not create it until the owner accepts
-the ADR.** Test mode only: live keys, live sessions and live events are refused.
+**Accepted in [ADR-010](../../docs/adr/ADR-010-stripe-test-mode-checkout.md). Not deployed. Do not create it until the preview test-mode release gates are completed.** Test mode only: live keys, live sessions and live events are refused.
 
 One endpoint, `POST` with a JSON body (any content type; the browser sends `text/plain`):
 
