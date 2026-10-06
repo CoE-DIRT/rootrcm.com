@@ -633,6 +633,18 @@ export const routeMeta = {
     h1: 'Request received.',
     image: brandAssets.og,
   },
+  '/checkout/success': {
+    title: 'Checkout Confirmation | ROOT',
+    description: 'Confirmation page shown after Stripe checkout for the ROOT Revenue Optimization Diagnostic.',
+    h1: 'Checkout confirmation',
+    image: brandAssets.og,
+  },
+  '/checkout/cancel': {
+    title: 'Checkout Canceled | ROOT',
+    description: 'Checkout for the ROOT Revenue Optimization Diagnostic was canceled and no payment was taken.',
+    h1: 'Checkout canceled.',
+    image: brandAssets.og,
+  },
 };
 
 if (import.meta.env?.DEV === true) {

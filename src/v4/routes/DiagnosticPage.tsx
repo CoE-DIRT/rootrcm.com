@@ -11,7 +11,7 @@ import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
 import { diagnosticDeliverables, diagnosticFaq, mediaAssets } from '../../siteData.js';
 import { diagnosticSample, syntheticPractice } from '../../proofData.js';
-import { isDiagnosticCheckoutActive, startDiagnosticCheckout } from '@/growth/checkout';
+import { CheckoutButton } from '@/components/CheckoutButton';
 
 const diagnosticJourney = [
   { title: 'Inputs', copy: 'Share deidentified operating context — aging, denial, rejection, posting, credentialing-status, and payment exports.' },
@@ -68,11 +68,7 @@ export function DiagnosticPage() {
             <a href="#diagnostic-form" className="mt-6 inline-block text-sm font-medium text-data-blue">
               Start the inquiry form
             </a>
-            {isDiagnosticCheckoutActive() ? (
-              <button type="button" className="ml-4 text-sm text-muted underline" onClick={() => void startDiagnosticCheckout()}>
-                Purchase Diagnostic checkout
-              </button>
-            ) : null}
+            <CheckoutButton location="diagnostic-hero" className="mt-6" />
           </div>
           <GlassCard as="div" variant="glass" hover={false} id="diagnostic-form" className="ph-no-capture p-4" data-ph-mask>
             <div ref={formWrapRef}>

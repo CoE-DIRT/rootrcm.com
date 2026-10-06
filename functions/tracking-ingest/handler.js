@@ -84,7 +84,7 @@ async function purge({ store, now, config }) {
 
 /**
  * @param {{ method: string, headers: Record<string, string>, bodyText: string, trigger?: string }} request
- * @param {{ store: { createEvent(eventId: string, row: object): Promise<'created'|'duplicate'>, purgeExpired(isoNow: string): Promise<number> },
+ * @param {{ store: { createEvent(rowId: string, row: object): Promise<'created'|'duplicate'>, purgeExpired(isoNow: string): Promise<number> },
  *           config: ReturnType<typeof parseConfig>, now?: () => Date }} deps
  */
 export async function handleTracking(request, { store, config, now = () => new Date() }) {
@@ -122,16 +122,16 @@ export async function handleTracking(request, { store, config, now = () => new D
   for (const event of payload.events) {
     const result = validateEvent(event, { now: at, retentionDays: config.retentionDays });
     // The same event twice in one batch counts once; across batches the store reports it as a duplicate.
-    if (!result.ok || seen.has(result.eventId)) {
+    if (!result.ok || seen.has(result.rowId)) {
       rejected += 1;
       continue;
     }
-    seen.add(result.eventId);
+    seen.add(result.rowId);
     accepted.push(result);
   }
   if (!accepted.length) return respond(400, { ok: false, accepted: 0, rejected }, origin, config);
 
-  const outcomes = await mapBounded(accepted, WRITE_CONCURRENCY, (item) => store.createEvent(item.eventId, item.row));
+  const outcomes = await mapBounded(accepted, WRITE_CONCURRENCY, (item) => store.createEvent(item.rowId, item.row));
   // A failed write returns 503 so the browser retries the batch; events already stored come back as duplicates.
   if (outcomes.some((outcome) => !outcome.ok)) return respond(503, { ok: false }, origin, config);
 

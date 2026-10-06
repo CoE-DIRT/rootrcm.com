@@ -26,6 +26,8 @@ const staticRoutes = [
   { key: 'refundPolicy', path: '/refund-policy/', entry: 'refund-policy/index.html' },
   { key: 'cookies', path: '/legal/cookies/', entry: 'legal/cookies/index.html' },
   { key: 'thankYou', path: '/thank-you/', entry: 'thank-you/index.html', noindex: true },
+  { key: 'checkoutSuccess', path: '/checkout/success/', entry: 'checkout/success/index.html', noindex: true },
+  { key: 'checkoutCancel', path: '/checkout/cancel/', entry: 'checkout/cancel/index.html', noindex: true },
   { key: 'platform', path: '/platform/', entry: 'platform/index.html' },
   { key: 'technology', path: '/technology/', entry: 'technology/index.html' },
   { key: 'dirt', path: '/technology/dirt/', entry: 'technology/dirt/index.html' },

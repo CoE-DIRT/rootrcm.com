@@ -6,7 +6,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { pricingModels, mediaAssets } from '../../siteData.js';
 import { formatUsd, DIAGNOSTIC_PRICE_USD } from '@/growth/locale';
-import { isDiagnosticCheckoutActive, startDiagnosticCheckout } from '@/growth/checkout';
+import { CheckoutButton } from '@/components/CheckoutButton';
 import { useExperiment } from '@/experiments/useExperiment';
 
 type PricingModel = (typeof pricingModels)[number];
@@ -88,15 +88,7 @@ export function PricingPage() {
               <LinkButton href="/diagnostic/" variant="primary" size="lg" data-cta="book-diagnostic" data-destination="/diagnostic/">
                 Explore the Diagnostic
               </LinkButton>
-              {isDiagnosticCheckoutActive() ? (
-                <button
-                  type="button"
-                  className="rounded-[var(--radius-root)] border border-border px-4 py-2 text-sm text-text"
-                  onClick={() => void startDiagnosticCheckout()}
-                >
-                  Purchase Diagnostic (checkout)
-                </button>
-              ) : null}
+              <CheckoutButton location="pricing-featured" />
             </CTAGroup>
           </GlassCard>
         </Section>

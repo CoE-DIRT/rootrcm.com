@@ -4,6 +4,7 @@
 //
 // Keep EVENT_NAMES, PROPERTY_KEYS and SCHEMA_VERSION identical to src/v4/analytics/taxonomy.ts.
 // src/v4/analytics/contract-parity.test.js fails if they drift.
+import { createHash } from 'node:crypto';
 
 export const SCHEMA_VERSION = 1;
 
@@ -116,6 +117,12 @@ const HOSTNAME = /^[a-z0-9.-]+$/;
 const CAMPAIGN = /^[a-z0-9 _.-]+$/;
 
 const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
+
+/**
+ * Appwrite row ids are at most 36 characters. A purchase is keyed by a hash of its Stripe Checkout session id (not by the
+ * random event id) so it is stored once however many times, from however many browsers or consent states, it is sent.
+ */
+const purchaseRowId = (transactionId) => `p${createHash('sha256').update(`purchase:${transactionId}`).digest('hex').slice(0, 35)}`;
 const isPlainObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 /** Bounded, conservative free text: trimmed, short, no '@', no phone-like or long numeric runs, restricted charset. */
@@ -231,5 +238,6 @@ export function validateEvent(event, { now, retentionDays }) {
   }
   if (event.event_name === 'form_submit' && row.status !== 'success' && row.status !== 'failure') return { ok: false, reason: 'form_status' };
 
-  return { ok: true, row, eventId: event.event_id.toLowerCase() };
+  const eventId = event.event_id.toLowerCase();
+  return { ok: true, row, eventId, rowId: event.event_name === 'purchase' ? purchaseRowId(row.transaction_id) : eventId };
 }

@@ -93,6 +93,28 @@ describe('tracking-ingest: accepting events', () => {
     expect(store.rows.size).toBe(1);
   });
 
+  it('stores a purchase once per Stripe session, whatever event id, browser or consent state sent it', async () => {
+    const store = memoryStore();
+    const purchase = (n, anonymous, transaction = 'cs_test_a1B2c3D4e5F6g7H8') =>
+      event({ event_id: uuid(n), anonymous_id: uuid(anonymous), event_name: 'purchase', target_key: undefined, properties: { transaction_id: transaction, product_id: 'revenue-optimization-diagnostic', value: 2500, currency: 'USD', status: 'paid' } });
+    const first = await run(request([purchase(1, 801), purchase(2, 801)]), store); // same session twice in one batch
+    expect(first.body).toEqual({ ok: true, accepted: 1, rejected: 1 });
+    await run(request([purchase(3, 802)]), store); // same session again, new event id and new anonymous id
+    expect(store.rows.size).toBe(1);
+    const [rowId] = [...store.rows.keys()];
+    expect(rowId).toMatch(/^p[0-9a-f]{35}$/);
+    expect(rowId).toHaveLength(36);
+    expect([uuid(1), uuid(2), uuid(3)]).not.toContain(rowId);
+    await run(request([purchase(4, 801, 'cs_test_Z9y8X7w6V5u4T3s2')]), store); // a different session is a different purchase
+    expect(store.rows.size).toBe(2);
+  });
+
+  it('keys every other event by its own event id', async () => {
+    const store = memoryStore();
+    await run(request([event({ event_id: uuid(5) }), event({ event_id: uuid(6), event_name: 'page_view', target_key: undefined, properties: {} })]), store);
+    expect([...store.rows.keys()].sort()).toEqual([uuid(5), uuid(6)]);
+  });
+
   it('is retry-safe when a write fails part-way: 503 first, then everything succeeds as duplicates or creations', async () => {
     const store = memoryStore({ failOn: (id) => id === uuid(2) });
     const batch = [event({ event_id: uuid(1) }), event({ event_id: uuid(2) }), event({ event_id: uuid(3) })];

@@ -20,6 +20,7 @@ import {
   CaseStudyDetailPage,
 } from './v4/routes/ContentPages.tsx';
 import { PrivacyPage, TermsPage, RefundPolicyPage, ThankYouPage, NotFoundPage } from './v4/routes/LegalPages.tsx';
+import { CheckoutSuccessPage, CheckoutCancelPage } from './v4/routes/CheckoutPages.tsx';
 
 const routes = {
   '/': HomePage,
@@ -47,6 +48,8 @@ const routes = {
   '/legal/privacy': PrivacyPage,
   '/legal/terms': TermsPage,
   '/thank-you': ThankYouPage,
+  '/checkout/success': CheckoutSuccessPage,
+  '/checkout/cancel': CheckoutCancelPage,
 };
 
 solutionPages.forEach((page) => {

@@ -22,6 +22,7 @@ export const APPROVED_CTAS: ReadonlySet<string> = new Set([
   'intent-banner',
   'return-home',
   'talk-to-us-open',
+  'start-checkout',
 ]);
 
 /** Deliberately not tracked: navigation chrome and channels that are not live. */

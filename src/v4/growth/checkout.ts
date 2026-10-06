@@ -1,73 +1,102 @@
+import { track } from '../analytics/tracker';
+import { getProduct } from './catalog';
+
 /**
- * Diagnostic checkout / payment readiness.
- * Static GitHub Pages cannot host Stripe secrets — keep provider disabled until a
- * secure server or payment-link configuration exists.
+ * Stripe TEST-MODE checkout (ADR-010, proposed). The browser never holds a secret and never decides an amount:
+ * it asks the `checkout` Function to create a Stripe-hosted Checkout session for a catalogued product, redirects to
+ * Stripe's page, and after the return asks the Function to verify the session. Card data never touches ROOT.
+ *
+ * The checkout UI exists only when BOTH `VITE_CHECKOUT_ENDPOINT` (https) and a `pk_test_` `VITE_STRIPE_PUBLISHABLE_KEY`
+ * are set. Hosted Checkout needs no publishable key to run; the key is a build-time declaration of test mode (the build
+ * refuses any non-test key, see src/build/envGuard.js) and is never sent anywhere.
  */
+export const DIAGNOSTIC_PRODUCT_ID = 'revenue-optimization-diagnostic';
 
-export type CheckoutEvent =
-  | 'checkout_start'
-  | 'checkout_redirect'
-  | 'checkout_success'
-  | 'checkout_cancel'
-  | 'checkout_error';
+const SESSION_ID = /^cs_test_[A-Za-z0-9]{10,100}$/;
+const STRIPE_HOSTED_PREFIX = 'https://checkout.stripe.com/';
+const REQUEST_TIMEOUT_MS = 20_000;
 
-export interface CheckoutSessionRequest {
-  product: 'revenue-optimization-diagnostic';
-  amountUsd: 2500;
-  successUrl: string;
-  cancelUrl: string;
-}
-
-export interface CheckoutProvider {
-  id: string;
-  configured: boolean;
-  startCheckout: (request: CheckoutSessionRequest) => Promise<{ redirectUrl?: string; error?: string }>;
-}
-
-const disabledProvider: CheckoutProvider = {
-  id: 'disabled',
-  configured: false,
-  async startCheckout() {
-    return { error: 'Checkout is not configured. Use the Diagnostic inquiry form.' };
-  },
+const readEnv = (name: string): string => {
+  const value = (import.meta.env as Record<string, string | undefined>)[name];
+  return typeof value === 'string' ? value.trim() : '';
 };
 
-function envPaymentLink(): string {
-  return (import.meta.env.VITE_DIAGNOSTIC_PAYMENT_LINK as string | undefined)?.trim() || '';
+export function getCheckoutEndpoint(): string {
+  const value = readEnv('VITE_CHECKOUT_ENDPOINT');
+  return /^https:\/\//.test(value) ? value : '';
 }
 
-const paymentLinkProvider: CheckoutProvider = {
-  id: 'payment-link',
-  configured: Boolean(envPaymentLink()),
-  async startCheckout() {
-    const url = envPaymentLink();
-    if (!url) return { error: 'Payment link missing' };
-    return { redirectUrl: url };
-  },
-};
+export const isTestModeBuild = (): boolean => /^pk_test_[A-Za-z0-9_]+$/.test(readEnv('VITE_STRIPE_PUBLISHABLE_KEY'));
 
-export function getCheckoutProvider(): CheckoutProvider {
-  return envPaymentLink() ? paymentLinkProvider : disabledProvider;
-}
+/** Checkout is offered only when it is configured for test mode; otherwise nothing about it is rendered. */
+export const isCheckoutEnabled = (): boolean => getCheckoutEndpoint() !== '' && isTestModeBuild();
 
-export function isDiagnosticCheckoutActive(): boolean {
-  return getCheckoutProvider().configured;
-}
+export const isCheckoutSessionId = (value: unknown): value is string => typeof value === 'string' && SESSION_ID.test(value);
+export const isStripeHostedUrl = (value: unknown): value is string => typeof value === 'string' && value.startsWith(STRIPE_HOSTED_PREFIX);
 
-export async function startDiagnosticCheckout(): Promise<{ ok: boolean; redirectUrl?: string; error?: string }> {
-  const provider = getCheckoutProvider();
-  window.dispatchEvent(new CustomEvent('root:cta', { detail: { cta: 'checkout_start', product: 'diagnostic' } }));
-  const result = await provider.startCheckout({
-    product: 'revenue-optimization-diagnostic',
-    amountUsd: 2500,
-    successUrl: 'https://rootrcm.com/thank-you/?checkout=success',
-    cancelUrl: 'https://rootrcm.com/diagnostic/?checkout=cancel',
-  });
-  if (result.redirectUrl) {
-    window.dispatchEvent(new CustomEvent('root:cta', { detail: { cta: 'checkout_redirect' } }));
-    window.location.assign(result.redirectUrl);
-    return { ok: true, redirectUrl: result.redirectUrl };
+async function callCheckout(body: Record<string, string>): Promise<Record<string, unknown> | null> {
+  const endpoint = getCheckoutEndpoint();
+  if (!endpoint) return null;
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify(body),
+      credentials: 'omit',
+      mode: 'cors',
+      cache: 'no-store',
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+    if (!response.ok) return null;
+    const data: unknown = await response.json();
+    return data && typeof data === 'object' ? (data as Record<string, unknown>) : null;
+  } catch {
+    return null;
   }
-  window.dispatchEvent(new CustomEvent('root:cta', { detail: { cta: 'checkout_error', error: result.error } }));
-  return { ok: false, error: result.error };
+}
+
+export interface CheckoutContext {
+  experiment_id?: string;
+  variant?: string;
+}
+
+const navigateTo = (url: string): void => window.location.assign(url);
+
+/** Create a session and send the visitor to Stripe's hosted page. Resolves `{ ok: false }` if checkout could not start. */
+export async function startDiagnosticCheckout(context: CheckoutContext = {}, navigate: (url: string) => void = navigateTo): Promise<{ ok: boolean }> {
+  const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
+  if (!product || !isCheckoutEnabled()) return { ok: false };
+  const data = await callCheckout({ action: 'create', product_id: product.id });
+  // Only Stripe's own hosted page is ever navigated to, whatever the Function returned.
+  if (!data || data.ok !== true || !isStripeHostedUrl(data.url)) return { ok: false };
+  track(
+    'checkout_start',
+    { product_id: product.id, value: product.amountUsd, currency: product.currency, experiment_id: context.experiment_id, variant: context.variant },
+    { immediate: true },
+  );
+  navigate(data.url);
+  return { ok: true };
+}
+
+export type CheckoutVerification = { state: 'paid' } | { state: 'unpaid' } | { state: 'unavailable' };
+
+/** Ask the Function whether Stripe reports this session as paid. `paid` is the only state that may lead to a purchase event. */
+export async function verifyCheckoutSession(sessionId: string): Promise<CheckoutVerification> {
+  if (!isCheckoutSessionId(sessionId)) return { state: 'unpaid' };
+  const data = await callCheckout({ action: 'verify', session_id: sessionId });
+  if (!data || data.ok !== true) return { state: 'unavailable' };
+  const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
+  const paid = data.paid === true && product !== undefined && data.product_id === product.id && data.amount === product.amountUsd && data.currency === product.currency;
+  return { state: paid ? 'paid' : 'unpaid' };
+}
+
+/** Record the purchase for a session the server has verified as paid. At most once per visitor, and only with consent. */
+export function trackVerifiedPurchase(sessionId: string): void {
+  const product = getProduct(DIAGNOSTIC_PRODUCT_ID);
+  if (!product || !isCheckoutSessionId(sessionId)) return;
+  track(
+    'purchase',
+    { product_id: product.id, transaction_id: sessionId, value: product.amountUsd, currency: product.currency, status: 'paid' },
+    { dedupeKey: `purchase:${sessionId}`, dedupeScope: 'visitor', immediate: true },
+  );
 }

@@ -8,10 +8,10 @@ const PURGE_BATCH = 500;
 
 export function createAppwriteStore({ tables, Query, databaseId, tableId }) {
   return {
-    /** The event id is the row id, so a retried or duplicated event is a 409 and is reported as a duplicate. */
-    async createEvent(eventId, row) {
+    /** The row id is the event id (a hash of the Stripe session for purchases), so a retried or duplicated event is a 409 and is reported as a duplicate. */
+    async createEvent(rowId, row) {
       try {
-        await tables.createRow({ databaseId, tableId, rowId: eventId, data: row, permissions: [] });
+        await tables.createRow({ databaseId, tableId, rowId, data: row, permissions: [] });
         return 'created';
       } catch (error) {
         if (error && (error.code === 409 || error.type === 'row_already_exists' || error.type === 'document_already_exists')) return 'duplicate';

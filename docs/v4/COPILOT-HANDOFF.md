@@ -18,7 +18,7 @@ Cursor completed the V4 assembly on `feat/frontend-v4-clean-rebuild` (PR #20).
 ## Next (Copilot CLI)
 1. Activate draft experiments only with founder approval.
 2. Configure `VITE_PUBLIC_POSTHOG_KEY` + consent QA if analytics goes live.
-3. Configure `VITE_DIAGNOSTIC_PAYMENT_LINK` or server Checkout Sessions before enabling purchase CTA.
+3. Stripe checkout is test-mode only and gated on ADR-010 (see `docs/deployment/stripe-test-mode.md`). The earlier `VITE_DIAGNOSTIC_PAYMENT_LINK` payment-link option was removed because it could not be restricted to test mode.
 4. Bundle-split `main-*.js` (now ~905KB / 267KB gzip) via route-level lazy imports.
 5. Release checklist: Playwright browsers installed in CI, accessibility pass, 1366 laptop viewport.
 

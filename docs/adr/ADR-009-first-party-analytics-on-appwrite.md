@@ -40,7 +40,7 @@ The allowlists live in one place per side and are kept identical by a test:
 - **Strict validation, server side.** The Function does not trust the browser: every field is re-validated against the
   allowlist; an event with an unknown field, a bad identifier, an out-of-range timestamp or a value that looks personal is
   dropped, never "cleaned up". Body size and batch size are capped. Duplicate `event_id` values are accepted
-  idempotently (the event id is the row id).
+  idempotently (the event id is the row id; a purchase is keyed by a hash of its Stripe session id so it is stored once).
 - **Private storage.** The table has empty permissions and row security off, so no client, public or guest role can
   read or write it. Only the Function's server-side API key (scopes `rows.read`, `rows.write` only) can.
 - **No secrets in the browser.** The API key and project/table identifiers are Function variables. The only browser

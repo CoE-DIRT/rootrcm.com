@@ -49,7 +49,7 @@ Generic by design: status codes and counts only; no configuration, identifiers, 
 
 ## What is stored
 
-One row per event; the **event id is the row id**, so duplicates are rejected by the database and treated as success.
+One row per event; the **event id is the row id**, so duplicates are rejected by the database and treated as success. A `purchase` is the exception: its row id is a hash of the Stripe Checkout session id, so a purchase is stored **once** however many times, from however many browsers or consent states, it is sent.
 Columns: `event_name`, `occurred_at` (client time, validated), `received_at` (server time), `expires_at`, `schema_version`,
 `page_path`, `target_key`, `session_id`, `anonymous_id`, `environment`, `referrer_host`, `utm_source`, `utm_medium`,
 `utm_campaign`, and the thirteen property columns. The provisioning script creates exactly these (and a test proves it).
