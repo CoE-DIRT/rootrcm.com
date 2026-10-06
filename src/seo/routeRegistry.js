@@ -7,6 +7,9 @@ import { resourceArticles, servicePages, solutionPages } from '../siteData.js';
  */
 export const SITE_ORIGIN = 'https://rootrcm.com';
 
+/** Hostnames that are allowed to behave as "production" (analytics environment, indexing, experiments). */
+export const PRODUCTION_HOSTS = [new URL(SITE_ORIGIN).hostname, `www.${new URL(SITE_ORIGIN).hostname}`];
+
 const staticRoutes = [
   { key: 'home', path: '/', entry: 'index.html' },
   { key: 'about', path: '/about/', entry: 'about/index.html' },

@@ -147,6 +147,8 @@ export default function App() {
     function handleCtaClick(event) {
       const target = event.target.closest('[data-cta]');
       if (!target) return;
+      // An element rendered by a running experiment carries its own context (data-experiment / data-variant).
+      const experimentEl = target.closest('[data-experiment]');
       window.dispatchEvent(new CustomEvent('root:cta', {
         detail: {
           cta: target.dataset.cta,
@@ -155,6 +157,7 @@ export default function App() {
           engagementType: target.dataset.engagementType,
           page: path,
           ...getExperimentContext(path),
+          ...(experimentEl ? { experiment: experimentEl.dataset.experiment, experiment_variant: experimentEl.dataset.variant } : {}),
         },
       }));
     }

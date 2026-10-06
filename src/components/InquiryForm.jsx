@@ -35,7 +35,8 @@ function getAttribution() {
   }
 }
 
-export default function InquiryForm({ variant = 'contact' }) {
+export default function InquiryForm({ variant = 'contact', formId = '' }) {
+  const analyticsFormId = formId || (variant === 'diagnostic' ? 'diagnostic-inquiry' : 'contact-inquiry');
   const [form, setForm] = useState(initialState);
   const [attribution] = useState(getAttribution);
   const [experiment] = useState(() => getExperimentContext(typeof window === 'undefined' ? '' : window.location.pathname));
@@ -131,7 +132,7 @@ export default function InquiryForm({ variant = 'contact' }) {
   }
 
   return (
-    <form className="glassCard inquiryForm" onSubmit={submit}>
+    <form className="glassCard inquiryForm" onSubmit={submit} data-form-id={analyticsFormId}>
       <div className="formHoney" aria-hidden="true">
         <label>
           Website

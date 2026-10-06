@@ -291,7 +291,7 @@ export function BookPage() {
 
           <GlassCard as="div" variant="glass" hover={false} id="book-form" className="ph-no-capture p-4" data-ph-mask>
             <div ref={formWrapRef}>
-              <InquiryForm />
+              <InquiryForm formId="book-inquiry" />
             </div>
           </GlassCard>
         </div>
