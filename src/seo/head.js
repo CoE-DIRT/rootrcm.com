@@ -52,15 +52,24 @@ function noscriptFallback(canonical, meta) {
   );
 }
 
+const ROBOTS_TAG = /\s*<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/g;
+
+/** Replace any robots directive with `noindex, nofollow` (idempotent). */
+function forceNoindex(html) {
+  return html.replace(ROBOTS_TAG, '').replace('</head>', () => '  <meta name="robots" content="noindex, nofollow" />\n</head>');
+}
+
 /**
  * Rewrite a route's static HTML head so crawlers and social scrapers see the same, unique, canonical
  * metadata the hydrated app renders. Pure function: used by the Vite plugin and by tests.
  */
 export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVerification = '' } = {}) {
   const { canonical, meta } = metaForPath(pathname);
-  if (!meta) return html;
-
   const route = allRoutes.find((candidate) => candidate.path === canonicalForm(normalizePath(pathname)));
+  // Internal routes (the component lab, the unpublished case study) have no published metadata, and `routeMeta` cannot
+  // supply it here because it only adds them for the browser dev server. Whatever the environment, they are never indexable.
+  if (!meta) return route?.internal ? forceNoindex(html) : html;
+
   const noindex = siteEnv !== 'production' || Boolean(route?.noindex) || canonical === '/404.html';
   const url = `${SITE_ORIGIN}${canonical}`;
   const image = meta.image || `${SITE_ORIGIN}/brand/social/og-root.png`;
@@ -78,7 +87,7 @@ export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVeri
   out = setMeta(out, 'name', 'twitter:title', meta.title);
   out = setMeta(out, 'name', 'twitter:description', meta.description);
   out = setMeta(out, 'name', 'twitter:image', image);
-  out = out.replace(/\s*<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/g, '');
+  out = out.replace(ROBOTS_TAG, '');
   if (noindex) out = out.replace('</head>', () => '  <meta name="robots" content="noindex, nofollow" />\n</head>');
   if (gscVerification) out = setMeta(out, 'name', 'google-site-verification', gscVerification);
 

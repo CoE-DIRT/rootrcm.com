@@ -3,6 +3,7 @@ import { Section } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CookieSettings } from '@/consent/CookieSettings';
+import { anyAnalytics, getPrivacyDisclosure } from '@/consent/disclosure';
 
 const LAST_UPDATED = 'October 2026';
 
@@ -28,7 +29,12 @@ function LegalSection({ title, children }: { title: string; children: React.Reac
   );
 }
 
+const linkClass = 'text-accent hover:underline';
+
 export function PrivacyPage() {
+  // Rendered from the build's actual configuration: only tools and delivery paths that can run are described.
+  const disclosure = getPrivacyDisclosure();
+  const { analytics } = disclosure;
   return (
     <LegalShell
       title="Privacy Policy"
@@ -36,23 +42,64 @@ export function PrivacyPage() {
     >
       <LegalSection title="Public inquiry data">
         <p>
-          Information you provide for a commercial inquiry may include your name, work email, practice or organization, provider count, operational concerns and campaign attribution parameters. Inquiries are verified with a bot-protection challenge and relayed to ROOT&apos;s business inbox at info@rootrcm.com. Do not use any form on this website for sensitive data.
+          Information you provide for a commercial inquiry may include your name, work email, practice or organization, provider count, operational concerns and campaign attribution parameters, and it is sent to ROOT&apos;s business inbox at info@rootrcm.com.
         </p>
+        {disclosure.contactDelivery === 'owned' ? (
+          <p data-testid="contact-delivery-owned">
+            Inquiries are checked with Cloudflare Turnstile, a bot-protection challenge that runs in your browser, and are delivered by ROOT&apos;s own contact service. Cloudflare processes technical signals from your browser to run the challenge.
+          </p>
+        ) : disclosure.contactDelivery === 'endpoint' ? (
+          <p data-testid="contact-delivery-endpoint">
+            Inquiries are sent to the form-delivery service configured for this website before they reach ROOT. This form does not use a bot-protection challenge; it includes a hidden field that deters automated spam.
+          </p>
+        ) : (
+          <p data-testid="contact-delivery-relay">
+            Inquiries are sent through a third-party form relay service (FormSubmit), which processes what you submit under its own terms before delivering it to ROOT. This form does not use a bot-protection challenge; it includes a hidden field that deters automated spam.
+          </p>
+        )}
+        <p>Do not use any form on this website for sensitive data.</p>
       </LegalSection>
       <LegalSection title="Analytics and cookies">
-        <p>
-          Analytics stay off until you consent. If you accept analytics, the site may use Google Analytics 4 (when ROOT has configured it) and ROOT&apos;s own first-party measurement to understand aggregate use of the website.
-        </p>
-        <p>
-          Measurement is limited to the page path (without query strings), approved button and link identifiers, scroll depth, random anonymous browser and session identifiers, a coarse device and browser category, the referring website&apos;s host name, campaign (UTM) parameters, and an experiment variant when a test is running. It never includes names, email addresses, phone numbers, form messages, claim or patient information, payment details or other PHI.
-        </p>
-        <p>
-          First-party measurement records are kept for a limited period (currently 90 days) and are not publicly readable. You can change or withdraw your choice at any time from Cookie Settings; the full list of cookies and browser storage keys is on the <a className="text-accent hover:underline" href="/legal/cookies/">cookie policy</a>.
-        </p>
+        {anyAnalytics(disclosure) ? (
+          <>
+            <p>
+              Analytics stay off until you consent, and the Global Privacy Control signal is treated as a refusal. If you accept, this website uses the tools listed here to understand aggregate use of the site.
+            </p>
+            <ul className="list-disc space-y-2 pl-5" data-testid="analytics-tools">
+              {analytics.firstParty ? (
+                <li data-testid="tool-first-party">
+                  <strong className="text-text">ROOT&apos;s own first-party measurement</strong> records the page (one of ROOT&apos;s own pages; anything else is recorded as a not-found page), approved button and link identifiers, scroll depth, random anonymous browser and session identifiers, the referring website&apos;s host name, campaign labels ROOT has registered, and the version of a site test you saw. It does not record IP addresses or browser user-agent strings. Records are kept for a limited period (90 days by default) and are not publicly readable.
+                </li>
+              ) : null}
+              {analytics.ga4 ? (
+                <li data-testid="tool-ga4">
+                  <strong className="text-text">Google Analytics 4</strong> (Google LLC) receives the same kind of page and button events. As part of how Google Analytics works it also receives technical information that your browser sends, such as browser, device type and approximate location. Advertising features and Google signals are switched off.
+                </li>
+              ) : null}
+              {analytics.posthog ? (
+                <li data-testid="tool-posthog">
+                  <strong className="text-text">PostHog</strong> provides product analytics and session replay. Text you type into form fields is masked and is not recorded.
+                </li>
+              ) : null}
+            </ul>
+            <p>
+              None of these tools receives names, email addresses, phone numbers, form messages, claim or patient information, payment details or other PHI from ROOT&apos;s code. You can change or withdraw your choice at any time from Cookie Settings; the full list of cookies and browser storage keys is on the <a className={linkClass} href="/legal/cookies/">cookie policy</a>.
+            </p>
+            {analytics.experiments ? (
+              <p data-testid="tool-experiments">
+                When ROOT is testing wording or layout and you have accepted analytics, you may be shown one version of a page element, and the version you saw is recorded with your measurement data.
+              </p>
+            ) : null}
+          </>
+        ) : (
+          <p data-testid="no-analytics">
+            This website does not currently run any analytics tools. If that changes, this page and the cookie settings will say so before any measurement starts, and analytics will stay off until you consent. The full list of cookies and browser storage keys is on the <a className={linkClass} href="/legal/cookies/">cookie policy</a>.
+          </p>
+        )}
       </LegalSection>
       <LegalSection title="Payments">
         <p>
-          Where online checkout is offered, card payments are processed by Stripe on Stripe&apos;s hosted payment page. ROOT does not receive or store card numbers. See the <a className="text-accent hover:underline" href="/refund-policy/">refund and cancellation policy</a>.
+          Where online checkout is offered, card payments are processed by Stripe on Stripe&apos;s hosted payment page. ROOT does not receive or store card numbers. See the <a className={linkClass} href="/refund-policy/">refund and cancellation policy</a>.
         </p>
       </LegalSection>
       <LegalSection title="Secure data exchange">
@@ -62,7 +109,7 @@ export function PrivacyPage() {
       </LegalSection>
       <LegalSection title="Questions">
         <p>
-          Email <a className="text-accent hover:underline" href="mailto:info@rootrcm.com">info@rootrcm.com</a> with privacy questions. Do not include PHI.
+          Email <a className={linkClass} href="mailto:info@rootrcm.com">info@rootrcm.com</a> with privacy questions. Do not include PHI.
         </p>
       </LegalSection>
       <p className="mt-8">

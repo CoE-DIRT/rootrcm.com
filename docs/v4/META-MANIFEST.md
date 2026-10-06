@@ -1,5 +1,9 @@
 # ROOT V4 — Meta/SEO Manifest
 
+> **Historical record.** Written during the earlier V4 rebuild; it describes the repository as it was then. Routes, sitemap and robots
+> are now defined by `src/seo/routeRegistry.js` and generated at build time (`docs/seo/technical-seo.md`, `docs/v4/ROUTE-MANIFEST.md`);
+> `vite.config.js` no longer has `routeInputs`, and there are no static `public/sitemap.xml` or `public/robots.txt` files.
+
 No changes to the existing meta engine this session — `src/App.jsx`'s `syncDocumentMeta`
 and `src/siteData.js`'s `routeMeta` already cover title/description/canonical/OG/Twitter
 for every legacy route; `sitemap.xml` and `robots.txt` in `public/` are pre-existing and

@@ -1,5 +1,9 @@
 # ROOT V4 — Cursor Handoff
 
+> **Historical record.** Written during the earlier V4 rebuild; it describes the repository as it was then. Routes, sitemap and robots
+> are now defined by `src/seo/routeRegistry.js` and generated at build time (`docs/seo/technical-seo.md`, `docs/v4/ROUTE-MANIFEST.md`);
+> `vite.config.js` no longer has `routeInputs`, and there are no static `public/sitemap.xml` or `public/robots.txt` files.
+
 Read `docs/v4/CLAUDE-STATE.md` and `docs/v4/CLAUDE-BUILD-MANIFEST.md` first for what
 exists and why. This file says what to do with it.
 

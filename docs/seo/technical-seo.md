@@ -15,7 +15,10 @@
 - **Legacy URLs keep working** but are canonicalised: `/company/about/` → `/about/`, `/legal/privacy/` → `/privacy-policy/`,
   `/legal/terms/` → `/terms/`. They stay out of the sitemap.
 - **Previews are never indexed.** A build with `VITE_SITE_ENV=preview` emits `Disallow: /` and `noindex` on every page, and at runtime any
-  host that is not `rootrcm.com` or `www.rootrcm.com` is marked `noindex, nofollow` even if the build says production.
+  host that is not `rootrcm.com` or `www.rootrcm.com` is marked `noindex, nofollow` even if the build says production. When
+  `VITE_SITE_ENV` is blank the Vite mode decides: only a production-mode build (`npm run build`) is production; `vite build --mode preview`
+  (or any other non-development mode) is a preview. Internal routes (`/__v4-lab/`, `/case-studies/dirt-poc-01/`) are left out of every
+  deployable build, and their head is forced to `noindex` if one is ever built.
 - **Structured data**: `Organization` and `WebSite` on every page, `WebPage` per route, `FAQPage` on `/faq/` generated from the same items
   the page renders. Reddit is excluded from `sameAs` because its profile URL is unconfirmed.
 - **No `LocalBusiness` markup.** Business hours and Google Business Profile ownership are unverified and the published address looks like a

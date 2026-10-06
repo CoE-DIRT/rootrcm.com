@@ -8,6 +8,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
   NavigationMenuLink,
+  navCurrentClass,
 } from '@/components/ui/NavigationMenu';
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/Sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -60,10 +61,10 @@ function navState(href: string, currentPath: string): NavState {
 const linkClass =
   'relative block rounded-[var(--radius-root)] px-3 py-2 text-sm font-medium text-text/90 transition-colors ' +
   'hover:bg-panel hover:text-text motion-reduce:transition-none ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue ' +
-  'data-[current=page]:text-text data-[current=page]:after:absolute data-[current=page]:after:inset-x-3 ' +
-  'data-[current=page]:after:-bottom-0.5 data-[current=page]:after:h-0.5 data-[current=page]:after:rounded-full data-[current=page]:after:bg-accent ' +
-  'data-[current=section]:text-text';
+  `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue ${navCurrentClass}`;
+
+/** Assistive current-state for a nav item: "page" on the page itself, "true" on a section that contains the current page. */
+const ariaCurrent = (state: NavState): 'page' | 'true' | undefined => (state === 'page' ? 'page' : state === 'section' ? 'true' : undefined);
 
 /**
  * The header's primary button. Its own component so the header A/B test (label only) is resolved, and its
@@ -90,6 +91,11 @@ function PrimaryCtaLink({ location, size, className }: { location: string; size:
 
 export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  // The floating Follow and Talk to us panels sit above the sheet unless they are told it opened.
+  const toggleMobile = (open: boolean) => {
+    setMobileOpen(open);
+    if (open) window.dispatchEvent(new CustomEvent('root:nav-open'));
+  };
   const scrolled = useScrolled();
   const currentPath = typeof window === 'undefined' ? '/' : resolveCanonicalPath(window.location.pathname);
 
@@ -126,7 +132,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                     if (item.menu === 'services') {
                       return (
                         <NavigationMenuItem key={item.label}>
-                          <NavigationMenuTrigger data-current={state}>{item.label}</NavigationMenuTrigger>
+                          <NavigationMenuTrigger data-current={state} aria-current={ariaCurrent(state)}>{item.label}</NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Healthcare revenue services</p>
                             <ul className="grid grid-cols-2 gap-x-8 gap-y-3 md:grid-cols-3">
@@ -148,7 +154,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                     if (item.menu === 'solutions') {
                       return (
                         <NavigationMenuItem key={item.label}>
-                          <NavigationMenuTrigger data-current={state}>{item.label}</NavigationMenuTrigger>
+                          <NavigationMenuTrigger data-current={state} aria-current={ariaCurrent(state)}>{item.label}</NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Solutions by practice problem</p>
                             <ul className="grid grid-cols-2 gap-x-8 gap-y-3 md:grid-cols-3">
@@ -183,7 +189,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
                       <NavigationMenuItem key={item.label}>
                         <NavigationMenuLink
                           href={item.href}
-                          aria-current={state === 'page' ? 'page' : undefined}
+                          aria-current={ariaCurrent(state)}
                           data-current={state}
                           className={linkClass}
                         >
@@ -200,7 +206,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
               <ThemeToggle />
               <PrimaryCtaLink location="header" size="sm" className="hidden whitespace-nowrap sm:inline-flex" />
 
-              <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <Sheet open={mobileOpen} onOpenChange={toggleMobile}>
                 <SheetTrigger asChild>
                   <IconButton label="Open menu" className="h-11 w-11 rounded-full border border-border hover:border-border-strong xl:hidden">
                     <Menu className="h-5 w-5" aria-hidden="true" />

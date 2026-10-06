@@ -1,5 +1,9 @@
 # ROOT V4 — Claude Build Manifest
 
+> **Historical record.** Written during the earlier V4 rebuild; it describes the repository as it was then. Routes, sitemap and robots
+> are now defined by `src/seo/routeRegistry.js` and generated at build time (`docs/seo/technical-seo.md`, `docs/v4/ROUTE-MANIFEST.md`);
+> `vite.config.js` no longer has `routeInputs`, and there are no static `public/sitemap.xml` or `public/robots.txt` files.
+
 Session scope: foundation + primitives + a real vertical slice, not the full 36-component
 spec (see `docs/v4/CLAUDE-STATE.md` for why, and `docs/v4/CURSOR-HANDOFF.md` for what's
 next). Every item below was actually built and verified in this repo — nothing here is

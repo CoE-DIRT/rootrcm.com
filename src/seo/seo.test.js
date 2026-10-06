@@ -112,6 +112,17 @@ describe('rendered page head', () => {
     }
   });
 
+  it('never leaves an internal route indexable, whatever the environment (their metadata is dev-server only)', () => {
+    const robots = (html) => html.match(/<meta name="robots" content="[^"]*" \/>/g);
+    for (const route of internalRoutes) {
+      for (const options of [undefined, { siteEnv: 'production' }, { siteEnv: 'preview' }, { siteEnv: 'development' }]) {
+        const html = renderPageHtml(read(route.entry), route.path, options);
+        expect(robots(html), `${route.entry} ${JSON.stringify(options)}`).toEqual(['<meta name="robots" content="noindex, nofollow" />']);
+        expect(renderPageHtml(html, route.path, options), 'idempotent').toBe(html);
+      }
+    }
+  });
+
   it('points legacy alias pages at the canonical URL', () => {
     expect(renderPageHtml(read('company/about/index.html'), '/company/about/')).toContain(`href="${SITE_ORIGIN}/about/"`);
     expect(renderPageHtml(read('legal/privacy/index.html'), '/legal/privacy/')).toContain(`href="${SITE_ORIGIN}/privacy-policy/"`);

@@ -1,29 +1,41 @@
 # ROOT V4 — Route Manifest
 
-Source of truth for route→file mapping is `vite.config.js` `routeInputs` and
-`src/App.jsx` `routes`. This table records V4 status per route; it does not replace
-either file.
+Source of truth for the route list is `src/seo/routeRegistry.js` (it feeds the Vite inputs in `vite.config.js`, the generated
+`sitemap.xml` and `robots.txt`, the page heads, the analytics page-path allowlist and the tests). `src/App.jsx` `routes` maps each
+path to its page component. This table records which component renders each route; it does not replace either file, and
+`src/seo/docs.test.js` fails if a registry route is missing from it.
 
-| Route | Vite entry | App.jsx handler | V4 status |
-|-------|-----------|------------------|-----------|
-| `/` | `index.html` | `HomePage` (legacy, `src/pages.jsx`) | Not migrated. A V4 draft exists at `src/v4/routes/HomePage.tsx` but is **not wired in** — it broke the exact-copy/experiment/CTA assertions in `src/App.test.jsx` and the legacy Talk-to-us/Follow-ROOT floating controls. Needs a content-parity pass before swap; see CURSOR-HANDOFF.md. |
-| `/platform/` | `platform/index.html` | `PlatformPage` (legacy) | Not migrated |
-| `/solutions/` + 7 slugs | `solutions/**` | `SolutionsHubPage`/`SolutionPage` (legacy) | Not migrated |
-| `/services/` + 10 slugs | `services/**` | `ServicesHubPage`/`ServicePage` (legacy) | Not migrated |
-| `/technology/` | `technology/index.html` | `TechnologyHubPage` (legacy) | Not migrated |
-| `/technology/dirt/` | `technology/dirt/index.html` | `DirtPage` (legacy) | Not migrated — DIRT dashboard components (spec items 11–17) deferred |
-| `/case-studies/` + dirt-poc-01 (dev-only) | `case-studies/**` | `CaseStudiesHubPage`/`CaseStudyDetailPage` (legacy) | Not migrated; production-isolation gate for dirt-poc-01 preserved |
-| `/pricing/` | `pricing/index.html` | `PricingPage` (legacy) | Not migrated |
-| `/resources/` + 6 articles | `resources/**` | `ResourcesHubPage`/`ResourceArticlePage` (legacy) | Not migrated |
-| `/diagnostic/` | `diagnostic/index.html` | `DiagnosticPage` (legacy) | Not migrated |
-| `/company/about/` | `company/about/index.html` | `AboutPage` (legacy) | Not migrated |
-| `/contact/` | `contact/index.html` | `ContactPage` (legacy) | Not migrated |
-| `/legal/privacy/`, `/legal/terms/` | `legal/**` | `PrivacyPage`/`TermsPage` (legacy) | Not migrated |
-| `/legal/cookies/` | `legal/cookies/index.html` (new) | `CookiesLegalPage` (V4) | **Built this session** — V4 chrome, real cookie table, Klaro settings trigger |
-| `/thank-you/` | `thank-you/index.html` | `ThankYouPage` (legacy) | Not migrated |
-| `/404.html` | `404.html` | `NotFoundPage` (legacy) | Not migrated |
-| `/__v4-lab/` | `__v4-lab/index.html` (new, dev-only) | `V4LabPage` (V4) | **Built this session** — noindex, excluded from production build via `excludedFromProduction` set in `vite.config.js` and the `productionIsolation` plugin's `rmSync` |
+Every page is a V4 page (`src/v4/routes/*`). The old split between "legacy" and "migrated" routes no longer exists.
 
-**Production route count unchanged**: 34 public HTML entries (pre-existing) + 1 new
-(`/legal/cookies/`) = 35. `/__v4-lab/` and `/case-studies/dirt-poc-01/` are excluded from
-production output by design, not counted as public routes.
+| Route | Vite entry | Component (`src/App.jsx`) | Notes |
+|-------|-----------|----------------------------|-------|
+| `/` | `index.html` | `HomePage` (`HomePage.tsx`) | Hero A/B surface (`heroCta`) |
+| `/about/` | `about/index.html` | `AboutPage` (`CompanyPages.tsx`) | Legacy alias `/company/about/` renders the same page, canonical `/about/` |
+| `/services/` + 12 slugs | `services/**` | `ServicesHubPage`, `ServicePage` (`ServicesPages.tsx`) | Slugs come from `servicePages` in `src/siteData.js` |
+| `/solutions/` + 7 slugs | `solutions/**` | `SolutionsHubPage`, `SolutionPage` (`ContentPages.tsx`) | Slugs from `solutionPages` |
+| `/case-studies/` | `case-studies/index.html` | `CaseStudiesHubPage` (`ContentPages.tsx`) | |
+| `/pricing/` | `pricing/index.html` | `PricingPage` (`PricingPage.tsx`) | Pricing A/B surface; optional test-mode checkout button |
+| `/resources/` + 6 articles | `resources/**` | `ResourcesHubPage`, `ResourceArticlePage` (`ContentPages.tsx`) | Slugs from `resourceArticles` |
+| `/contact/` | `contact/index.html` | `ContactPage` (`CompanyPages.tsx`) | Inquiry form |
+| `/book/` | `book/index.html` | `BookPage` (`CompanyPages.tsx`) | |
+| `/faq/` | `faq/index.html` | `FaqPage` (`CompanyPages.tsx`) | FAQ content also feeds `FAQPage` JSON-LD |
+| `/privacy-policy/` | `privacy-policy/index.html` | `PrivacyPage` (`LegalPages.tsx`) | Rendered from the build configuration; alias `/legal/privacy/` |
+| `/terms/` | `terms/index.html` | `TermsPage` (`LegalPages.tsx`) | Alias `/legal/terms/` |
+| `/refund-policy/` | `refund-policy/index.html` | `RefundPolicyPage` (`LegalPages.tsx`) | |
+| `/legal/cookies/` | `legal/cookies/index.html` | `CookiesLegalPage` | Cookie table generated from `src/v4/consent/storageInventory.ts` |
+| `/thank-you/` | `thank-you/index.html` | `ThankYouPage` (`LegalPages.tsx`) | `noindex`, minimal shell |
+| `/checkout/success/` | `checkout/success/index.html` | `CheckoutSuccessPage` (`CheckoutPages.tsx`) | `noindex`, minimal shell; verifies the session server-side |
+| `/checkout/cancel/` | `checkout/cancel/index.html` | `CheckoutCancelPage` (`CheckoutPages.tsx`) | `noindex`, minimal shell |
+| `/platform/` | `platform/index.html` | `PlatformPage` | |
+| `/technology/` | `technology/index.html` | `TechnologyHubPage` (`TechnologyPages.tsx`) | |
+| `/technology/dirt/` | `technology/dirt/index.html` | `DirtPage` (`TechnologyPages.tsx`) | DIRT as an embedded capability of ROOT |
+| `/diagnostic/` | `diagnostic/index.html` | `DiagnosticPage` | $2,500 Revenue Optimization Diagnostic; minimal shell |
+| `/404.html` | `404.html` | `NotFoundPage` (`LegalPages.tsx`) | Host fallback; `noindex`; never in the sitemap |
+| `/company/about/`, `/legal/privacy/`, `/legal/terms/` | `company/about/`, `legal/privacy/`, `legal/terms/` | as above | Legacy aliases; canonical link points at the clean URL |
+| `/__v4-lab/` | `__v4-lab/index.html` | `V4LabPage` | Internal, dev server only |
+| `/case-studies/dirt-poc-01/` | `case-studies/dirt-poc-01/index.html` | `CaseStudyDetailPage` | Internal and unpublished, dev server only |
+
+**Counts.** 50 public HTML entries are built for every deployable build (a production build or any other non-`development` Vite
+mode such as `preview`): 43 are indexable and listed in `sitemap.xml`; the rest are `noindex` system pages (thank-you, the two
+checkout pages, the 404 fallback) and the three legacy aliases. `/__v4-lab/` and `/case-studies/dirt-poc-01/` exist only on the dev server:
+they are left out of every deployable build and, if one were ever built, its head is forced to `noindex`.

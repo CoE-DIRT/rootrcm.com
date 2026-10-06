@@ -10,6 +10,9 @@ export default defineConfig({
       url: 'http://localhost:4319',
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
+      // The dev server defaults to a non-indexable "development" site environment. The specs that check the generated
+      // sitemap.xml, robots.txt and page heads expect the production artifacts, so this server declares production.
+      env: { VITE_SITE_ENV: 'production' },
     },
     {
       // A second dev server with SYNTHETIC public configuration, used only by analytics-checkout.spec.ts so the

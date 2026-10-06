@@ -8,6 +8,7 @@ import { buildInputs } from './src/seo/routeRegistry.js';
 import { renderPageHtml } from './src/seo/head.js';
 import { buildRobots, buildSitemap } from './src/seo/sitemap.js';
 import { assertSafePublicEnv } from './src/build/envGuard.js';
+import { isDeployableMode, resolveBuildSiteEnv } from './src/build/buildMode.js';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
@@ -78,15 +79,19 @@ export default defineConfig(({ mode }) => {
       throw new Error('Owned contact mode requires a public Turnstile site key and HTTPS Function endpoint.');
     }
   }
-  const siteEnv = env.VITE_SITE_ENV || 'production';
-  const inputs = buildInputs({ production });
+  // Only a production-mode build defaults to the production environment; `vite build --mode preview` (or staging) yields a
+  // disallow-all robots.txt and noindex heads unless VITE_SITE_ENV says otherwise. Internal routes are left out of every
+  // deployable build, not just the production one.
+  const siteEnv = resolveBuildSiteEnv({ mode, configured: env.VITE_SITE_ENV });
+  const deployable = isDeployableMode(mode);
+  const inputs = buildInputs({ production: deployable });
 
   return {
   plugins: [
     commercialPricingGuard(),
     rootHtmlHead({ siteEnv, gscVerification: env.VITE_GSC_VERIFICATION || '' }),
     rootSeoArtifacts({ siteEnv }),
-    production ? productionIsolation() : null,
+    deployable ? productionIsolation() : null,
     tailwindcss(),
     react(),
   ].filter(Boolean),

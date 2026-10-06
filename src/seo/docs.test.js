@@ -22,6 +22,20 @@ describe('SEO documentation matches the route registry', () => {
     }
   });
 
+  it('lists every public route in the V4 route manifest, and no route it does not have', () => {
+    const manifest = read('docs/v4/ROUTE-MANIFEST.md');
+    const singles = allRoutes.filter((route) => !route.internal && !/^\/(services|solutions|resources)\/[^/]+\/$/.test(route.path));
+    for (const route of singles) expect(manifest, route.path).toContain(`\`${route.path}\``);
+    for (const section of ['services', 'solutions', 'resources']) {
+      const count = allRoutes.filter((route) => new RegExp(`^/${section}/[^/]+/$`).test(route.path)).length;
+      expect(manifest, section).toMatch(new RegExp(`\`/${section}/\` \\+ ${count} (slugs|articles)`));
+    }
+    for (const route of allRoutes.filter((candidate) => candidate.internal)) expect(manifest, route.path).toContain(`\`${route.path}\``);
+    expect(manifest).toContain(`${allRoutes.filter((route) => !route.internal).length} public HTML entries`);
+    expect(manifest).toContain(`${sitemapPaths().length} are indexable`);
+    expect(manifest).not.toMatch(/routeInputs|Not migrated|not wired in|35 production|34 public/);
+  });
+
   it('no longer describes static sitemap or robots files', () => {
     for (const file of ['docs/seo/README.md', 'docs/seo/technical-seo.md', 'docs/deployment/github-pages.md', 'docs/website/sitemap.md']) {
       expect(read(file), file).not.toMatch(/public\/sitemap\.xml` (is|includes)|public\/robots\.txt` (points|are)|`public\/robots\.txt` and `public\/sitemap\.xml` are copied/);

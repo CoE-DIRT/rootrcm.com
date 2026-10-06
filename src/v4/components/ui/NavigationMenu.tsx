@@ -10,12 +10,19 @@ export function NavigationMenuItem({ className, ...props }: React.ComponentProps
   return <RadixNav.Item className={cn('relative', className)} {...props} />;
 }
 
+/** Current-page indicator shared by the menu triggers and the plain links (`data-current` is "page" or "section"). */
+export const navCurrentClass =
+  'data-[current=page]:text-text data-[current=page]:after:absolute data-[current=page]:after:inset-x-3 ' +
+  'data-[current=page]:after:-bottom-0.5 data-[current=page]:after:h-0.5 data-[current=page]:after:rounded-full data-[current=page]:after:bg-accent ' +
+  'data-[current=section]:text-text';
+
 export function NavigationMenuTrigger({ className, children, ...props }: React.ComponentProps<typeof RadixNav.Trigger>) {
   return (
     <RadixNav.Trigger
       className={cn(
-        'group flex cursor-pointer items-center gap-1 rounded-[var(--radius-root)] border-0 bg-transparent px-3 py-2 text-sm font-medium text-text/90',
+        'group relative flex cursor-pointer items-center gap-1 rounded-[var(--radius-root)] border-0 bg-transparent px-3 py-2 text-sm font-medium text-text/90',
         'hover:bg-panel hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue',
+        navCurrentClass,
         className,
       )}
       {...props}
