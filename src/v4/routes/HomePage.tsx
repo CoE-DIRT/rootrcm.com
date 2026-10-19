@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
@@ -7,7 +8,7 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
-import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
+
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
@@ -18,6 +19,8 @@ import {
   resourceArticles,
 } from '../../siteData.js';
 
+
+const DirtCommandCenter = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtCommandCenter })));
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
@@ -52,7 +55,9 @@ function HomePageContent() {
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
-            <DirtCommandCenter compact />
+            <Suspense fallback={<div role="status" aria-label="Loading the illustrative revenue preview" className="grid min-h-[9rem] grid-cols-2 gap-3"><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /></div>}>
+              <DirtCommandCenter compact />
+            </Suspense>
           </HeroMockup>
         }
       />
