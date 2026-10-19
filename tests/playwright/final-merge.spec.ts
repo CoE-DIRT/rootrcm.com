@@ -51,6 +51,13 @@ test.describe('DIRT-led merge — final QA', () => {
     await expect(page.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeVisible();
   });
 
+  test('homepage loads the DIRT preview from its deferred chunk', async ({ page }) => {
+    const response = await page.goto('/');
+    expect(response?.status()).toBe(200);
+    await expect(page.getByRole('heading', { name: 'Executive revenue view' })).toBeVisible();
+    await expect(page.locator('[data-dirt-command]')).toBeVisible();
+  });
+
   test('reduced motion: DIRT scenario toggle updates values and returns to baseline', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/technology/dirt/');
