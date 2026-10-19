@@ -8,6 +8,6 @@ import { CTA_IDS } from './dimensions.js';
 export const APPROVED_CTAS: ReadonlySet<string> = new Set(CTA_IDS);
 
 /** Deliberately not tracked: navigation chrome and channels that are not live. */
-export const IGNORED_CTAS: ReadonlySet<string> = new Set(['logo', 'youtube-coming-soon', 'calendly-coming-soon']);
+export const IGNORED_CTAS: ReadonlySet<string> = new Set(['logo']);
 
 export const isApprovedCta = (cta: string): boolean => APPROVED_CTAS.has(cta);

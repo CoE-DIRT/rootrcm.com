@@ -1,8 +1,6 @@
 # Tracking plan
 
-**Status: first-party analytics is enabled on the Appwrite production site after analytics consent.** Events are sent to the existing
-`tracking-ingest` Function and stored in the private `web_analytics / tracking_events` table. GA4 remains **disabled** because no
-Measurement ID has been supplied. No analytics event includes inquiry text, names, email addresses, phone numbers, payment details, or PHI.
+**Status: the Appwrite `tracking-ingest` Function is deployed and accepted a synthetic test event. The Site now has the endpoint setting for its next build; first-party events are sent only by a build that includes `VITE_TRACKING_ENDPOINT` and only after consent. GA4 remains **disabled** because no Measurement ID has been supplied. No analytics event includes inquiry text, names, email addresses, phone numbers, payment details, or PHI.
 
 Authority: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md), `AGENTS.md`, [ADR-007](../adr/ADR-007-no-phi-public-site.md).
 Experiments are specified separately in [experiments.md](experiments.md). This file replaces the earlier vendor-neutral

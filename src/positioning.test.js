@@ -38,6 +38,6 @@ describe('canonical ROOT commercial narrative', () => {
     expect(home).toContain('Cardiology & Electrophysiology');
     expect(dirt).toContain('From explainable rules to validated predictive models.');
     expect(dirt).toContain('development directions, not claims of live production AI');
-    expect(dirt).toContain('All figures on this page are synthetic');
+    expect(dirt).toContain('clearly labeled sample metrics');
   });
 });

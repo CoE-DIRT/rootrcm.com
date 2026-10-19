@@ -52,7 +52,7 @@ export function TechnologyHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.healthcareIt}
-          alt="Healthcare IT workstation. "
+          alt="Healthcare IT professional working at a computer."
           caption="Editorial Healthcare IT context"
           aspect="wide"
         />

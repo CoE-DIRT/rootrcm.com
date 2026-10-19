@@ -8,6 +8,8 @@
 - Added route-specific BreadcrumbList, Service, and Article structured data and an AI-readable `/llms.txt`.
 - Improved image layout stability, added the skip-to-content link, and loaded below-the-fold DIRT visualizations on demand.
 - Changed experiment assignment from local browser storage to a consent-gated first-party cookie; the homepage test now changes the headline and supporting copy as well as the primary action.
+- Fixed the Appwrite Function source folder and verified a synthetic event was accepted with HTTP 202.
+- Configured public Site build settings for the analytics endpoint and consent-gated experiments; the settings take effect on the next Site build.
 - Added route, schema, navigation, and cookie-assignment checks.
 
 ## Existing platform behavior

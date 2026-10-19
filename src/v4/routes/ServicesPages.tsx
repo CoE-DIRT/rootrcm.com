@@ -25,7 +25,7 @@ export function ServicesHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.practiceAdmin}
-          alt="Practice administrator workstation. "
+          alt="Practice administrator working at a computer."
           caption="Editorial practice operations context"
           aspect="wide"
         />
@@ -92,7 +92,7 @@ export function ServicePage({ service }: { service: Service }) {
         ) : (
           <MediaFrame
             src={mediaAssets.practiceOperations}
-            alt="Practice operations workstation. "
+            alt="Practice operations staff reviewing records at a computer."
             caption="Editorial operations context"
             aspect="video"
             className="mt-8"

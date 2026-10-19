@@ -7,7 +7,7 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
-import { DirtExecutiveSummary } from '@/components/dirt/DirtExecutiveSummary';
+import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
@@ -52,7 +52,7 @@ function HomePageContent() {
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
-            <DirtExecutiveSummary />
+            <DirtCommandCenter compact />
           </HeroMockup>
         }
       />
@@ -66,8 +66,8 @@ function HomePageContent() {
         <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-center">
           <MediaFrame
             src={mediaAssets.practiceTeamCollaboration}
-            alt="Healthcare professionals collaborating on practice operations."
-            caption="Healthcare operations in practice."
+            alt="Healthcare professionals collaborating around a table."
+            caption="Editorial healthcare operations imagery."
             aspect="video"
           />
           <div className="space-y-4">

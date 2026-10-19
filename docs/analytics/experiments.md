@@ -1,6 +1,6 @@
 # Website experiments (A/B tests)
 
-**Status: the consent-gated experiments are enabled for production traffic; no result has been measured and no variant is claimed to win.**
+**Status: no result has been measured and no variant is claimed to win. Production experiments are off by default; this release opts in with `VITE_EXPERIMENTS_ENABLED=true`.**
 The hero test compares a distinct revenue-priority headline and explanation with ROOT's existing homepage message.
 
 Source of truth: [`src/v4/experiments/registry.ts`](../../src/v4/experiments/registry.ts). A test fails if an
@@ -18,7 +18,7 @@ experiment below is missing from this document.
 
 | Concern | Behaviour |
 | --- | --- |
-| Where it runs | Production: **on** for this Appwrite production build; the `VITE_EXPERIMENTS_ENABLED` setting controls it. Preview, staging and local: **on** unless `VITE_EXPERIMENTS_ENABLED=false`. "Production" means the production hostnames only (`rootrcm.com`, `www.rootrcm.com`). |
+| Where it runs | The `VITE_EXPERIMENTS_ENABLED` flag is read at build time. This release opts in; experiments remain consent-gated and only run on the production hostnames (`rootrcm.com`, `www.rootrcm.com`) after the new production build is active. Preview, staging and local: on unless the flag is `false`. |
 | Who is assigned | Only visitors who accepted an analytics service in the cookie banner (first-party or GA4), when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
 | Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in the first-party cookie `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
 | Withdrawing consent | `root-exp-v2` is deleted and the page returns to the control immediately. |
@@ -85,8 +85,7 @@ All variants are 50/50 by default. Guardrails and the shared stop rules apply to
 2. Stop and revert to the control if a guardrail metric falls by more than 20% relative once each variant has at least 100 exposed visitors.
 3. Do not declare a result before 14 full days **and** at least 100 primary-metric conversions per variant. Below that volume the outcome is "inconclusive", not a win.
 
-These thresholds are defaults chosen to prevent premature conclusions at small-practice traffic levels. **They need
-owner approval before any experiment runs in production.**
+These thresholds are defaults chosen to prevent premature conclusions at small-practice traffic levels. Follow them for every run; do not characterize a result as a winner before both the time and conversion thresholds are met.
 
 ## Analysing results
 
@@ -100,7 +99,7 @@ owner approval before any experiment runs in production.**
 ## Running a test
 
 1. Preview: deploy a preview build. Experiments are on by default there; use `?exp_<key>=<variant>` to review each variant.
-2. Production: set `VITE_EXPERIMENTS_ENABLED=true` for the build, only after the owner approves the experiment's decision rules and the privacy language.
+2. Production: this owner-authorized release sets `VITE_EXPERIMENTS_ENABLED=true`. For a future experiment, review its decision rules and privacy wording before enabling it.
 3. Stop a test by rebuilding with `VITE_EXPERIMENTS_ENABLED=false` (everyone returns to the control; stored assignments are ignored and removed when consent is next withdrawn or storage is cleared).
 
 ## Adding or changing an experiment
