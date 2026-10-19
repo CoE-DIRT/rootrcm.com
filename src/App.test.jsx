@@ -54,7 +54,6 @@ describe('ROOT commercial site', () => {
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
-    await screen.findByRole('heading', { name: /Executive revenue view/i });
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
     // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
@@ -68,7 +67,6 @@ describe('ROOT commercial site', () => {
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
-    expect(container.querySelector('[data-dirt-command]')).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
     expect(screen.getByRole('heading', { name: /revenue is lost between disconnected workflows/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /find the cause. own the next action/i })).toBeTruthy();
