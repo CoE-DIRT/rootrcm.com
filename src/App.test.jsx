@@ -44,7 +44,7 @@ describe('ROOT commercial site', () => {
     expect(input.getAttribute('aria-invalid')).toBe('true');
   });
 
-  it('renders V4 homepage positioning and primary navigation', () => {
+  it('renders V4 homepage positioning and primary navigation', async () => {
     const { container } = renderRoute('/');
 
     expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
@@ -54,6 +54,7 @@ describe('ROOT commercial site', () => {
     expect(primaryDiagnosticLinks[0].getAttribute('data-location')).toBe('home-hero');
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
+    await screen.findByRole('heading', { name: /Executive revenue view/i });
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
     // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
@@ -100,7 +101,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
     expect(screen.getAllByText(/aging A\/R/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('heading', { name: /From signal to an owned next action/i }).length).toBeGreaterThan(0);
+    expect(await screen.findByRole('heading', { name: /From signal to an owned next action/i })).toBeTruthy();
     expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
 
     cleanup();
