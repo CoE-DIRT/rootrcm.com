@@ -18,9 +18,6 @@ interface V4ShellProps {
 export function V4Shell({ children, minimal = false, className }: V4ShellProps) {
   return (
     <div className={cn('v4-root min-h-screen bg-bg text-text', className)}>
-      <a href="#main-content" className="sr-only z-[100] rounded-md bg-panel px-4 py-3 text-text shadow-lg focus:fixed focus:left-4 focus:top-4 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-data-blue">
-        Skip to main content
-      </a>
       <CookieConsent />
       <AnalyticsBoot />
       <PersonalizationProvider>
