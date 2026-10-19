@@ -101,7 +101,7 @@ test.describe('header', () => {
     await consentGiven(page);
     const nav = page.getByRole('navigation', { name: 'Primary navigation' });
     const labels = await nav.locator('li > a, li > button').allInnerTexts();
-    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Contact']);
     await expect(page.locator('header').getByRole('link', { name: 'Book a Diagnostic' })).toHaveAttribute('href', '/diagnostic/');
   });
 
@@ -147,7 +147,7 @@ test.describe('header', () => {
     await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog', { name: 'Menu' });
     await expect(dialog).toBeVisible();
-    for (const label of ['Home', 'About', 'Case Studies', 'Pricing', 'Resources', 'Contact']) {
+    for (const label of ['Home', 'About', 'How We Work', 'Pricing', 'Resources', 'Contact']) {
       await expect(dialog.getByRole('link', { name: label, exact: true })).toBeVisible();
     }
     await expect(dialog.getByRole('link', { name: 'Book a Diagnostic' })).toBeVisible();
