@@ -51,11 +51,14 @@ test.describe('DIRT-led merge — final QA', () => {
     await expect(page.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeVisible();
   });
 
-  test('reduced motion: DIRT scenario toggle still updates values with no animation errors', async ({ page }) => {
+  test('reduced motion: DIRT scenario toggle updates values and returns to baseline', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/technology/dirt/');
-    const modelButton = page.getByRole('button', { name: /Model the improvement/i });
-    await modelButton.click();
-    await expect(page.getByRole('button', { name: /Reset to baseline/i })).toBeVisible();
+    const scenario = page.getByRole('region', { name: 'Illustrative revenue-cycle scenario preview' });
+    await expect(scenario.getByText('32d', { exact: true })).toBeVisible();
+    await scenario.getByRole('button', { name: /Compare a modeled scenario/i }).click();
+    await expect(scenario.getByText('28d', { exact: true })).toBeVisible();
+    await scenario.getByRole('button', { name: /Return to example baseline/i }).click();
+    await expect(scenario.getByText('32d', { exact: true })).toBeVisible();
   });
 });
