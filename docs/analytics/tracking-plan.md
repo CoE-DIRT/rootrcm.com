@@ -1,9 +1,8 @@
 # Tracking plan
 
-**Status: implemented and tested in code; not live.** GA4 is **disabled** because no Measurement ID has been supplied (a
-search of the repository found no `G-XXXXXXXXXX` value, and none was invented). First-party analytics is **inert** until
-`VITE_TRACKING_ENDPOINT` points at a deployed `tracking-ingest` Function, which has not been created. Nothing here claims that
-any destination is receiving data.
+**Status: first-party analytics is enabled on the Appwrite production site after analytics consent.** Events are sent to the existing
+`tracking-ingest` Function and stored in the private `web_analytics / tracking_events` table. GA4 remains **disabled** because no
+Measurement ID has been supplied. No analytics event includes inquiry text, names, email addresses, phone numbers, payment details, or PHI.
 
 Authority: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md), `AGENTS.md`, [ADR-007](../adr/ADR-007-no-phi-public-site.md).
 Experiments are specified separately in [experiments.md](experiments.md). This file replaces the earlier vendor-neutral
@@ -29,7 +28,7 @@ Experiments are specified separately in [experiments.md](experiments.md). This f
 | Destination | Enabled by | Consent service | State |
 | --- | --- | --- | --- |
 | Google Analytics 4 | `VITE_GA_MEASUREMENT_ID` (valid `G-...` ID) | `google-analytics` | **Disabled** (no ID) |
-| First-party (Appwrite `tracking-ingest`) | `VITE_TRACKING_ENDPOINT` (https) | `root-first-party-analytics` | **Inert** (Function not deployed) |
+| First-party (Appwrite `tracking-ingest`) | `VITE_TRACKING_ENDPOINT` (https) | `root-first-party-analytics` | **Enabled** for consented production visitors |
 | PostHog (pre-existing, optional) | `VITE_PUBLIC_POSTHOG_KEY` | `posthog` | Inactive (no key) |
 
 A consent service is registered in the cookie banner only when its destination is configured, so visitors are never asked to
@@ -75,7 +74,7 @@ build can run, and describes the bot-protection challenge only for owned contact
 | `purchase` | **only** after the server has verified a paid Checkout Session | `product_id`, `transaction_id` (the server-derived purchase reference), `value`, `currency`, `status` |
 | `experiment_exposure` | an A/B surface renders for an assigned visitor, once per session | `experiment_id`, `variant` |
 
-Chrome-only CTAs (`logo`) and channels that are not live (`youtube-coming-soon`, `calendly-coming-soon`) are deliberately not
+Legacy or non-actionable identifiers (including `logo`, `youtube-coming-soon` and `calendly-coming-soon`) are deliberately not
 tracked (`IGNORED_CTAS`). A governance test fails if a new `data-cta` value is neither approved nor ignored.
 
 ### Event context (every first-party event)
@@ -91,7 +90,7 @@ Function from the registered values it stored; see below).
 visitor typed into the address bar, which the host answers with its not-found page) is reported as `/404/`, so a path can never carry
 anything personal into the table. The Function enforces the same list from a generated copy
 (`functions/tracking-ingest/allowlists.js`); an internal `destination` must be one of the same pages. When a route is added, run
-`node scripts/appwrite/sync-analytics-allowlists.js`; a test fails if the copy is stale. Deploy the Function **before** the site
+`node scripts/appwrite/sync-analytics-allowlists.js`; a test fails if the copy is stale. The Function must be deployed **before** the site
 that links to the new route, otherwise its first views are counted as `/404/`.
 
 **Campaign labels are a registry.** A free-form `utm_*` value can carry a person's name and no character filter can tell the

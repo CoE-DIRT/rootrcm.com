@@ -153,7 +153,7 @@ export function PricingPage() {
           <p className="mt-6 text-sm text-muted">Includes Full MSO Partnership and credentialing ranges as published.</p>
           <MediaFrame
             src={mediaAssets.consulting}
-            alt="Management consulting workshop. Editorial stock photograph; not ROOT staff or clients."
+            alt="Management consulting workshop. "
             caption="Editorial engagement context"
             className="mt-10"
             aspect="wide"

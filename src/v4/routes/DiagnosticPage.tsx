@@ -113,7 +113,7 @@ export function DiagnosticPage() {
         <SectionHeader
           eyebrow="Illustrative sample"
           title={diagnosticSample.title}
-          description={`Synthetic demonstration for ${syntheticPractice.name} — not a client success story.`}
+          description="A sample practice profile with illustrative figures shows how the diagnostic organizes findings, prioritized actions, and a 30/60/90-day plan."
         />
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {diagnosticSample.pages.map((page: string[]) => (
@@ -126,7 +126,7 @@ export function DiagnosticPage() {
         <p className="mt-4 text-sm text-muted">{syntheticPractice.name} · {syntheticPractice.label}</p>
         <MediaFrame
           src={mediaAssets.claimsAr}
-          alt="Claims and A/R administration context. Editorial stock photograph; not ROOT staff or clients."
+          alt="Revenue-cycle team reviewing claims and accounts receivable."
           caption="Editorial revenue-cycle context"
           className="mt-8"
           aspect="video"

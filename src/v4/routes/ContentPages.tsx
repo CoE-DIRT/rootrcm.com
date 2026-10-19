@@ -7,7 +7,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { AnnotationNote } from '@/components/ui/AnnotationNote';
 import { solutionPages, solutionMediaBySlug, mediaAssets, resourceArticles } from '../../siteData.js';
 import { proofWorkAssets, proofPlacementBySolutionSlug, proofPlacementByResourceSlug } from '../../proofData.js';
-import { getVisibleCaseStudies, getCaseStudyBySlug } from '../../data/caseStudies.js';
+import { getCaseStudyBySlug } from '../../data/caseStudies.js';
 import {
   CaseStudyDetailPage as LegacyCaseStudyDetailPage,
 } from '../../pages.jsx';
@@ -66,7 +66,7 @@ export function SolutionPage({ page }: { page: Solution }) {
         <Section tone="soft">
           <MediaFrame
             src={mediaAssets.practiceAdmin}
-            alt="Practice administrator workstation. Editorial stock photograph; not ROOT staff or clients."
+            alt="Practice administrator reviewing operations at a workstation."
             caption="Editorial operations context"
             aspect="video"
           />
@@ -105,7 +105,7 @@ export function ResourcesHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.operationsPlanning}
-          alt="Operations planning workshop. Editorial stock photograph; not ROOT staff or clients."
+          alt="Healthcare operations team planning work around a table."
           caption="Editorial resource context"
           aspect="wide"
         />
@@ -174,50 +174,58 @@ export function ResourceArticlePage({ article }: { article: Article }) {
 }
 
 export function CaseStudiesHubPage() {
-  const studies = getVisibleCaseStudies();
+  const steps = [
+    { number: '01', title: 'Frame the operating question', copy: 'Start with the financial or workflow decision leadership needs to make, then agree on the measures and time period that will answer it.' },
+    { number: '02', title: 'Connect the relevant signals', copy: 'Organize the practice reports it authorizes across revenue, payer activity, enrollment, and operations into a clear working view.' },
+    { number: '03', title: 'Prioritize work with evidence', copy: 'Separate recurring causes from one-off exceptions, then rank opportunities by financial significance, recoverability, dependencies, and effort.' },
+    { number: '04', title: 'Assign action and review progress', copy: 'Turn agreed priorities into named ownership, a next action, and a review cadence tied to baseline measures.' },
+  ];
+
   return (
     <V4Shell>
       <Section className="pt-10 md:pt-14">
-        <Breadcrumb items={[{ label: 'Proof of Capability' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Proof of Capability.</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">
-          Anonymized proof-of-concept scenarios that show how ROOT and DIRT turn revenue-cycle signals into prioritized
-          operating action. These are not client success stories.
+        <Breadcrumb items={[{ label: 'How We Work' }]} />
+        <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-accent">The ROOT method</p>
+        <h1 className="mt-3 max-w-4xl text-balance text-4xl font-semibold text-text sm:text-5xl">
+          Turn revenue signals into clear operating priorities.
+        </h1>
+        <p className="mt-5 max-w-3xl text-lg text-muted">
+          ROOT connects revenue-cycle performance, payer behavior, enrollment, and practice operations so leaders can see what needs attention, why it matters, and who owns the next step.
         </p>
+        <MediaFrame src={mediaAssets.dirtAnalytics} alt="Revenue analytics dashboard arranged for management review." caption="Illustrative view of financial and revenue-cycle measures." className="mt-10" aspect="wide" />
       </Section>
+
       <Section tone="soft">
-        <div className="grid gap-4 md:grid-cols-2">
-          {studies.length ? (
-            studies.map((study: { slug: string; title: string; summary: string; proofLabel: string; publicReady: boolean }) => (
-              <a key={study.slug} href={`/case-studies/${study.slug}/`} className="block h-full">
-                <GlassCard variant="glass" accent="indigo" className="h-full">
-                  <span className="text-xs text-data-blue">{study.proofLabel}</span>
-                  <h2 className="mt-2 text-lg font-semibold text-text">{study.title}</h2>
-                  <p className="mt-2 text-sm text-muted">{study.summary}</p>
-                  {!study.publicReady ? <em className="mt-3 block text-xs text-signal-amber">Publication review required</em> : null}
-                </GlassCard>
-              </a>
-            ))
-          ) : (
-            <GlassCard as="div" variant="glass" hover={false}>
-              <h2 className="font-semibold text-text">Proof materials are being prepared.</h2>
-              <p className="mt-2 text-sm text-muted">Start with a practice-specific Revenue Optimization Diagnostic.</p>
+        <SectionHeader eyebrow="A practical method" title="Move from scattered reports to accountable action." description="The work follows a clear sequence: define the question, connect the right evidence, prioritize what matters, and keep ownership visible." />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
+            <GlassCard key={step.number} variant="glass" accent="indigo" className="h-full">
+              <p className="text-xs font-semibold tracking-[0.16em] text-data-blue">{step.number}</p>
+              <h2 className="mt-3 text-lg font-semibold text-text">{step.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-muted">{step.copy}</p>
             </GlassCard>
-          )}
+          ))}
         </div>
-        {/* No hardcoded reference to the gated dirt-poc-01 preview asset here: that
-            case study has publicReady:false, so productionIsolation strips its images
-            from the build (docs/final-merge/PUBLIC-SAFETY-EXCLUSIONS.md issue #1).
-            Only render study-linked media once a study is actually publicReady. */}
-        {studies.length ? (
-          <MediaFrame
-            src={mediaAssets.dirtAnalytics}
-            alt="Illustrative analytics workstation. Editorial stock photograph; not live PHI or client dashboards."
-            caption="Editorial context — proof-of-concept visuals use synthetic data only"
-            className="mt-10"
-            aspect="wide"
-          />
-        ) : null}
+      </Section>
+
+      <Section>
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <SectionHeader eyebrow="What you can take forward" title="A decision-ready operating plan." description="A practice-specific review can organize findings into a useful working set for leadership and the teams responsible for follow-through." />
+          <GlassCard as="div" variant="glass" hover={false}>
+            <h2 className="text-lg font-semibold text-text">Typical working outputs</h2>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
+              <li className="border-l-2 border-data-blue pl-3">Current-state findings with definitions and source context</li>
+              <li className="border-l-2 border-data-blue pl-3">A prioritized opportunity register with evidence and next actions</li>
+              <li className="border-l-2 border-data-blue pl-3">Named ownership, follow-up cadence, and escalation points</li>
+              <li className="border-l-2 border-data-blue pl-3">Baseline measures for reviewing progress over time</li>
+            </ul>
+          </GlassCard>
+        </div>
+        <AnnotationNote label="Illustrative examples" text="Dashboards on this site use sample operating figures. A ROOT engagement is grounded in the reports and measures the practice authorizes for its own review." className="mt-8" />
+        <CTAGroup className="mt-8">
+          <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-destination="/diagnostic/">Explore the Revenue Optimization Diagnostic</LinkButton>
+          <LinkButton href="/contact/" variant="outline">Talk to ROOT</LinkButton>
+        </CTAGroup>
       </Section>
     </V4Shell>
   );

@@ -62,7 +62,10 @@ async function stub(page: Page, { verify = 'paid' }: { verify?: 'paid' | 'unpaid
 const named = (captured: Captured, name: string) => captured.events.filter((event) => event.event_name === name);
 const accept = (page: Page) => page.getByRole('button', { name: 'Accept all' }).click();
 const storage = (page: Page) =>
-  page.evaluate(() => ({ aid: localStorage.getItem('root-aid'), sid: sessionStorage.getItem('root-sid'), exp: localStorage.getItem('root-exp-v2'), seen: localStorage.getItem('root-analytics-seen') }));
+  page.evaluate(() => {
+    const exp = document.cookie.split(';').map((part) => part.trim()).find((part) => part.startsWith('root-exp-v2='));
+    return { aid: localStorage.getItem('root-aid'), sid: sessionStorage.getItem('root-sid'), exp: exp ? decodeURIComponent(exp.slice('root-exp-v2='.length)) : null, seen: localStorage.getItem('root-analytics-seen') };
+  });
 const holdNavigation = (page: Page, selector: string) =>
   page.evaluate((target) => document.addEventListener('click', (event) => (event.target as Element).closest(target) && event.preventDefault(), true), selector);
 
@@ -202,6 +205,8 @@ test.describe('A/B experiments', () => {
 
     const hero = await page.locator('[data-cta="book-diagnostic"][data-location="home-hero"]').first().innerText();
     expect(hero.trim()).toBe(assignments['exp-hero-cta-v1'] === 'fixed-fee' ? 'Book the $2,500 Diagnostic' : 'Discover Your Revenue Exposure');
+    const headline = (await page.getByRole('heading', { level: 1 }).innerText()).trim();
+    expect(headline).toBe(assignments['exp-hero-cta-v1'] === 'fixed-fee' ? 'Find the revenue work worth doing first.' : 'The intelligence behind healthcare revenue.');
     expect(await page.getByRole('button', { name: 'Talk to us' }).count()).toBe(assignments['exp-talk-to-us-placement-v1'] === 'footer-only' ? 0 : 1);
     const socialLabelled = (await page.locator('footer nav[aria-label="Follow ROOT on social media"] a').first().innerText()).trim() !== '';
     expect(socialLabelled).toBe(assignments['exp-follow-us-design-v1'] === 'labeled');

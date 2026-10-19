@@ -10,10 +10,11 @@ import { EXPERIMENT_KEYS, EXPERIMENTS, type ExperimentDefinition, type Experimen
  *     tracked, and it works without consent because nothing is recorded.
  *  3. Without analytics consent, or when there is nowhere to send measurements, everyone sees the control and
  *     nothing is stored.
- *  4. Otherwise the visitor gets one randomly chosen variant per experiment, kept in localStorage so the page stays
+ *  4. Otherwise the visitor gets one randomly chosen variant per experiment, kept in a first-party cookie so the page stays
  *     consistent. If storage is unavailable the control is shown (an unstable assignment would corrupt results).
  *  Withdrawing consent deletes the stored assignments.
  */
+/** First-party cookie that keeps a consented visitor's experiment assignment consistent. */
 export const EXPERIMENT_STORAGE_KEY = 'root-exp-v2';
 
 export type ResolutionSource = 'off' | 'assigned' | 'override';
@@ -70,19 +71,24 @@ let random: () => number = defaultRandom;
 
 function readStore(): Record<string, string> {
   try {
-    const parsed: unknown = JSON.parse(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) || '{}');
+    if (typeof document === 'undefined') return {};
+    const prefix = `${EXPERIMENT_STORAGE_KEY}=`;
+    const entry = document.cookie.split(';').map((part) => part.trim()).find((part) => part.startsWith(prefix));
+    if (!entry) return {};
+    const parsed: unknown = JSON.parse(decodeURIComponent(entry.slice(prefix.length)));
     return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed as Record<string, string>) : {};
   } catch {
     return {};
   }
 }
 
-/** True only if the value can be read back, so a blocked or full store never yields an unstable assignment. */
+/** Assignments live in a first-party cookie, and only after analytics consent. */
 function writeStore(store: Record<string, string>): boolean {
   try {
     const serialised = JSON.stringify(store);
-    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, serialised);
-    return window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) === serialised;
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${EXPERIMENT_STORAGE_KEY}=${encodeURIComponent(serialised)}; Max-Age=15552000; Path=/; SameSite=Lax${secure}`;
+    return JSON.stringify(readStore()) === serialised;
   } catch {
     return false;
   }
@@ -90,7 +96,8 @@ function writeStore(store: Record<string, string>): boolean {
 
 function removeStore(): void {
   try {
-    window.localStorage.removeItem(EXPERIMENT_STORAGE_KEY);
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${EXPERIMENT_STORAGE_KEY}=; Max-Age=0; Path=/; SameSite=Lax${secure}`;
   } catch {
     /* nothing to remove */
   }

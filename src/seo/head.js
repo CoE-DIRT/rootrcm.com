@@ -2,7 +2,7 @@ import { companyInfo, primaryNav, routeMeta } from '../siteData.js';
 import { faqItems } from '../faqData.js';
 import { themeBootstrapScript } from '../theme/themeConfig.js';
 import { SITE_ORIGIN, allRoutes, canonicalForm, normalizePath, resolveCanonicalPath } from './routeRegistry.js';
-import { faqSchema, organizationSchema, webPageSchema, webSiteSchema } from './schema.js';
+import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, serviceSchema, webPageSchema, webSiteSchema } from './schema.js';
 
 const NOT_FOUND = {
   title: 'Page Not Found | ROOT',
@@ -34,6 +34,13 @@ function structuredData(canonical, meta) {
   if (canonical === '/') blocks.push(organizationSchema(), webSiteSchema());
   if (canonical === '/about/') blocks.push(organizationSchema());
   blocks.push(webPageSchema({ path: canonical, title: meta.title, description: meta.description }));
+  blocks.push(breadcrumbSchema(canonical, meta.h1 || meta.title));
+  if (canonical === '/services/' || canonical.startsWith('/services/') || canonical === '/diagnostic/') {
+    blocks.push(serviceSchema({ path: canonical, title: meta.title, description: meta.description }));
+  }
+  if (canonical.startsWith('/resources/') && canonical !== '/resources/') {
+    blocks.push(articleSchema({ path: canonical, title: meta.title, description: meta.description, image: meta.image }));
+  }
   if (canonical === '/faq/') blocks.push(faqSchema(faqItems));
   return blocks;
 }

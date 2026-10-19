@@ -44,9 +44,9 @@ export function buildKlaroServices(): KlaroService[] {
       purposes: ['analytics'],
       required: false,
       default: false,
-      cookies: [],
+      cookies: [/^root-exp-v2$/],
       description:
-        'Counts page views, scrolling, button clicks and form results on ROOT\'s own systems using random anonymous identifiers. Never includes names, emails, phone numbers, form messages or PHI.',
+        'Counts page views, scrolling, button clicks and form results on ROOT\'s own systems using random anonymous identifiers. With consent, a first-party cookie keeps a website-test assignment consistent. Never includes names, emails, phone numbers, form messages or PHI.',
     });
   }
 

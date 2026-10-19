@@ -55,15 +55,15 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
-    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact.
+    // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
-    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Contact']);
     const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
     expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
     expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
     expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
-    expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/illustrative practice profile|sample metrics/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
@@ -162,12 +162,19 @@ describe('ROOT commercial site', () => {
     expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
   });
 
+  it('renders the complete How We Work page at the existing case-studies URL', () => {
+    renderRoute('/case-studies/');
+    expect(screen.getByRole('heading', { name: /turn revenue signals into clear operating priorities/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /move from scattered reports to accountable action/i })).toBeTruthy();
+    expect(screen.queryByText(/being prepared|coming soon/i)).toBeNull();
+  });
+
   it('renders the diagnostic route and enforces the no-PHI acknowledgement', () => {
     renderRoute('/diagnostic/');
 
     expect(screen.getByRole('heading', { name: /see where your revenue system is leaking/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeTruthy();
-    expect(screen.getAllByText(/Willowbend Physician Group/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Illustrative Practice Profile/i).length).toBeGreaterThan(0);
 
     fireEvent.change(screen.getByLabelText(/^name$/i), { target: { value: 'Alex Rivera' } });
     fireEvent.change(screen.getByLabelText(/work email/i), { target: { value: 'alex@northstar.example' } });

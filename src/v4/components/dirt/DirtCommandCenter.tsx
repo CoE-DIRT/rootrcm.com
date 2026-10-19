@@ -44,10 +44,10 @@ export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
           </h2>
           {!compact ? (
             <p className="mt-2 max-w-2xl text-sm text-muted">
-              Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
+              Illustrative operating scenario · sample metrics for {dirtDemo.practice.name}.
             </p>
           ) : (
-            <p className="mt-1 text-xs text-muted">Synthetic demo · {dirtDemo.practice.name}</p>
+            <p className="mt-1 text-xs text-muted">Illustrative sample metrics · {dirtDemo.practice.name}</p>
           )}
         </div>
         <p className="rounded-full border border-border px-3 py-1 text-xs text-signal-amber">{dirtDemo.practice.period}</p>
@@ -128,7 +128,7 @@ export function DenialPareto() {
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">Denial analytics</h3>
-      <p className="mt-1 text-xs text-muted">Cause families with value at risk — synthetic events.</p>
+      <p className="mt-1 text-xs text-muted">Illustrative denial categories with example value-at-risk measures.</p>
       <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="Denial category bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>

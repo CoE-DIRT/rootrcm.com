@@ -1,8 +1,7 @@
 # Website experiments (A/B tests)
 
-**Status: framework built and tested; no experiment has been run and no result exists. Nothing in this repository
-claims that any variant wins.** Experiments are **off in production** until someone sets
-`VITE_EXPERIMENTS_ENABLED=true` for a build and approves the decision rules below.
+**Status: the consent-gated experiments are enabled for production traffic; no result has been measured and no variant is claimed to win.**
+The hero test compares a distinct revenue-priority headline and explanation with ROOT's existing homepage message.
 
 Source of truth: [`src/v4/experiments/registry.ts`](../../src/v4/experiments/registry.ts). A test fails if an
 experiment below is missing from this document.
@@ -12,16 +11,16 @@ experiment below is missing from this document.
 - Presentation only. The published **$2,500 Revenue Optimization Diagnostic** price, the Trust Boundary language and
   the no-PHI acknowledgement are identical in every variant. A test fails if a variant label names any other amount.
 - The first variant of every experiment is the **control**: the existing, unchanged experience.
-- The home headline and every page's H1/meta copy are **not** part of any test.
+- The hero test changes the homepage's visible headline, supporting sentence, and primary button label. SEO metadata and all other page headings remain unchanged.
 - Experiments never read or store anything about a visitor except which variant they were shown.
 
 ## How it works
 
 | Concern | Behaviour |
 | --- | --- |
-| Where it runs | Production: **off** unless `VITE_EXPERIMENTS_ENABLED=true` at build time. Preview, staging and local: **on** unless `VITE_EXPERIMENTS_ENABLED=false`. "Production" means the production hostnames only (`rootrcm.com`, `www.rootrcm.com`). |
+| Where it runs | Production: **on** for this Appwrite production build; the `VITE_EXPERIMENTS_ENABLED` setting controls it. Preview, staging and local: **on** unless `VITE_EXPERIMENTS_ENABLED=false`. "Production" means the production hostnames only (`rootrcm.com`, `www.rootrcm.com`). |
 | Who is assigned | Only visitors who accepted an analytics service in the cookie banner (first-party or GA4), when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
-| Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in `localStorage` key `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
+| Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in the first-party cookie `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
 | Withdrawing consent | `root-exp-v2` is deleted and the page returns to the control immediately. |
 | Exposure | One `experiment_exposure` event per experiment per browser session (`experiment_id`, `variant`) when the test surface renders for an assigned visitor. On narrow screens the header test counts visitors who never open the mobile menu; this dilutes both arms equally. |
 | Click attribution | The element a test changes carries `data-experiment` / `data-variant`; `src/App.jsx` copies them onto the `root:cta` event, and the tracker records them as `experiment_id` / `variant` on `cta_click`. |
@@ -32,11 +31,11 @@ experiment below is missing from this document.
 
 All variants are 50/50 by default. Guardrails and the shared stop rules apply to every experiment.
 
-### `exp-hero-cta-v1` - Home hero button
+### `exp-hero-cta-v1` - Home hero message and primary action
 
-- **Surface:** the primary button in the home hero (label only; both variants go to `/diagnostic/`).
-- **Variants:** `control` ("Discover Your Revenue Exposure"), `fixed-fee` ("Book the $2,500 Diagnostic").
-- **Hypothesis:** naming the fixed-fee Diagnostic in the hero button will raise the share of visitors who continue to the Diagnostic page, because it removes pricing uncertainty before the click.
+- **Surface:** the homepage hero headline, supporting sentence, and primary button; both buttons go to `/diagnostic/`.
+- **Variants:** `control` keeps ROOT's existing homepage message and "Discover Your Revenue Exposure" button; `fixed-fee` uses "Find the revenue work worth doing first." with a distinct supporting sentence and "Book the $2,500 Diagnostic" button.
+- **Hypothesis:** prioritizing the next revenue task in the headline and pairing it with the published Diagnostic fee will raise qualified visits by making the decision and next step clearer.
 - **Primary metric:** visitors with a `cta_click` (`cta_id` `book-diagnostic`, `cta_location` `home-hero`) divided by visitors exposed to the home page hero.
 - **Guardrails:** diagnostic inquiry submissions per exposed visitor do not fall; the 50% scroll milestone rate on `/` does not fall by more than 10% relative.
 

@@ -34,6 +34,16 @@ const flush = () =>
     await vi.advanceTimersByTimeAsync(2_200);
   });
 
+function readExperimentCookie(): string | null {
+  const prefix = `${EXPERIMENT_STORAGE_KEY}=`;
+  const entry = document.cookie.split(';').map((part) => part.trim()).find((part) => part.startsWith(prefix));
+  return entry ? decodeURIComponent(entry.slice(prefix.length)) : null;
+}
+
+function writeExperimentCookie(value: string): void {
+  document.cookie = `${EXPERIMENT_STORAGE_KEY}=${encodeURIComponent(value)}; Path=/; SameSite=Lax`;
+}
+
 function wipe() {
   window.localStorage.clear();
   window.sessionStorage.clear();
@@ -153,14 +163,14 @@ describe('experiment rules', () => {
 describe('experiment resolution', () => {
   it('shows the control and stores nothing before the visitor consents', () => {
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    expect(readExperimentCookie()).toBeNull();
   });
 
   it('shows the control when there is nowhere to send measurements', () => {
     vi.stubEnv('VITE_TRACKING_ENDPOINT', '');
     consent();
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    expect(readExperimentCookie()).toBeNull();
   });
 
   it('assigns once after consent, keeps the assignment, and survives a reload', () => {
@@ -168,7 +178,7 @@ describe('experiment resolution', () => {
     setExperimentRandomForTests(() => 0.9);
     const first = resolveExperiment('heroCta');
     expect(first).toMatchObject({ variant: 'fixed-fee', source: 'assigned', label: 'Book the $2,500 Diagnostic', experimentId: 'exp-hero-cta-v1' });
-    expect(JSON.parse(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) as string)).toEqual({ 'exp-hero-cta-v1': 'fixed-fee' });
+    expect(JSON.parse(readExperimentCookie() as string)).toEqual({ 'exp-hero-cta-v1': 'fixed-fee' });
     expect(resolveExperiment('heroCta')).toBe(first); // stable within the page
 
     // "Reload": the module state is rebuilt, the stored assignment is reused even though the dice would now say control.
@@ -179,16 +189,16 @@ describe('experiment resolution', () => {
 
   it('replaces a stored assignment that is no longer a valid variant', () => {
     consent();
-    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify({ 'exp-hero-cta-v1': 'retired-variant' }));
+    writeExperimentCookie(JSON.stringify({ 'exp-hero-cta-v1': 'retired-variant' }));
     setExperimentRandomForTests(() => 0.01);
     expect(resolveExperiment('heroCta').variant).toBe('control');
-    expect(JSON.parse(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) as string)['exp-hero-cta-v1']).toBe('control');
+    expect(JSON.parse(readExperimentCookie() as string)['exp-hero-cta-v1']).toBe('control');
   });
 
   it('falls back to the control when storage cannot hold an assignment', () => {
     consent();
     setExperimentRandomForTests(() => 0.9);
-    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    vi.spyOn(document, 'cookie', 'set').mockImplementation(() => {
       throw new DOMException('blocked', 'SecurityError');
     });
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
@@ -198,7 +208,7 @@ describe('experiment resolution', () => {
     window.history.pushState({}, '', '/?exp_headerCta=explore&exp_heroCta=does-not-exist');
     expect(resolveExperiment('headerCta')).toMatchObject({ variant: 'explore', source: 'override', label: 'Explore the Diagnostic' });
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    expect(readExperimentCookie()).toBeNull();
     expect(getExperimentContext()).toEqual({}); // overrides are never reported with an inquiry
   });
 
@@ -217,7 +227,7 @@ describe('experiment resolution', () => {
   });
 
   describe('inquiry context from stored assignments', () => {
-    const store = (assignments: Record<string, string>) => window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify(assignments));
+    const store = (assignments: Record<string, string>) => writeExperimentCookie(JSON.stringify(assignments));
 
     it('includes assignments made on earlier pages even though this page resolved none of them', () => {
       // Home assigned these; the visitor then navigated (a full page load) to /diagnostic/, whose minimal shell has no A/B surface.
@@ -244,9 +254,9 @@ describe('experiment resolution', () => {
       const context = getExperimentContext();
       expect(context.experiment?.split(',')).toEqual(['exp-header-cta-v1', 'exp-follow-us-design-v1']);
       expect(context.experiment_variant).toBe('explore,control');
-      window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, '["exp-header-cta-v1"]');
+      writeExperimentCookie('["exp-header-cta-v1"]');
       expect(getExperimentContext()).toEqual({});
-      window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, 'not json');
+      writeExperimentCookie('not json');
       expect(getExperimentContext()).toEqual({});
     });
 
@@ -276,7 +286,7 @@ describe('useExperiment', () => {
     expect(probe.textContent).toBe('control|-');
     expect(probe.hasAttribute('data-experiment')).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    expect(readExperimentCookie()).toBeNull();
   });
 
   it('records exactly one exposure per session, even under StrictMode and across remounts', async () => {
@@ -306,12 +316,12 @@ describe('useExperiment', () => {
 
     act(() => consent());
     expect(screen.getByTestId('probe').textContent).toBe('labeled|-');
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).not.toBeNull();
+    expect(readExperimentCookie()).not.toBeNull();
 
     act(() => applyAnalyticsConsent({ firstParty: false, ga4: false }));
     expect(screen.getByTestId('probe').textContent).toBe('control|-');
     expect(screen.getByTestId('probe').hasAttribute('data-experiment')).toBe(false);
-    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    expect(readExperimentCookie()).toBeNull();
     await flush();
   });
 
@@ -331,6 +341,22 @@ describe('experiment surfaces (QA overrides)', () => {
     window.history.pushState({}, '', path);
     return render(<App />);
   }
+
+  it('hero test uses a distinct message while both actions point to the Diagnostic', () => {
+    renderRoute('/?exp_heroCta=fixed-fee');
+    expect(screen.getByRole('heading', { level: 1, name: /find the revenue work worth doing first/i })).toBeTruthy();
+    const variant = document.querySelector<HTMLAnchorElement>('a[data-cta="book-diagnostic"][data-location="home-hero"]');
+    expect(variant?.textContent).toContain('Book the $2,500 Diagnostic');
+    expect(variant?.getAttribute('href')).toBe('/diagnostic/');
+    cleanup();
+    resetExperimentsForTests();
+
+    renderRoute('/');
+    expect(screen.getByRole('heading', { level: 1, name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    const control = document.querySelector<HTMLAnchorElement>('a[data-cta="book-diagnostic"][data-location="home-hero"]');
+    expect(control?.textContent).toContain('Discover Your Revenue Exposure');
+    expect(control?.getAttribute('href')).toBe('/diagnostic/');
+  });
 
   it('header: the variant changes the label only, never the destination', () => {
     renderRoute('/?exp_headerCta=explore');
@@ -435,7 +461,7 @@ describe('pricing-card links (the pricing test metric)', () => {
 describe('talk to us placement on minimal shells', () => {
   const returningVisitor = (assignment: Record<string, string> = {}) => {
     document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
-    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify(assignment));
+    writeExperimentCookie(JSON.stringify(assignment));
     consent();
   };
   const go = (path: string) => {
