@@ -1,6 +1,6 @@
 # Website experiments (A/B tests)
 
-**Status: no result has been measured and no variant is claimed to win. Production experiments are off by default; this release opts in with `VITE_EXPERIMENTS_ENABLED=true`.**
+**Status: no result has been measured and no variant is claimed to win. Experiments are off by default in production; this release opts in with `VITE_EXPERIMENTS_ENABLED=true`.**
 The hero test compares a distinct revenue-priority headline and explanation with ROOT's existing homepage message.
 
 Source of truth: [`src/v4/experiments/registry.ts`](../../src/v4/experiments/registry.ts). A test fails if an

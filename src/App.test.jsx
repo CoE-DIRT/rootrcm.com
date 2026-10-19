@@ -99,7 +99,7 @@ describe('ROOT commercial site', () => {
     cleanup();
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
-    expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/aging A\/R/i).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('heading', { name: /From signal to an owned next action/i }).length).toBeGreaterThan(0);
     expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
 
@@ -290,8 +290,8 @@ describe('ROOT commercial site', () => {
     expect(hero).toBeTruthy();
     expect(hero.getAttribute('href')).toBe('/diagnostic/');
     expect(hero.hasAttribute('data-experiment')).toBe(false);
-    // The headline is never part of a test: the hero narrative is unchanged.
-    expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    // The QA variant changes the headline but is not attributed without consent.
+    expect(screen.getByRole('heading', { name: /find the revenue work worth doing first/i })).toBeTruthy();
   });
 
   it('renders the 404 fallback route', () => {
