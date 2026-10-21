@@ -46,14 +46,14 @@ DIRT is an **embedded ROOT capability**, not a separate company or a finished st
 
 </details>
 
-## People & accountability
+## Co-founders & accountability
 
 | Leadership | Role | Verified profiles |
 | :-- | :-- | :-- |
-| **Aftab Shaukat** | Principal, Client Solutions & Service Delivery | [LinkedIn](https://www.linkedin.com/in/healthcare-rcm-leader/) · [GitHub @aashaukatc](https://github.com/aashaukatc) |
-| **Kashif Ali** | Senior Operations & Service Delivery Lead | [LinkedIn](https://www.linkedin.com/in/kashif-ali-9874a6237/) |
+| **Aftab Shaukat · Co-Founder** | Principal, Client Solutions & Service Delivery | [LinkedIn](https://www.linkedin.com/in/healthcare-rcm-leader/) · [GitHub @aashaukatc](https://github.com/aashaukatc) |
+| **Kashif Ali · Co-Founder** | Senior Operations & Service Delivery Lead | [LinkedIn](https://www.linkedin.com/in/kashif-ali-9874a6237/) |
 
-Roles are based on approved company signatures. **Founder/co-founder corporate designations require governance confirmation** before being asserted in search metadata or public biographies. A GitHub profile for Kashif has not been verified; none is linked or invented.
+**Co-founders:** Aftab Shaukat and Kashif Ali (confirmed by ROOT's owner on 21 October 2026). Operational titles follow the approved corporate signatures. A GitHub profile for Kashif has not been verified; none is linked or invented. This public identification does not establish a specific equity allocation or filing status.
 
 **Business:** [info@rootrcm.com](mailto:info@rootrcm.com) · [WhatsApp +1 (302) 506-4685](https://wa.me/13025064685) · [Call +1 (302) 506-4685](tel:+13025064685)
 
