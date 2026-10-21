@@ -124,11 +124,11 @@ export function AboutPage() {
       <Section id="leadership" tone="soft" aria-labelledby="leadership-heading">
         <SectionHeader
           eyebrow="People & accountability"
-          title={<span id="leadership-heading">Meet ROOT's leadership.</span>}
-          description="Two accountable points of leadership, with verified professional links and clearly defined responsibilities. ROOT's current company experience and each person's previous experience are presented separately."
+          title={<span id="leadership-heading">Meet ROOT's co-founders.</span>}
+          description="Co-founded by Aftab Shaukat and Kashif Ali, ROOT connects healthcare revenue intelligence with accountable execution. Their professional roles and verified profiles are listed below."
         />
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {leadershipProfiles.map((person: { id: string; name: string; role: string; focus: string; linkedIn: string; gitHub: string | null }) => (
+          {leadershipProfiles.map((person: { id: string; name: string; role: string; isCoFounder: boolean; focus: string; linkedIn: string; gitHub: string | null }) => (
             <GlassCard key={person.id} as="article" variant="glass" hover={false} className="flex h-full flex-col p-6">
               <div className="flex items-start gap-4">
                 <div aria-hidden="true" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-border bg-panel text-xl font-semibold text-accent">
@@ -136,6 +136,7 @@ export function AboutPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-text">{person.name}</h3>
+                  {person.isCoFounder && <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-accent">Co-Founder</p>}
                   <p className="mt-1 text-sm font-medium text-accent">{person.role}</p>
                   <p className="mt-1 text-xs text-muted">ROOT — Revenue Operations &amp; Outcomes Technology</p>
                 </div>
