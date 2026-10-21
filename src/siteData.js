@@ -63,6 +63,31 @@ export const companyInfo = {
   whatsappHref: 'https://wa.me/13025064685?text=Hello%20ROOT%20Revenue%20Operations%20%26%20Outcomes%20Technology%20Incorporated%2C%20I%20would%20like%20to%20discuss%20a%20deidentified%20practice%20operations%20or%20revenue%20cycle%20need.',
 };
 
+
+/**
+ * Public leadership profiles. Titles are taken from the supplied October 2026 ROOT
+ * signatures. Co-founder/equity labels remain unasserted until governance is reconciled.
+ * Only verified personal profile URLs are rendered.
+ */
+export const leadershipProfiles = [
+  {
+    id: 'aftab-shaukat',
+    name: 'Aftab Shaukat',
+    role: 'Principal, Client Solutions & Service Delivery',
+    focus: 'Healthcare revenue operations, solutions architecture, process optimization, and accountable client delivery.',
+    linkedIn: 'https://www.linkedin.com/in/healthcare-rcm-leader/',
+    gitHub: 'https://github.com/aashaukatc',
+  },
+  {
+    id: 'kashif-ali',
+    name: 'Kashif Ali',
+    role: 'Senior Operations & Service Delivery Lead',
+    focus: 'Operating coordination, work allocation, service delivery oversight, and escalation management.',
+    linkedIn: 'https://www.linkedin.com/in/kashif-ali-9874a6237/',
+    gitHub: null,
+  },
+];
+
 export const outreachChannels = [
   { label: 'WhatsApp', href: companyInfo.whatsappHref, status: 'Live', cta: 'whatsapp-instant-chat', engagementType: 'instant-chat' },
   { label: 'Call', href: companyInfo.phoneHref, status: 'Live', cta: 'phone-call', engagementType: 'phone' },
