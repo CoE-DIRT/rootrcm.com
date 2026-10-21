@@ -4,13 +4,13 @@
 
 | Surface | Source of truth | Current action/status |
 |---|---|---|
-| ROOT website | `src/siteData.js` and `src/seo/schema.js` | Public Organization schema and verified leadership member links; deployment dependent |
+| ROOT website | `src/siteData.js` and `src/seo/schema.js` | Owner-confirmed co-founder Person entities (Aftab Shaukat and Kashif Ali), verified professional links, and Organization.founder markup; deployment dependent |
 | Search Console | ROOT's authenticated owner property (not exposed to this repository) | Verify property, ownership, sitemap, canonical routing and coverage; **not asserted done** |
 | Google Workspace | Google Admin / actual DNS | Welcome email for `info@rootrcm.com` found; test SMTP inbox and MX/SPF/DKIM/DMARC after DNS changes |
 | Google Business Profile | Owner-managed account | Business eligibility and existing profile unverified; do not auto-create or claim a staffed Claymont office |
 | Google Analytics 4 | GA4 property | Measurement ID not verified in Appwrite site env; consent-gated implementation exists |
 | Google Drive | ROOT Corporate Headquarters folder | Existing source files are linked; a Google Doc and a GitHub file do not automatically sync |
-| LinkedIn identity | Public individual profiles | Aftab and Kashif links verified; Kashif GitHub not verified |
+| LinkedIn identity | Public individual profiles | Aftab Shaukat and Kashif Ali confirmed as co-founders by the ROOT owner 21 Oct 2026; individual LinkedIn links verified; Kashif GitHub not verified |
 
 ## Search engine-facing URLs
 
