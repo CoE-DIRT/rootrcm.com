@@ -1,7 +1,7 @@
 # ROOT website: Appwrite release and domain cutover
 
-## Verified starting state — 2026-10-05
-- Website: CoE-DIRT/rootrcm.com. Public main: 461376ca6f8365800b443dac66b9dd390b376f93.
+## Verified starting state — updated 2026-10-21
+- Website: CoE-DIRT/rootrcm.com. Public main at audit time: f1e7dafa56c49a57c01819f86b8c90285a2a9fdc.
 - Commercial copy: draft PR #25, branch feat/commercial-revenue-intelligence-positioning-20260926.
 - Original PR head 6601ca342b90e2115a712469346ee2e5e0c0c695 passed CI run 36187548096.
 - Technology v3: Appwrite approved; documentation PRs #22/#23 are still open.
@@ -9,7 +9,10 @@
 - ClickUp 86eyumxaa is marked done; that does not prove the Appwrite migration is complete.
 - Temporary ChatGPT Site: appgprj_6aaa0221c43481919efe981a421bd11f, live version 12.
 - Both rootrcm.com and www.rootrcm.com are active custom domains on the temporary Site.
-- No existing Appwrite project/site identifier was found in the retrieved context or repository.
+- Appwrite project `6ac42012001069444210` is connected to GitHub. Commit status on `main` reported successful builds for the
+  ROOT public website and `root-contact`, with a generated `branch-main-*.appwrite.network` Site URL.
+- This audit did not have an Appwrite API key or authenticated CLI session. Site settings, Function variables, deployments,
+  preview-branch behavior and analytics resources therefore remain blocked from direct inventory.
 
 ## Destination build settings
 | Setting | Value |

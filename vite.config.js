@@ -124,6 +124,12 @@ export default defineConfig(({ mode }) => {
   },
   test: {
     environment: 'jsdom',
+    // Unit tests control these values explicitly. Do not let a developer or cloud environment's preview settings
+    // silently disable experiment coverage or change production-host assertions.
+    env: {
+      VITE_SITE_ENV: '',
+      VITE_EXPERIMENTS_ENABLED: '',
+    },
     exclude: ['node_modules/**', 'dist-staging/**', 'tests/playwright/**'],
     // Klaro keeps its consent managers in module state. Inlining it lets tests that call vi.resetModules() get a fresh one.
     server: { deps: { inline: ['klaro'] } },

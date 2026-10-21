@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+import { existsSync } from 'node:fs';
+
+const systemChromium = process.platform === 'linux' && existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined;
 
 export default defineConfig({
   testDir: './tests/playwright',
@@ -32,6 +35,9 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://localhost:4319',
+    // Codex cloud images may already provide Chromium. Prefer it there so validation does not depend on a redundant
+    // browser download; CI and other machines continue to use Playwright's managed browser.
+    launchOptions: systemChromium ? { executablePath: systemChromium } : undefined,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

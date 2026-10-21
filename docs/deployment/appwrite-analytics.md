@@ -1,9 +1,11 @@
 # Appwrite first-party analytics: preview deployment runbook
 
-**Status: not executed.** No Appwrite resource for analytics exists. This session had no Appwrite credentials or CLI session,
-and the Appwrite MCP server was unreachable, so nothing below has been run against a real project. Commands use only flags
-confirmed with `appwrite --help` (CLI 28.1.0) and the `node-appwrite` 29.0.0 type definitions; treat the first real run as
-verification of the whole procedure.
+**Status audited 2026-10-21:** the earlier statement that no analytics resource existed is stale. The project ID is known and
+the unauthenticated privacy check now refuses row reads, row writes and table-definition reads with HTTP 401. That verifies the
+public boundary but does not prove the Function's deployment health or inspect the table schema. This audit had no Appwrite API
+key or authenticated CLI session, so `tracking-ingest`, `web_analytics` and `tracking_events` still require authenticated inventory
+and schema verification before production use. The provisioning plan below remains idempotent and must be run with a scoped setup
+key; do not recreate resources that the authenticated inventory shows already exist.
 
 Governance: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md). Boundaries that must not move:
 
