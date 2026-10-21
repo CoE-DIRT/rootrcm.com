@@ -349,6 +349,108 @@ export const pricingModels = [
 
 export const resourceArticles = [
   {
+  "slug": "healthcare-revenue-intelligence-asc-denials",
+  "title": "Healthcare Revenue Intelligence: An ASC Denials Guide",
+  "metaTitle": "Healthcare Revenue Intelligence & ASC Denials | ROOT",
+  "summary": "Use healthcare revenue intelligence to investigate ASC denials, measure payer exposure, and prioritize recovery and prevention.",
+  "sections": [
+    [
+      "What is healthcare revenue intelligence?",
+      "Healthcare revenue intelligence connects billing, remittance, authorization, contract, and workflow data to explain where revenue is delayed or lost and what to do next. For an ambulatory surgery center (ASC), the objective is a decision: which denial pattern deserves intervention, who owns it, and how will leadership verify the result?"
+    ],
+    [
+      "Why an ASC needs more than a denial dashboard",
+      "A dashboard can show unpaid balances without explaining their causes. ASC revenue operations need to distinguish facility reimbursement from professional billing, separate submission failures from adjudicated denials, and connect each exception to the applicable payer, procedure, service date, and operational handoff. An authorization obtained for one billing entity or setting should not be assumed to cover another."
+    ],
+    [
+      "Start with a reconciled financial picture",
+      "Connect practice-management claims and service lines to clearinghouse acknowledgements, payer remittances, adjustments, and cash posting. Retain authorization evidence and the contract version relevant to the service date. Reconcile source totals before drawing conclusions; isolate unmatched records, duplicate exports, reversals, and recoupments so that reporting does not turn accounting noise into apparent revenue opportunity."
+    ],
+    [
+      "Denial versus rejection versus underpayment",
+      "A rejection generally means a claim failed an acceptance edit; an adjudicated denial reflects a payer payment decision. An underpayment requires comparison with the applicable expected allowed amount and payment rules. Give each category its own queue and denominator rather than combining all three into one denial rate. A contractual adjustment is not automatically recoverable revenue."
+    ],
+    [
+      "Investigate authorization and eligibility mismatches",
+      "Compare the authorized procedure, units, dates, facility, provider, and setting with what was scheduled, performed, and billed. Route procedure changes back to the authorization owner before claim submission. Preserve dated payer responses and reference numbers; an authorization or an eligibility response alone does not establish that every condition of payment has been met."
+    ],
+    [
+      "The 2026 Medicare ASC authorization distinction",
+      "CMS operates a demonstration for selected ASC services in ten states. Its updated rollout permits requests from January 5, 2026 for services from January 19 in California, Florida, Tennessee, Pennsylvania, Maryland, Georgia, and New York; Texas, Arizona, and Ohio use February 2 and February 16 respectively. Targeted categories include blepharoplasty, botulinum toxin injections, panniculectomy, rhinoplasty, and vein ablation. [1]"
+    ],
+    [
+      "Do not copy hospital outpatient rules into an ASC workflow",
+      "The ASC demonstration and the hospital outpatient prior authorization program are separate. Noridian explains that prior authorization is optional under the ASC demonstration, but bypassing it subjects applicable claims to prepayment review; its guidance also identifies Medicare Advantage among excluded claim types. Confirm the current CMS code list and the responsible Medicare Administrative Contractor instructions for the facility. [2]"
+    ],
+    [
+      "Review coding, coverage, and payment configuration",
+      "Investigate recurring procedure and modifier combinations, documentation gaps, medical-necessity decisions, and site-of-service mismatches with qualified coding staff. Check the service-date version of Medicare ASC payment files and relevant coverage policies rather than assuming a procedure receives the same facility payment in every setting. CMS publishes ASC approved HCPCS codes and payment rates. [3]"
+    ],
+    [
+      "Turn payer exposure into a decision queue",
+      "Group unresolved balances by payer, product, denial family, service period, and responsible workflow. Rank work using supported expected reimbursement, deadline proximity, documentation readiness, and recovery effort. Keep gross charges, expected allowed amounts, outstanding balances, and estimated recoverable amounts separate. A large billed balance can overstate the opportunity when contractual terms are ignored."
+    ],
+    [
+      "Measure denial incidence consistently",
+      "For an initial line-level denial rate, divide uniquely denied service lines at first adjudication by all service lines first adjudicated in the same cohort. Define how partial denials, zero-pay lines, secondary claims, and reversals are handled. Report a dollar-based measure separately, using a documented dollar basis; do not mix line counts, claim counts, and charge dollars. These are proposed operating definitions, not universal benchmarks."
+    ],
+    [
+      "Measure recovery and prevention separately",
+      "Track cash recovered for a defined denied cohort against that cohort\u2019s documented collectible amount, alongside resolution time and unresolved value. Keep pending appeals out of realized recovery. For prevention, compare new denial incidence after a workflow change using comparable payer and procedure cohorts and enough adjudication runout. A cleared backlog does not prove that the upstream failure has stopped."
+    ],
+    [
+      "Control appeal deadlines by payer and appeal level",
+      "Assign an owner, deadline, evidence checklist, next action, and escalation date to each recoverable segment. CMS generally allows 120 days from receipt of the initial determination to request an Original Medicare redetermination. That is not a universal deadline for commercial plans, Medicaid, Medicare Advantage, or subsequent appeal levels; verify the governing rules and contract. [4]"
+    ],
+    [
+      "A practical first-month operating plan",
+      "First, reconcile data and agree on definitions. Next, identify a narrow payer-and-denial segment with actionable evidence and name its owner. Then work the recoverable queue while correcting the originating authorization, coding, enrollment, or submission handoff. Finally, review cash results, unresolved exceptions, and new denial incidence; retain a weekly decision log so the team can distinguish completed activity from measurable improvement."
+    ],
+    [
+      "Where ROOT and DIRT fit",
+      "We approach revenue operations through Connect \u2192 Reconcile \u2192 Explain \u2192 Prioritize \u2192 Act \u2192 Measure. DIRT\u2014Data Intelligence for Revenue Transformation\u2014is our embedded intelligence capability. A practice-specific diagnostic should establish available data, reconciliation gaps, priority exposure, and feasible actions before committing to automation; this guide does not assert undocumented integrations or automated appeal capabilities."
+    ],
+    [
+      "Frequently asked: Is revenue intelligence the same as billing software?",
+      "Billing software supports transactions. Revenue intelligence adds a structured method for reconciling evidence, diagnosing variation, and assigning action across systems and teams. Its usefulness depends on source quality, consistent definitions, and follow-through rather than the number of charts."
+    ],
+    [
+      "Frequently asked: Can automation eliminate ASC denials?",
+      "No. Rules, contracts, documentation, clinical decisions, and payer adjudication can all affect payment. Automation can support exception routing and consistent checks, but disputed coding and coverage decisions need appropriate review. Start with a validated recurring workflow and measure both error rates and staff rework before expanding it."
+    ],
+    [
+      "Frequently asked: What data should leadership request?",
+      "Begin with aggregated payer-level denial counts and values, adjudication cohorts, aging, recovery status, and authorization exceptions. Use authorized access and the minimum necessary information for operational investigation. Do not send patient records, claim identifiers, or other protected health information through ROOT\u2019s public inquiry form."
+    ],
+    [
+      "Start with the $2,500 Revenue Optimization Diagnostic",
+      "If leadership cannot reconcile denied revenue or identify its next operational priority, start with our fixed-fee $2,500 Revenue Optimization Diagnostic. Discuss the available source systems, payer exposure, and decision requirements before sharing sensitive data. Use the Start Diagnostic button below to review the offer and scope."
+    ],
+    [
+      "Editorial scope and evidence",
+      "Published October 21, 2026 by ROOT. This guide presents an operating framework, not a client outcome claim. No verified ASC recovery case study is asserted. Apply current payer contracts, CMS and state requirements, and qualified coding or compliance review to specific billing decisions."
+    ]
+  ],
+  "sources": [
+    [
+      "[1] CMS: ASC prior authorization demonstration and updated timeline",
+      "https://www.cms.gov/data-research/monitoring-programs/medicare-fee-service-compliance-programs/prior-authorization-pre-claim-review-initiatives/prior-authorization-demonstration-certain-ambulatory-surgical-center-services"
+    ],
+    [
+      "[2] Noridian: ASC demonstration scope, exclusions, and prepayment review",
+      "https://med.noridianmedicare.com/web/jeb/cert-reviews/pre-claim/prior-authorization-for-asc"
+    ],
+    [
+      "[3] CMS: ASC payment system, approved codes and rates",
+      "https://www.cms.gov/medicare/payment/prospective-payment-systems/ambulatory-surgical-center-asc"
+    ],
+    [
+      "[4] CMS: First-level appeal and redetermination",
+      "https://www.cms.gov/medicare/appeals-grievances/fee-for-service/first-level-appeal-redetermination-medicare-contractor"
+    ]
+  ]
+},
+  {
     slug: 'revenue-leakage-guide',
     title: 'Revenue Leakage Guide for Independent Practices',
     summary: 'How to think about leakage across claim quality, payer behavior, aging, denials, credentialing, and reporting.',
@@ -674,7 +776,7 @@ servicePages.forEach((service) => {
 });
 
 resourceArticles.forEach((article) => {
-  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, h1: article.title, image: brandAssets.og };
+  routeMeta[`/resources/${article.slug}`] = { title: article.metaTitle || `${article.title} | ROOT Resources`, description: article.summary, h1: article.title, image: brandAssets.og };
 });
 
 
