@@ -9,7 +9,7 @@
   per route (from `routeMeta`), one canonical URL on `https://rootrcm.com`, Open Graph and Twitter tags, JSON-LD, the no-flash theme
   bootstrap, a `<noscript>` fallback and an exactly-one-H1 check. The renderer is pure and idempotent and is exercised by `src/seo/seo.test.js`.
 - **Sitemap and robots are generated** at build time (`src/seo/sitemap.js`, plugin `rootSeoArtifacts`). `public/sitemap.xml` and
-  `public/robots.txt` no longer exist. The sitemap lists only indexable, canonical, public routes (currently 43 URLs); it excludes
+  `public/robots.txt` no longer exist. The sitemap lists only indexable, canonical, public routes (currently 44 URLs); it excludes
   `noindex` pages (`/thank-you/`, `/checkout/success/`, `/checkout/cancel/`), the `404.html` fallback, legacy aliases and
   development-only routes.
 - **Legacy URLs keep working** but are canonicalised: `/company/about/` → `/about/`, `/legal/privacy/` → `/privacy-policy/`,

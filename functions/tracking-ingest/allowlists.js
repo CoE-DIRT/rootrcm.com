@@ -27,6 +27,7 @@ export const KNOWN_PATHS = [
   "/resources/credentialing-operations-checklist/",
   "/resources/denial-management-root-cause/",
   "/resources/healthcare-automation-readiness/",
+  "/resources/healthcare-revenue-intelligence-asc-denials/",
   "/resources/practice-ops-kpi-model/",
   "/resources/revenue-leakage-guide/",
   "/services/",
