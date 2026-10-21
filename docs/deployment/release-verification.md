@@ -10,11 +10,13 @@ PR: https://github.com/CoE-DIRT/rootrcm.com/pull/31 (`site-overhaul-2026-10-19`)
 
 - Project `6ac42012001069444210`, Site `root-website`, static Vite, Node 22, `npm ci`, `npm run build`, output `dist-staging`.
 - The assigned production deployment and apex proxy rule still reference `6ac503a19f9d936df6ef`, the October 6 build. The Site API reports `live: false`; this flag does not establish public availability.
-- Prior ready preview: `6ad67ddcb4dfa2c92ac1`, source `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`, URL https://6ad67dddc91ccef4aef8.appwrite.network . It has not been promoted and was reported by PR #31 as requiring Appwrite organization sign-in.
+- Original ready preview: `6ad67ddcb4dfa2c92ac1`, source `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`, URL https://6ad67dddc91ccef4aef8.appwrite.network . It has not been promoted and was reported by PR #31 as requiring Appwrite organization sign-in.
 - Apex rule `d773a6e6e8d307472c08f9ce13bf4224` serves the older deployment. Rule `5e98f5d8b4845d4ba66785e137dc8ab3` redirects www to `https://rootrcm.com/` with HTTP 302. Both rules report verified. Check deep-path and query handling: Appwrite's domain-redirect documentation says these are not preserved.
 - Site public variables enable experiments and set tracking to `https://rootrcm-com.nyc.appwrite.run`. No GA4 ID or owned-contact configuration was returned in the Site variables.
 - Function `tracking-ingest` is enabled with public execution, correct source directory `functions/tracking-ingest`, and ready deployment `6ad678c8d0b3ed4be665` from `c2d7bf349cfb97f250f4c367b74f991cc60ee1a6`. No Function source or event-contract change is introduced in this resumed pass.
 - Table `web_analytics/tracking_events` is enabled, all returned columns are available, and table permissions are empty. No public table read/write grant exists.
+
+The resumed source preview `6ad900f55d5d2cf8ffa6` is ready at https://6ad900f632c0540380d3.appwrite.network for source `e5b0b0559a5a02dd85266ce3b7cbbf8d690a9944`, with activation disabled. The dependency-updated candidate supersedes it and requires a fresh preview build.
 
 ## Reconciled phase ledger
 
@@ -35,6 +37,7 @@ The five-task and eight-task lists cover the same phases. Source completion is d
 
 ## Verification evidence
 
+- Compatible dependency updates clear the npm audit findings: zero known advisories. The updated lockfile passes lint, all 583 unit tests and the configured production build.
 - `npm run lint` passed.
 - `npm test`: **34 files, 583 tests passed** on the resumed source.
 - Production build with the actual public tracking/experiment settings passed. Every JavaScript output chunk is below 500 kB.

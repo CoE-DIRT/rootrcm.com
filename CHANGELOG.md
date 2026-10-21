@@ -2,6 +2,8 @@
 
 ## Release verification fixes — 2026-10-21
 
+- Updated compatible dependency versions (including Vite, DOMPurify, source-map-js and brace-expansion); npm audit reports zero known advisories.
+
 - Renew first-party analytics consent for the experiment-cookie disclosure, require that consent for experiment assignment, and remove legacy assignments on migration and withdrawal.
 - Preserve returning visitors' current cookie assignments while saved consent initializes.
 - Generate breadcrumbs only for registered canonical routes.

@@ -23,6 +23,7 @@ test.describe('DIRT-led merge — final QA', () => {
   ];
 
   test('no horizontal overflow at 390px / 430px on core routes', async ({ page, isMobile }) => {
+    test.setTimeout(120_000); // Two widths across 23 routes require 46 complete navigations.
     test.skip(!isMobile, 'mobile widths are covered by the mobile-chromium project');
     for (const width of [390, 430]) {
       await page.setViewportSize({ width, height: 844 });
@@ -36,6 +37,7 @@ test.describe('DIRT-led merge — final QA', () => {
 
   for (const width of [768, 1024, 1366, 1440, 1536]) {
     test(`no horizontal overflow at ${width}px on core routes`, async ({ page, isMobile }) => {
+      test.setTimeout(90_000); // Budget for the complete route matrix on shared runners.
       test.skip(isMobile, 'laptop/desktop widths are covered by the desktop chromium project');
       await page.setViewportSize({ width, height: 900 });
       for (const path of routes) {
