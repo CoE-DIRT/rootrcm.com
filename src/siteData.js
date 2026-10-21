@@ -617,6 +617,7 @@ export const footerGroups = [
     title: 'Company',
     links: [
       { label: 'About ROOT', href: '/about/' },
+      { label: 'Our mission', href: '/about/#our-mission' },
       { label: 'Our commitments', href: '/about/#responsible-operations' },
       { label: 'Case Studies', href: '/case-studies/' },
       { label: 'Pricing', href: '/pricing/' },

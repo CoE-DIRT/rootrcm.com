@@ -13,6 +13,7 @@ import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
 import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments, leadershipProfiles } from '../../siteData.js';
 import { faqGroups, faqItems } from '../../faqData.js';
+import { missionCharter } from '../../missionData.js';
 
 export function ContactPage() {
   const formWrapRef = useRef<HTMLDivElement>(null);
@@ -121,8 +122,19 @@ export function AboutPage() {
           </div>
         </div>
       </Section>
-      <Section>
-        <SectionHeader eyebrow="Our mission" title="Turn revenue intelligence into accountable improvement." description="We help US independent physician practices and specialty groups understand revenue constraints, choose practical interventions, and measure progress. We combine people, processes, and technology around agreed business outcomes." />
+      <Section id="our-mission" aria-labelledby="our-mission-heading">
+        <SectionHeader eyebrow="Our mission" title={<span id="our-mission-heading">Turn revenue intelligence into accountable improvement.</span>} description="We help US independent physician practices and specialty groups understand revenue constraints, choose practical interventions, and measure progress. We combine people, processes, and technology around agreed business outcomes." />
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 className="text-xl font-semibold text-text">Our vision</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{missionCharter.vision}</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-text">Who we build for</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{missionCharter.audience}</p>
+          </div>
+        </div>
+        <p className="mt-6 max-w-4xl text-base font-medium leading-relaxed text-text">{missionCharter.philosophy}</p>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {operatingCommitments.map((item) => (
             <GlassCard key={item.title} as="div" hover={false} className="p-6">
@@ -131,6 +143,26 @@ export function AboutPage() {
             </GlassCard>
           ))}
         </div>
+        <details className="group mt-8 rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 rounded font-medium text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue [&::-webkit-details-marker]:hidden">
+            How we put our mission into practice
+            <ChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+          </summary>
+          <div className="mt-6 space-y-6">
+            {[
+              ['A clear engagement path', missionCharter.engagement],
+              ['Connect → Reconcile → Explain → Prioritize → Act → Measure', missionCharter.method],
+              ['Progress we can assess', missionCharter.measurement],
+              ['Review, improve, and follow through', missionCharter.review],
+            ].map(([title, copy]) => (
+              <div key={title}>
+                <h3 className="text-lg font-semibold text-text">{title}</h3>
+                <p className="mt-3 max-w-4xl text-sm leading-relaxed text-muted">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+        <p className="mt-6 max-w-4xl text-sm leading-relaxed text-muted">{missionCharter.declaration}</p>
         <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic">Explore our $2,500 Diagnostic</LinkButton>
       </Section>
       <Section id="leadership" tone="soft" aria-labelledby="leadership-heading">
