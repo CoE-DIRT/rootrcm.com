@@ -1,9 +1,12 @@
 # Appwrite first-party analytics: preview deployment runbook
 
-**Status: not executed.** No Appwrite resource for analytics exists. This session had no Appwrite credentials or CLI session,
-and the Appwrite MCP server was unreachable, so nothing below has been run against a real project. Commands use only flags
-confirmed with `appwrite --help` (CLI 28.1.0) and the `node-appwrite` 29.0.0 type definitions; treat the first real run as
-verification of the whole procedure.
+**Status: deployed; retention scheduling configured; final browser/public-site verification pending.**
+The private `web_analytics/tracking_events` table and `tracking-ingest` Function exist in the project below. Authenticated
+Appwrite executions accepted a deidentified preview experiment event and its duplicate (202), rejected consent=false (400),
+and rejected an unapproved Origin (403). The test row was removed. Logging is disabled, timeout is 30 seconds, and the
+Function now runs on a 1,440-minute interval. Cron is unsupported on the current plan; no plan upgrade was made.
+The first scheduled cleanup execution has not yet been observed. These API checks do not establish browser CORS or public TLS.
+The commands below describe provisioning and recovery; inspect existing resources before using them.
 
 Governance: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md). Boundaries that must not move:
 
@@ -13,6 +16,13 @@ Governance: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md). Boun
 - Secrets live only in the Appwrite console or the operator's shell, never in this repository, a prompt, `VITE_*` or a Site variable.
 
 Project: `6ac42012001069444210`. Use the endpoint shown in the Appwrite console for that project.
+
+## Current scheduling configuration
+
+The connected Appwrite `functions_update` operation was verified with `function_id=tracking-ingest`, `interval=1440`,
+`timeout=30`, and `logging=false`. Its returned state confirms those values. Use an interval on this plan; cron examples
+from other deployment environments will fail with `billing_feature_unsupported`. A daily interval uses the existing
+retention handler and does not create another Function. The platform chooses when within the interval to run it.
 
 ## 1. Provision the private table
 
@@ -54,7 +64,7 @@ In the console create a key named for this Function with scopes **`rows.read` an
 appwrite client --endpoint "$APPWRITE_ENDPOINT" --project-id "$APPWRITE_PROJECT_ID"   # or `appwrite login`
 appwrite functions create --function-id tracking-ingest --name "ROOT tracking ingest" \
   --runtime node-22 --entrypoint main.js --commands "npm install" \
-  --execute any --timeout 30 --schedule "0 3 * * *" --logging=false
+  --execute any --timeout 30 --logging=false
 ```
 
 `--execute any` is required for anonymous browser calls; `--logging=false` keeps Appwrite from storing request headers
@@ -115,7 +125,7 @@ Verify each of the following and record the result:
 | `"utm_campaign":"synthetic-name"` | `202`; no `utm_campaign` stored (no campaign is registered) |
 | A click with `"cta_id":"synthetic-name"` | `400`; no row (the call to action is not registered) |
 | A click with `"cta_id":"book-diagnostic","cta_location":"synthetic-name"` | `202`; the row has no `cta_location`, and its `target_key` is `book-diagnostic` |
-| After a scheduled run (Appwrite delivers the cron schedule as a **POST** with trigger `schedule`; GET is accepted too) or a manual cron test | rows past `expires_at` deleted |
+| After a scheduled run (Appwrite delivers a scheduled invocation as a **POST** with trigger `schedule`; GET is accepted too) or a manual cron test | rows past `expires_at` deleted |
 
 ## 6. Connect a preview build
 

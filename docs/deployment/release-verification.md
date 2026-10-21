@@ -13,10 +13,10 @@ PR: https://github.com/CoE-DIRT/rootrcm.com/pull/31 (`site-overhaul-2026-10-19`)
 - Original ready preview: `6ad67ddcb4dfa2c92ac1`, source `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`, URL https://6ad67dddc91ccef4aef8.appwrite.network . It has not been promoted and was reported by PR #31 as requiring Appwrite organization sign-in.
 - Apex rule `d773a6e6e8d307472c08f9ce13bf4224` serves the older deployment. Rule `5e98f5d8b4845d4ba66785e137dc8ab3` redirects www to `https://rootrcm.com/` with HTTP 302. Both rules report verified. Check deep-path and query handling: Appwrite's domain-redirect documentation says these are not preserved.
 - Site public variables enable experiments and set tracking to `https://rootrcm-com.nyc.appwrite.run`. No GA4 ID or owned-contact configuration was returned in the Site variables.
-- Function `tracking-ingest` is enabled with public execution, correct source directory `functions/tracking-ingest`, and ready deployment `6ad678c8d0b3ed4be665` from `c2d7bf349cfb97f250f4c367b74f991cc60ee1a6`. No Function source or event-contract change is introduced in this resumed pass.
+- Function `tracking-ingest` is enabled with public execution, correct source directory `functions/tracking-ingest`, and ready deployment `6ad678c8d0b3ed4be665` from `c2d7bf349cfb97f250f4c367b74f991cc60ee1a6`. No Function source or event-contract change is introduced in this resumed pass. Its missing retention schedule was repaired using the supported daily interval (`1440` minutes); timeout is now 30 seconds and logging remains off. Cron scheduling was rejected by the current plan; no upgrade was made.
 - Table `web_analytics/tracking_events` is enabled, all returned columns are available, and table permissions are empty. No public table read/write grant exists.
 
-The resumed source preview `6ad900f55d5d2cf8ffa6` is ready at https://6ad900f632c0540380d3.appwrite.network for source `e5b0b0559a5a02dd85266ce3b7cbbf8d690a9944`, with activation disabled. The dependency-updated candidate supersedes it and requires a fresh preview build.
+The resumed source preview `6ad900f55d5d2cf8ffa6` is ready at https://6ad900f632c0540380d3.appwrite.network for source `e5b0b0559a5a02dd85266ce3b7cbbf8d690a9944`, with activation disabled. The dependency-updated candidate supersedes it: source `d1622cf94a6c3372aa12e975b340c2482c8774c2`, ready deployment `6ad901e1cc16acd9b615`, activation disabled. Its branch URL is https://branch-site-overhaul-20-f4b24b9-61f7447.appwrite.network and immutable URL is https://6ad901e2a083b73e03fd.appwrite.network . GitHub CI run 39651465375 passed for that source (https://github.com/CoE-DIRT/rootrcm.com/actions/runs/39651465375). Subsequent handoff-document edits do not change the website runtime.
 
 ## Reconciled phase ledger
 
@@ -30,9 +30,9 @@ The five-task and eight-task lists cover the same phases. Source completion is d
 | 3 | Static route metadata, registered canonical breadcrumbs, structured data, robots/sitemap and llms.txt. | Public HTTP crawl behavior; indexing and AI inclusion are not guaranteed. |
 | 4 | Hosting and domain configuration inspected. Generated HTML now supplies referrer policy and limited CSP (`base-uri` and `object-src`). Static multipage behavior retained. | Preview/deep-link/404/TLS/cache checks and redirect path preservation. Appwrite's static Site update API exposes no custom response-header field; meta policy cannot replace header-only protections such as frame-ancestors. |
 | 5–6 | Theme, keyboard navigation, reduced motion, mobile menu, dialog naming, Cookies H1 and footer privacy-control clearance addressed. Desktop/mobile primary-navigation smoke passes. | Repeat on the hosted candidate. |
-| 7 | Internal code excluded; homepage metrics no longer load chart modules; shared React separated. Main application chunk about 387 kB minified, React about 190 kB, optional charts about 418 kB; no chunk-size warning. | Final lab measurement and hosted performance observation. Local lab timing is affected by shared CI resources and is not field Core Web Vitals. |
+| 7 | Internal code excluded; homepage metrics no longer load chart modules; shared React separated. Main application chunk about 387 kB minified, React about 190 kB, optional charts about 418 kB; no chunk-size warning. | Hosted performance observation; additional route code splitting remains an optimization opportunity. Local lab timing is affected by shared CI resources and is not field Core Web Vitals. |
 | 8 | Versioned first-party consent; GA4-only consent does not assign experiments; legacy localStorage is discarded; withdrawal clears assignments; returning cookie assignments survive consent initialization. Regression tests and consent flows pass. | Observe consented ingest after verified production activation. No winner or measured conversion lift is claimed. |
-| 9 | Existing PR #31 reused; unit/lint/build and all-route checks pass; browser suite and updated preview/CI are being finalized. | Verify exact hosted preview and current CI before merge. |
+| 9 | Existing PR #31 reused; unit/lint/build and all-route checks pass; browser suite, matching Appwrite preview build and GitHub CI pass. | Verify exact hosted preview and current CI before merge. |
 | 10 | Handoff and rollback identifiers recorded here. | Promote only after gates pass, verify apex/www against released source, and record final deployment/URLs. |
 
 ## Verification evidence
@@ -46,14 +46,25 @@ The five-task and eight-task lists cover the same phases. Source completion is d
 - Local dev inspection at `http://127.0.0.1:4330` (started with `npm run dev -- --host 127.0.0.1`) passes at 1440 x 900 and 390 x 844: homepage -> desktop Pricing link / mobile menu -> Pricing; correct page identity, no framework overlay or runtime errors, no overflow. Screenshots are saved outside the repository.
 - Browser plugin control tools are unavailable in this session. QA uses repository Playwright with installed `/usr/bin/chromium` through a temporary configuration outside the repository; no package or browser-download workaround is required.
 - Cookie Settings pointer interaction and reopening preferences pass on desktop and mobile with the floating contact control explicitly present. Consented withdrawal also passes in both projects.
-- The broader Playwright suite is being finalized; do not treat interrupted or pre-fix runs as successful gates.
-- Earlier Lighthouse checks detected the cookie dialog naming defect, which is fixed. Accessibility, best-practices and SEO categories subsequently scored 100 in a local mobile lab run. Timing scores varied under concurrent workloads; record an isolated final run separately.
+- Complete Playwright run on the dependency-updated candidate: **110 passed, 14 intentionally skipped**, no failures. The skipped cases are viewport/project exclusions, not release defects.
+- The final Lighthouse mobile lab run on the clean build reports performance 72, accessibility 100, best practices 100 and SEO 100; FCP 2.7 s, LCP 3.6 s, total blocking time 550 ms and CLS 0.006. This is a local lab sample, not field Core Web Vitals. Earlier checks found the now-fixed cookie-dialog name. Further route code splitting can improve mobile startup; no perfect performance score is claimed.
+
+## Completion count
+
+Counting phases 0–10 individually, **7 implementation phases are locally complete** (1, 2, 3, 5, 6, 7, 8); **4 still require external verification or release** (0, 4, 9, 10). In the five-item grouping, 2 groups are complete and 3 are partial. In the eight-item grouping, 4 items are complete and 4 are partial. None of these counts means the updated website is published.
 
 ## Network blocker
 
 The user authorized and reported allowing public-site access, but the current managed environment still reports enforced revision 4 with `allowed_hosts: []` and only the package-manager preset. Actual HTTPS requests to apex and preview still fail at the workspace proxy with HTTP 403. This is an environment denial, not proof of a website outage and not a request for more publishing permission.
 
-Allow the exact public/preview destinations through the supported environment configuration and apply it to this running environment. Required existing destinations: `rootrcm.com`, `www.rootrcm.com`, `6ad67dddc91ccef4aef8.appwrite.network`, `rootrcm-com.nyc.appwrite.run`; add the new preview hostname returned by Appwrite for the updated candidate. Do not bypass the proxy or disable TLS checks. Preview sign-in, if still required after network access works, must be completed through the authorized Appwrite organization session.
+Allow the exact public/preview destinations through the supported environment configuration and apply it to this running environment. Required existing destinations: `rootrcm.com`, `www.rootrcm.com`, `6ad67dddc91ccef4aef8.appwrite.network`, `rootrcm-com.nyc.appwrite.run`; also allow the final branch-preview host `branch-site-overhaul-20-f4b24b9-61f7447.appwrite.network` (and the immutable final preview host if checking that URL). Do not bypass the proxy or disable TLS checks. Preview sign-in, if still required after network access works, must be completed through the authorized Appwrite organization session.
+
+## Deployed analytics checks
+
+Authenticated Appwrite API executions returned 202 for the valid synthetic experiment exposure and duplicate, 400 for consent=false,
+and 403 for an unapproved Origin. Logging remains disabled; the private test row was removed afterward. Interval and timeout
+settings were read back as 1440 minutes and 30 seconds. This checks deployed validation/storage behavior without claiming that
+browser transport, real visitor data or the first scheduled purge has been verified.
 
 ## Final release gates and rollback
 
@@ -63,4 +74,4 @@ Allow the exact public/preview destinations through the supported environment co
 4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the prior deployment `6ac503a19f9d936df6ef` for rollback; verify both the Site and actual apex rule after promotion.
 5. Recheck public apex and www against the released source. Record final deployment ID, source SHA, live URL, preview URL and observed results.
 
-Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. No production, DNS, domain-rule or analytics-data writes have been made by this resumed verification pass.
+Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. Production Site deployment, DNS and domain rules are unchanged. The analytics Function scheduling/timeout metadata was repaired under the privacy-verification scope; only a synthetic preview event was written and then removed.

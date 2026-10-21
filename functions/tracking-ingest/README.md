@@ -4,8 +4,7 @@ Receives **deidentified** website analytics events from the browser and writes t
 table (`web_analytics` / `tracking_events`). Governed by [ADR-009](../../docs/adr/ADR-009-first-party-analytics-on-appwrite.md)
 and the matching rule in `AGENTS.md`. It does not touch the `contact` Function or its boundaries.
 
-**Status: prepared and tested locally; not deployed. No Appwrite resource has been created.** Local checks do not establish
-that a real Appwrite project, domain, permission set or runtime behaves as described. See
+**Status: deployed and checked through the authenticated Appwrite API.** The private table has no public grants, logging is off, and the Function accepts valid synthetic events while rejecting missing consent and disallowed origins. Browser transport and final website promotion remain separate release gates. See
 [`docs/deployment/appwrite-analytics.md`](../../docs/deployment/appwrite-analytics.md) for the preview deployment steps.
 
 ## What it accepts
@@ -74,8 +73,9 @@ text, form values, payment data, authentication data, uploads, PHI. The Function
 
 ## Retention
 
-`expires_at = received_at + TRACKING_RETENTION_DAYS` (default 90, allowed 1 to 365). The **same** Function runs daily on a cron
-schedule and deletes rows past `expires_at` in bounded batches (500 rows, at most 40 batches, 20 seconds per run). A scheduled
+The current plan rejects cron schedules (`billing_feature_unsupported`), so the deployed Function uses Appwrite's supported daily interval. The platform selects the time within each interval; this is not a promise to run at 03:00 UTC. The first scheduled cleanup execution still needs observation.
+
+`expires_at = received_at + TRACKING_RETENTION_DAYS` (default 90, allowed 1 to 365). The **same** Function runs daily on a 1,440-minute interval and deletes rows past `expires_at` in bounded batches (500 rows, at most 40 batches, 20 seconds per run). A scheduled
 run is recognised by `x-appwrite-trigger: schedule` with `POST` (how Appwrite delivers a cron schedule) or `GET`; an ordinary HTTP caller cannot read, write or purge anything
 through that path.
 
@@ -96,7 +96,7 @@ Server-side variables only. **Never** prefix with `VITE_`, commit, print, paste 
 answers a generic `500` and logs one constant line.
 
 Function settings: runtime `node-22`, entrypoint `main.js`, build command `npm install`, **execute permission `any`** (it must
-accept anonymous browser calls), timeout 30 s, schedule `0 3 * * *`, and **logging off** so Appwrite does not persist
+accept anonymous browser calls), timeout 30 s, interval `1440` minutes, and **logging off** so Appwrite does not persist
 request headers (which include client IP and user-agent) in execution records. The browser setting is the Function's public
 URL as `VITE_TRACKING_ENDPOINT`; it is not a secret.
 
