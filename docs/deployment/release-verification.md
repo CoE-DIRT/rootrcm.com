@@ -22,7 +22,7 @@ PR #31 is still open. Its release branch now incorporates that main commit and p
 After synchronization, lint, the configured production build, all 583 unit tests, and rendered checks on all 50 public
 routes passed again. The responsible-operations anchor and footer link were checked at 390 px and 1440 px with no
 runtime errors or horizontal overflow. CI for the previous documentation head `9c673923cdf3d636154fe748ec59c67ede0e9305`
-also passed (run 39652345862). The synchronized head requires its own CI/preview result before release.
+also passed (run 39652345862). The synchronized head requires its own CI/preview result before release. A fresh check after the user reported saving custom domains still observed revision 7, an empty allowlist and proxy HTTP 403; the saved configuration has not reached this running environment.
 
 The analytics deployment still reports logging disabled, a 1440-minute retention interval and 30-second timeout.
 No production Site activation, domain-rule change or DNS change was performed during this resumption.
@@ -76,7 +76,7 @@ Counting phases 0–10 individually, **7 implementation phases are locally compl
 
 ## Network blocker
 
-The user authorized and reported allowing public-site access, but the current managed environment still reports enforced revision 4 with `allowed_hosts: []` and only the package-manager preset. Actual HTTPS requests to apex and preview still fail at the workspace proxy with HTTP 403. This is an environment denial, not proof of a website outage and not a request for more publishing permission.
+The user authorized and reported allowing public-site access, but the current managed environment still reports enforced revision 7 with `allowed_hosts: []` and only the package-manager preset. Actual HTTPS requests to apex and preview still fail at the workspace proxy with HTTP 403. This is an environment denial, not proof of a website outage and not a request for more publishing permission.
 
 Allow the exact public/preview destinations through the supported environment configuration and apply it to this running environment. Required existing destinations: `rootrcm.com`, `www.rootrcm.com`, `6ad67dddc91ccef4aef8.appwrite.network`, `rootrcm-com.nyc.appwrite.run`; also allow the final branch-preview host `branch-site-overhaul-20-f4b24b9-61f7447.appwrite.network` (and the immutable final preview host if checking that URL). Do not bypass the proxy or disable TLS checks. Preview sign-in, if still required after network access works, must be completed through the authorized Appwrite organization session.
 
@@ -92,7 +92,7 @@ browser transport, real visitor data or the first scheduled purge has been verif
 1. Verify the updated candidate's exact SHA, ready Appwrite build and complete GitHub CI.
 2. Finish preview visual/interactive and HTTP checks, including all public routes, deep links, assets, unknown-route status, TLS, redirects, cache/security behavior and consent accept/reject/withdrawal.
 3. Verify the intended contact fallback or owned-delivery mode. Mocked inquiry tests do not establish real mailbox receipt; no real message has been sent during this verification pass.
-4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the prior deployment `6ac503a19f9d936df6ef` for rollback; verify both the Site and actual apex rule after promotion.
+4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the current production deployment `6ad90bbf208b407c8ed0` (source `f1e7dafa56c49a57c01819f86b8c90285a2a9fdc`) for rollback; verify both the Site and actual apex rule after promotion.
 5. Recheck public apex and www against the released source. Record final deployment ID, source SHA, live URL, preview URL and observed results.
 
-Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. Production Site deployment, DNS and domain rules are unchanged. The analytics Function scheduling/timeout metadata was repaired under the privacy-verification scope; only a synthetic preview event was written and then removed.
+Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. This release has not changed the production Site assignment, DNS or domain rules; the external trust-statement deployment is preserved as the current baseline. The analytics Function scheduling/timeout metadata was repaired under the privacy-verification scope; only a synthetic preview event was written and then removed.
