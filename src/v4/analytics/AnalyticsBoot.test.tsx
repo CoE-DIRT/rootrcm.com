@@ -14,7 +14,7 @@ const ENDPOINT = 'https://tracking.example.test/ingest';
 // Klaro writes an answer for EVERY configured service (the required session service is always true), and analytics only
 // honours a saved choice that is complete in that sense.
 function setConsentCookie(services: Record<string, boolean>) {
-  document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': false, ...services }))}; path=/`;
+  document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': false, ...services }))}; path=/`;
 }
 
 function wipe() {
@@ -61,7 +61,7 @@ afterEach(() => {
 const dispatchCta = (detail: Record<string, unknown>) => window.dispatchEvent(new CustomEvent('root:cta', { detail }));
 
 describe('AnalyticsBoot (visitor has consented to first-party analytics)', () => {
-  beforeEach(() => setConsentCookie({ 'root-first-party-analytics': true }));
+  beforeEach(() => setConsentCookie({ 'root-first-party-analytics-v2': true }));
 
   it('records exactly one page view per page load, even under React StrictMode double mounting', async () => {
     window.history.pushState({}, '', '/pricing/');
@@ -200,12 +200,12 @@ describe('AnalyticsBoot (no consent)', () => {
     await flush();
     expect(fetchMock).not.toHaveBeenCalled();
 
-    setConsentCookie({ 'root-first-party-analytics': true });
+    setConsentCookie({ 'root-first-party-analytics-v2': true });
     announce();
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
 
-    setConsentCookie({ 'root-first-party-analytics': false });
+    setConsentCookie({ 'root-first-party-analytics-v2': false });
     fetchMock.mockClear();
     announce();
     dispatchCta({ cta: 'book-diagnostic', location: 'home-hero' });
@@ -226,7 +226,7 @@ describe('AnalyticsBoot (no consent)', () => {
   });
 
   it('does not treat the withdrawal of an unrelated service as a withdrawal of analytics', async () => {
-    setConsentCookie({ 'root-first-party-analytics': true, posthog: false });
+    setConsentCookie({ 'root-first-party-analytics-v2': true, posthog: false });
     render(<AnalyticsBoot />);
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1);
@@ -248,7 +248,7 @@ describe('AnalyticsBoot (PostHog consent)', () => {
   });
 
   it('does not start PostHog because ROOT\'s first-party analytics was accepted while the PostHog service was rejected', async () => {
-    setConsentCookie({ 'root-first-party-analytics': true, posthog: false });
+    setConsentCookie({ 'root-first-party-analytics-v2': true, posthog: false });
     render(<AnalyticsBoot />);
     await flush();
     expect(hasAnalyticsConsent()).toBe(false);
@@ -256,7 +256,7 @@ describe('AnalyticsBoot (PostHog consent)', () => {
   });
 
   it('does not start PostHog on a stale choice that never mentions it, nor on the retired adapter service id', async () => {
-    setConsentCookie({ 'root-first-party-analytics': true });
+    setConsentCookie({ 'root-first-party-analytics-v2': true });
     render(<AnalyticsBoot />);
     await flush();
     expect(hasAnalyticsConsent()).toBe(false);
@@ -286,7 +286,7 @@ describe('AnalyticsBoot (PostHog consent)', () => {
 
   it('refuses the PostHog service under Global Privacy Control even though the visitor ticked it', async () => {
     Object.defineProperty(navigator, 'globalPrivacyControl', { configurable: true, value: true });
-    setConsentCookie({ posthog: true, 'root-first-party-analytics': true });
+    setConsentCookie({ posthog: true, 'root-first-party-analytics-v2': true });
     render(<AnalyticsBoot />);
     await flush();
     expect(hasAnalyticsConsent()).toBe(false);

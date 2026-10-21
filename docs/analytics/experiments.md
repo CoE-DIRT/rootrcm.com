@@ -19,7 +19,7 @@ experiment below is missing from this document.
 | Concern | Behaviour |
 | --- | --- |
 | Where it runs | The `VITE_EXPERIMENTS_ENABLED` flag is read at build time. This release opts in; experiments remain consent-gated and only run on the production hostnames (`rootrcm.com`, `www.rootrcm.com`) after the new production build is active. Preview, staging and local: on unless the flag is `false`. |
-| Who is assigned | Only visitors who accepted an analytics service in the cookie banner (first-party or GA4), when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
+| Who is assigned | Only visitors who accepted ROOT first-party analytics in the cookie banner, when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
 | Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in the first-party cookie `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
 | Withdrawing consent | `root-exp-v2` is deleted and the page returns to the control immediately. |
 | Exposure | One `experiment_exposure` event per experiment per browser session (`experiment_id`, `variant`) when the test surface renders for an assigned visitor. On narrow screens the header test counts visitors who never open the mobile menu; this dilutes both arms equally. |
@@ -114,4 +114,8 @@ These thresholds are defaults chosen to prevent premature conclusions at small-p
 
 The previous framework (`src/experiments.js`, `src/v4/growth/experiments.ts`, `src/v4/growth/growthbook.ts`) ran a 50/50 home
 hero headline test and a Diagnostic hero test for every visitor, stored assignments without consent and was not part of
-the required test surfaces. It was removed in this change; the hero headline now always shows the control copy.
+the required test surfaces. It was removed. The current consent-gated hero experiment changes the headline, supporting sentence and primary action together; visitors without first-party consent see the control.
+
+## Consent migration
+
+The first-party service is versioned as `root-first-party-analytics-v2` so an old consent choice does not authorize the new assignment cookie. Returning visitors must answer the updated banner. GA4-only consent does not assign experiments. Legacy `root-exp-v2` localStorage values are discarded rather than imported and are cleared on withdrawal.

@@ -56,9 +56,22 @@ afterEach(() => {
 });
 
 describe('analytics follows the real cookie banner', () => {
+  it('asks again before accepting a legacy first-party consent choice', async () => {
+    const legacyService = ['root', 'first', 'party', 'analytics'].join('-');
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, [legacyService]: true }))}; path=/`;
+    const firstParty = await load();
+    await screen.findByRole('button', { name: 'Accept all' });
+    act(() => firstParty.flushFirstParty());
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem('root-aid')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Accept all' }));
+    await waitFor(() => expect(window.localStorage.getItem('root-aid')).not.toBeNull());
+  });
+
   it('records nothing before a choice and creates no identifiers', async () => {
     const firstParty = await load();
     await screen.findByRole('button', { name: 'Accept all' });
+    expect(screen.getByRole('dialog', { name: 'Cookie preferences' })).toBeTruthy();
     firstParty.flushFirstParty();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(window.localStorage.getItem('root-aid')).toBeNull();
@@ -71,13 +84,13 @@ describe('analytics follows the real cookie banner', () => {
     act(() => firstParty.flushFirstParty());
     await waitFor(() => expect(sentEvents().filter((event) => event.event_name === 'page_view')).toHaveLength(1));
     expect(sentEvents()[0]).toMatchObject({ page_path: '/pricing/', consent: true });
-    expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics":true');
+    expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics-v2":true');
   });
 
   it('records nothing and stores no identifier when the visitor rejects non-essential cookies', async () => {
     const firstParty = await load();
     fireEvent.click(await screen.findByRole('button', { name: 'Reject non-essential' }));
-    await waitFor(() => expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics":false'));
+    await waitFor(() => expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics-v2":false'));
     act(() => firstParty.flushFirstParty());
     expect(fetchMock).not.toHaveBeenCalled();
     expect(window.localStorage.getItem('root-aid')).toBeNull();
@@ -99,14 +112,14 @@ describe('analytics follows the real cookie banner', () => {
 
     await waitFor(() => expect(window.localStorage.getItem('root-aid')).toBeNull());
     expect(window.sessionStorage.getItem('root-sid')).toBeNull();
-    expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics":false');
+    expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics-v2":false');
     fetchMock.mockClear();
     act(() => firstParty.flushFirstParty());
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('recognises a returning visitor from the saved cookie without any click', async () => {
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`;
     const firstParty = await load();
     await waitFor(() => expect(window.localStorage.getItem('root-aid')).not.toBeNull());
     act(() => firstParty.flushFirstParty());
@@ -118,7 +131,7 @@ describe('a saved choice that predates a newly configured service', () => {
   // Klaro asks again when the saved choice does not cover every configured service. Analytics must not keep acting on the
   // old "yes" while the banner is asking, and must pick the new answer up as soon as the visitor gives it.
   const olderChoice = () =>
-    (document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`);
+    (document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`);
 
   beforeEach(() => {
     vi.stubEnv('VITE_GA_MEASUREMENT_ID', 'G-TEST12345');
@@ -145,7 +158,7 @@ describe('a saved choice that predates a newly configured service', () => {
     olderChoice();
     const firstParty = await load();
     fireEvent.click(await screen.findByRole('button', { name: 'Reject non-essential' }));
-    await waitFor(() => expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics":false'));
+    await waitFor(() => expect(decodeURIComponent(document.cookie)).toContain('"root-first-party-analytics-v2":false'));
     act(() => firstParty.flushFirstParty());
     expect(fetchMock).not.toHaveBeenCalled();
     expect(window.localStorage.getItem('root-aid')).toBeNull();

@@ -2,50 +2,62 @@
 
 ## Release decision
 
-**HOLD: production promotion is not verified.** A successful Appwrite build is not proof that the public website is current or that the preview passes release gates.
+**HOLD for external verification.** Source changes and local checks are ready for preview. Production promotion requires a verified preview, live domain checks and passing PR gates.
 
-Candidate source: `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`.
-Verification branch: `verify/site-release-20261020`.
+PR: https://github.com/CoE-DIRT/rootrcm.com/pull/31 (`site-overhaul-2026-10-19`). The resumed release starts from `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`; use the updated PR head and Appwrite deployment metadata for the final candidate SHA. Local verification work is on `verify/site-release-20261020`.
 
 ## Observed Appwrite state
 
-- Project: `6ac42012001069444210`; Site: `root-website`.
-- Assigned production deployment: `6ac503a19f9d936df6ef` (created October 6).
-- Latest candidate: `6ad67ddcb4dfa2c92ac1`, status `ready`, source matches the candidate above, activation flag false.
-- The Site API reports `live: false`. Public availability must be checked independently; the production pointer alone does not establish public availability.
-- Build: Node 22, `npm ci`, `npm run build`, output `dist-staging`, static adapter, empty fallback setting.
-- Public build configuration: experiments enabled; tracking endpoint `https://rootrcm-com.nyc.appwrite.run`. No GA4 ID or owned-contact configuration was returned in the Site variables.
-- Analytics Function `tracking-ingest` is enabled, public execution is allowed, source directory is `functions/tracking-ingest`, and its active deployment `6ad678c8d0b3ed4be665` is ready. Its source commit is `c2d7bf349cfb97f250f4c367b74f991cc60ee1a6`; do not assume it includes subsequent site changes.
-- Analytics table `web_analytics/tracking_events` is enabled with all returned columns available and empty table permissions. It has no public table read/write grant.
+- Project `6ac42012001069444210`, Site `root-website`, static Vite, Node 22, `npm ci`, `npm run build`, output `dist-staging`.
+- The assigned production deployment and apex proxy rule still reference `6ac503a19f9d936df6ef`, the October 6 build. The Site API reports `live: false`; this flag does not establish public availability.
+- Prior ready preview: `6ad67ddcb4dfa2c92ac1`, source `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`, URL https://6ad67dddc91ccef4aef8.appwrite.network . It has not been promoted and was reported by PR #31 as requiring Appwrite organization sign-in.
+- Apex rule `d773a6e6e8d307472c08f9ce13bf4224` serves the older deployment. Rule `5e98f5d8b4845d4ba66785e137dc8ab3` redirects www to `https://rootrcm.com/` with HTTP 302. Both rules report verified. Check deep-path and query handling: Appwrite's domain-redirect documentation says these are not preserved.
+- Site public variables enable experiments and set tracking to `https://rootrcm-com.nyc.appwrite.run`. No GA4 ID or owned-contact configuration was returned in the Site variables.
+- Function `tracking-ingest` is enabled with public execution, correct source directory `functions/tracking-ingest`, and ready deployment `6ad678c8d0b3ed4be665` from `c2d7bf349cfb97f250f4c367b74f991cc60ee1a6`. No Function source or event-contract change is introduced in this resumed pass.
+- Table `web_analytics/tracking_events` is enabled, all returned columns are available, and table permissions are empty. No public table read/write grant exists.
 
-## Phase ledger
+## Reconciled phase ledger
 
-| Phase | Evidence | Remaining verification |
+The five-task and eight-task lists cover the same phases. Source completion is distinct from production activation.
+
+| Phase | Implementation and local evidence | External work remaining |
 | --- | --- | --- |
-| 0: repository and live inspection | Candidate source and Appwrite Site, deployments, Function and table inspected. | Public apex, www and exact preview URL are blocked by workspace egress policy. |
-| 1–3: content, images, SEO, AI discovery | Candidate replaces unfinished proof hub with process content; labels sample metrics; adds intrinsic image sizes, structured data and `llms.txt`. Built HTML metadata and discovery artifacts checked. | Rendered images, crawl responses and public canonical behavior. Discovery artifacts do not guarantee indexing or AI inclusion. |
-| 4–7: hosting, responsive UX, accessibility, performance | Static multipage output retained; internal material excluded; skip link, reduced-motion support and lazy DIRT loading present. Lint and build pass. | Preview HTTP statuses, cache/security headers, deep links, TLS, desktop/mobile interaction, keyboard focus, contrast, reduced motion and measured performance. Main bundle remains approximately 596 kB minified / 181 kB gzip and triggers a build warning. |
-| 8: privacy-respecting experiments | Consent/GPC gating, persistent first-party assignment cookie, withdrawal cleanup and measurement configuration inspected. Analytics table has no public grants. Unit suite passes. | Browser accept/reject/withdraw and variant exposure tests; live ingest compatibility with candidate dimensions and consented synthetic event validation. No experiment winner is established. |
-| 9–10: gates, preview and promotion | Lint, 578 unit tests and production build pass at candidate source; 50 public route artifacts pass static checks. Existing Appwrite preview build is ready. | Browser and preview gates are blocked; no production promotion was performed. |
+| 0 | Repository, candidate, PR, Appwrite Site, domain rules, Function and table inspected; gaps recorded. | Fresh public apex/www and preview inspection is blocked by egress policy. |
+| 1 | Process-led How We Work page, polished copy, illustrative-data labels, no invented outcomes or credentials. | Final preview copy review. |
+| 2 | Descriptive image text, intrinsic sizes, priority/lazy loading, responsive presentation. | Check final hosted asset responses. |
+| 3 | Static route metadata, registered canonical breadcrumbs, structured data, robots/sitemap and llms.txt. | Public HTTP crawl behavior; indexing and AI inclusion are not guaranteed. |
+| 4 | Hosting and domain configuration inspected. Generated HTML now supplies referrer policy and limited CSP (`base-uri` and `object-src`). Static multipage behavior retained. | Preview/deep-link/404/TLS/cache checks and redirect path preservation. Appwrite's static Site update API exposes no custom response-header field; meta policy cannot replace header-only protections such as frame-ancestors. |
+| 5–6 | Theme, keyboard navigation, reduced motion, mobile menu, dialog naming, Cookies H1 and footer privacy-control clearance addressed. Desktop/mobile primary-navigation smoke passes. | Repeat on the hosted candidate. |
+| 7 | Internal code excluded; homepage metrics no longer load chart modules; shared React separated. Main application chunk about 387 kB minified, React about 190 kB, optional charts about 418 kB; no chunk-size warning. | Final lab measurement and hosted performance observation. Local lab timing is affected by shared CI resources and is not field Core Web Vitals. |
+| 8 | Versioned first-party consent; GA4-only consent does not assign experiments; legacy localStorage is discarded; withdrawal clears assignments; returning cookie assignments survive consent initialization. Regression tests and consent flows pass. | Observe consented ingest after verified production activation. No winner or measured conversion lift is claimed. |
+| 9 | Existing PR #31 reused; unit/lint/build and all-route checks pass; browser suite and updated preview/CI are being finalized. | Verify exact hosted preview and current CI before merge. |
+| 10 | Handoff and rollback identifiers recorded here. | Promote only after gates pass, verify apex/www against released source, and record final deployment/URLs. |
 
-## Checks run
+## Verification evidence
 
-- `npm ci --no-audit --no-fund` completed.
 - `npm run lint` passed.
-- `npm test`: **34 files, 578 tests passed**.
-- `VITE_EXPERIMENTS_ENABLED=true VITE_TRACKING_ENDPOINT=https://rootrcm-com.nyc.appwrite.run npm run build` passed with the bundle-size warning above.
-- Static artifact inspection: 50 public routes contain title, description, canonical and JSON-LD; `llms.txt`, robots, sitemap, 404 and CNAME exist; component lab and unpublished case-study directories are absent.
-- Browser plugin control tools are not available in this session, so the repository Playwright workflow was attempted. It reports **120 failed / 2 passed**; browser-dependent checks cannot launch because Chromium is absent. These are infrastructure failures, not verified application regressions or successful rendered QA.
-- `npx playwright install chromium` failed with HTTP 403 `Domain forbidden` from `cdn.playwright.dev`.
-- `curl -I https://rootrcm.com` failed at the workspace proxy with HTTP 403. This does not establish a website outage.
+- `npm test`: **34 files, 583 tests passed** on the resumed source.
+- Production build with the actual public tracking/experiment settings passed. Every JavaScript output chunk is below 500 kB.
+- Built HTML static checks pass for all 50 public routes, including title, description, canonical, JSON-LD, referrer and limited CSP metadata. Discovery artifacts exist; internal component-lab and unpublished case-study files are excluded.
+- Rendered built-site inspection passes for all 50 public routes at 1440 x 900: one main H1, meaningful content, no page errors, no horizontal overflow and no broken visible images.
+- Local dev inspection at `http://127.0.0.1:4330` (started with `npm run dev -- --host 127.0.0.1`) passes at 1440 x 900 and 390 x 844: homepage -> desktop Pricing link / mobile menu -> Pricing; correct page identity, no framework overlay or runtime errors, no overflow. Screenshots are saved outside the repository.
+- Browser plugin control tools are unavailable in this session. QA uses repository Playwright with installed `/usr/bin/chromium` through a temporary configuration outside the repository; no package or browser-download workaround is required.
+- Cookie Settings pointer interaction and reopening preferences pass on desktop and mobile with the floating contact control explicitly present. Consented withdrawal also passes in both projects.
+- The broader Playwright suite is being finalized; do not treat interrupted or pre-fix runs as successful gates.
+- Earlier Lighthouse checks detected the cookie dialog naming defect, which is fixed. Accessibility, best-practices and SEO categories subsequently scored 100 in a local mobile lab run. Timing scores varied under concurrent workloads; record an isolated final run separately.
 
-## Resume and finish
+## Network blocker
 
-1. Allow required destinations through the supported environment configuration: apex, www, the exact Appwrite preview hostname, tracking endpoint and Chromium download host. Do not bypass the proxy or disable TLS checks.
-2. Obtain and inspect the exact Appwrite preview URL for deployment `6ad67ddcb4dfa2c92ac1`; verify it matches the candidate source and intended public configuration.
-3. Install Chromium and rerun `npx playwright test --workers=2`; inspect required routes and viewport widths from `docs/qa/browser-qa-checklist.md`. Use `npm run dev -- --host 127.0.0.1` for the additional local visual inspection required by repository instructions. Capture desktop/mobile screenshots and console evidence.
-4. Check preview HTTP behavior, assets, deep links, unknown-route 404, TLS and canonical metadata. Verify consent rejection produces no analytics requests or assignment cookie; acceptance and withdrawal behave correctly. Confirm analytics ingest accepts the candidate event contract.
-5. Verify the intended contact fallback or owned-delivery path. No real message was sent during this audit, and mailbox delivery is not established by mocked tests.
-6. Only after all release gates pass, promote the verified candidate under the user's release authorization. Record the prior deployment for rollback and then verify apex and www against the promoted source. Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`.
+The user authorized and reported allowing public-site access, but the current managed environment still reports enforced revision 4 with `allowed_hosts: []` and only the package-manager preset. Actual HTTPS requests to apex and preview still fail at the workspace proxy with HTTP 403. This is an environment denial, not proof of a website outage and not a request for more publishing permission.
 
-No production, domain, DNS or analytics data writes were made by this verification pass.
+Allow the exact public/preview destinations through the supported environment configuration and apply it to this running environment. Required existing destinations: `rootrcm.com`, `www.rootrcm.com`, `6ad67dddc91ccef4aef8.appwrite.network`, `rootrcm-com.nyc.appwrite.run`; add the new preview hostname returned by Appwrite for the updated candidate. Do not bypass the proxy or disable TLS checks. Preview sign-in, if still required after network access works, must be completed through the authorized Appwrite organization session.
+
+## Final release gates and rollback
+
+1. Verify the updated candidate's exact SHA, ready Appwrite build and complete GitHub CI.
+2. Finish preview visual/interactive and HTTP checks, including all public routes, deep links, assets, unknown-route status, TLS, redirects, cache/security behavior and consent accept/reject/withdrawal.
+3. Verify the intended contact fallback or owned-delivery mode. Mocked inquiry tests do not establish real mailbox receipt; no real message has been sent during this verification pass.
+4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the prior deployment `6ac503a19f9d936df6ef` for rollback; verify both the Site and actual apex rule after promotion.
+5. Recheck public apex and www against the released source. Record final deployment ID, source SHA, live URL, preview URL and observed results.
+
+Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. No production, DNS, domain-rule or analytics-data writes have been made by this resumed verification pass.

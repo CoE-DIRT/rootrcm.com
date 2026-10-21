@@ -86,3 +86,7 @@ identifier and the endpoint is public. The `target_key` the browser sends is not
 3. Send synthetic events only; confirm rows, duplicate handling, rejection of oversized and malformed payloads, and that an
    unauthenticated request to the Databases API for the table is refused.
 4. Set `VITE_TRACKING_ENDPOINT` on a **preview** build only. Production waits for owner approval of the consent language.
+
+## Current release authorization and state
+
+The owner has authorized completing verification and publishing the website with privacy-respecting analytics. The Function and private table are deployed, and the Site candidate includes the tracking endpoint. Production activation remains conditional on release gates; the original preview-only step above records the initial rollout sequence. The expanded assignment-cookie disclosure uses a versioned first-party consent service and requires a fresh choice from returning visitors. GA4 remains disabled without a supplied Measurement ID.

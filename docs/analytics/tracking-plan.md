@@ -1,6 +1,6 @@
 # Tracking plan
 
-**Status: the Appwrite `tracking-ingest` Function is deployed and accepted a synthetic test event. The Site now has the endpoint setting for its next build; first-party events are sent only by a build that includes `VITE_TRACKING_ENDPOINT` and only after consent. GA4 remains **disabled** because no Measurement ID has been supplied. No analytics event includes inquiry text, names, email addresses, phone numbers, payment details, or PHI.
+**Status: the Appwrite `tracking-ingest` Function is deployed and accepted a synthetic test event. The Site now has the endpoint setting for its next build; first-party events are sent only by a build that includes `VITE_TRACKING_ENDPOINT` and only after consent. GA4 remains **disabled** because no Measurement ID has been supplied. No analytics event includes inquiry text, names, email addresses, phone numbers, payment details, or PHI.**
 
 Authority: [ADR-009](../adr/ADR-009-first-party-analytics-on-appwrite.md), `AGENTS.md`, [ADR-007](../adr/ADR-007-no-phi-public-site.md).
 Experiments are specified separately in [experiments.md](experiments.md). This file replaces the earlier vendor-neutral
@@ -26,7 +26,7 @@ Experiments are specified separately in [experiments.md](experiments.md). This f
 | Destination | Enabled by | Consent service | State |
 | --- | --- | --- | --- |
 | Google Analytics 4 | `VITE_GA_MEASUREMENT_ID` (valid `G-...` ID) | `google-analytics` | **Disabled** (no ID) |
-| First-party (Appwrite `tracking-ingest`) | `VITE_TRACKING_ENDPOINT` (https) | `root-first-party-analytics` | **Enabled** for consented production visitors |
+| First-party (Appwrite `tracking-ingest`) | `VITE_TRACKING_ENDPOINT` (https) | `root-first-party-analytics-v2` | Candidate configured; **production promotion pending** |
 | PostHog (pre-existing, optional) | `VITE_PUBLIC_POSTHOG_KEY` | `posthog` | Inactive (no key) |
 
 A consent service is registered in the cookie banner only when its destination is configured, so visitors are never asked to

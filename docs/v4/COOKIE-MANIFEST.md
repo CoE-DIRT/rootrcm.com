@@ -19,7 +19,7 @@ Consent services are defined in `src/v4/consent/klaroConfig.ts` (`KLARO_CONFIG_S
 | `ph_*` (cookies) | PostHog | Product analytics and masked replay | Analytics | **No** — only when a PostHog key is configured and consent is given |
 | `__ph_opt_in_out_*` (localStorage) | PostHog | Remembers that the visitor withdrew PostHog consent, so it stays off | Analytics | **No** — written only on withdrawal, and only when a PostHog key is configured |
 
-Klaro services: `root-session` (required), `root-first-party-analytics` and `google-analytics` (each registered only
+Klaro services: `root-session` (required), `root-first-party-analytics-v2` and `google-analytics` (each registered only
 when its destination is configured), and `posthog` (registered only when `VITE_PUBLIC_POSTHOG_KEY` is set; it is the only gate for PostHog).
 
 Withdrawing consent deletes `root-aid`, `root-sid`, `root-utm`, `root-analytics-seen`, `root-exp-v2` and the GA4

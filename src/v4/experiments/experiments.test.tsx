@@ -16,6 +16,7 @@ import {
   pickVariant,
   resetExperimentsForTests,
   resolveExperiment,
+  subscribeExperiments,
   resolveExperimentsEnabled,
   setExperimentRandomForTests,
 } from './engine';
@@ -161,6 +162,28 @@ describe('experiment rules', () => {
 });
 
 describe('experiment resolution', () => {
+  it('does not assign or attribute experiments with GA4-only consent', () => {
+    applyAnalyticsConsent({ firstParty: false, ga4: true });
+    setExperimentRandomForTests(() => 0.9);
+    expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
+    expect(readExperimentCookie()).toBeNull();
+    expect(getExperimentContext()).toEqual({});
+  });
+
+  it('discards legacy localStorage assignments and clears both stores on withdrawal', () => {
+    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, JSON.stringify({ 'exp-hero-cta-v1': 'fixed-fee' }));
+    const unsubscribe = subscribeExperiments(() => {});
+    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    consent();
+    setExperimentRandomForTests(() => 0.01);
+    expect(resolveExperiment('heroCta').variant).toBe('control');
+    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, 'legacy');
+    applyAnalyticsConsent({ firstParty: false, ga4: true });
+    expect(readExperimentCookie()).toBeNull();
+    expect(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY)).toBeNull();
+    unsubscribe();
+  });
+
   it('shows the control and stores nothing before the visitor consents', () => {
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
     expect(readExperimentCookie()).toBeNull();
@@ -171,6 +194,16 @@ describe('experiment resolution', () => {
     consent();
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
     expect(readExperimentCookie()).toBeNull();
+  });
+
+  it('preserves the cookie while confirmed returning-visitor consent is loading', () => {
+    writeExperimentCookie(JSON.stringify({ 'exp-hero-cta-v1': 'fixed-fee' }));
+    const unsubscribe = subscribeExperiments(() => {});
+    expect(readExperimentCookie()).not.toBeNull();
+    consent();
+    setExperimentRandomForTests(() => 0.01);
+    expect(resolveExperiment('heroCta').variant).toBe('fixed-fee');
+    unsubscribe();
   });
 
   it('assigns once after consent, keeps the assignment, and survives a reload', () => {
@@ -443,7 +476,7 @@ describe('pricing-card links (the pricing test metric)', () => {
   });
 
   it('turns a card click into a tracked cta_click', async () => {
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`;
     consent();
     window.history.pushState({}, '', '/pricing/');
     render(<App />);
@@ -460,7 +493,7 @@ describe('pricing-card links (the pricing test metric)', () => {
 
 describe('talk to us placement on minimal shells', () => {
   const returningVisitor = (assignment: Record<string, string> = {}) => {
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`;
     writeExperimentCookie(JSON.stringify(assignment));
     consent();
   };
@@ -497,7 +530,7 @@ describe('experiment surfaces (assigned visitors)', () => {
   it('attribute clicks to the assigned variant and leave other clicks untagged', () => {
     window.history.pushState({}, '', '/');
     // A returning visitor: the saved choice is in Klaro's cookie, which AnalyticsBoot reads when the page mounts.
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`;
     consent();
     setExperimentRandomForTests(() => 0.9);
     render(<App />);

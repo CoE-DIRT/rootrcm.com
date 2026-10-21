@@ -96,6 +96,7 @@ export const klaroConfig = {
   hideDeclineAll: false,
   hideLearnMore: false,
   noticeAsModal: false,
+  showNoticeTitle: true,
   htmlTexts: true,
   translations: {
     en: {
@@ -105,6 +106,7 @@ export const klaroConfig = {
           'ROOT uses necessary cookies to run this site. Analytics and marketing are off until you allow them. We also honor the Global Privacy Control signal.',
       },
       consentNotice: {
+        title: 'Cookie preferences',
         description:
           'We use cookies to run this site. Necessary cookies are always on; analytics and marketing are off until you say yes.',
         learnMore: 'Manage preferences',

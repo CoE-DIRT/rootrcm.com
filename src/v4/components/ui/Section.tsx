@@ -46,6 +46,7 @@ export function Section({ className, children, tone = 'default', wide = false, d
 }
 
 export interface SectionHeaderProps {
+  as?: 'h1' | 'h2' | 'h3';
   eyebrow?: string;
   title: ReactNode;
   description?: ReactNode;
@@ -53,13 +54,13 @@ export interface SectionHeaderProps {
   className?: string;
 }
 
-export function SectionHeader({ eyebrow, title, description, align = 'left', className }: SectionHeaderProps) {
+export function SectionHeader({ as: Heading = 'h2', eyebrow, title, description, align = 'left', className }: SectionHeaderProps) {
   return (
     <div className={cn('flex flex-col gap-3', align === 'center' && 'items-center text-center', className)}>
       {eyebrow ? (
         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">{eyebrow}</span>
       ) : null}
-      <h2 className="measure-exec text-balance text-3xl font-semibold tracking-tight text-text sm:text-4xl">{title}</h2>
+      <Heading className="measure-exec text-balance text-3xl font-semibold tracking-tight text-text sm:text-4xl">{title}</Heading>
       {description ? (
         <p className={cn('measure-body text-pretty text-base text-muted', align === 'center' && 'mx-auto')}>
           {description}

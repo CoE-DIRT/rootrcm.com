@@ -148,6 +148,14 @@ describe('rendered page head', () => {
     expect(jsonLdBlocks(renderPageHtml(read(articleRoute.entry), articleRoute.path)).map((block) => block['@type'])).toContain('Article');
   });
 
+  it('emits only registered canonical breadcrumb destinations, including 404 and cookies', () => {
+    const destinations = new Set(entries.map((route) => `${SITE_ORIGIN}${resolveCanonicalPath(route.path)}`));
+    for (const route of entries) {
+      const breadcrumb = jsonLdBlocks(renderPageHtml(read(route.entry), route.path)).find((block) => block['@type'] === 'BreadcrumbList');
+      for (const item of breadcrumb.itemListElement) expect(destinations.has(item.item), item.item).toBe(true);
+    }
+  });
+
   it('keeps the Organization schema factual: published address, no unverified profile', () => {
     const org = organizationSchema();
     expect(org.address).toMatchObject({ addressLocality: 'Claymont', addressRegion: 'DE', postalCode: '19703', addressCountry: 'US' });

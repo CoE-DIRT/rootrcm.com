@@ -99,7 +99,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
     expect(screen.getAllByText(/aging A\/R/i).length).toBeGreaterThan(0);
-    expect(await screen.findByRole('heading', { name: /From signal to an owned next action/i })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: /From signal to an owned next action/i }, { timeout: 10_000 })).toBeTruthy();
     expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
 
     cleanup();
@@ -111,7 +111,7 @@ describe('ROOT commercial site', () => {
       removeListener: () => {},
     }));
     renderRoute('/case-studies/dirt-poc-01/');
-    expect(screen.getByRole('heading', { name: /dirt revenue intelligence/i })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: /dirt revenue intelligence/i }, { timeout: 10_000 })).toBeTruthy();
     expect(screen.getByText(/publication review required/i)).toBeTruthy();
     expect(screen.getAllByText(/anonymized proof of concept/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/not a client success story/i)).toBeTruthy();
@@ -132,7 +132,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/resources/denial-management-root-cause/');
     expect(screen.getByRole('heading', { name: /denial management root-cause guide/i })).toBeTruthy();
     expect(screen.getByText(/X12 Claim Adjustment Reason Codes/i)).toBeTruthy();
-  });
+  }, 20_000);
 
   it('supports engagement rows, approved DIRT pricing, and CTA events without form content', () => {
     renderRoute('/platform/');

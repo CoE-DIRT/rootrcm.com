@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -8,9 +9,9 @@ import { AnnotationNote } from '@/components/ui/AnnotationNote';
 import { solutionPages, solutionMediaBySlug, mediaAssets, resourceArticles } from '../../siteData.js';
 import { proofWorkAssets, proofPlacementBySolutionSlug, proofPlacementByResourceSlug } from '../../proofData.js';
 import { getCaseStudyBySlug } from '../../data/caseStudies.js';
-import {
-  CaseStudyDetailPage as LegacyCaseStudyDetailPage,
-} from '../../pages.jsx';
+const LegacyCaseStudyDetailPage = (import.meta.env.DEV || import.meta.env.MODE === 'development')
+  ? lazy(() => import('../../pages.jsx').then((module) => ({ default: module.CaseStudyDetailPage })))
+  : () => null;
 
 type Solution = (typeof solutionPages)[number];
 type Article = (typeof resourceArticles)[number];
@@ -248,7 +249,9 @@ export function CaseStudyDetailPage({ slug }: { slug: string }) {
   return (
     <V4Shell>
       <div className="v4-legacy-case-study">
-        <LegacyCaseStudyDetailPage slug={slug} />
+        <Suspense fallback={<p role="status">Loading illustrative case study…</p>}>
+          <LegacyCaseStudyDetailPage slug={slug} />
+        </Suspense>
       </div>
     </V4Shell>
   );

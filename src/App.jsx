@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
 import { getSiteEnv } from './v4/analytics/config.ts';
 import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
-import { V4LabPage } from './v4/routes/V4LabPage.tsx';
+const V4LabPage = (import.meta.env.DEV || import.meta.env.MODE === 'development')
+  ? lazy(() => import('./v4/routes/V4LabPage.tsx').then((module) => ({ default: module.V4LabPage })))
+  : () => null;
 import { HomePage } from './v4/routes/HomePage.tsx';
 import { PlatformPage } from './v4/routes/PlatformPage.tsx';
 import { ServicesHubPage, ServicePage } from './v4/routes/ServicesPages.tsx';
@@ -30,7 +32,7 @@ const showInternalRoutes = internalRoutesEnabled({ dev: import.meta.env.DEV, mod
 const routes = {
   '/': HomePage,
   '/legal/cookies': CookiesLegalPage,
-  ...(showInternalRoutes ? { '/__v4-lab': V4LabPage } : {}),
+  ...(showInternalRoutes ? { '/__v4-lab': () => <Suspense fallback={<p>Loading component library…</p>}><V4LabPage /></Suspense> } : {}),
   '/platform': PlatformPage,
   '/solutions': SolutionsHubPage,
   '/services': ServicesHubPage,

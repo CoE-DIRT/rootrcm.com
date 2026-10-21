@@ -82,7 +82,7 @@ The production build output directory is `dist-staging`.
 ## Routes
 
 Every static route is defined once in `src/seo/routeRegistry.js`; the sitemap, robots, page heads and tests are generated from it. The public
-navigation is Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact and the primary call to action. See
+navigation is Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact and the primary call to action. See
 [docs/website/sitemap.md](docs/website/sitemap.md) for the full list, including `/book/`, `/faq/`, `/privacy-policy/`, `/terms/`,
 `/refund-policy/`, `/thank-you/` and the `404.html` fallback.
 
@@ -94,18 +94,17 @@ never use the `VITE_` prefix and the build refuses secret-shaped `VITE_*` variab
 | Capability | Status | Docs |
 | --- | --- | --- |
 | Google Analytics 4 | **Disabled**: no Measurement ID supplied (`VITE_GA_MEASUREMENT_ID`) | [docs/analytics/tracking-plan.md](docs/analytics/tracking-plan.md) |
-| First-party analytics (Appwrite `tracking-ingest` + private table) | Code, tests and provisioning script ready; **not deployed** | [ADR-009](docs/adr/ADR-009-first-party-analytics-on-appwrite.md), [runbook](docs/deployment/appwrite-analytics.md) |
+| First-party analytics (Appwrite `tracking-ingest` + private table) | Function and private table deployed; candidate build configured, production promotion pending | [ADR-009](docs/adr/ADR-009-first-party-analytics-on-appwrite.md), [runbook](docs/deployment/appwrite-analytics.md) |
 | A/B experiments | Built; **off in production** unless `VITE_EXPERIMENTS_ENABLED=true`; no results exist | [docs/analytics/experiments.md](docs/analytics/experiments.md) |
 | Stripe test-mode checkout | Code and tests ready, **inert**; ADR-010 accepted, awaiting test credentials and preview gates | [ADR-010](docs/adr/ADR-010-stripe-test-mode-checkout.md), [runbook](docs/deployment/stripe-test-mode.md) |
 | Search Console, Business Profile | **Not done** (manual owner steps) | [docs/seo/](docs/seo/README.md) |
 
 Appwrite Functions live in `functions/` (`contact`, `tracking-ingest`, `checkout`, `stripe-webhook`); each has its own README. `contact` is the approved
-commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and the test-mode-only `checkout` and `stripe-webhook` Functions are authorized by ADR-010 but remain undeployed. None of the four is confirmed
-deployed from this repository.
+commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and the test-mode-only `checkout` and `stripe-webhook` Functions are authorized by ADR-010 but remain undeployed. The contact and tracking Functions are deployed in Appwrite; checkout and webhook Functions remain undeployed.
 
 ## Deployment Model
 
-GitHub Pages serves the static build. `public/CNAME` must remain `rootrcm.com`. DNS, registrar settings, GitHub Pages production settings, HTTPS enforcement, and production-domain configuration are intentionally out of scope for feature work in this repository.
+Appwrite Sites is the production target for the static build; GitHub Pages compatibility is retained. `public/CNAME` must remain `rootrcm.com`. DNS, registrar settings, GitHub Pages production settings, HTTPS enforcement, and production-domain configuration are intentionally out of scope for feature work in this repository.
 
 ## ROOT-HQ Relationship
 

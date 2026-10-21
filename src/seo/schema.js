@@ -1,5 +1,5 @@
 import { companyInfo, resourceArticles, routeMeta, servicePages, socialProfiles } from '../siteData.js';
-import { SITE_ORIGIN } from './routeRegistry.js';
+import { SITE_ORIGIN, allRoutes, resolveCanonicalPath } from './routeRegistry.js';
 
 export const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
 export const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
@@ -79,13 +79,18 @@ export function webPageSchema({ path, title, description }) {
 /** FAQPage schema generated from the same items the page renders, so markup and content cannot drift. */
 /** Breadcrumbs mirror the published route hierarchy and use the same canonical paths as the page head. */
 export function breadcrumbSchema(path, title) {
-  const segments = path.split('/').filter(Boolean);
+  const canonical = resolveCanonicalPath(path);
   const items = [{ name: 'Home', item: `${SITE_ORIGIN}/` }];
-  for (let index = 0; index < segments.length; index += 1) {
-    const routePath = `/${segments.slice(0, index + 1).join('/')}/`;
-    const routeKey = routePath.replace(/\/$/, '');
-    const label = index === segments.length - 1 ? title : (routeMeta[routeKey]?.h1 || routeMeta[routeKey]?.title || segments[index]);
-    items.push({ name: label, item: `${SITE_ORIGIN}${routePath}` });
+  const parents = allRoutes.filter((route) =>
+    !route.internal && !route.alias && route.path !== '/' &&
+    route.path !== canonical && canonical.startsWith(route.path) && !route.system,
+  ).sort((a, b) => a.path.length - b.path.length);
+  for (const route of parents) {
+    const meta = routeMeta[route.path.replace(/\/$/, '')];
+    items.push({ name: meta?.h1 || meta?.title || route.key, item: `${SITE_ORIGIN}${route.path}` });
+  }
+  if (canonical !== '/' && allRoutes.some((route) => route.path === canonical && !route.internal)) {
+    items.push({ name: title, item: `${SITE_ORIGIN}${canonical}` });
   }
   return {
     '@context': 'https://schema.org',

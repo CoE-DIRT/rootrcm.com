@@ -1,5 +1,15 @@
 # Changelog
 
+## Release verification fixes — 2026-10-21
+
+- Renew first-party analytics consent for the experiment-cookie disclosure, require that consent for experiment assignment, and remove legacy assignments on migration and withdrawal.
+- Preserve returning visitors' current cookie assignments while saved consent initializes.
+- Generate breadcrumbs only for registered canonical routes.
+- Add an accessible name to the cookie notice, a page heading to Cookies, and footer clearance so the floating contact control cannot cover privacy settings.
+- Separate homepage metrics from the chart library and exclude internal development code from production downloads; every output JavaScript chunk is now below 500 kB.
+- Add document-level referrer and limited CSP protections while retaining static hosting compatibility.
+- Reconcile navigation, deployment, analytics and governance documentation.
+
 ## Website overhaul — 2026-10-19
 
 - Replaced the unfinished case-study landing page with a complete, process-led “How We Work” page while retaining its existing URL.

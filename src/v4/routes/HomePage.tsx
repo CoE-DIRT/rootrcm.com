@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
@@ -20,7 +19,7 @@ import {
 } from '../../siteData.js';
 
 
-const DirtCommandCenter = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtCommandCenter })));
+import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
@@ -55,9 +54,7 @@ function HomePageContent() {
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
-            <Suspense fallback={<div role="status" aria-label="Loading the illustrative revenue preview" className="grid min-h-[9rem] grid-cols-2 gap-3"><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /><div className="rounded-lg border border-border bg-panel/50" /></div>}>
-              <DirtCommandCenter compact />
-            </Suspense>
+            <div className="min-w-0 space-y-3" data-dirt-command><DirtExecutiveMetrics compact /></div>
           </HeroMockup>
         }
       />

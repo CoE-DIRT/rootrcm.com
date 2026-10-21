@@ -170,6 +170,15 @@ test.describe('header', () => {
 });
 
 test.describe('footer and social controls', () => {
+  test('Cookie Settings remains clickable above the floating contact control', async ({ page }) => {
+    await page.goto('/?exp_talkToUsPlacement=control');
+    await page.getByRole('button', { name: 'Reject non-essential', exact: true }).click();
+    const settings = page.getByRole('button', { name: 'Cookie Settings', exact: true });
+    await settings.scrollIntoViewIfNeeded();
+    await settings.click();
+    await expect(page.getByRole('button', { name: 'Save preferences' })).toBeVisible();
+  });
+
   test('social links are labelled, open safely in a new tab and show a tooltip on keyboard focus', async ({ page, isMobile }) => {
     await page.goto('/');
     await consentGiven(page);

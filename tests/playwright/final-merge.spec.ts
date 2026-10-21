@@ -51,11 +51,16 @@ test.describe('DIRT-led merge — final QA', () => {
     await expect(page.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeVisible();
   });
 
-  test('homepage loads the DIRT preview from its deferred chunk', async ({ page }) => {
+  test('homepage renders executive metrics without downloading the chart library', async ({ page }) => {
+    const chartRequests: string[] = [];
+    page.on('request', (request) => {
+      if (/DirtCommandCenter|charts-[^/]+\.js|recharts|tanstack.*react-table/.test(request.url())) chartRequests.push(request.url());
+    });
     const response = await page.goto('/');
     expect(response?.status()).toBe(200);
     await expect(page.getByRole('heading', { name: 'Executive revenue view' })).toBeVisible();
     await expect(page.locator('[data-dirt-command]')).toBeVisible();
+    expect(chartRequests).toEqual([]);
   });
 
   test('reduced motion: DIRT scenario toggle updates values and returns to baseline', async ({ page }) => {

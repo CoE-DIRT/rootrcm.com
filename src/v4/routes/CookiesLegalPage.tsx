@@ -18,6 +18,7 @@ export function CookiesLegalPage() {
         <Section className="pt-10">
           <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Privacy', href: '/privacy-policy/' }, { label: 'Cookies' }]} />
           <SectionHeader
+            as="h1"
             eyebrow="Legal"
             title="Cookies"
             description="Every cookie and browser-storage key ROOT sets, why, and for how long. No non-essential cookie runs before you consent."

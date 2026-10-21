@@ -83,6 +83,8 @@ export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVeri
 
   let out = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escapeText(meta.title)}</title>`);
   out = setMeta(out, 'name', 'description', meta.description);
+  out = setMeta(out, 'name', 'referrer', 'strict-origin-when-cross-origin');
+  out = upsertTag(out, /<meta\s+http-equiv="Content-Security-Policy"[^>]*>/, `<meta http-equiv="Content-Security-Policy" content="base-uri 'self'; object-src 'none'" />`);
   out = upsertTag(out, /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${url}" />`);
   out = setMeta(out, 'property', 'og:type', 'website');
   out = setMeta(out, 'property', 'og:site_name', 'ROOT');
