@@ -1,4 +1,4 @@
-import { companyInfo, primaryNav, routeMeta } from '../siteData.js';
+import { companyInfo, primaryNav, routeMeta, resourceArticles } from '../siteData.js';
 import { faqItems } from '../faqData.js';
 import { themeBootstrapScript } from '../theme/themeConfig.js';
 import { SITE_ORIGIN, allRoutes, canonicalForm, normalizePath, resolveCanonicalPath } from './routeRegistry.js';
@@ -41,13 +41,15 @@ function structuredData(canonical, meta) {
 /** Crawlable fallback for visitors and bots that do not run JavaScript. Replaced by React on mount. */
 function noscriptFallback(canonical, meta) {
   const links = primaryNav.map((item) => `<li><a href="${escapeAttr(item.href)}">${escapeText(item.label)}</a></li>`).join('');
+  const article = resourceArticles.find((item) => canonical === `/resources/${item.slug}/`);
+  const articleBody = article?.metaTitle ? article.sections.map(([heading, text]) => `<h2>${escapeText(heading)}</h2><p>${escapeText(text)}</p>`).join('') + '<h2>Sources</h2><ul>' + article.sources.map(([label, href]) => `<li><a href="${escapeAttr(href)}">${escapeText(label)}</a></li>`).join('') + '</ul><p><a href="/diagnostic/">Explore the Revenue Optimization Diagnostic</a></p>' : '';
   const faq = canonical === '/faq/'
     ? faqItems.map((item) => `<h2>${escapeText(item.question)}</h2><p>${escapeText(item.answer)}</p>`).join('')
     : '';
   return (
     `<noscript><div style="max-width:60rem;margin:0 auto;padding:2rem 1rem;font-family:system-ui,sans-serif">` +
     `<nav aria-label="Primary"><ul style="display:flex;flex-wrap:wrap;gap:1rem;list-style:none;padding:0">${links}</ul></nav>` +
-    `<main><h1>${escapeText(meta.h1 || meta.title)}</h1><p>${escapeText(meta.description)}</p>${faq}` +
+    `<main><h1>${escapeText(meta.h1 || meta.title)}</h1><p>${escapeText(meta.description)}</p>${faq}${articleBody}` +
     `<p>JavaScript is required for interactive features. Email <a href="${escapeAttr(companyInfo.emailHref)}">${escapeText(companyInfo.email)}</a> or call ${escapeText(companyInfo.phone)}. Do not send PHI.</p></main></div></noscript>`
   );
 }
