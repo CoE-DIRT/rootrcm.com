@@ -4,12 +4,12 @@
 
 ## Verified public identities
 
-| Name | Signature role | LinkedIn | GitHub |
-|---|---|---|---|
-| Aftab Shaukat | Principal, Client Solutions & Service Delivery | https://www.linkedin.com/in/healthcare-rcm-leader/ | https://github.com/aashaukatc |
-| Kashif Ali | Senior Operations & Service Delivery Lead | https://www.linkedin.com/in/kashif-ali-9874a6237/ | **Not verified — leave absent** |
+| Name | Corporate designation | Operational title | LinkedIn | GitHub |
+|---|---|---|---|---|
+| Aftab Shaukat | Co-Founder | Principal, Client Solutions & Service Delivery | https://www.linkedin.com/in/healthcare-rcm-leader/ | https://github.com/aashaukatc |
+| Kashif Ali | Co-Founder | Senior Operations & Service Delivery Lead | https://www.linkedin.com/in/kashif-ali-9874a6237/ | **Not verified — leave absent** |
 
-Both profiles represent ROOT leadership. **Do not label Kashif or both leaders as founders/co-founders until the corporate governance designation is confirmed**; earlier public material described Kashif as joining as operations lead. Draft/shareholder documents are not legal confirmation.
+**Confirmed by ROOT's owner on 21 October 2026:** Aftab Shaukat and Kashif Ali are both ROOT co-founders. This supersedes the prior public editorial hold on the co-founder title. Earlier external descriptions of Kashif's operations role should be aligned to "Co-Founder · Senior Operations & Service Delivery Lead." Founder designation is an owner-authorized public statement; it does not independently prove any particular stock issuance, corporate filing, legal signature, or equity percentage. Unverified shareholder drafts remain restricted and should not be published.
 
 ## Canonical shared signature
 
@@ -26,9 +26,9 @@ Both profiles represent ROOT leadership. **Do not label Kashif or both leaders a
 
 1. Edit `src/siteData.js` → `companyInfo` and `leadershipProfiles`.
 2. `src/v4/routes/CompanyPages.tsx` renders the /about/ team cards.
-3. `src/seo/schema.js` emits linked `Person` members with verified URLs; avoid an unverified founder property.
+3. `src/seo/schema.js` emits two `Organization.founder` Person objects and linked members with verified URLs.
 4. `README.md` contains the public people/contact table.
 5. Update company LinkedIn and professional bios with the same approved role names.
-6. When legal founder designations and Kashif's GitHub URL are confirmed, update these surfaces together in a separate verified change.
+6. Keep both co-founder labels consistent; separately verify legal filings/equity if ever relevant. Add Kashif's GitHub only after it is confirmed.
 
 Portraits may be added only with owner permission, image provenance and correct `alt` text. Do not imply editorial stock photography depicts leadership.
