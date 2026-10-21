@@ -128,10 +128,10 @@ export function AboutPage() {
         </div>
       </Section>
 
-      <Section id="responsible-operations" tone="soft" aria-labelledby="root-trust-heading">
+      <Section id="responsible-operations" tone="soft" aria-labelledby="responsible-operations-heading">
         <SectionHeader
           eyebrow="Public trust & responsible operations"
-          title={<span id="root-trust-heading">The standards we aim to uphold.</span>}
+          title={<span id="responsible-operations-heading">The standards we aim to uphold.</span>}
           description="ROOT is a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
