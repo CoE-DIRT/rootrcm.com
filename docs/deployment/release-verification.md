@@ -6,7 +6,28 @@
 
 PR: https://github.com/CoE-DIRT/rootrcm.com/pull/31 (`site-overhaul-2026-10-19`). The resumed release starts from `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`; use the updated PR head and Appwrite deployment metadata for the final candidate SHA. Local verification work is on `verify/site-release-20261020`.
 
-## Observed Appwrite state
+## Current resumption checkpoint
+
+The environment changed from revision 4 to revision 7, but the current enforced network policy still has
+`allowed_hosts: []`, only the package-manager preset, and proxy HTTP 403 for both apex and the branch preview.
+No public or hosted-preview verification is inferred from the configuration edit.
+
+Production changed outside this release work: the Site and apex domain now reference ready deployment
+`6ad90bbf208b407c8ed0`, source `f1e7dafa56c49a57c01819f86b8c90285a2a9fdc` (the public trust and responsible-operations
+statement). **This is the current rollback baseline**, superseding the older deployment recorded below.
+PR #31 is still open. Its release branch now incorporates that main commit and preserves both the new
+`Our commitments` footer link and the improved `How We Work` label. The runtime merge source is
+`574e6655aa59a544096744bc9cf6e3236fcbc44b`; the following handoff-only commit does not change site runtime behavior.
+
+After synchronization, lint, the configured production build, all 583 unit tests, and rendered checks on all 50 public
+routes passed again. The responsible-operations anchor and footer link were checked at 390 px and 1440 px with no
+runtime errors or horizontal overflow. CI for the previous documentation head `9c673923cdf3d636154fe748ec59c67ede0e9305`
+also passed (run 39652345862). The synchronized head requires its own CI/preview result before release.
+
+The analytics deployment still reports logging disabled, a 1440-minute retention interval and 30-second timeout.
+No production Site activation, domain-rule change or DNS change was performed during this resumption.
+
+## Earlier Appwrite checkpoint
 
 - Project `6ac42012001069444210`, Site `root-website`, static Vite, Node 22, `npm ci`, `npm run build`, output `dist-staging`.
 - The assigned production deployment and apex proxy rule still reference `6ac503a19f9d936df6ef`, the October 6 build. The Site API reports `live: false`; this flag does not establish public availability.
