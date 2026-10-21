@@ -128,6 +128,44 @@ export function AboutPage() {
         </div>
       </Section>
 
+      <Section id="responsible-operations" tone="soft" aria-labelledby="responsible-operations-heading">
+        <SectionHeader
+          eyebrow="Public trust & responsible operations"
+          title={<span id="responsible-operations-heading">The standards we aim to uphold.</span>}
+          description="ROOT is a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
+        />
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <GlassCard as="div" variant="glass" hover={false} className="p-6">
+            <h3 className="text-lg font-semibold text-text">Truthful claims and accountable execution</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              We work to make service claims, proposed outcomes, and operational reporting accurate and verifiable. Demonstrations and modeled examples are identified as illustrative; financial results are not guaranteed.
+            </p>
+          </GlassCard>
+          <GlassCard as="div" variant="glass" hover={false} className="p-6">
+            <h3 className="text-lg font-semibold text-text">Privacy-first commercial inquiries</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              ROOT public forms are for business inquiries, not patient information. Please do not send medical records, claim extracts, member identifiers, payment credentials, or other sensitive clinical information through our website or marketing channels.
+            </p>
+            <a className="mt-4 inline-block text-sm font-medium text-accent hover:underline" href="/privacy-policy/">Read the Privacy Policy →</a>
+          </GlassCard>
+          <GlassCard as="div" variant="glass" hover={false} className="p-6">
+            <h3 className="text-lg font-semibold text-text">Responsible information and technology use</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              We aim to limit access to the information needed for a task, use approved systems for sensitive work, and review third-party tools before granting access. Client-specific safeguards and agreements must be established before restricted healthcare data is accepted.
+            </p>
+          </GlassCard>
+          <GlassCard as="div" variant="glass" hover={false} className="p-6">
+            <h3 className="text-lg font-semibold text-text">Respectful workplace and business conduct</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Our operating principles oppose unlawful harassment, discrimination, retaliation, bribery, misleading claims, and fraudulent healthcare billing. We seek respectful collaboration and appropriate procedures for raising concerns.
+            </p>
+          </GlassCard>
+        </div>
+        <p className="mt-6 max-w-4xl text-sm text-muted">
+          These are public operating commitments, not proof of HIPAA certification, SOC 2 attestation, ISO certification, or completion of any external audit. For business questions or corrections, email <a className="text-accent hover:underline" href="mailto:info@rootrcm.com">info@rootrcm.com</a>. Do not include PHI.
+        </p>
+      </Section>
+
       <Section>
         <SectionHeader title="Bring us the financial question your systems cannot answer." />
         <LinkButton href="/contact/" variant="primary" size="md" className="mt-6" data-cta="talk-to-root">
