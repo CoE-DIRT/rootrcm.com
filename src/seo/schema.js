@@ -47,7 +47,15 @@ export function organizationSchema() {
       },
     ],
     sameAs: socialProfiles.filter((profile) => !SAME_AS_EXCLUDED.has(profile.label)).map((profile) => profile.href),
+    founder: leadershipProfiles.filter((person) => person.isCoFounder).map((person) => ({
+      '@type': 'Person',
+      '@id': `${SITE_ORIGIN}/about/#${person.id}`,
+      name: person.name,
+      jobTitle: person.role,
+      sameAs: [person.linkedIn, ...(person.gitHub ? [person.gitHub] : [])],
+    })),
     member: leadershipProfiles.map((person) => ({
+      '@id': `${SITE_ORIGIN}/about/#${person.id}`,
       '@type': 'Person',
       name: person.name,
       jobTitle: person.role,
