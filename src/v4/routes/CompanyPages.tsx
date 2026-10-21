@@ -11,7 +11,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { WorkforceGrid } from '@/components/sections/WorkforceGrid';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
-import { companyInfo, outreachChannels, mediaAssets, pricingModels } from '../../siteData.js';
+import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments } from '../../siteData.js';
 import { faqGroups, faqItems } from '../../faqData.js';
 
 export function ContactPage() {
@@ -35,7 +35,7 @@ export function ContactPage() {
               Bring us the revenue question your systems cannot answer.
             </h1>
             <p className="mt-4 text-lg text-muted">
-              Tell ROOT about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
+              Tell us about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
             </p>
             <p className="mt-6 flex items-start gap-2 text-sm text-muted">
               <ShieldCheck className="mt-0.5 h-4 w-4 text-accent" aria-hidden="true" />
@@ -98,7 +98,7 @@ export function AboutPage() {
           Built for the business behind healthcare.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT brings revenue cycle management, data intelligence, credentialing, practice operations, and healthcare technology into one accountable operating model. We connect financial insight to the people and processes needed to act on it; clinical authority remains with your practice.
+          We bring revenue cycle management, data intelligence, credentialing, practice operations, and healthcare technology into one accountable operating model. We connect financial insight to the people and processes needed to act on it; clinical authority remains with your practice.
         </p>
       </Section>
       <Section tone="soft">
@@ -110,16 +110,28 @@ export function AboutPage() {
             aspect="video"
           />
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">How ROOT operates</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">How we operate</p>
             <h2 className="mt-2 text-2xl font-semibold text-text">Revenue intelligence with execution behind it.</h2>
             <p className="mt-4 text-sm text-muted">
-              After years working across US healthcare revenue operations, recurring denials, aging balances, fragmented EHR and payer reports, and credentialing delays made one pattern clear: organizations need a connected financial picture, not another isolated workflow.
+              We built ROOT around a recurring operating problem: denials, aging balances, credentialing delays, and fragmented reports are often managed separately. We connect the financial picture to the work needed to improve it.
             </p>
             <p className="mt-3 text-sm text-muted">
-              ROOT was founded to join revenue operations with data intelligence. DIRT connects financial signals, helps explain revenue exposure, and informs prioritized action; ROOT provides the operating ownership to follow through.
+              We join revenue operations with data intelligence. DIRT is our embedded capability for examining financial signals, explaining exposure, and prioritizing action. We define the operating ownership needed to follow through.
             </p>
           </div>
         </div>
+      </Section>
+      <Section>
+        <SectionHeader eyebrow="Our mission" title="Turn revenue intelligence into accountable improvement." description="We help US independent physician practices and specialty groups understand revenue constraints, choose practical interventions, and measure progress. We combine people, processes, and technology around agreed business outcomes." />
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {operatingCommitments.map((item) => (
+            <GlassCard key={item.title} as="div" hover={false} className="p-6">
+              <h3 className="text-lg font-semibold text-text">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{item.copy}</p>
+            </GlassCard>
+          ))}
+        </div>
+        <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic">Explore our $2,500 Diagnostic</LinkButton>
       </Section>
       <Section tone="grid" wide>
         <SectionHeader eyebrow="Responsibility areas" title="Intelligence and execution across the healthcare business." />
@@ -132,7 +144,7 @@ export function AboutPage() {
         <SectionHeader
           eyebrow="Public trust & responsible operations"
           title={<span id="responsible-operations-heading">The standards we aim to uphold.</span>}
-          description="ROOT is a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
+          description="We are a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <GlassCard as="div" variant="glass" hover={false} className="p-6">
@@ -144,7 +156,7 @@ export function AboutPage() {
           <GlassCard as="div" variant="glass" hover={false} className="p-6">
             <h3 className="text-lg font-semibold text-text">Privacy-first commercial inquiries</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              ROOT public forms are for business inquiries, not patient information. Please do not send medical records, claim extracts, member identifiers, payment credentials, or other sensitive clinical information through our website or marketing channels.
+              Our public forms are for business inquiries, not patient information. Please do not send medical records, claim extracts, member identifiers, payment credentials, or other sensitive clinical information through our website or marketing channels.
             </p>
             <a className="mt-4 inline-block text-sm font-medium text-accent hover:underline" href="/privacy-policy/">Read the Privacy Policy →</a>
           </GlassCard>

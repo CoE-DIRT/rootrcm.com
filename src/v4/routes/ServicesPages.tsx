@@ -104,7 +104,7 @@ export function ServicePage({ service }: { service: Service }) {
       <Section tone="grid" wide>
         <SectionHeader
           eyebrow="Workflow & ownership"
-          title="What ROOT takes ownership of"
+          title="What we take ownership of"
           description={service.engagement}
         />
         <ul className="mt-6 grid gap-3 sm:grid-cols-2">

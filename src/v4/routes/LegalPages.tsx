@@ -160,7 +160,7 @@ export function RefundPolicyPage() {
       </LegalSection>
       <LegalSection title="Revenue Optimization Diagnostic">
         <p>
-          Before any Diagnostic work begins, ROOT confirms scope, data requirements and timing in writing. Questions about changing or cancelling a Diagnostic before work starts should be sent to info@rootrcm.com so they can be handled in writing.
+          Before any Diagnostic work begins, we confirm scope, data requirements and timing in writing. Questions about changing or cancelling a Diagnostic before work starts should be sent to info@rootrcm.com so they can be handled in writing.
         </p>
       </LegalSection>
       <LegalSection title="Online payments">
