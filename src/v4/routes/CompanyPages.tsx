@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { ChevronDown, ShieldCheck, Linkedin, Github, ArrowUpRight, Mail, Phone, MessageCircle } from 'lucide-react';
+import { ChevronDown, ShieldCheck } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -144,11 +144,11 @@ export function AboutPage() {
               <p className="mt-5 flex-1 text-sm leading-relaxed text-muted">{person.focus}</p>
               <nav aria-label={person.name + ' professional profiles'} className="mt-6 flex flex-wrap gap-2">
                 <a href={person.linkedIn} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
-                  <Linkedin className="h-4 w-4" aria-hidden="true" /> LinkedIn <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                  LinkedIn ↗
                 </a>
                 {person.gitHub ? (
                   <a href={person.gitHub} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
-                    <Github className="h-4 w-4" aria-hidden="true" /> GitHub <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                    GitHub ↗
                   </a>
                 ) : null}
               </nav>
@@ -156,9 +156,9 @@ export function AboutPage() {
           ))}
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted">
-          <a href={companyInfo.emailHref} className="inline-flex items-center gap-2 hover:text-text"><Mail className="h-4 w-4" aria-hidden="true" />{companyInfo.email}</a>
-          <a href={companyInfo.phoneHref} className="inline-flex items-center gap-2 hover:text-text"><Phone className="h-4 w-4" aria-hidden="true" />{companyInfo.phone}</a>
-          <a href={companyInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-text"><MessageCircle className="h-4 w-4" aria-hidden="true" /> WhatsApp ROOT</a>
+          <a href={companyInfo.emailHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.email}</a>
+          <a href={companyInfo.phoneHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.phone}</a>
+          <a href={companyInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-text">WhatsApp ROOT ↗</a>
         </div>
         <p className="mt-3 text-xs text-muted">Corporate correspondence: {companyInfo.addressLines.join(', ')}, United States.</p>
       </Section>
