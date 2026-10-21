@@ -10,10 +10,12 @@ describe('verified ROOT public leadership identities', () => {
       'Senior Operations & Service Delivery Lead',
     ]);
   });
-  it('does not invent a GitHub account for Kashif or assert unverified cofounder roles', () => {
+  it('asserts both owner-confirmed co-founders without inventing a GitHub account for Kashif', () => {
     expect(leadershipProfiles[0].gitHub).toBe('https://github.com/aashaukatc');
     expect(leadershipProfiles[1].gitHub).toBeNull();
-    expect(organizationSchema().founder).toBeUndefined();
+    expect(leadershipProfiles.every((person) => person.isCoFounder)).toBe(true);
+    expect(organizationSchema().founder.map((person) => person.name)).toEqual(['Aftab Shaukat', 'Kashif Ali']);
+    expect(organizationSchema().founder[1].sameAs).toEqual(['https://www.linkedin.com/in/kashif-ali-9874a6237/']);
     expect(organizationSchema().member).toHaveLength(2);
   });
   it('keeps structured identities and public signature contact synchronized', () => {
