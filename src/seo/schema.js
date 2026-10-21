@@ -1,4 +1,4 @@
-import { companyInfo, socialProfiles } from '../siteData.js';
+import { companyInfo, socialProfiles, leadershipProfiles } from '../siteData.js';
 import { SITE_ORIGIN } from './routeRegistry.js';
 
 export const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
@@ -47,6 +47,13 @@ export function organizationSchema() {
       },
     ],
     sameAs: socialProfiles.filter((profile) => !SAME_AS_EXCLUDED.has(profile.label)).map((profile) => profile.href),
+    member: leadershipProfiles.map((person) => ({
+      '@type': 'Person',
+      name: person.name,
+      jobTitle: person.role,
+      worksFor: { '@id': ORGANIZATION_ID },
+      sameAs: [person.linkedIn, ...(person.gitHub ? [person.gitHub] : [])],
+    })),
   };
 }
 
