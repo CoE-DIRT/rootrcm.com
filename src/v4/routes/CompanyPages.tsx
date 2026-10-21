@@ -11,7 +11,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { WorkforceGrid } from '@/components/sections/WorkforceGrid';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
-import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments } from '../../siteData.js';
+import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments, leadershipProfiles } from '../../siteData.js';
 import { faqGroups, faqItems } from '../../faqData.js';
 
 export function ContactPage() {
@@ -132,6 +132,47 @@ export function AboutPage() {
           ))}
         </div>
         <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic">Explore our $2,500 Diagnostic</LinkButton>
+      </Section>
+      <Section id="leadership" tone="soft" aria-labelledby="leadership-heading">
+        <SectionHeader
+          eyebrow="People & accountability"
+          title={<span id="leadership-heading">Meet ROOT's co-founders.</span>}
+          description="Co-founded by Aftab Shaukat and Kashif Ali, ROOT connects healthcare revenue intelligence with accountable execution. Their professional roles and verified profiles are listed below."
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {leadershipProfiles.map((person: { id: string; name: string; role: string; isCoFounder: boolean; focus: string; linkedIn: string; gitHub: string | null }) => (
+            <GlassCard key={person.id} as="article" variant="glass" hover={false} className="flex h-full flex-col p-6">
+              <div className="flex items-start gap-4">
+                <div aria-hidden="true" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-border bg-panel text-xl font-semibold text-accent">
+                  {person.name.split(' ').map((part) => part.charAt(0)).join('')}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-text">{person.name}</h3>
+                  {person.isCoFounder && <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-accent">Co-Founder</p>}
+                  <p className="mt-1 text-sm font-medium text-accent">{person.role}</p>
+                  <p className="mt-1 text-xs text-muted">ROOT — Revenue Operations &amp; Outcomes Technology</p>
+                </div>
+              </div>
+              <p className="mt-5 flex-1 text-sm leading-relaxed text-muted">{person.focus}</p>
+              <nav aria-label={person.name + ' professional profiles'} className="mt-6 flex flex-wrap gap-2">
+                <a href={person.linkedIn} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
+                  LinkedIn ↗
+                </a>
+                {person.gitHub ? (
+                  <a href={person.gitHub} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
+                    GitHub ↗
+                  </a>
+                ) : null}
+              </nav>
+            </GlassCard>
+          ))}
+        </div>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted">
+          <a href={companyInfo.emailHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.email}</a>
+          <a href={companyInfo.phoneHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.phone}</a>
+          <a href={companyInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-text">WhatsApp ROOT ↗</a>
+        </div>
+        <p className="mt-3 text-xs text-muted">Corporate correspondence: {companyInfo.addressLines.join(', ')}, United States.</p>
       </Section>
       <Section tone="grid" wide>
         <SectionHeader eyebrow="Responsibility areas" title="Intelligence and execution across the healthcare business." />
