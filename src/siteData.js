@@ -66,7 +66,8 @@ export const companyInfo = {
 
 /**
  * Public leadership profiles. Titles are taken from the supplied October 2026 ROOT
- * signatures. Co-founder/equity labels remain unasserted until governance is reconciled.
+ * signatures. The named individuals' co-founder designation was confirmed by
+ * the ROOT owner on 2026-10-21; equity and legal filing status are separate.
  * Only verified personal profile URLs are rendered.
  */
 export const leadershipProfiles = [
@@ -74,6 +75,7 @@ export const leadershipProfiles = [
     id: 'aftab-shaukat',
     name: 'Aftab Shaukat',
     role: 'Principal, Client Solutions & Service Delivery',
+    isCoFounder: true,
     focus: 'Healthcare revenue operations, solutions architecture, process optimization, and accountable client delivery.',
     linkedIn: 'https://www.linkedin.com/in/healthcare-rcm-leader/',
     gitHub: 'https://github.com/aashaukatc',
@@ -82,6 +84,7 @@ export const leadershipProfiles = [
     id: 'kashif-ali',
     name: 'Kashif Ali',
     role: 'Senior Operations & Service Delivery Lead',
+    isCoFounder: true,
     focus: 'Operating coordination, work allocation, service delivery oversight, and escalation management.',
     linkedIn: 'https://www.linkedin.com/in/kashif-ali-9874a6237/',
     gitHub: null,
