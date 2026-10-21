@@ -11,7 +11,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { WorkforceGrid } from '@/components/sections/WorkforceGrid';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
-import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments } from '../../siteData.js';
+import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments, leadershipProfiles } from '../../siteData.js';
 import { faqGroups, faqItems } from '../../faqData.js';
 
 export function ContactPage() {
