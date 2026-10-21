@@ -65,7 +65,7 @@ export function CheckoutSuccessPage() {
             {state === 'paid' ? (
               <>
                 <h1 className="text-3xl font-semibold text-text">Payment received.</h1>
-                <p className="mt-4 text-muted">Stripe confirmed your payment for the Revenue Optimization Diagnostic. ROOT confirms scope in writing before work begins.</p>
+                <p className="mt-4 text-muted">Stripe confirmed your payment for the Revenue Optimization Diagnostic. We confirm scope in writing before work begins.</p>
                 <p className="mt-3 text-sm text-muted">Test mode: this was a test payment and no real money was taken.</p>
               </>
             ) : null}

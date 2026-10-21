@@ -22,7 +22,7 @@ export function SolutionsHubPage() {
         <Breadcrumb items={[{ label: 'Solutions' }]} />
         <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Solutions for the revenue behind healthcare</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. ROOT brings intelligence and execution together.
+          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. We bring intelligence and execution together.
         </p>
       </Section>
       <Section tone="soft">

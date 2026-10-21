@@ -51,7 +51,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
             </LinkButton>
           </CTAGroup>
           <NoPhiBanner>
-            No PHI is collected on this site. Clinical care stays with your practice — ROOT runs the business layer.
+            We do not accept PHI through this site. Clinical care stays with your practice — we support the business layer.
           </NoPhiBanner>
           <p className="hero-support-line flex items-center gap-2 text-sm text-muted">
             <ShieldCheck className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />

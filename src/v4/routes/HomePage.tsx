@@ -11,6 +11,7 @@ import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
+  commercialJourney,
   mediaAssets,
   platformNodes,
   servicePages,
@@ -48,7 +49,7 @@ function HomePageContent() {
       <HeroSection
         eyebrow="Healthcare Revenue Intelligence + Operating Infrastructure"
         title="The intelligence behind healthcare revenue."
-        description="ROOT connects revenue cycle management, credentialing, practice operations, and data intelligence to expose financial risk, understand payer performance, and turn findings into accountable action."
+        description="We help independent physician practices and specialty groups connect revenue cycle management, credentialing, practice operations, and data intelligence—so leaders can investigate revenue exposure and assign the next action."
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
@@ -74,7 +75,7 @@ function HomePageContent() {
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-text">Find the cause. Own the next action.</h2>
             <p className="text-muted">
-              ROOT connects the financial signals across revenue, payer activity, enrollment, and operations. DIRT identifies patterns and priorities; ROOT connects the findings to real execution.
+              We connect the financial signals across revenue, payer activity, enrollment, and operations. Our embedded DIRT capability helps us examine patterns and priorities. We connect validated findings to operating action.
             </p>
             <ul className="space-y-2 text-sm text-muted">
               {platformNodes.slice(0, 4).map((node: { label: string; copy: string }) => (
@@ -88,7 +89,7 @@ function HomePageContent() {
       </Section>
 
       <Section wide>
-        <SectionHeader eyebrow="Connected intelligence + execution" title="One revenue story across every system." description="Your EHR, clearinghouse, payer portals, and financial reports each hold part of the answer. ROOT connects the business process; DIRT connects the signals." align="left" />
+        <SectionHeader eyebrow="Connected intelligence + execution" title="One revenue story across every system." description="Your EHR, clearinghouse, payer portals, and financial reports each hold part of the answer. We reconcile those signals and connect the findings to the business process." align="left" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <GlassCard variant="lifecycle" hover={false} accent="cyan" className="p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">The differentiator</p>
@@ -141,7 +142,7 @@ function HomePageContent() {
         <SectionHeader
           eyebrow="Built for US healthcare"
           title="Different specialties. One accountable revenue picture."
-          description="ROOT brings financial intelligence and operating discipline to the revenue patterns that matter in surgical, procedural, and multispecialty settings."
+          description="We work with practice owners, administrators, and revenue leaders. Our focus includes cardiology, vascular, surgical, and multispecialty revenue operations."
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {healthcareSegments.map((segment) => (
@@ -160,7 +161,7 @@ function HomePageContent() {
         <SectionHeader
           eyebrow="See the method"
           title="From a revenue signal to a decision."
-          description={`Explore synthetic, clearly labeled demonstrations using ${syntheticPractice.name} to see how ROOT connects financial findings to owned corrective action.`}
+          description={`Explore synthetic, clearly labeled demonstrations using ${syntheticPractice.name} to see how We connect financial findings to owned corrective action.`}
         />
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-center">
           <MediaFrame
@@ -207,6 +208,20 @@ function HomePageContent() {
         </Section>
       ) : null}
 
+      <Section>
+        <SectionHeader eyebrow="How we work together" title="A clear path from question to action." description="Start with our Diagnostic when you need evidence before deciding. If you already know the service you need, we can scope that work directly." />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {commercialJourney.map((step, index) => (
+            <GlassCard key={step.title} as="div" hover={false} className="p-5">
+              <p className="text-xs font-semibold text-accent">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-text">{step.title}</h3>
+              <p className="mt-3 text-sm text-muted">{step.copy}</p>
+              <LinkButton href={step.href} variant="ghost" size="sm" className="mt-4">Learn more <ArrowRight className="h-4 w-4" aria-hidden="true" /></LinkButton>
+            </GlassCard>
+          ))}
+        </div>
+      </Section>
+
       <Section tone="soft">
         <SectionHeader eyebrow="Resources" title="Practical intelligence for healthcare revenue leaders." />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -235,7 +250,7 @@ function HomePageContent() {
           </LinkButton>
         </CTAGroup>
         <Callout tone="compliance" className="mx-auto mt-8 max-w-xl">
-          No PHI is collected on this site. Diagnostic engagements use deidentified operational data only.
+          We do not accept PHI through this site. Diagnostic engagements use deidentified operational data only.
         </Callout>
       </Section>
     </>

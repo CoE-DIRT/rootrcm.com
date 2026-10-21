@@ -36,7 +36,7 @@ export function TechnologyHubPage() {
           Connected data. Clearer revenue decisions.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT brings healthcare data architecture, EHR/PM workflow alignment, interoperability planning, analytics, and monitored automation together around financial performance.
+          We bring healthcare data architecture, EHR/PM workflow alignment, interoperability planning, analytics, and monitored automation together around financial performance.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/technology/dirt/" variant="primary">
@@ -104,7 +104,7 @@ export function DirtPage() {
           Your data already contains the signals. DIRT connects them.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          DIRT — Data Intelligence for Revenue Transformation — is ROOT's embedded intelligence capability. It connects fragmented healthcare revenue data to explain leakage, examine payer performance, prioritize recovery, and identify what deserves action next.
+          DIRT — Data Intelligence for Revenue Transformation — is our embedded intelligence capability. It connects fragmented healthcare revenue data to explain leakage, examine payer performance, prioritize recovery, and identify what deserves action next.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="dirt-hero" data-destination="/diagnostic/">
