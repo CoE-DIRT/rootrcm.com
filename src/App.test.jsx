@@ -55,9 +55,9 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
-    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact.
+    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Opportunities, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
-    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
     const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
     expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
     expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
