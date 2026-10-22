@@ -105,7 +105,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
               <ul className="flex flex-col gap-2">
                 {group.links.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} data-cta={link.href === '/book/' ? 'book-conversation' : undefined} className="inline-flex min-h-11 items-center text-sm text-muted transition-colors hover:text-text hover:underline motion-reduce:transition-none">
+                    <a href={link.href} data-cta={link.href === '/book/' ? 'book-conversation' : undefined} data-location="footer" data-destination={link.href} data-engagement-type={link.href === '/book/' ? 'consultation' : undefined} className="inline-flex min-h-11 items-center text-sm text-muted transition-colors hover:text-text hover:underline motion-reduce:transition-none">
                       {link.label}
                     </a>
                   </li>
