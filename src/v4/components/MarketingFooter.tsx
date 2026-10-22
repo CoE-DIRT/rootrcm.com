@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, MessageCircle, Phone } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { LinkButton } from '@/components/ui/Button';
 import { SocialLinks } from '@/components/SocialLinks';
 import { CookieSettings } from '../consent/CookieSettings';
@@ -8,16 +8,6 @@ import { companyInfo, footerGroups, legalLinks, outreachChannels } from '../../s
 interface MarketingFooterProps {
   minimal?: boolean;
 }
-
-interface Channel {
-  label: string;
-  href?: string;
-  status: string;
-  cta: string;
-  engagementType: string;
-}
-
-const channelIcons: Record<string, typeof Phone> = { 'instant-chat': MessageCircle, phone: Phone, email: Mail };
 
 /** Footer social controls; the icon-only vs labeled design is an A/B test (exp-follow-us-design-v1). */
 function FooterSocial() {
@@ -31,12 +21,13 @@ function FooterSocial() {
 
 export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
   const year = new Date().getFullYear();
+  const channels = outreachChannels.filter((channel) => channel.status === 'Live' && channel.href);
 
   if (minimal) {
     return (
       <footer className="border-t border-border bg-bg-soft py-8 text-center text-xs text-muted">
         <p>
-          © {year} {companyInfo.legalName}. No PHI is collected through this public website.
+          © {year} {companyInfo.legalName}. Commercial inquiries only. Do not send patient information.
         </p>
         <ul className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
           {legalLinks.map((link: { label: string; href: string }) => (
@@ -51,7 +42,6 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
     );
   }
 
-  const liveChannels = (outreachChannels as Channel[]).filter((channel) => channel.status === 'Live' && channel.href);
 
   return (
     <footer className="v4-footer border-t border-border bg-gradient-to-b from-bg-deep to-bg">
@@ -78,46 +68,14 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
               >
                 Talk to us <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </LinkButton>
-              <LinkButton
-                href="/book/"
-                variant="outline"
-                size="lg"
-                data-cta="book-conversation"
-                data-location="footer"
-                data-destination="/book/"
-                data-engagement-type="consultation"
-              >
-                Book a conversation
-              </LinkButton>
+
             </div>
           </div>
-          <ul className="mt-6 flex flex-wrap gap-3 border-t border-border pt-5" aria-label="Direct contact channels">
-            {liveChannels.map((channel) => {
-              const Icon = channelIcons[channel.engagementType] ?? MessageCircle;
-              const external = channel.href?.startsWith('http');
-              return (
-                <li key={channel.label}>
-                  <a
-                    href={channel.href}
-                    target={external ? '_blank' : undefined}
-                    rel={external ? 'noopener noreferrer' : undefined}
-                    data-cta={channel.cta}
-                    data-location="footer-outreach"
-                    data-destination={channel.label}
-                    data-engagement-type={channel.engagementType}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text transition-colors hover:border-accent hover:bg-panel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue motion-reduce:transition-none"
-                  >
-                    <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
-                    {channel.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+
         </section>
 
-        <div className="grid gap-10 py-14 lg:grid-cols-[1.3fr_repeat(4,1fr)]">
-          <div>
+        <div className="root-grid py-10">
+          <div className="md:col-span-12 xl:col-span-4">
             <a href="/" aria-label="ROOT home" className="inline-flex items-center gap-2 text-lg font-semibold text-text">
               <img src="/brand/logos/root/root-mark-76.webp" alt="" width={28} height={28} className="h-7 w-7" loading="lazy" />
               ROOT
@@ -130,33 +88,24 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
               {companyInfo.addressLines.map((line: string) => (
                 <p key={line}>{line}</p>
               ))}
-              <p>
-                <a
-                  href={companyInfo.phoneHref}
-                  data-cta="phone-call"
-                  data-location="footer-contact"
-                  data-engagement-type="phone"
-                  className="hover:text-text hover:underline"
-                >
-                  {companyInfo.phone}
-                </a>
-              </p>
-              <p>
-                <a href={companyInfo.emailHref} data-cta="email-root" data-location="footer-contact" data-engagement-type="email" className="hover:text-text hover:underline">
-                  {companyInfo.email}
-                </a>
-              </p>
+              {channels.map((channel) => (
+                <p key={channel.label}>
+                  <a href={channel.href} data-cta={channel.cta} data-location={channel.label === 'WhatsApp' ? 'footer-outreach' : 'footer-contact'} data-destination={channel.label} data-engagement-type={channel.engagementType} className="inline-flex min-h-11 items-center text-sm hover:underline">
+                    {channel.label === 'Call' ? companyInfo.phone : channel.label === 'Email' ? companyInfo.email : channel.label}
+                  </a>
+                </p>
+              ))}
             </address>
             <FooterSocial />
           </div>
 
           {footerGroups.map((group: { title: string; links: { label: string; href: string }[] }) => (
-            <nav key={group.title} aria-label={group.title}>
+            <nav key={group.title} aria-label={group.title} className="md:col-span-6 xl:col-span-2">
               <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">{group.title}</h3>
               <ul className="flex flex-col gap-2">
                 {group.links.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} className="text-sm text-muted transition-colors hover:text-text hover:underline motion-reduce:transition-none">
+                    <a href={link.href} data-cta={link.href === '/book/' ? 'book-conversation' : undefined} className="inline-flex min-h-11 items-center text-sm text-muted transition-colors hover:text-text hover:underline motion-reduce:transition-none">
                       {link.label}
                     </a>
                   </li>

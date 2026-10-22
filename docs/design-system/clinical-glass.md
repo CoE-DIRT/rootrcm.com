@@ -2,6 +2,10 @@
 
 ## Tokens
 
+Historical green palette below is superseded by [ROOT UI/UX V2](ui-ux-v2.md). Runtime values are owned by the canonical stylesheets; do not copy this historical palette into new components.
+
+### Historical palette
+
 - Background: `#07110e`.
 - Soft background: `#0c1915`.
 - Glass panel: `rgba(17, 35, 30, .75)`.
