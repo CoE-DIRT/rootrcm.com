@@ -576,6 +576,7 @@ export const primaryNav = [
   { label: 'Case Studies', href: '/case-studies/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Resources', href: '/resources/' },
+  { label: 'Opportunities', href: '/opportunities/' },
   { label: 'Contact', href: '/contact/' },
 ];
 
@@ -599,6 +600,7 @@ export const legalLinks = [
   { label: 'Terms', href: '/terms/' },
   { label: 'Refund Policy', href: '/refund-policy/' },
   { label: 'Cookies', href: '/legal/cookies/' },
+  { label: 'Partner Guidelines', href: '/partners/terms/' },
 ];
 
 /** Legacy structure kept for any consumer that still reads it; derived from the primary order. */
@@ -620,6 +622,9 @@ export const footerGroups = [
       { label: 'Our mission', href: '/about/#our-mission' },
       { label: 'Our commitments', href: '/about/#responsible-operations' },
       { label: 'Case Studies', href: '/case-studies/' },
+      { label: 'Opportunities', href: '/opportunities/' },
+      { label: 'Partner Network', href: '/partners/' },
+      { label: 'Careers', href: '/careers/' },
       { label: 'Pricing', href: '/pricing/' },
       { label: 'FAQ', href: '/faq/' },
       { label: 'Book a conversation', href: '/book/' },
@@ -652,6 +657,30 @@ export const footerGroups = [
  * Legacy alias paths (/company/about, /legal/privacy, /legal/terms) resolve to the canonical entries below.
  */
 export const routeMeta = {
+  '/opportunities': {
+    title: "ROOT Opportunities | Partnerships & Careers",
+    description: "Explore ROOT business partnerships, its Growth Partner Network, and future career opportunities in healthcare revenue operations.",
+    h1: "Build what comes next in healthcare revenue.",
+    image: brandAssets.og,
+  },
+  '/partners': {
+    title: "ROOT Partner Network | Healthcare Business Growth",
+    description: "Join the ROOT Growth Partner Network. Independent healthcare consultants and business professionals can explore approved commercial partnerships.",
+    h1: "Your network. Our expertise. Shared growth.",
+    image: brandAssets.og,
+  },
+  '/careers': {
+    title: "Careers at ROOT | Healthcare Revenue Operations",
+    description: "Explore ROOT career opportunities in RCM, credentialing, healthcare operations and technology. No openings are currently advertised.",
+    h1: "Help build more accountable healthcare operations.",
+    image: brandAssets.og,
+  },
+  '/partners/terms': {
+    title: "Partner Network Guidelines | ROOT",
+    description: "Review the ROOT partner program's eligibility, conflict-of-interest, privacy, ethical marketing, and healthcare compliance guidelines.",
+    h1: "ROOT Growth Partner Network Guidelines",
+    image: brandAssets.og,
+  },
   '/': {
     title: 'ROOT | Healthcare Revenue Intelligence & RCM Technology',
     description: 'We connect revenue cycle management, credentialing, practice operations and DIRT revenue intelligence to turn financial exposure into accountable action.',

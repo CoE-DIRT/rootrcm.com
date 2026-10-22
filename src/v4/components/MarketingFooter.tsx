@@ -115,6 +115,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
           ))}
         </div>
 
+        <p className="border-t border-border pt-5 text-xs leading-5 text-muted">Partner opportunities are subject to eligibility, conflicts review, legal compliance, and individually approved written agreements; no referral commission is promised or payable merely for an introduction. No patient referrals or PHI through this site. <a href="/partners/terms/" className="font-medium text-accent hover:underline">Partner Guidelines</a>.</p>
         <div className="flex flex-col gap-4 border-t border-border py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {companyInfo.legalName}. Public website: commercial inquiries only — do not send PHI.

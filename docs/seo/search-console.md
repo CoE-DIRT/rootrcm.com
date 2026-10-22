@@ -23,7 +23,7 @@ A preview build never needs the tag and is never indexed (see [technical-seo.md]
 
 ## Submit the sitemap
 
-1. **Sitemaps > Add a new sitemap**: `sitemap.xml` (it is generated at build time at `https://rootrcm.com/sitemap.xml`; 44 URLs; no `noindex`
+1. **Sitemaps > Add a new sitemap**: `sitemap.xml` (it is generated at build time at `https://rootrcm.com/sitemap.xml`; 48 URLs; no `noindex`
    pages, aliases, `404.html` or development routes).
 2. Expect "Success" and a discovered-URL count that matches the build output. A mismatch means the deployed build is not the one you think.
 
