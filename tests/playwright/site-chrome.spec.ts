@@ -101,7 +101,7 @@ test.describe('header', () => {
     await consentGiven(page);
     const nav = page.getByRole('navigation', { name: 'Primary navigation' });
     const labels = await nav.locator('li > a, li > button').allInnerTexts();
-    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Contact']);
+    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
     await expect(page.locator('header').getByRole('link', { name: 'Book a Diagnostic' })).toHaveAttribute('href', '/diagnostic/');
   });
 

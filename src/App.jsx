@@ -5,6 +5,7 @@ import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './s
 import { getSiteEnv } from './v4/analytics/config.ts';
 import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
+import { OpportunitiesPage, PartnersPage, CareersPage, PartnerTermsPage } from './v4/routes/OpportunitiesPages.tsx';
 import { V4LabPage } from './v4/routes/V4LabPage.tsx';
 import { HomePage } from './v4/routes/HomePage.tsx';
 import { PlatformPage } from './v4/routes/PlatformPage.tsx';
@@ -45,6 +46,10 @@ const routes = {
   '/faq': FaqPage,
   '/book': BookPage,
   '/contact': ContactPage,
+  '/opportunities': OpportunitiesPage,
+  '/partners': PartnersPage,
+  '/partners/terms': PartnerTermsPage,
+  '/careers': CareersPage,
   '/privacy-policy': PrivacyPage,
   '/terms': TermsPage,
   '/refund-policy': RefundPolicyPage,

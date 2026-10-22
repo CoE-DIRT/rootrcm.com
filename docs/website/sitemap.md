@@ -3,10 +3,10 @@
 `https://rootrcm.com/sitemap.xml` and `robots.txt` are **generated at build time** from the route registry (`src/seo/routeRegistry.js`);
 there is no static `public/sitemap.xml` or `public/robots.txt`. See [../seo/technical-seo.md](../seo/technical-seo.md).
 
-## Indexable routes (listed in the sitemap, 44 URLs)
+## Indexable routes (listed in the sitemap, 48 URLs)
 
 Core: `/`, `/about/`, `/services/`, `/solutions/`, `/case-studies/`, `/pricing/`, `/resources/`, `/contact/`, `/book/`, `/faq/`,
-`/privacy-policy/`, `/terms/`, `/refund-policy/`, `/legal/cookies/`, `/platform/`, `/technology/`, `/technology/dirt/`, `/diagnostic/`.
+`/opportunities/`, `/partners/`, `/partners/terms/`, `/careers/`, `/privacy-policy/`, `/terms/`, `/refund-policy/`, `/legal/cookies/`, `/platform/`, `/technology/`, `/technology/dirt/`, `/diagnostic/`.
 
 Solutions: `/solutions/revenue-leakage/`, `/solutions/aging-ar/`, `/solutions/denials/`, `/solutions/credentialing-bottlenecks/`,
 `/solutions/operational-efficiency/`, `/solutions/reporting-visibility/`, `/solutions/scaling-practice-ops/`.
