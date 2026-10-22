@@ -28,7 +28,7 @@
   --color-border-strong: #c3ccd6;
   --color-text: #011A3D;
   --color-muted: #405573;
-  --color-accent: #0066FF;
+  --color-accent: #005bd6;
   --color-accent-ink: #ffffff;
   --color-data-blue: #005bd6;
   --color-intelligence: #4f46e5;
@@ -49,7 +49,7 @@
   --border: rgba(15, 23, 42, 0.13);
   --text: #011A3D;
   --muted: #405573;
-  --accent: #0066FF;
+  --accent: #005bd6;
   --data-blue: #005bd6;
   --signal-amber: #92400e;
   --accent-ink: #ffffff;
@@ -130,3 +130,6 @@
 }
 
 .v4-root .glass-surface { box-shadow: inset 0 0 0 1px var(--color-glass-border,var(--color-border)), var(--shadow-panel-soft); }
+
+/* Electric blue remains the filled CTA color; text accents use a darker accessible shade. */
+:root[data-theme='light'] .v4-root .bg-accent { background-color: var(--color-brand-blue); }
