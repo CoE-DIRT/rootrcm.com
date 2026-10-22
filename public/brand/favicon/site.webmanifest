@@ -3,8 +3,8 @@
   "short_name": "ROOT",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#07110e",
-  "theme_color": "#07110e",
+  "background_color": "#060D1A",
+  "theme_color": "#060D1A",
   "icons": [
     {
       "src": "/brand/favicon/favicon-192.png",

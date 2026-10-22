@@ -22,7 +22,7 @@ test.describe('theme', () => {
       // The bootstrap also sets color-scheme (native form controls/scrollbars) and the browser chrome color.
       expect(await page.evaluate(() => document.documentElement.style.colorScheme)).toBe(scheme);
       const themeColor = await page.locator('meta[name="theme-color"]').getAttribute('content');
-      expect(themeColor).toBe(scheme === 'light' ? '#f4f7f5' : '#07110e');
+      expect(themeColor).toBe(scheme === 'light' ? '#F4F7FB' : '#060D1A');
       await context.close();
     }
   });

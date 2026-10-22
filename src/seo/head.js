@@ -82,6 +82,7 @@ export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVeri
 
   let out = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escapeText(meta.title)}</title>`);
   out = setMeta(out, 'name', 'description', meta.description);
+  out = upsertTag(out, /<link[^>]+href="\/brand\/favicon\/favicon\.ico"[^>]*>/, '<link rel="icon" type="image/x-icon" href="/brand/favicon/favicon.ico" />');
   out = upsertTag(out, /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${url}" />`);
   out = setMeta(out, 'property', 'og:type', 'website');
   out = setMeta(out, 'property', 'og:site_name', 'ROOT');

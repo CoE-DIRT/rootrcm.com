@@ -4,11 +4,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/cn';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium ' +
+  'min-h-11 min-w-11 inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium ' +
     'transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-[var(--ease-premium)] ' +
     'focus-visible:outline-none focus-visible:ring-2 ' +
     'focus-visible:ring-data-blue focus-visible:ring-offset-2 focus-visible:ring-offset-bg ' +
-    'disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+    'active:translate-y-0 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:translate-y-0',
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ export const buttonVariants = cva(
         ghost: 'text-text hover:bg-panel',
       },
       size: {
-        sm: 'h-9 px-3',
+        sm: 'min-h-11 px-3',
         md: 'h-11 px-5',
         lg: 'h-13 px-7 text-base',
       },
@@ -64,7 +64,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       ref={ref}
       aria-label={label}
       className={cn(
-        'inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-root)] text-text ' +
+        'inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-root)] text-text ' +
           'hover:bg-panel transition-colors focus-visible:outline-none focus-visible:ring-2 ' +
           'focus-visible:ring-accent motion-reduce:transition-none',
         className,

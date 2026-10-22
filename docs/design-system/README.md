@@ -1,13 +1,7 @@
-# Design System
+# ROOT design system
 
-ROOT uses a Clinical Glass design language: dark sophisticated surfaces, translucent panels, disciplined data visuals, high contrast, and restrained motion.
+The [ROOT UI/UX V2 standard](ui-ux-v2.md) governs the current theme update. Its implementation map and preserved requirements are the canonical reference.
 
-Use `clinical-glass.md` for tokens and layout rules, `components.md` for reusable UI patterns, and `motion.md` for animation guidance.
+Dark tokens live in `src/v4/styles/tailwind.css`. Light overrides and the legacy variable bridge live in `src/theme/theme.css`. Tailwind utilities are active in the V4 render path; old G1 notes describing them as disabled are historical.
 
-## G1 stabilized launch styling
-
-The production launch appearance is governed by the existing Clinical Glass stylesheet plus `src/stabilization.css`, which provides the final compact spacing and footer rules.
-
-Tailwind packages remain installed for possible deliberate future use, but Tailwind is intentionally disabled from the stabilized G1 production render path. `vite.config.js` maps the existing `@import "tailwindcss"` reference to `src/tailwind-disabled.css`, so Tailwind preflight and generated utilities do not compete with the launch CSS.
-
-Do not re-enable Tailwind or perform a CSS migration as part of launch stabilization. Any future Tailwind adoption should be a separately reviewed change with explicit component scope and regression QA.
+Use shared components rather than creating parallel headers, footers, controls or theme palettes. See [components](components.md), [motion](motion.md) and [imagery](imagery.md) for supporting patterns. The V2 standard supersedes conflicting historical palette values.

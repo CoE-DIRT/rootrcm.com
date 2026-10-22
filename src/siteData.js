@@ -622,17 +622,17 @@ export const footerGroups = [
       { label: 'Case Studies', href: '/case-studies/' },
       { label: 'Pricing', href: '/pricing/' },
       { label: 'FAQ', href: '/faq/' },
-      { label: 'Contact', href: '/contact/' },
       { label: 'Book a conversation', href: '/book/' },
+
     ],
   },
   {
     title: 'Services',
-    links: [{ label: 'All services', href: '/services/' }, ...servicePages.slice(0, 6).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))],
+    links: [{ label: 'All services', href: '/services/' }, ...servicePages.slice(0, 4).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))],
   },
   {
     title: 'Solutions',
-    links: [{ label: 'All solutions', href: '/solutions/' }, ...solutionPages.slice(0, 6).map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` }))],
+    links: [{ label: 'All solutions', href: '/solutions/' }, ...solutionPages.slice(0, 4).map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` }))],
   },
   {
     title: 'Platform & resources',
@@ -666,7 +666,7 @@ export const routeMeta = {
   },
   '/platform': {
     title: 'ROOT Platform | Healthcare Revenue & Operating Infrastructure',
-    description: 'See how We integrate revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
+    description: 'See how we integrate revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
     h1: 'The operating infrastructure behind healthcare revenue.',
     image: brandAssets.og,
   },

@@ -5,7 +5,7 @@
 export const THEME_STORAGE_KEY = 'root-theme';
 export const THEMES = ['dark', 'light'];
 /** Browser chrome colors — keep in sync with `--bg` in src/theme/theme.css. */
-export const THEME_COLORS = { dark: '#07110e', light: '#f4f7f5' };
+export const THEME_COLORS = { dark: '#060D1A', light: '#F4F7FB' };
 
 /**
  * Inline script that runs before first paint so there is no flash of the wrong theme.

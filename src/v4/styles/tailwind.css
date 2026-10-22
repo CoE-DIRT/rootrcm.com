@@ -6,28 +6,31 @@
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 
-/* ROOT V4 design tokens — DIRT-led visual system (docs/final-merge/DESIGN-TOKEN-MERGE.md).
+/* ROOT V2 design tokens — canonical palette (docs/design-system/ui-ux-v2.md).
    Canonical token owner. Do not import DIRT's index.css/tailwind.config.js directly;
    translate values here and reuse across ROOT + ported DIRT components. Add tokens
    only in this file — never fork a second palette. */
 @theme {
-  --color-bg: #0b0f19;
-  --color-bg-deep: #070b12;
-  --color-bg-soft: #111827;
-  --color-panel: #0f172a;
-  --color-panel-translucent: rgb(15 23 42 / 65%);
-  --color-panel-translucent-strong: rgb(15 23 42 / 78%);
-  --color-border: rgb(255 255 255 / 12%);
+  --color-bg: #060D1A;
+  --color-bg-deep: #011A3D;
+  --color-bg-soft: #0b1930;
+  --color-panel: #011A3D;
+  --color-panel-translucent: rgb(1 26 61 / 40%);
+  --color-panel-translucent-strong: rgb(1 26 61 / 72%);
+  --color-border: rgb(0 240 255 / 15%);
   --color-border-strong: #334155;
-  --color-text: #f3f4f6;
-  --color-muted: #94a3b8;
+  --color-text: #FFFFFF;
+  --color-muted: #a8b7cc;
 
   /* ROOT commercial brand/action — preserved, harmonized with the DIRT intelligence palette. */
-  --color-accent: #70e0ad;
-  --color-accent-ink: #062016;
+  --color-brand-blue: #0066FF;
+  --color-brand-cyan: #00F0FF;
+  --color-brand-navy: #011A3D;
+  --color-accent: #00F0FF;
+  --color-accent-ink: #011A3D;
 
   /* DIRT intelligence + state palette. */
-  --color-data-blue: #0ea5e9;
+  --color-data-blue: #00F0FF;
   --color-intelligence: #6366f1;
   --color-intelligence-soft: #818cf8;
   --color-recovery: #10b981;
@@ -123,21 +126,21 @@
 }
 
 .v4-root .glass-surface--metric {
-  background: rgb(15 23 42 / 76%);
+  background: var(--color-panel-translucent-strong);
 }
 
 .v4-root .glass-surface--matrix {
-  background: linear-gradient(180deg, rgb(15 23 42 / 78%), rgb(7 11 18 / 96%));
+  background: linear-gradient(180deg, rgb(1 26 61 / 72%), rgb(6 13 26 / 96%));
 }
 
 .v4-root .glass-surface--lifecycle {
   border-color: rgb(14 165 233 / 18%);
-  background: linear-gradient(180deg, rgb(15 23 42 / 72%), rgb(7 11 18 / 94%));
+  background: linear-gradient(180deg, rgb(1 26 61 / 72%), rgb(6 13 26 / 94%));
 }
 
 .v4-root .glass-surface--trust {
   border-color: rgb(14 165 233 / 20%);
-  background: linear-gradient(180deg, rgb(15 23 42 / 72%), rgb(7 11 18 / 94%));
+  background: linear-gradient(180deg, rgb(1 26 61 / 72%), rgb(6 13 26 / 94%));
 }
 
 /* Section shell — DIRT section-shell/section-shell-grid/safe/flow tones. */
@@ -302,3 +305,18 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
     scroll-behavior: auto !important;
   }
 }
+
+/* V2 layout contract: content spans 12 desktop columns, collapses without fixed widths. */
+.v4-root { line-height: 1.6; }
+.v4-root :is(h1,h2,h3,h4,h5,h6) { line-height: 1.2; text-wrap: balance; }
+.v4-root img { object-fit: cover; }
+.v4-root .root-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--space-6); }
+@media (min-width: 768px) { .v4-root .root-grid { grid-template-columns: repeat(12,minmax(0,1fr)); } }
+.v4-root .media-placeholder { background: linear-gradient(110deg,var(--color-bg-soft),var(--color-panel),var(--color-bg-soft)); }
+.v4-root .media-placeholder img { transition: opacity 180ms ease-out; }
+.v4-root .media-placeholder[data-state='loading'] img { opacity: 0; }
+.v4-root .media-placeholder[data-state='ready'] img { opacity: 1; }
+.v4-root .media-placeholder[data-state='error'] img { opacity: 0; }
+.v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); animation: media-reveal 1.5s ease-in-out infinite; }
+@keyframes media-reveal { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .v4-root .media-placeholder::after { animation: none !important; } .v4-root .media-placeholder img { transition: none; } }
