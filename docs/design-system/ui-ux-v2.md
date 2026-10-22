@@ -3,7 +3,7 @@
 ROOT — Revenue Operations & Outcomes Technology Incorporated
 Website: https://rootrcm.com/
 Owner: ROOT | Updated: 22 October 2026
-Status: implementation candidate; visual and production verification pending.
+Status: implementation candidate; desktop preview verified in both themes, final CI and production verification pending.
 
 ## Canonical ownership
 
@@ -34,7 +34,7 @@ This is the implementation record for the supplied V2 requirements. GitHub owns 
 
 ## Acceptance and release record
 
-The original document's claims of severe layout defects are requirements context, not verified current findings. Code inspection found conflicting old green brand tokens, outdated documentation, undersized shared small buttons and repeated footer contact actions. This candidate addresses those findings. Browser review was initially blocked by an automatic approval usage limit. Local full-suite execution also encountered a blocked synthetic test hostname; individual check results must be recorded separately. Do not interpret a source change as a published or visually approved release.
+The original document's claims of severe layout defects are requirements context, not verified current findings. Code inspection found conflicting old green brand tokens, outdated documentation, undersized shared small buttons and repeated footer contact actions. This candidate addresses those findings. Browser review was initially blocked by an automatic approval usage limit. Local checks subsequently passed: lint, all 578 unit tests and production build. GitHub browser QA passed 104 checks and identified three low-contrast light-theme text accents; these were darkened to #005bd6 while filled buttons retain #0066FF. A standard ICO derived from the approved ROOT mark is emitted by the shared page-head renderer. Final CI must pass before release. Do not interpret a source change as a published or visually approved release.
 
 Required release checks: lint, unit tests, production build, desktop/phone dark and light rendering, persisted theme reload, keyboard navigation, mobile menu, footer/legal/cookie reachability, image load/error behavior, unique page headings, preview and live deployment provenance. Keep existing production until these gates pass. Do not merge the unrelated unfinished release PR as part of this change.
 
