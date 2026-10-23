@@ -95,9 +95,15 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
           shadow: getComputedStyle(el).boxShadow,
           outline: getComputedStyle(el).outlineStyle,
         }));
-        await screenshot(page, `05-focus-${theme}`);
         expect(focus.matching).toBe(true);
         expect(focus.shadow !== 'none' || focus.outline !== 'none').toBe(true);
+        await page.goto('/technology/dirt/');
+        const scroller = page.locator('.root-inset-focus').first();
+        await expect(scroller).toBeVisible();
+        await scroller.focus();
+        const tableRing = await scroller.evaluate((el) => getComputedStyle(el).boxShadow);
+        expect(tableRing).toContain('inset');
+        await screenshot(page, `05-focus-${theme}`);
       } finally { await context.close(); }
     });
 
