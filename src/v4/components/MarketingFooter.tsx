@@ -44,7 +44,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
 
 
   return (
-    <footer className="v4-footer border-t border-border bg-gradient-to-b from-bg-deep to-bg">
+    <footer className="v4-footer glass-subtle border-t border-border">
       <div className="mx-auto w-full max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
         <section aria-labelledby="footer-talk-heading" className="v4-footer-cta rounded-[var(--radius-hero)] border border-border p-6 md:p-10">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
