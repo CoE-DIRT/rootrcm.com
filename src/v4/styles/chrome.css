@@ -201,9 +201,14 @@
   color: var(--accent-fg);
   box-shadow: var(--accent-glow-hover);
 }
+.v4-root .inquiryForm .button.primary:focus-visible {
+  outline: none;
+  box-shadow: var(--accent-glow), var(--focus-ring);
+}
 @media (prefers-reduced-motion: reduce) {
   .v4-root .inquiryForm .button.primary,
   .v4-root .inquiryForm .button.primary:hover { box-shadow: none; }
+  .v4-root .inquiryForm .button.primary:focus-visible { box-shadow: var(--focus-ring); }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .v4-root .inquiryForm { background: var(--glass-fallback-strong); }
