@@ -148,6 +148,14 @@
   box-shadow: inset 0 0 0 3px var(--accent);
 }
 
+@media (forced-colors: active) {
+  .v4-root .root-inset-focus:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+    box-shadow: none;
+  }
+}
+
 /* Every keyboard-focusable element gets a consistent dual-tone ring, including
    Radix portals outside .v4-root. Retain system outline under forced colors. */
 :where(a, button, input, textarea, select, summary, [tabindex], [role='switch']):focus-visible {
