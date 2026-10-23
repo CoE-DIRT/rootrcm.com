@@ -2,11 +2,12 @@
 import type { ElementType, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-type GlassCardVariant = 'glass' | 'metric' | 'matrix' | 'lifecycle' | 'trust' | 'solution';
+type GlassCardVariant = 'glass' | 'readable' | 'metric' | 'matrix' | 'lifecycle' | 'trust' | 'solution';
 type GlassCardAccent = 'indigo' | 'cyan' | 'green' | 'amber' | 'blush';
 
 const variantClass: Record<GlassCardVariant, string> = {
   glass: 'glass-surface',
+  readable: 'glass-surface glass-surface--readable',
   metric: 'glass-surface glass-surface--metric',
   matrix: 'glass-surface glass-surface--matrix',
   lifecycle: 'glass-surface glass-surface--lifecycle',
@@ -50,7 +51,7 @@ export function GlassCard({
       className={cn(
         'relative min-w-0 overflow-hidden rounded-[var(--radius-panel)] p-5 transition-premium',
         hover &&
-          'transform-gpu duration-300 ease-out hover:-translate-y-0.5 hover:border-white/15 hover:shadow-[0_14px_32px_rgba(0,0,0,0.24)] motion-reduce:transform-none motion-reduce:hover:translate-y-0 active:scale-[0.99]',
+          'transform-gpu duration-300 ease-out hover:-translate-y-0.5 hover:border-[var(--glass-border)] hover:shadow-[var(--glass-shadow)] motion-reduce:transform-none motion-reduce:hover:translate-y-0 active:scale-[0.99]',
         variantClass[variant],
         className,
       )}
