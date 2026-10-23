@@ -22,6 +22,29 @@ async function screenshot(page: Page, label: string) {
   await page.screenshot({ path: `${screenshotDir}/${label}.png`, animations: 'disabled', fullPage: false });
 }
 
+test.describe('Phase 1.2 clipped glass focus in forced colors', () => {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`scrollable region retains its inset system outline in ${theme}`, async ({ browser }, testInfo: TestInfo) => {
+      test.skip(testInfo.project.name !== 'chromium');
+      const { context, page } = await openTheme(browser, theme);
+      try {
+        await page.emulateMedia({ forcedColors: 'active' });
+        await page.goto('/technology/dirt/');
+        const table = page.locator('.root-inset-focus').first();
+        await expect(table).toBeVisible();
+        await table.focus();
+        const ring = await table.evaluate((el) => {
+          const css = getComputedStyle(el);
+          return { style: css.outlineStyle, width: css.outlineWidth, offset: css.outlineOffset };
+        });
+        expect(ring.style).toBe('solid');
+        expect(ring.width).toBe('3px');
+        expect(ring.offset).toBe('-3px');
+      } finally { await context.close(); }
+    });
+  }
+});
+
 test.describe('Phase 1.2 CPO seven-gate evidence', () => {
   for (const theme of ['light', 'dark'] as const) {
     // This focused suite creates one authoritative desktop PNG per gate/theme.
