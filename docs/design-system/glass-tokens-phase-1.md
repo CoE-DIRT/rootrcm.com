@@ -16,6 +16,7 @@ Date: 23 October 2026 · Scope: ROOT public React/Vite website, feature branch `
 | `--glass-bg` | `rgba(255,255,255,0.55)` | `rgba(18,24,38,0.55)` |
 | `--glass-bg-strong` | `rgba(255,255,255,0.78)` | `rgba(18,24,38,0.78)` |
 | `--glass-bg-readable` (extra safety tier) | `rgba(255,255,255,0.92)` | `rgba(18,24,38,0.92)` |
+| `--glass-fallback` (no-filter browsers) | `#f7f9fd` | `#121826` |
 | `--glass-border` | `rgba(15,23,42,0.12)` | `rgba(255,255,255,0.18)` |
 | `--glass-blur` | `16px` | `18px` |
 | `--glass-shadow` | `0 8px 32px rgba(15,23,42,0.08)` | `0 8px 32px rgba(0,0,0,0.35)` |
@@ -39,7 +40,8 @@ WCAG relative luminance is calculated in linear-light sRGB after compositing the
 - `src/v4/styles/tailwind.css`: card/shell glass recipes driven by common tokens; no added preflight or framework migration.
 - `src/v4/styles/chrome.css`: readable header surface in both themes, scroll shadow retained.
 - `src/v4/components/ui/GlassCard.tsx`: explicitly available readable tier; tokenized hover frame.
-- `src/theme/glass-contrast.test.js`: required tokens, light/dark computed AA normal-text contrast across canonical site and saturated brand samples; surface binding checks.
+- `src/theme/glass-contrast.test.js`: required tokens, light/dark computed AA normal-text contrast across canonical site and saturated brand samples; surface binding and fallback checks.
+- `NestedDataGridContainer.tsx`: removed 70%-opacity muted mobile labels; these had fallen below normal-text 4.5:1 in the glass refactor.
 
 ## Release gates
 
