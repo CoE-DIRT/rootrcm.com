@@ -78,7 +78,7 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
         await screenshot(page, `02-tokens-${theme}`);
         expect(result.bg).toContain(theme === 'light' ? '255, 255, 255, 0.6' : '1, 26, 61, 0.4');
         expect(result.strong).toContain(theme === 'light' ? '255, 255, 255, 0.8' : '1, 26, 61, 0.68');
-        expect(result.blur).toContain('blur(12px)');
+        expect(result.blur).toContain('blur(18px)'); // first surface is now the data-dense dashboard, strong tier
       } finally { await context.close(); }
     });
 
