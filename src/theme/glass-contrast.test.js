@@ -101,7 +101,7 @@ describe('Phase 1.1a/b canonical dual-mode palette', () => {
     expect(glass).toContain('backdrop-filter:');
     expect(glass).toContain('prefers-reduced-transparency: reduce');
     expect(chrome).toContain('prefers-reduced-transparency: reduce');
-    expect(glass).toContain('background: var(--glass-fallback)');
+    expect(glass).toContain('background: var(--glass-fallback-default)');
     expect(chrome).toContain('background: var(--glass-fallback)');
     expect(glass).toContain('background: var(--glass-solid)');
     expectToken(lightTokens, '--glass-fallback', 'rgba(247, 249, 253, 0.96)');
