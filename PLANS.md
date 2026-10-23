@@ -21,8 +21,8 @@
 
 | Phase | Scope | Acceptance criteria | State |
 | --- | --- | --- | --- |
-| 0 — Foundation & Agent Harness | Update `AGENTS.md`; create `PLANS.md`; reconcile actual stack/ADRs/build gates. | 50–120 line agent contract; accurate command/folder maps; safety/design protections retained; PR submitted; no production changes. | PR #42 open — review and CI pending |
-| 1 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 1 brief; cannot pass while undefined. | Not started |
+| 0 — Foundation & Agent Harness | Update `AGENTS.md`; create `PLANS.md`; reconcile actual stack/ADRs/build gates. | 50–120 line agent contract; accurate command/folder maps; safety/design protections retained; PR submitted; no production changes. | Complete: PR #42 merged with passing CI |
+| 1 — Glassmorphic Design System & Component Overhaul | Phase 1.1 provided: audit existing styles, dual-mode tokens, shared glass/nav, measured AA contrast; remaining Phase 1.x instructions pending. | Exact tokens in light/dark; computed contrast >=4.5 normal and >=3 large on audited backgrounds; lint/typecheck/tests/build/Playwright; reviewed release. | Phase 1.1 in progress |
 | 2 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 2 brief; cannot pass while undefined. | Not started |
 | 3 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 3 brief; cannot pass while undefined. | Not started |
 | 4 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 4 brief; cannot pass while undefined. | Not started |
@@ -38,7 +38,7 @@ Additional Phase 7/8 rows may be added if supplied; no scope or priority is assu
 - [x] Update `AGENTS.md` in an isolated branch with a concise, executable contract.
 - [x] Create `PLANS.md` in the same branch, with undefined future phases explicitly marked pending.
 - [x] Create pull request and confirm file contents, size, and GitHub validation status.
-- [ ] Obtain review/approval and merge; only then mark Phase 0 complete on `main`.
+- [x] Phase 0 PR #42 passed CI and merged (b7f6dcd37df23ebd1f85276505e7a71662db73c7).
 
 ## Standing release gates (applies to each implementation phase)
 
