@@ -19,6 +19,11 @@
   --glass-fallback-default: rgba(247, 249, 253, 0.94);
   --glass-fallback-strong: rgba(247, 249, 253, 0.97);
   --glass-solid: #F7F9FD;
+  --form-input-bg: #FFFFFF;
+  --form-input-border: #7B8DA5;
+  --form-placeholder: #394F6D;
+  --drawer-scrim: rgba(1, 26, 61, 0.50);
+  --hero-scrim: linear-gradient(90deg, rgba(244, 247, 251, 0.96), rgba(244, 247, 251, 0.84));
 
   /* Dual-edge system */
   --glass-border: rgba(1, 26, 61, 0.10);
@@ -39,7 +44,7 @@
   --glass-blur-max: 20px;
   --shadow-glass-1: 0 2px 8px rgba(1, 26, 61, 0.06);
   --shadow-glass-2: 0 8px 32px rgba(1, 26, 61, 0.10);
-  --shadow-glass-3: 0 16px 48px rgba(1, 26, 61, 0.14);
+  --shadow-glass-3: 0 16px 32px rgba(1, 26, 61, 0.14);
   --glass-shadow: var(--shadow-glass-2);
 
   /* Foreground */
@@ -47,7 +52,7 @@
   --text-secondary: rgba(1, 26, 61, 0.72);
   --text-secondary-solid: #394F6D;
   --text-muted: var(--text-secondary-solid);
-  --text-tertiary: rgba(1, 26, 61, 0.58);
+  --text-tertiary: #394F6D; /* readable placeholders, never low-contrast small text */
   --text-inverse: #FFFFFF;
 
   /* Brand and actionable colors */
@@ -92,6 +97,11 @@
   --glass-fallback-default: rgba(1, 26, 61, 0.94);
   --glass-fallback-strong: rgba(1, 26, 61, 0.97);
   --glass-solid: #121826;
+  --form-input-bg: rgba(1, 26, 61, 0.85);
+  --form-input-border: #8398B6;
+  --form-placeholder: #A7B2C4;
+  --drawer-scrim: rgba(1, 26, 61, 0.50);
+  --hero-scrim: linear-gradient(90deg, rgba(6, 13, 26, 0.94), rgba(6, 13, 26, 0.86));
   --glass-border: rgba(0, 240, 255, 0.20);
   --glass-highlight: rgba(255, 255, 255, 0.10);
   --glass-inner-ring: inset 0 0 0 1px var(--glass-border);
@@ -104,13 +114,13 @@
   --note-highlight: inset 0 1px 0 var(--glass-highlight);
   --shadow-glass-1: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-glass-2: 0 8px 32px rgba(0, 0, 0, 0.45);
-  --shadow-glass-3: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glass-3: 0 16px 32px rgba(0, 0, 0, 0.55);
   --glass-shadow: var(--shadow-glass-2);
   --text-primary: #FFFFFF;
   --text-secondary: rgba(255, 255, 255, 0.60);
   --text-secondary-solid: #A7B2C4;
   --text-muted: var(--text-secondary-solid);
-  --text-tertiary: rgba(255, 255, 255, 0.48);
+  --text-tertiary: #A7B2C4;
   --text-inverse: #011A3D;
   --accent: #00F0FF;
   --accent-hover: #4DF5FF;
