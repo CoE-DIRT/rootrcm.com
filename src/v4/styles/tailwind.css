@@ -227,6 +227,8 @@
 /* Transparency preferences: disable blur and use genuinely solid non-white surfaces. */
 @media (prefers-reduced-transparency: reduce) {
   .v4-root .glass-surface,
+  .v4-root .glass-surface.glass-strong,
+  .v4-root .glass-surface.glass,
   .v4-root .section-shell {
     background: var(--glass-solid);
     -webkit-backdrop-filter: none;
