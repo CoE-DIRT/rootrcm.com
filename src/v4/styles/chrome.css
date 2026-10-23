@@ -5,12 +5,12 @@
   --v4-header-h: 4.25rem;
 }
 
-/* The header is fixed so it can sit transparently over the hero; main clears it. */
+/* The header is fixed and keeps high-contrast readable glass over the hero; main clears it. */
 .v4-root main#main-content {
   padding-top: var(--v4-header-h);
 }
 
-/* Home hero bleeds under the header: same background, header overlays it. */
+/* Home hero bleeds beneath the fixed header; glass ensures readable navigation. */
 .v4-root .homeHero {
   margin-top: calc(var(--v4-header-h) * -1);
   padding-top: var(--v4-header-h);
