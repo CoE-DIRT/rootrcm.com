@@ -147,7 +147,7 @@
 }
 @supports not (backdrop-filter: blur(1px)) {
   .v4-root .glass-surface,
-  .v4-root .section-shell { background: var(--color-panel); }
+  .v4-root .section-shell { background: var(--glass-fallback); }
 }
 @media (min-width: 768px) {
   .v4-root .section-shell { padding: 1.75rem; }
