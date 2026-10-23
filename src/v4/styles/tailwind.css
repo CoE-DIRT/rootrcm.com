@@ -44,7 +44,7 @@
 
   --shadow-root: 0 12px 32px rgb(0 0 0 / 22%);
   --shadow-panel-soft: 0 10px 24px rgb(0 0 0 / 18%);
-  --shadow-command: 0 16px 40px rgb(0 0 0 / 26%);
+  --shadow-command: 0 16px 32px rgb(0 0 0 / 26%);
 
   --font-display: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -215,8 +215,10 @@
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .v4-root .glass-surface.glass-strong,
+  .v4-root .section-shell { background: var(--glass-fallback-strong); }
   .v4-root .glass-surface,
-  .v4-root .section-shell { background: var(--glass-fallback); }
+  .v4-root .glass { background: var(--glass-fallback-default); }
 }
 @media (min-width: 768px) {
   .v4-root .section-shell { padding: 1.75rem; }
@@ -416,8 +418,7 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
 .v4-root .media-placeholder[data-state='loading'] img { opacity: 0; }
 .v4-root .media-placeholder[data-state='ready'] img { opacity: 1; }
 .v4-root .media-placeholder[data-state='error'] img { opacity: 0; }
-.v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); animation: media-reveal 1.5s ease-in-out infinite; }
-@keyframes media-reveal { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); }
 @media (prefers-reduced-motion: reduce) { .v4-root .media-placeholder::after { animation: none !important; } .v4-root .media-placeholder img { transition: none; } }
 
 /* Tokenized primary CTA; solid hover/pressed colors preserve AA text contrast. */
