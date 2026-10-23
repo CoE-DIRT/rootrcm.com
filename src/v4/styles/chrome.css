@@ -222,7 +222,8 @@
 /* Low-opacity footer is decorative; text always uses solid readable tokens. */
 .v4-footer.glass-subtle { color: var(--text-primary); }
 .v4-footer :is(a, button) { color: var(--text-secondary-solid); }
-.v4-footer :is(a, button):hover { color: var(--text-primary); }
+.v4-footer :is(a, button):not(.root-primary-cta):hover { color: var(--text-primary); }
+.v4-footer .root-primary-cta:hover { color: var(--accent-fg); }
 .v4-footer .root-primary-cta { color: var(--accent-fg); }
 
 /* Strong, portaled Radix drawer and its required deep-navy 50% scrim. */
@@ -323,3 +324,8 @@
     backdrop-filter: none;
   }
 }
+
+/* Legacy CSS set overflow-x:hidden on html/body. That turns body into a
+   vertical scroll container and prevents a true sticky header from pinning to
+   the viewport. clip does not create a scroll container. */
+html:has(.v4-root), body:has(.v4-root) { overflow-x: clip; }
