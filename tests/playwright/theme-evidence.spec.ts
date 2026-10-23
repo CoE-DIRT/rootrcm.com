@@ -22,11 +22,6 @@ async function screenshot(page: Page, label: string) {
   await page.screenshot({ path: `${screenshotDir}/${label}.png`, animations: 'disabled', fullPage: false });
 }
 
-function boundsOf(el: Element): number[] {
-  const r = el.getBoundingClientRect();
-  return [r.x, r.y, r.width, r.height].map((v) => Math.round(v * 10) / 10);
-}
-
 test.describe('Phase 1.2 CPO seven-gate evidence', () => {
   for (const theme of ['light', 'dark'] as const) {
     // This focused suite creates one authoritative desktop PNG per gate/theme.
@@ -64,10 +59,10 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
       const { context, page } = await openTheme(browser, theme);
       try {
         const selector = 'header.v4-header, .homeHero, .homeHero .heroCopy, .homeHero .glass-surface';
-        const before = await page.locator(selector).evaluateAll((nodes) => nodes.map(boundsOf));
+        const before = await page.locator(selector).evaluateAll((nodes) => nodes.map((el) => { const r = el.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map((v) => Math.round(v * 10) / 10); }));
         await screenshot(page, `03-layout-${theme}`);
         await page.getByRole('switch', { name: 'Light theme' }).click();
-        const after = await page.locator(selector).evaluateAll((nodes) => nodes.map(boundsOf));
+        const after = await page.locator(selector).evaluateAll((nodes) => nodes.map((el) => { const r = el.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map((v) => Math.round(v * 10) / 10); }));
         expect(after).toEqual(before);
       } finally { await context.close(); }
     });
