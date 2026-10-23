@@ -21,3 +21,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --workers=2
+      - name: Upload Phase 1.2 theme evidence (14 images)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-1-2-theme-evidence
+          path: test-results/phase-1-2-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 30

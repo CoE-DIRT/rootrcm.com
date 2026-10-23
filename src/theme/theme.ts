@@ -29,10 +29,10 @@ export function getSystemTheme(): Theme {
 /** Theme currently painted: the bootstrap script's result, falling back to the same resolution rules. */
 export function getActiveTheme(): Theme {
   const attribute = document.documentElement.getAttribute('data-theme');
-  return isTheme(attribute) ? attribute : getStoredTheme() ?? getSystemTheme();
+  return isTheme(attribute) ? attribute : getStoredTheme() ?? 'light';
 }
 
-/** Paint a theme. `persist` records an explicit choice; system-driven changes are not persisted. */
+/** Paint a theme. `persist` records an explicit user choice. */
 export function applyTheme(theme: Theme, { persist }: { persist: boolean }): void {
   const root = document.documentElement;
   root.setAttribute('data-theme', theme);
@@ -54,16 +54,3 @@ export function toggleTheme(): Theme {
   return next;
 }
 
-/**
- * Follow OS preference changes until the visitor makes an explicit choice.
- * Returns an unsubscribe function.
- */
-export function followSystemTheme(): () => void {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return () => {};
-  const query = window.matchMedia('(prefers-color-scheme: light)');
-  const onChange = () => {
-    if (getStoredTheme() === null) applyTheme(query.matches ? 'light' : 'dark', { persist: false });
-  };
-  query.addEventListener?.('change', onChange);
-  return () => query.removeEventListener?.('change', onChange);
-}

@@ -28,7 +28,7 @@ export function ConversionPanel({
   return (
     <section
       className={cn(
-        'relative overflow-hidden rounded-[var(--radius-panel)] border border-border bg-[linear-gradient(135deg,rgba(15,23,42,0.82),rgba(7,11,18,0.96))] p-6 shadow-[var(--shadow-root)] md:p-8',
+        'relative overflow-hidden rounded-[var(--radius-panel)] border border-border bg-[image:var(--conversion-panel-bg)] p-6 shadow-[var(--shadow-root)] md:p-8',
         className,
       )}
     >

@@ -16,7 +16,7 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
     <div className="glass-surface glass-surface--matrix relative overflow-hidden rounded-[var(--radius-hero)] p-4 sm:p-5">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(99,102,241,0.4),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--panel-accent-topline),transparent)]"
       />
       <div className="relative">
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted sm:mb-3">{label}</p>

@@ -9,14 +9,16 @@ export const THEME_COLORS = { dark: '#060D1A', light: '#F4F7FB' };
 
 /**
  * Inline script that runs before first paint so there is no flash of the wrong theme.
- * Order: saved choice, then the OS preference, then dark (the brand default).
+ * Order: saved explicit choice, otherwise LIGHT. The OS setting is deliberately not
+ * consulted for an unconfigured visitor: the mandate requires Light even on dark OS.
+ * If a future explicit System option is added, it may use prefers-color-scheme.
  */
 export function themeBootstrapScript() {
   const colors = JSON.stringify(THEME_COLORS);
   return (
-    `(function(){var d=document.documentElement,t;` +
+    `(function(){var d=document.documentElement,t='light';` +
     `try{var s=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});if(s==='light'||s==='dark')t=s}catch(e){}` +
-    `if(!t){try{t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}catch(e){t='dark'}}` +
+    
     `d.setAttribute('data-theme',t);d.style.colorScheme=t;` +
     `var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',${colors}[t]);})();`
   );

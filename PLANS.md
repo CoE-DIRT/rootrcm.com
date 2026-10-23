@@ -22,7 +22,7 @@
 | Phase | Scope | Acceptance criteria | State |
 | --- | --- | --- | --- |
 | 0 — Foundation & Agent Harness | Update `AGENTS.md`; create `PLANS.md`; reconcile actual stack/ADRs/build gates. | 50–120 line agent contract; accurate command/folder maps; safety/design protections retained; PR submitted; no production changes. | Complete: PR #42 merged with passing CI |
-| 1 — Glassmorphic Design System & Component Overhaul | Phase 1.1a/b supersedes Phase 1.1 tokens: approved palette, dual-edge glass, tiered opacity, correct CTA contrast, capped hero mesh/noise, reduced transparency, 40px scroll/10px blur. | Tokens and contrast tests, lint/typecheck/unit/build/Playwright, reviewed PR, verified Appwrite release. | Phase 1.1 deployed (PR #44); 1.1a/b implementation and QA in progress |
+| 1 — Glassmorphic Design System & Component Overhaul | Phase 1.1a/b deployed; Phase 1.2: first-visit Light default regardless OS, prepaint persistence, CSS-only glass, source-token discipline, geometry/edge/focus/mesh/route acceptance and 14 desktop screenshots. Remaining Phase 1.3+ pending. | Seven criteria in both modes; 14 screenshot artifacts; lint/typecheck/unit/build/Playwright and reviewed Appwrite release with rollback. | 1.1a/b deployed (PR #45); Phase 1.2 in PR, QA pending |
 | 2 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 2 brief; cannot pass while undefined. | Not started |
 | 3 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 3 brief; cannot pass while undefined. | Not started |
 | 4 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 4 brief; cannot pass while undefined. | Not started |
