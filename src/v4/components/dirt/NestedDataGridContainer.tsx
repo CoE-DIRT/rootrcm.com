@@ -111,15 +111,15 @@ export function NestedDataGridContainer() {
                       </span>
                     </button>
                     <p className="text-sm text-muted">
-                      <span className="text-muted/70 md:hidden">Segment: </span>
+                      <span className="text-muted md:hidden">Segment: </span>
                       {row.segment}
                     </p>
                     <p className="text-sm text-muted">
-                      <span className="text-muted/70 md:hidden">Owner: </span>
+                      <span className="text-muted md:hidden">Owner: </span>
                       {row.owner}
                     </p>
                     <div>
-                      <span className="mb-1 block text-xs text-muted/70 md:hidden">Risk: </span>
+                      <span className="mb-1 block text-xs text-muted md:hidden">Risk: </span>
                       <StatusPill tone={mapRiskTone(row.risk)} className="max-w-[8.25rem]" title={row.risk}>
                         {riskDisplayLabel(row.risk)}
                       </StatusPill>
@@ -128,7 +128,7 @@ export function NestedDataGridContainer() {
                       className="text-sm text-muted"
                       title="Illustrative fixture value, not a validated model confidence or probability"
                     >
-                      <span className="text-muted/70 md:hidden">Illustrative score: </span>
+                      <span className="text-muted md:hidden">Illustrative score: </span>
                       {row.score}
                     </p>
                     <button
