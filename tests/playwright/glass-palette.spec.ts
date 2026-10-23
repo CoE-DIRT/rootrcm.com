@@ -4,6 +4,7 @@ test.describe('Phase 1.1b browser palette', () => {
   for (const theme of ['light', 'dark'] as const) {
     test(`${theme} uses proper solid CTA ink and strong glass`, async ({ browser }) => {
       const context = await browser.newContext({ colorScheme: theme });
+      await context.addInitScript((value) => { localStorage.setItem('root-theme', value); }, theme);
       const page = await context.newPage();
       try {
         await page.goto('/');
