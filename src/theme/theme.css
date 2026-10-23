@@ -1,32 +1,123 @@
-/* ROOT V2 runtime theme bridge; canonical brand palette: v4/styles/tailwind.css.
-   Phase 1.1: dual-mode semantic glass tokens; applied before content renders. */
+/* ============================================================
+   ROOT Design Tokens — Glassmorphic Brand System v1.1b
+   Runtime source of truth: React/Vite src/theme/theme.css.
+   Tailwind v4 --color-* utilities remain mapped to the same brand.
+   No Next.js app/globals.css exists in this repository.
+   ============================================================ */
 :root {
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-strong: rgba(255, 255, 255, 0.78);
+  /* Base surfaces */
+  --app-bg: #F4F7FB;
+  --app-bg-deep: #EDF2F9;
+
+  /* Light glass tiers */
+  --glass-bg: rgba(255, 255, 255, 0.60);
+  --glass-bg-strong: rgba(255, 255, 255, 0.80);
+  --glass-strong: var(--glass-bg-strong);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.38);
   --glass-bg-readable: rgba(255, 255, 255, 0.92);
-  --glass-fallback: #f7f9fd;
-  --glass-border: rgba(15, 23, 42, 0.12);
-  --glass-blur: 16px;
-  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
-  --text-primary: #0f172a;
-  --text-muted: #475569;
-  --accent: #2563eb;
+  --glass-fallback: rgba(247, 249, 253, 0.96);
+  --glass-solid: #F7F9FD;
+
+  /* Dual-edge system */
+  --glass-border: rgba(1, 26, 61, 0.10);
+  --glass-highlight: rgba(255, 255, 255, 0.90);
+  --glass-inner-ring: inset 0 0 0 1px var(--glass-border);
+  --glass-inner-light: inset 0 1px 0 0 var(--glass-highlight);
+
+  /* Blur and elevation */
+  --glass-blur-sm: 8px;
+  --glass-blur: 12px;
+  --glass-blur-lg: 18px;
+  --glass-blur-max: 20px;
+  --shadow-glass-1: 0 2px 8px rgba(1, 26, 61, 0.06);
+  --shadow-glass-2: 0 8px 32px rgba(1, 26, 61, 0.10);
+  --shadow-glass-3: 0 16px 48px rgba(1, 26, 61, 0.14);
+  --glass-shadow: var(--shadow-glass-2);
+
+  /* Foreground */
+  --text-primary: #011A3D;
+  --text-secondary: rgba(1, 26, 61, 0.72);
+  --text-secondary-solid: #394F6D;
+  --text-muted: var(--text-secondary-solid);
+  --text-tertiary: rgba(1, 26, 61, 0.58);
+  --text-inverse: #FFFFFF;
+
+  /* Brand and actionable colors */
+  --accent: #0066FF;
+  --accent-hover: #0052CC;
+  --accent-pressed: #0047B3;
+  --accent-fg: #FFFFFF;
+  --accent-subtle: rgba(0, 102, 255, 0.10);
+  --accent-glow: 0 2px 8px rgba(1, 26, 61, 0.12);
+  --accent-glow-hover: 0 8px 22px rgba(1, 26, 61, 0.18);
+
+  /* Semantic signals */
+  --success: #0E7C5A;
+  --success-bg: rgba(14, 124, 90, 0.10);
+  --warning: #9A5B00;
+  --warning-bg: rgba(154, 91, 0, 0.10);
+  --danger: #C0242B;
+  --danger-bg: rgba(192, 36, 43, 0.10);
+  --info: #0066FF;
+  --focus-ring: 0 0 0 2px var(--app-bg), 0 0 0 4px #0066FF;
+
+  /* Mesh must be attenuated behind text; noise is decorative. */
+  --mesh-blue: rgba(0, 102, 255, 0.22);
+  --mesh-cyan: rgba(0, 240, 255, 0.18);
+  --mesh-navy: rgba(1, 26, 61, 0.10);
+  --mesh-behind-text-max: 0.12;
+  --noise-opacity: 0.035;
+  color-scheme: light;
 }
 
-/* Pre-paint bootstrap sets data-theme. Keep dark as the no-script fallback. */
+/* Pre-paint script sets data-theme; no-JS experience retains brand-dark fallback. */
 :root[data-theme='dark'],
 :root:not([data-theme]) {
-  --glass-bg: rgba(18, 24, 38, 0.55);
-  --glass-bg-strong: rgba(18, 24, 38, 0.78);
-  --glass-bg-readable: rgba(18, 24, 38, 0.92);
-  --glass-fallback: #121826;
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-blur: 18px;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --text-primary: #e8ecf4;
-  --text-muted: #9aa3b8;
-  --accent: #7aa7ff;
+  --app-bg: #060D1A;
+  --app-bg-deep: #03070F;
+  --glass-bg: rgba(1, 26, 61, 0.40);
+  --glass-bg-strong: rgba(1, 26, 61, 0.68);
+  --glass-strong: var(--glass-bg-strong);
+  --glass-bg-subtle: rgba(1, 26, 61, 0.24);
+  --glass-bg-readable: rgba(1, 26, 61, 0.92);
+  --glass-fallback: rgba(18, 24, 38, 0.96);
+  --glass-solid: #121826;
+  --glass-border: rgba(0, 240, 255, 0.20);
+  --glass-highlight: rgba(255, 255, 255, 0.10);
+  --glass-inner-ring: inset 0 0 0 1px var(--glass-border);
+  --glass-inner-light: inset 0 1px 0 0 var(--glass-highlight);
+  --shadow-glass-1: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-glass-2: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-glass-3: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --glass-shadow: var(--shadow-glass-2);
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.60);
+  --text-secondary-solid: #A7B2C4;
+  --text-muted: var(--text-secondary-solid);
+  --text-tertiary: rgba(255, 255, 255, 0.48);
+  --text-inverse: #011A3D;
+  --accent: #00F0FF;
+  --accent-hover: #4DF5FF;
+  --accent-pressed: #00C4D1;
+  --accent-fg: #011A3D;
+  --accent-subtle: rgba(0, 240, 255, 0.12);
+  --accent-glow: 0 0 16px rgba(0, 240, 255, 0.30);
+  --accent-glow-hover: 0 0 28px rgba(0, 240, 255, 0.45);
+  --success: #34D399;
+  --success-bg: rgba(52, 211, 153, 0.12);
+  --warning: #FBBF24;
+  --warning-bg: rgba(251, 191, 36, 0.12);
+  --danger: #F87171;
+  --danger-bg: rgba(248, 113, 113, 0.12);
+  --info: #00F0FF;
+  --focus-ring: 0 0 0 2px var(--app-bg), 0 0 0 4px #00F0FF;
+  --mesh-blue: rgba(0, 102, 255, 0.24);
+  --mesh-cyan: rgba(0, 240, 255, 0.16);
+  --mesh-navy: rgba(1, 26, 61, 0.55);
+  --noise-opacity: 0.05;
+  color-scheme: dark;
 }
+
 :root {
   --bg: var(--color-bg); --bg-soft: var(--color-bg-soft);
   --panel: var(--color-panel-translucent-strong); --panel-solid: var(--color-panel);
@@ -46,18 +137,18 @@
 
   /* v4 tokens (see src/v4/styles/tailwind.css) */
   --color-bg: #F4F7FB;
-  --color-bg-deep: #ffffff;
+  --color-bg-deep: var(--app-bg-deep);
   --color-bg-soft: #e7eef9;
-  --color-panel: #ffffff;
-  --color-panel-translucent: rgb(255 255 255 / 60%);
-  --color-panel-translucent-strong: rgb(255 255 255 / 88%);
-  --color-border: rgb(1 26 61 / 16%);
-  --color-glass-border: rgb(255 255 255 / 80%);
+  --color-panel: var(--glass-solid);
+  --color-panel-translucent: var(--glass-bg);
+  --color-panel-translucent-strong: var(--glass-bg-strong);
+  --color-border: var(--glass-border);
+  --color-glass-border: var(--glass-highlight);
   --color-border-strong: #c3ccd6;
-  --color-text: #011A3D;
-  --color-muted: #405573;
-  --color-accent: #005bd6;
-  --color-accent-ink: #ffffff;
+  --color-text: var(--text-primary);
+  --color-muted: var(--text-secondary-solid);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-fg);
   --color-data-blue: #005bd6;
   --color-intelligence: #4f46e5;
   --color-intelligence-soft: #6366f1;
@@ -70,17 +161,17 @@
   --shadow-command: 0 16px 40px rgb(15 23 42 / 12%);
 
   /* legacy tokens (see src/styles.css) */
-  --bg: #F4F7FB;
+  --bg: var(--app-bg);
   --bg-soft: #e7eef9;
-  --panel: rgba(255, 255, 255, 0.88);
-  --panel-solid: #ffffff;
-  --border: rgba(15, 23, 42, 0.13);
-  --text: #011A3D;
-  --muted: #405573;
+  --panel: var(--glass-bg-strong);
+  --panel-solid: var(--glass-solid);
+  --border: var(--glass-border);
+  --text: var(--text-primary);
+  --muted: var(--text-secondary-solid);
   --data-blue: #005bd6;
   --signal-amber: #92400e;
-  --accent-ink: #ffffff;
-  --shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+  --accent-ink: var(--accent-fg);
+  --shadow: var(--shadow-glass-3);
 }
 
 :root[data-theme='light'] .v4-root {
@@ -108,7 +199,7 @@
 :root[data-theme='light'] .inquiryForm textarea,
 :root[data-theme='light'] .inquiryForm select {
   border-color: var(--color-border-strong);
-  background: #ffffff;
+  background: var(--glass-solid);
   color: var(--color-text);
 }
 
@@ -116,7 +207,7 @@
 :root[data-theme='light'] .inquiryForm textarea:hover,
 :root[data-theme='light'] .inquiryForm select:hover {
   border-color: var(--color-accent);
-  background: #ffffff;
+  background: var(--glass-solid);
 }
 
 :root[data-theme='light'] .inquiryForm option {
@@ -128,7 +219,7 @@
   background: rgb(0 102 255 / 6%);
 }
 
-.v4-root .glass-surface { box-shadow: inset 0 0 0 1px var(--glass-border), var(--glass-shadow); }
+/* Card edge and reflected highlight are defined by the shared component recipe. */
 
 /* Electric blue remains the filled CTA color; text accents use a darker accessible shade. */
-:root[data-theme='light'] .v4-root .bg-accent { background-color: var(--color-brand-blue); }
+:root[data-theme='light'] .v4-root .bg-accent { background-color: var(--accent); }
