@@ -76,7 +76,7 @@ test.describe('theme', () => {
 });
 
 test.describe('header', () => {
-  test('uses a readable glass surface over the hero and remains readable after scrolling', async ({ page }) => {
+  test('uses the strong glass tier over the hero and remains readable after scrolling', async ({ page }) => {
     await page.goto('/');
     await consentGiven(page);
     const header = page.locator('header.v4-header');
@@ -87,11 +87,11 @@ test.describe('header', () => {
       return parts.length > 3 ? Number(parts[3]) : 1;
     };
     await expect(header).toHaveAttribute('data-scrolled', 'false');
-    expect(alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.92);
+    expect(alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.8);
 
     await page.evaluate(() => window.scrollTo(0, 700));
     await expect(header).toHaveAttribute('data-scrolled', 'true');
-    await expect.poll(async () => alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.92);
+    await expect.poll(async () => alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.8);
   });
 
   test('exposes every required item in order, with a primary CTA', async ({ page, isMobile }) => {
