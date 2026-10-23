@@ -12,7 +12,7 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-accent text-accent-ink shadow-[0_1px_0_rgba(0,0,0,0.05)] hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-[0_10px_24px_rgba(0,0,0,0.28)]',
+        primary: 'root-primary-cta hover:-translate-y-0.5',
         secondary: 'border border-border bg-panel text-text hover:-translate-y-0.5 hover:border-border-strong hover:bg-panel/70',
         outline: 'border border-border text-text hover:-translate-y-0.5 hover:border-border-strong hover:bg-panel',
         ghost: 'text-text hover:bg-panel',
