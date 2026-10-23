@@ -71,9 +71,8 @@
   color-scheme: light;
 }
 
-/* Pre-paint script sets data-theme; no-JS experience retains brand-dark fallback. */
-:root[data-theme='dark'],
-:root:not([data-theme]) {
+/* The first-visit and no-JS fallback is LIGHT; dark is opt-in via data-theme. */
+:root[data-theme='dark'] {
   --app-bg: #060D1A;
   --app-bg-deep: #03070F;
   --glass-bg: rgba(1, 26, 61, 0.40);
@@ -127,11 +126,12 @@
   --accent-ink: var(--color-accent-ink); --data-blue: var(--color-data-blue);
   background: var(--bg); color: var(--text);
 }
-/* Light theme. Dark is the brand default; this file only applies under <html data-theme="light">.
+/* Light theme is the first-visit default, including when <html> has no theme attribute.
    1. Override the v4 (Tailwind @theme) tokens.   2. Override the legacy CSS variables.
    3. Re-style the few legacy surfaces that hard-code dark colors.
    Add new light overrides here — never fork a second palette elsewhere. */
 
+:root:not([data-theme]),
 :root[data-theme='light'] {
   color-scheme: light;
   color: #011A3D;
@@ -176,7 +176,7 @@
   --shadow: var(--shadow-glass-3);
 }
 
-:root[data-theme='light'] .v4-root {
+:root:is(:not([data-theme]), [data-theme='light']) .v4-root {
   color-scheme: light;
   background-image: radial-gradient(circle at 50% -12%, rgb(79 70 229 / 8%), transparent 38%);
 }
@@ -184,39 +184,39 @@
 /* Both modes use the same CSS glass recipe; do not add per-theme variant overrides. */
 
 /* Legacy hero headline: hard-coded near-white with a dark glow (src/styles.css .heroCopy h1). */
-:root[data-theme='light'] .heroCopy h1 {
+:root:is(:not([data-theme]), [data-theme='light']) .heroCopy h1 {
   color: var(--color-text);
   text-shadow: none;
 }
 
 /* Legacy inquiry form (src/components/InquiryForm.jsx uses legacy classes). */
-:root[data-theme='light'] .inquiryForm label,
-:root[data-theme='light'] .inquiryForm .phiCheck,
-:root[data-theme='light'] .formNote,
-:root[data-theme='light'] .optional {
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm label,
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm .phiCheck,
+:root:is(:not([data-theme]), [data-theme='light']) .formNote,
+:root:is(:not([data-theme]), [data-theme='light']) .optional {
   color: var(--color-muted);
 }
 
-:root[data-theme='light'] .inquiryForm input,
-:root[data-theme='light'] .inquiryForm textarea,
-:root[data-theme='light'] .inquiryForm select {
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm input,
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm textarea,
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm select {
   border-color: var(--color-border-strong);
   background: var(--glass-solid);
   color: var(--color-text);
 }
 
-:root[data-theme='light'] .inquiryForm input:hover,
-:root[data-theme='light'] .inquiryForm textarea:hover,
-:root[data-theme='light'] .inquiryForm select:hover {
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm input:hover,
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm textarea:hover,
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm select:hover {
   border-color: var(--color-accent);
   background: var(--glass-solid);
 }
 
-:root[data-theme='light'] .inquiryForm option {
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm option {
   color: var(--color-text);
 }
 
-:root[data-theme='light'] .inquiryForm .phiCheck {
+:root:is(:not([data-theme]), [data-theme='light']) .inquiryForm .phiCheck {
   border-color: rgb(0 102 255 / 30%);
   background: rgb(0 102 255 / 6%);
 }
@@ -224,4 +224,4 @@
 /* Card edge and reflected highlight are defined by the shared component recipe. */
 
 /* Electric blue remains the filled CTA color; text accents use a darker accessible shade. */
-:root[data-theme='light'] .v4-root .bg-accent { background-color: var(--accent); }
+:root:is(:not([data-theme]), [data-theme='light']) .v4-root .bg-accent { background-color: var(--accent); }
