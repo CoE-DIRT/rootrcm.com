@@ -181,7 +181,7 @@
   font-size: 16px;
 }
 .v4-root .inquiryForm :is(input,textarea)::placeholder {
-  color: var(--form-placeholder);
+  color: var(--text-tertiary);
   opacity: 1;
   font-size: 16px;
 }
@@ -301,7 +301,7 @@
   color: var(--text-primary);
 }
 .v4-root .root-form-input::placeholder {
-  color: var(--form-placeholder);
+  color: var(--text-tertiary);
   opacity: 1;
   font-size: 16px;
 }
