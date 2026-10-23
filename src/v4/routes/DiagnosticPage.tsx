@@ -70,7 +70,7 @@ export function DiagnosticPage() {
             </a>
             <CheckoutButton location="diagnostic-hero" className="mt-6" />
           </div>
-          <GlassCard as="div" variant="glass" hover={false} id="diagnostic-form" className="ph-no-capture p-4" data-ph-mask>
+          <GlassCard as="div" variant="readable" hover={false} id="diagnostic-form" className="ph-no-capture p-4" data-ph-mask>
             <div ref={formWrapRef}>
               <InquiryForm variant="diagnostic" />
             </div>

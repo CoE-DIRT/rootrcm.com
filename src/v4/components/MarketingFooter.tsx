@@ -25,7 +25,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
 
   if (minimal) {
     return (
-      <footer className="border-t border-border bg-bg-soft py-8 text-center text-xs text-muted">
+      <footer className="v4-footer-minimal border-t border-border py-8 text-center text-xs text-muted">
         <p>
           © {year} {companyInfo.legalName}. Commercial inquiries only. Do not send patient information.
         </p>
@@ -44,7 +44,7 @@ export function MarketingFooter({ minimal = false }: MarketingFooterProps) {
 
 
   return (
-    <footer className="v4-footer border-t border-border bg-gradient-to-b from-bg-deep to-bg">
+    <footer className="v4-footer border-t border-border">
       <div className="mx-auto w-full max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
         <section aria-labelledby="footer-talk-heading" className="v4-footer-cta rounded-[var(--radius-hero)] border border-border p-6 md:p-10">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">

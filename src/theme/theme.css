@@ -14,6 +14,12 @@
   --glass-bg-strong: rgba(255, 255, 255, 0.80);
   --glass-strong: var(--glass-bg-strong);
   --glass-bg-subtle: rgba(255, 255, 255, 0.38);
+  --glass-hero: rgba(255, 255, 255, 0.55);
+  --hero-image-scrim: rgba(244, 247, 251, 0.78);
+  --form-field-bg: #FFFFFF;
+  --form-field-border: #64748B;
+  --form-placeholder: #394F6D;
+  --footer-link: #394F6D;
   --glass-bg-readable: rgba(255, 255, 255, 0.92);
   --glass-fallback: rgba(247, 249, 253, 0.96);
   --glass-fallback-default: rgba(247, 249, 253, 0.94);
@@ -39,7 +45,7 @@
   --glass-blur-max: 20px;
   --shadow-glass-1: 0 2px 8px rgba(1, 26, 61, 0.06);
   --shadow-glass-2: 0 8px 32px rgba(1, 26, 61, 0.10);
-  --shadow-glass-3: 0 16px 48px rgba(1, 26, 61, 0.14);
+  --shadow-glass-3: 0 16px 32px rgba(1, 26, 61, 0.14);
   --glass-shadow: var(--shadow-glass-2);
 
   /* Foreground */
@@ -87,6 +93,12 @@
   --glass-bg-strong: rgba(1, 26, 61, 0.68);
   --glass-strong: var(--glass-bg-strong);
   --glass-bg-subtle: rgba(1, 26, 61, 0.24);
+  --glass-hero: rgba(1, 26, 61, 0.55);
+  --hero-image-scrim: rgba(6, 13, 26, 0.80);
+  --form-field-bg: #121826;
+  --form-field-border: #A7B2C4;
+  --form-placeholder: #A7B2C4;
+  --footer-link: #E8ECF4;
   --glass-bg-readable: rgba(1, 26, 61, 0.92);
   --glass-fallback: rgba(18, 24, 38, 0.96);
   --glass-fallback-default: rgba(1, 26, 61, 0.94);
@@ -104,7 +116,7 @@
   --note-highlight: inset 0 1px 0 var(--glass-highlight);
   --shadow-glass-1: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-glass-2: 0 8px 32px rgba(0, 0, 0, 0.45);
-  --shadow-glass-3: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glass-3: 0 16px 32px rgba(0, 0, 0, 0.55);
   --glass-shadow: var(--shadow-glass-2);
   --text-primary: #FFFFFF;
   --text-secondary: rgba(255, 255, 255, 0.60);
@@ -118,8 +130,8 @@
   --accent-pressed: #00C4D1;
   --accent-fg: #011A3D;
   --accent-subtle: rgba(0, 240, 255, 0.12);
-  --accent-glow: 0 0 16px rgba(0, 240, 255, 0.30);
-  --accent-glow-hover: 0 0 28px rgba(0, 240, 255, 0.45);
+  --accent-glow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  --accent-glow-hover: 0 8px 22px rgba(0, 0, 0, 0.32);
   --success: #34D399;
   --success-bg: rgba(52, 211, 153, 0.12);
   --warning: #FBBF24;

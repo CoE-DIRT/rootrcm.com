@@ -22,7 +22,7 @@ export function SheetContent({
       <RadixDialog.Overlay className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm" />
       <RadixDialog.Content
         className={cn(
-          'fixed top-0 z-50 h-full w-[min(360px,100%)] overflow-y-auto border-border bg-panel-solid bg-panel p-6 ' +
+          'v4-mobile-drawer glass-strong fixed top-0 z-50 h-full w-[min(360px,100%)] overflow-y-auto border-border p-6 ' +
             'shadow-root focus:outline-none',
           side === 'right' ? 'right-0 border-l' : 'left-0 border-r',
           className,
