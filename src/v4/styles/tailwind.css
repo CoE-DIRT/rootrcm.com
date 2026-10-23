@@ -141,6 +141,13 @@
   }
 }
 
+/* Scrollable table regions are clipped by overflow-hidden glass parents.
+   Their indicator must be inset to remain visible. */
+.v4-root .root-inset-focus:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
 /* Every keyboard-focusable element gets a consistent dual-tone ring, including
    Radix portals outside .v4-root. Retain system outline under forced colors. */
 :where(a, button, input, textarea, select, summary, [tabindex], [role='switch']):focus-visible {
