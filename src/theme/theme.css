@@ -45,6 +45,7 @@
   /* Brand and actionable colors */
   --accent: #0066FF;
   --accent-hover: #0052CC;
+  --accent-text: #0052CC;
   --accent-pressed: #0047B3;
   --accent-fg: #FFFFFF;
   --accent-subtle: rgba(0, 102, 255, 0.10);
@@ -98,6 +99,7 @@
   --text-inverse: #011A3D;
   --accent: #00F0FF;
   --accent-hover: #4DF5FF;
+  --accent-text: #00F0FF;
   --accent-pressed: #00C4D1;
   --accent-fg: #011A3D;
   --accent-subtle: rgba(0, 240, 255, 0.12);
@@ -147,7 +149,7 @@
   --color-border-strong: #c3ccd6;
   --color-text: var(--text-primary);
   --color-muted: var(--text-secondary-solid);
-  --color-accent: var(--accent);
+  --color-accent: var(--accent-text);
   --color-accent-ink: var(--accent-fg);
   --color-data-blue: #005bd6;
   --color-intelligence: #4f46e5;
