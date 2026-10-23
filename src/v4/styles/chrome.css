@@ -309,3 +309,17 @@
 }
 
 .v4-footer.glass-subtle { border-radius: 0; border-inline: 0; border-bottom: 0; }
+
+/* Override the higher-specificity decorative recipes for visitors who explicitly
+   request solid, unblurred surfaces. Keep this last in shared chrome. */
+@media (prefers-reduced-transparency: reduce) {
+  .v4-root .root-dashboard-preview,
+  .v4-root .root-hero-heading,
+  .v4-root .root-hero-content,
+  .v4-root .glass-surface.glass-strong,
+  .root-mobile-drawer {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
