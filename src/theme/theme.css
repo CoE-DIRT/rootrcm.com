@@ -226,16 +226,16 @@
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm input,
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm textarea,
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm select {
-  border-color: var(--color-border-strong);
-  background: var(--glass-solid);
+  border-color: var(--form-input-border);
+  background: var(--form-input-bg);
   color: var(--color-text);
 }
 
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm input:hover,
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm textarea:hover,
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm select:hover {
-  border-color: var(--color-accent);
-  background: var(--glass-solid);
+  border-color: var(--form-input-border);
+  background: var(--form-input-bg);
 }
 
 :root:is(:not([data-theme]), [data-theme='light']) .inquiryForm option {
