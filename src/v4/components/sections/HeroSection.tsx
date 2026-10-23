@@ -26,7 +26,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative">
-      <div className="root-hero-image" data-hero-image-placeholder aria-hidden="true">
+      <div className="hero-photo-backdrop" data-hero-image-placeholder aria-hidden="true">
         <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} fetchPriority="high" decoding="async" />
       </div>
       <div
