@@ -22,7 +22,7 @@ interface MarketingHeaderProps {
 }
 
 /** True once the page has scrolled, so the header can switch from transparent to a solid, blurred bar. */
-function useScrolled(threshold = 8): boolean {
+function useScrolled(threshold = 40): boolean {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     let frame = 0;

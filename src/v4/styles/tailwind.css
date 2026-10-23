@@ -107,8 +107,8 @@
 }
 
 /* Phase 1.1: shared content-bearing glass recipe, both themes. Tokens: theme/theme.css.
-   55% glass is decorative; strong (78%) is for text over normal site backgrounds.
-   Readable (92%) is for text over saturated imagery/brand backgrounds. */
+   Subtle/base glass is decorative; strong glass is for readable content.
+   The 92% readable tier is reserved for high-chroma imagery. */
 .v4-root .glass-surface {
   position: relative;
   min-width: 0;
@@ -117,8 +117,8 @@
   background: var(--glass-bg-strong);
   color: var(--text-primary);
   --color-text: var(--text-primary);
-  --color-muted: var(--text-muted);
-  box-shadow: var(--glass-shadow);
+  --color-muted: var(--text-secondary-solid);
+  box-shadow: var(--glass-inner-ring), var(--glass-inner-light), var(--shadow-glass-2);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
@@ -140,17 +140,38 @@
   background: var(--glass-bg-strong);
   color: var(--text-primary);
   --color-text: var(--text-primary);
-  --color-muted: var(--text-muted);
-  box-shadow: var(--glass-shadow);
+  --color-muted: var(--text-secondary-solid);
+  box-shadow: var(--glass-inner-ring), var(--glass-inner-light), var(--shadow-glass-2);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
-@supports not (backdrop-filter: blur(1px)) {
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .v4-root .glass-surface,
   .v4-root .section-shell { background: var(--glass-fallback); }
 }
 @media (min-width: 768px) {
   .v4-root .section-shell { padding: 1.75rem; }
+}
+
+/* Transparency preferences: disable blur and use genuinely solid non-white surfaces. */
+@media (prefers-reduced-transparency: reduce) {
+  .v4-root .glass-surface,
+  .v4-root .section-shell {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Animated opacity/transform parents can disrupt effective backdrop composition.
+   The regular reveal transition is disabled for containers housing glass surfaces. */
+.v4-root [data-reveal]:has(.glass-surface),
+.v4-root [data-reveal]:has(.section-shell),
+.v4-root [data-reveal].glass-surface,
+.v4-root [data-reveal].section-shell {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 /* Section-shell accents: one quiet top hairline instead of a colored radial wash —
@@ -173,11 +194,32 @@
   background: linear-gradient(90deg, transparent, rgb(99 102 241 / 18%), transparent);
 }
 
-/* Page-level ambient tint — a single quiet gradient near the top, not a dot-grid
-   texture painted behind every page. Decorative, pointer-events none. */
-.v4-root {
-  background-image: radial-gradient(circle at 50% -12%, rgb(99 102 241 / 10%), transparent 38%);
-  background-attachment: fixed;
+/* Mesh is strictly decorative; never put glass/interactive content inside it.
+   Overall blob-layer opacity is <=12% behind content, including overlapping gradients. */
+.v4-root .root-mesh {
+  overflow: hidden;
+  isolation: isolate;
+}
+.v4-root .root-mesh::before,
+.v4-root .root-mesh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.v4-root .root-mesh::before {
+  background:
+    radial-gradient(circle at 18% 10%, var(--mesh-blue), transparent 48%),
+    radial-gradient(circle at 77% 12%, var(--mesh-cyan), transparent 51%),
+    radial-gradient(circle at 48% 89%, var(--mesh-navy), transparent 60%);
+  opacity: var(--mesh-behind-text-max);
+}
+.v4-root .root-mesh::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: soft-light;
 }
 
 .v4-root main {
@@ -211,7 +253,7 @@
 /* Visible focus treatment: 2px aqua ring plus background separation, works with and
    without forced-colors. Do not remove native outlines without this replacement. */
 .v4-root :focus-visible {
-  outline: 2px solid var(--color-data-blue);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -305,3 +347,17 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
 .v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); animation: media-reveal 1.5s ease-in-out infinite; }
 @keyframes media-reveal { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .v4-root .media-placeholder::after { animation: none !important; } .v4-root .media-placeholder img { transition: none; } }
+
+/* Tokenized primary CTA; solid hover/pressed colors preserve AA text contrast. */
+.root-primary-cta {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  box-shadow: var(--accent-glow);
+}
+.root-primary-cta:hover {
+  background-color: var(--accent-hover);
+  color: var(--accent-fg);
+  box-shadow: var(--accent-glow-hover);
+}
+.root-primary-cta:active { background-color: var(--accent-pressed); }
+.root-primary-cta:focus-visible { box-shadow: var(--focus-ring); }

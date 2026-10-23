@@ -25,10 +25,10 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
     : description;
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
-    <section id="hero" className="homeHero relative" data-reveal>
+    <section id="hero" className="homeHero relative">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-8 h-72 bg-[radial-gradient(circle_at_18%_10%,rgba(99,102,241,0.12),transparent_45%)] [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
+        className="root-mesh pointer-events-none absolute inset-x-0 -top-8 h-72 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
       />
       <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
         <div className="heroCopy flex flex-col gap-5">
