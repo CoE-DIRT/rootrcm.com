@@ -204,7 +204,13 @@ test.describe('footer and social controls', () => {
 
   test('the Follow dock opens a labelled social panel and closes with Escape', async ({ page }) => {
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    // Klaro loads after hydration on slow mobile runs; settle consent before
+    // clicking the dock so its overlay cannot intercept a legitimate click.
+    const reject = page.getByRole('button', { name: 'Reject non-essential' });
+    await reject.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     await consentGiven(page);
+    await expect(reject).toBeHidden();
     const trigger = page.getByRole('button', { name: 'Follow ROOT' }).first();
     await trigger.click();
     const panel = page.getByRole('dialog', { name: 'Follow ROOT' });
