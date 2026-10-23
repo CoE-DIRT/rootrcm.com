@@ -14,6 +14,11 @@ async function openTheme(browser: Browser, theme: Theme) {
   const page = await context.newPage();
   await page.goto('/');
   await expect(page.locator('header.v4-header')).toBeVisible();
+  await page.waitForLoadState('networkidle');
+  // Evidence should show the actual page rather than a consent overlay. Make the
+  // same non-essential-cookie choice a visitor can make; never bypass the consent UI.
+  const reject = page.getByRole('button', { name: 'Reject non-essential' });
+  if (await reject.isVisible()) await reject.click();
   return { context, page };
 }
 
