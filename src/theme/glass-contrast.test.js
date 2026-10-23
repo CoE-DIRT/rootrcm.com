@@ -1,94 +1,128 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const theme = readFileSync('src/theme/theme.css', 'utf8');
-const styles = readFileSync('src/v4/styles/tailwind.css', 'utf8');
+const css = readFileSync('src/theme/theme.css', 'utf8');
+const glass = readFileSync('src/v4/styles/tailwind.css', 'utf8');
 const chrome = readFileSync('src/v4/styles/chrome.css', 'utf8');
-const nestedGrid = readFileSync('src/v4/components/dirt/NestedDataGridContainer.tsx', 'utf8');
+const button = readFileSync('src/v4/components/ui/Button.tsx', 'utf8');
+const card = readFileSync('src/v4/components/ui/GlassCard.tsx', 'utf8');
+const hero = readFileSync('src/v4/components/sections/HeroSection.tsx', 'utf8');
+const grid = readFileSync('src/v4/components/dirt/NestedDataGridContainer.tsx', 'utf8');
 
-const light = {
-  panel: [255, 255, 255], alpha: 0.78, readableAlpha: 0.92,
-  backgrounds: ['#F4F7FB', '#e7eef9', '#ffffff'],
-  saturated: '#0066FF',
-  ink: ['#0f172a', '#475569', '#2563eb'],
-};
-const dark = {
-  panel: [18, 24, 38], alpha: 0.78, readableAlpha: 0.92,
-  backgrounds: ['#060D1A', '#011A3D', '#0b1930'],
-  saturated: '#00F0FF',
-  ink: ['#e8ecf4', '#9aa3b8', '#7aa7ff'],
-};
-
-function hexRgb(hex) {
-  return [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16));
+function extractBlock(marker) {
+  const start = css.indexOf(marker);
+  expect(start, marker).toBeGreaterThanOrEqual(0);
+  return css.slice(start, css.indexOf('}', start) + 1);
 }
-function composited(panel, alpha, background) {
-  return panel.map((channel, index) => channel * alpha + background[index] * (1 - alpha));
+const lightTokens = extractBlock(':root {');
+const darkTokens = extractBlock(":root[data-theme='dark'],");
+function expectToken(block, name, value) {
+  expect(block, name).toContain(`${name}: ${value};`);
 }
-function luminance(rgb) {
-  const linear = rgb.map((value) => {
-    const channel = value / 255;
-    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+function rgb(hex) {
+  return [1, 3, 5].map((at) => Number.parseInt(hex.slice(at, at + 2), 16));
+}
+function mix(front, back, alpha) {
+  return front.map((component, i) => component * alpha + back[i] * (1 - alpha));
+}
+function luminance(color) {
+  const linear = color.map((channel) => {
+    const value = channel / 255;
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
   });
-  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
 }
-function contrast(foreground, background) {
-  const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
-  return (values[0] + 0.05) / (values[1] + 0.05);
-}
-function blockAfter(marker) {
-  const start = theme.indexOf(marker);
-  expect(start).toBeGreaterThanOrEqual(0);
-  return theme.slice(start, theme.indexOf('}', start) + 1);
+function contrast(fg, bg) {
+  const [lighter, darker] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
+  return (lighter + 0.05) / (darker + 0.05);
 }
 
-describe('Phase 1.1 dual-theme accessible glass design system', () => {
-  it('defines every required light and dark token at the theme root', () => {
-    const l = blockAfter(':root {');
-    const d = blockAfter(":root[data-theme='dark'],");
-    const values = [
-      ['--glass-bg:', 'rgba(255, 255, 255, 0.55)', 'rgba(18, 24, 38, 0.55)'],
-      ['--glass-bg-strong:', 'rgba(255, 255, 255, 0.78)', 'rgba(18, 24, 38, 0.78)'],
-      ['--glass-border:', 'rgba(15, 23, 42, 0.12)', 'rgba(255, 255, 255, 0.18)'],
-      ['--glass-blur:', '16px', '18px'],
-      ['--glass-shadow:', '0 8px 32px rgba(15, 23, 42, 0.08)', '0 8px 32px rgba(0, 0, 0, 0.35)'],
-      ['--text-primary:', '#0f172a', '#e8ecf4'],
-      ['--text-muted:', '#475569', '#9aa3b8'],
-      ['--accent:', '#2563eb', '#7aa7ff'],
+describe('Phase 1.1a/b canonical dual-mode palette', () => {
+  it('implements approved light and dark tokens without changing the Vite architecture', () => {
+    const rows = [
+      ['--app-bg', '#F4F7FB', '#060D1A'],
+      ['--app-bg-deep', '#EDF2F9', '#03070F'],
+      ['--glass-bg', 'rgba(255, 255, 255, 0.60)', 'rgba(1, 26, 61, 0.40)'],
+      ['--glass-bg-strong', 'rgba(255, 255, 255, 0.80)', 'rgba(1, 26, 61, 0.68)'],
+      ['--glass-bg-subtle', 'rgba(255, 255, 255, 0.38)', 'rgba(1, 26, 61, 0.24)'],
+      ['--glass-border', 'rgba(1, 26, 61, 0.10)', 'rgba(0, 240, 255, 0.20)'],
+      ['--glass-highlight', 'rgba(255, 255, 255, 0.90)', 'rgba(255, 255, 255, 0.10)'],
+      ['--shadow-glass-2', '0 8px 32px rgba(1, 26, 61, 0.10)', '0 8px 32px rgba(0, 0, 0, 0.45)'],
+      ['--text-primary', '#011A3D', '#FFFFFF'],
+      ['--text-secondary', 'rgba(1, 26, 61, 0.72)', 'rgba(255, 255, 255, 0.60)'],
+      ['--text-secondary-solid', '#394F6D', '#A7B2C4'],
+      ['--accent', '#0066FF', '#00F0FF'],
+      ['--accent-hover', '#0052CC', '#4DF5FF'],
+      ['--accent-pressed', '#0047B3', '#00C4D1'],
+      ['--accent-fg', '#FFFFFF', '#011A3D'],
+      ['--success', '#0E7C5A', '#34D399'],
+      ['--warning', '#9A5B00', '#FBBF24'],
+      ['--danger', '#C0242B', '#F87171'],
+      ['--noise-opacity', '0.035', '0.05'],
     ];
-    for (const [name, lv, dv] of values) {
-      expect(l).toContain(`${name} ${lv};`);
-      expect(d).toContain(`${name} ${dv};`);
+    for (const [key, light, dark] of rows) {
+      expectToken(lightTokens, key, light);
+      expectToken(darkTokens, key, dark);
+    }
+    for (const [key, val] of [['--glass-blur-sm', '8px'], ['--glass-blur', '12px'], ['--glass-blur-lg', '18px'], ['--glass-blur-max', '20px'], ['--mesh-behind-text-max', '0.12']]) {
+      expectToken(lightTokens, key, val);
     }
   });
 
-  it.each([['light', light], ['dark', dark]])('%s theme passes 4.5:1 on representative site backgrounds at 78% opacity', (_name, tokens) => {
-    for (const background of tokens.backgrounds) {
-      const panel = composited(tokens.panel, tokens.alpha, hexRgb(background));
-      for (const foreground of tokens.ink) {
-        expect(contrast(hexRgb(foreground), panel)).toBeGreaterThanOrEqual(4.5);
-      }
+  it('keeps dark CTA ink navy on neon cyan; all button states pass 4.5:1', () => {
+    for (const background of ['#00F0FF', '#4DF5FF', '#00C4D1']) {
+      expect(contrast(rgb('#011A3D'), rgb(background))).toBeGreaterThanOrEqual(4.5);
+    }
+    for (const background of ['#0066FF', '#0052CC', '#0047B3']) {
+      expect(contrast(rgb('#FFFFFF'), rgb(background))).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(contrast(rgb('#FFFFFF'), rgb('#00F0FF'))).toBeLessThan(1.5);
+    expect(button).toContain('root-primary-cta');
+    expect(glass).toContain('color: var(--accent-fg)');
+    expect(glass).toContain('background-color: var(--accent-hover)');
+  });
+
+  it.each([
+    ['light', [255, 255, 255], 0.80, '#F4F7FB', '#0066FF', '#011A3D', '#394F6D'],
+    ['dark', [1, 26, 61], 0.68, '#060D1A', '#00F0FF', '#FFFFFF', '#A7B2C4'],
+  ])('%s strong glass maintains normal-text AA with capped mesh', (_name, panel, alpha, base, orb, primary, muted) => {
+    const backdrop = mix(rgb(orb), rgb(base), 0.12);
+    const glassBackground = mix(panel, backdrop, alpha);
+    for (const foreground of [primary, muted]) {
+      expect(contrast(rgb(foreground), glassBackground)).toBeGreaterThanOrEqual(4.5);
     }
   });
 
-  it.each([['light', light], ['dark', dark]])('%s readable tier passes 4.5:1 even on sampled saturated brand backgrounds', (_name, tokens) => {
-    const panel = composited(tokens.panel, tokens.readableAlpha, hexRgb(tokens.saturated));
-    for (const foreground of tokens.ink) {
-      expect(contrast(hexRgb(foreground), panel)).toBeGreaterThanOrEqual(4.5);
-    }
+  it('uses dual edges, both blur engines, fallbacks and reduced transparency', () => {
+    expectToken(lightTokens, '--glass-inner-ring', 'inset 0 0 0 1px var(--glass-border)');
+    expectToken(lightTokens, '--glass-inner-light', 'inset 0 1px 0 0 var(--glass-highlight)');
+    expect(glass).toContain('var(--glass-inner-ring), var(--glass-inner-light)');
+    expect(glass).toContain('-webkit-backdrop-filter:');
+    expect(glass).toContain('backdrop-filter:');
+    expect(glass).toContain('prefers-reduced-transparency: reduce');
+    expect(chrome).toContain('prefers-reduced-transparency: reduce');
+    expect(glass).toContain('background: var(--glass-fallback)');
+    expect(chrome).toContain('background: var(--glass-fallback)');
+    expect(glass).toContain('background: var(--glass-solid)');
+    expectToken(lightTokens, '--glass-fallback', 'rgba(247, 249, 253, 0.96)');
+    expectToken(darkTokens, '--glass-fallback', 'rgba(18, 24, 38, 0.96)');
   });
 
-  it('uses the strong/readable tier for text-bearing cards, shells, and headers', () => {
-    const card = styles.slice(styles.indexOf('.v4-root .glass-surface {'), styles.indexOf('.v4-root .glass-surface--readable {'));
-    const shell = styles.slice(styles.indexOf('.v4-root .section-shell {'), styles.indexOf('@supports not (backdrop-filter:', styles.indexOf('.v4-root .section-shell {')));
-    expect(card).toContain('background: var(--glass-bg-strong)');
-    expect(shell).toContain('background: var(--glass-bg-strong)');
-    expect(styles).toContain('.v4-root .glass-surface--readable { background: var(--glass-bg-readable); }');
-    expect(chrome).toContain('background: var(--glass-bg-readable)');
-    expect(styles).toContain('background: var(--glass-fallback)');
-    expect(blockAfter(':root {')).toContain('--glass-fallback: #f7f9fd;');
-    expect(blockAfter(":root[data-theme='dark'],")).toContain('--glass-fallback: #121826;');
-    expect(nestedGrid).not.toContain('text-muted/70');
-    expect(styles).toContain('blur(var(--glass-blur))');
+  it('caps mesh and adds low-opacity SVG noise; avoids animated glass wrappers', () => {
+    expect(glass).toContain('opacity: var(--mesh-behind-text-max)');
+    expect(glass).toContain('opacity: var(--noise-opacity)');
+    expect(glass).toContain('feTurbulence');
+    expect(hero).toContain('className="root-mesh');
+    expect(hero).not.toContain('className="homeHero relative" data-reveal');
+    expect(card).not.toContain('transform-gpu');
+    expect(grid).not.toContain('text-muted/70');
+    expect(glass).toContain('[data-reveal]:has(.glass-surface)');
+  });
+
+  it('uses 18px initial / 10px scrolled header blur and respects focus', () => {
+    expect(chrome).toContain('blur(var(--glass-blur-lg))');
+    expect(chrome).toContain('blur(10px)');
+    expect(chrome).toContain('var(--glass-bg-readable)');
+    expect(glass).toContain('box-shadow: var(--focus-ring)');
   });
 });
