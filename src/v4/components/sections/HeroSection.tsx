@@ -30,7 +30,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
         aria-hidden="true"
         className="root-mesh pointer-events-none absolute inset-x-0 -top-8 h-72 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
       />
-      <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
         <div className="heroCopy flex flex-col gap-5">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-data-blue">{displayEyebrow}</p>
           <h1 className="measure-exec text-balance text-4xl font-semibold leading-[1.08] text-text sm:text-5xl lg:text-[3.5rem]">
