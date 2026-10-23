@@ -16,6 +16,8 @@
   --glass-bg-subtle: rgba(255, 255, 255, 0.38);
   --glass-bg-readable: rgba(255, 255, 255, 0.92);
   --glass-fallback: rgba(247, 249, 253, 0.96);
+  --glass-fallback-default: rgba(247, 249, 253, 0.94);
+  --glass-fallback-strong: rgba(247, 249, 253, 0.97);
   --glass-solid: #F7F9FD;
 
   /* Dual-edge system */
@@ -23,6 +25,12 @@
   --glass-highlight: rgba(255, 255, 255, 0.90);
   --glass-inner-ring: inset 0 0 0 1px var(--glass-border);
   --glass-inner-light: inset 0 1px 0 0 var(--glass-highlight);
+  --chart-grid-line: rgba(1, 26, 61, 0.12);
+  --chart-cursor: rgba(99, 102, 241, 0.08);
+  --panel-accent-topline: rgba(99, 102, 241, 0.40);
+  --conversion-panel-bg: linear-gradient(135deg, var(--glass-bg-strong), var(--glass-fallback-strong));
+  --table-scrollbar-thumb: rgba(99, 102, 241, 0.24);
+  --note-highlight: inset 0 1px 0 var(--glass-highlight);
 
   /* Blur and elevation */
   --glass-blur-sm: 8px;
@@ -81,11 +89,19 @@
   --glass-bg-subtle: rgba(1, 26, 61, 0.24);
   --glass-bg-readable: rgba(1, 26, 61, 0.92);
   --glass-fallback: rgba(18, 24, 38, 0.96);
+  --glass-fallback-default: rgba(1, 26, 61, 0.94);
+  --glass-fallback-strong: rgba(1, 26, 61, 0.97);
   --glass-solid: #121826;
   --glass-border: rgba(0, 240, 255, 0.20);
   --glass-highlight: rgba(255, 255, 255, 0.10);
   --glass-inner-ring: inset 0 0 0 1px var(--glass-border);
   --glass-inner-light: inset 0 1px 0 0 var(--glass-highlight);
+  --chart-grid-line: rgba(255, 255, 255, 0.12);
+  --chart-cursor: rgba(99, 102, 241, 0.08);
+  --panel-accent-topline: rgba(99, 102, 241, 0.40);
+  --conversion-panel-bg: linear-gradient(135deg, var(--glass-bg-strong), var(--glass-fallback-strong));
+  --table-scrollbar-thumb: rgba(99, 102, 241, 0.24);
+  --note-highlight: inset 0 1px 0 var(--glass-highlight);
   --shadow-glass-1: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-glass-2: 0 8px 32px rgba(0, 0, 0, 0.45);
   --shadow-glass-3: 0 16px 48px rgba(0, 0, 0, 0.55);
