@@ -44,7 +44,7 @@
 
   --shadow-root: 0 12px 32px rgb(0 0 0 / 22%);
   --shadow-panel-soft: 0 10px 24px rgb(0 0 0 / 18%);
-  --shadow-command: 0 16px 40px rgb(0 0 0 / 26%);
+  --shadow-command: 0 16px 32px rgb(0 0 0 / 26%);
 
   --font-display: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -178,7 +178,7 @@
   min-width: 0;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-panel);
-  background: var(--glass-bg-strong);
+  background: var(--glass-bg);
   color: var(--text-primary);
   --color-text: var(--text-primary);
   --color-muted: var(--text-secondary-solid);
@@ -186,13 +186,18 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
-.v4-root .glass-surface--readable { background: var(--glass-bg-readable); }
+.v4-root .glass-surface--readable { background: var(--glass-bg-strong); }
+.v4-root .glass-surface.glass-strong {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(150%);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(150%);
+}
 .v4-root .glass-surface--metric,
 .v4-root .glass-surface--matrix,
 .v4-root .glass-surface--lifecycle,
 .v4-root .glass-surface--trust {
   border-color: var(--glass-border);
-  background: var(--glass-bg-strong);
+  background: var(--glass-bg);
 }
 .v4-root .section-shell {
   position: relative;
@@ -210,8 +215,10 @@
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .v4-root .glass-surface.glass-strong,
+  .v4-root .section-shell { background: var(--glass-fallback-strong); }
   .v4-root .glass-surface,
-  .v4-root .section-shell { background: var(--glass-fallback); }
+  .v4-root .glass { background: var(--glass-fallback-default); }
 }
 @media (min-width: 768px) {
   .v4-root .section-shell { padding: 1.75rem; }
@@ -220,6 +227,8 @@
 /* Transparency preferences: disable blur and use genuinely solid non-white surfaces. */
 @media (prefers-reduced-transparency: reduce) {
   .v4-root .glass-surface,
+  .v4-root .glass-surface.glass-strong,
+  .v4-root .glass-surface.glass,
   .v4-root .section-shell {
     background: var(--glass-solid);
     -webkit-backdrop-filter: none;
@@ -411,8 +420,7 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
 .v4-root .media-placeholder[data-state='loading'] img { opacity: 0; }
 .v4-root .media-placeholder[data-state='ready'] img { opacity: 1; }
 .v4-root .media-placeholder[data-state='error'] img { opacity: 0; }
-.v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); animation: media-reveal 1.5s ease-in-out infinite; }
-@keyframes media-reveal { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.v4-root .media-placeholder[data-state='loading']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-accent) 8%,transparent),transparent); }
 @media (prefers-reduced-motion: reduce) { .v4-root .media-placeholder::after { animation: none !important; } .v4-root .media-placeholder img { transition: none; } }
 
 /* Tokenized primary CTA; solid hover/pressed colors preserve AA text contrast. */
@@ -427,4 +435,18 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
   box-shadow: var(--accent-glow-hover);
 }
 .root-primary-cta:active { background-color: var(--accent-pressed); }
-.root-primary-cta:focus-visible { box-shadow: var(--focus-ring); }
+.root-primary-cta:focus-visible { box-shadow: var(--accent-glow), var(--focus-ring); }
+@media (prefers-reduced-motion: reduce) {
+  .root-primary-cta, .root-primary-cta:hover { box-shadow: none; }
+  .root-primary-cta:focus-visible { box-shadow: var(--focus-ring); }
+  .v4-root :is(.glass-surface, .glass-strong, .glass, .glass-subtle) { transition: none; }
+}
+/* Component glass transitions: no movement or animated glow, <=200ms ease-out. */
+.v4-root :is(.glass-surface, .glass-strong, .glass, .glass-subtle) {
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 180ms;
+  transition-timing-function: ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .v4-root :is(.glass-surface, .glass-strong, .glass, .glass-subtle) { transition-duration: 0.01ms; }
+}

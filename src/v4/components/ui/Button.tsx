@@ -5,7 +5,7 @@ import { cn } from '@/lib/cn';
 
 export const buttonVariants = cva(
   'min-h-11 min-w-11 inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium ' +
-    'transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-[var(--ease-premium)] ' +
+    'transition-[color,background-color,border-color,transform,box-shadow] duration-200 ease-out ' +
     'focus-visible:outline-none focus-visible:ring-2 ' +
     'focus-visible:ring-data-blue focus-visible:ring-offset-2 focus-visible:ring-offset-bg ' +
     'active:translate-y-0 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:translate-y-0',

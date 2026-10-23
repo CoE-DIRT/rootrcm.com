@@ -87,11 +87,11 @@ test.describe('header', () => {
       return parts.length > 3 ? Number(parts[3]) : 1;
     };
     await expect(header).toHaveAttribute('data-scrolled', 'false');
-    expect(alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.92);
+    expect(alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.68);
 
     await page.evaluate(() => window.scrollTo(0, 700));
     await expect(header).toHaveAttribute('data-scrolled', 'true');
-    await expect.poll(async () => alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.92);
+    await expect.poll(async () => alpha(await header.evaluate((element) => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(0.68);
   });
 
   test('exposes every required item in order, with a primary CTA', async ({ page, isMobile }) => {

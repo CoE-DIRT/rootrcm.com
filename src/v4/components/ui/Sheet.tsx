@@ -19,10 +19,10 @@ export function SheetContent({
 }) {
   return (
     <RadixDialog.Portal>
-      <RadixDialog.Overlay className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm" />
+      <RadixDialog.Overlay className="root-mobile-scrim fixed inset-0 z-50" />
       <RadixDialog.Content
         className={cn(
-          'fixed top-0 z-50 h-full w-[min(360px,100%)] overflow-y-auto border-border bg-panel-solid bg-panel p-6 ' +
+          'glass-strong root-mobile-drawer fixed top-0 z-50 h-full w-[min(360px,100%)] overflow-y-auto border-border p-6 ' +
             'shadow-root focus:outline-none',
           side === 'right' ? 'right-0 border-l' : 'left-0 border-r',
           className,

@@ -101,7 +101,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
 
   return (
     <header
-      className="v4-header fixed inset-x-0 top-0 z-40"
+      className="v4-header glass-strong sticky inset-x-0 top-0 z-40"
       data-scrolled={scrolled || mobileOpen ? 'true' : 'false'}
     >
       <a

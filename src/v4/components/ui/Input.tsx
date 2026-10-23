@@ -3,8 +3,8 @@ import type { InputHTMLAttributes, TextareaHTMLAttributes, LabelHTMLAttributes, 
 import { cn } from '@/lib/cn';
 
 const fieldStyles =
-  'w-full rounded-[var(--radius-root)] border border-border bg-panel px-4 py-3 text-sm text-text ' +
-  'placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ' +
+  'w-full rounded-[var(--radius-root)] border border-[var(--form-input-border)] root-form-input px-4 py-3 text-base text-text ' +
+  'placeholder:text-[var(--text-tertiary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ' +
   'disabled:pointer-events-none disabled:opacity-50';
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(

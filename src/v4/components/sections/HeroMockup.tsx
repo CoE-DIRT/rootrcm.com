@@ -13,7 +13,7 @@ export interface HeroMockupProps {
 
 export function HeroMockup({ label = 'Command Viewframe', badge, children }: HeroMockupProps) {
   return (
-    <div className="glass-surface glass-surface--matrix relative overflow-hidden rounded-[var(--radius-hero)] p-4 sm:p-5">
+    <div className="glass-surface glass-strong root-dashboard-preview relative overflow-hidden rounded-[var(--radius-hero)] p-4 sm:p-5">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--panel-accent-topline),transparent)]"
@@ -29,7 +29,7 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
 
         <div
           role="region"
-          aria-label={`${label} preview`}
+          aria-label="Illustrative revenue metrics: monthly charges, collections, total accounts receivable and A/R over 90 days"
           className="hero-mockup-scroll min-w-0 overflow-x-hidden"
         >
           {children}

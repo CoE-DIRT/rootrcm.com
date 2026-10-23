@@ -6,13 +6,13 @@ type GlassCardVariant = 'glass' | 'readable' | 'metric' | 'matrix' | 'lifecycle'
 type GlassCardAccent = 'indigo' | 'cyan' | 'green' | 'amber' | 'blush';
 
 const variantClass: Record<GlassCardVariant, string> = {
-  glass: 'glass-surface',
-  readable: 'glass-surface glass-surface--readable',
-  metric: 'glass-surface glass-surface--metric',
-  matrix: 'glass-surface glass-surface--matrix',
-  lifecycle: 'glass-surface glass-surface--lifecycle',
-  trust: 'glass-surface glass-surface--trust',
-  solution: 'glass-surface glass-surface--matrix',
+  glass: 'glass-surface glass',
+  readable: 'glass-surface glass-strong',
+  metric: 'glass-surface glass-strong',
+  matrix: 'glass-surface glass-strong',
+  lifecycle: 'glass-surface glass',
+  trust: 'glass-surface glass',
+  solution: 'glass-surface glass-strong',
 };
 
 const accentClass: Record<GlassCardAccent, string> = {
@@ -51,7 +51,7 @@ export function GlassCard({
       className={cn(
         'relative min-w-0 overflow-hidden rounded-[var(--radius-panel)] p-5 transition-premium',
         hover &&
-          'duration-300 ease-out hover:border-[var(--glass-border)] hover:shadow-[var(--shadow-glass-3)] motion-reduce:transition-none',
+          'duration-200 ease-out hover:border-[var(--glass-border)] hover:shadow-[var(--shadow-glass-2)] motion-reduce:transition-none',
         variantClass[variant],
         className,
       )}

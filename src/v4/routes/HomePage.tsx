@@ -24,6 +24,15 @@ import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
+const featureImages = [
+  "/media/images/healthcare-operations-collaboration.jpg",
+  "/media/images/practice-operations-workstation.jpg",
+  "/media/images/practice-admin-workstation.jpg",
+  "/media/images/rcm-billing-financial-operations.jpg",
+  "/media/images/physician-nurse-coordination.jpg",
+  "/media/images/practice-team-collaboration.jpg"
+];
+
 const healthcareSegments = [
   { name: 'Behavioral Health Groups', signal: 'Documentation-driven denials, payer enrollment timelines, and revenue visibility across group practices.', href: '/solutions/denials/' },
   { name: 'Ambulatory Surgery Centers', signal: 'Case reimbursement, authorization exposure, payer performance, and facility A/R.', href: '/solutions/revenue-leakage/' },
@@ -146,13 +155,18 @@ function HomePageContent() {
           description="We work with practice owners, administrators, and revenue leaders. Our focus includes cardiology, vascular, surgical, and multispecialty revenue operations."
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {healthcareSegments.map((segment) => (
-            <a key={segment.name} href={segment.href} className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 transition-colors hover:border-data-blue/45">
-              <h3 className="font-semibold text-text">{segment.name}</h3>
-              <p className="mt-2 text-sm text-muted">{segment.signal}</p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
-                Explore revenue solution <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </span>
+          {healthcareSegments.map((segment, index) => (
+            <a key={segment.name} href={segment.href} className="root-feature-card glass block overflow-hidden rounded-[var(--radius-root)]">
+              <div className="aspect-square overflow-hidden bg-panel-solid">
+                <img src={featureImages[index]} alt={`Editorial context for ${segment.name}; not a ROOT client or team photo`} width={480} height={480} loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
+              </div>
+              <div className="p-5">
+                <h3 className="font-semibold text-text">{segment.name}</h3>
+                <p className="mt-2 text-sm text-muted">{segment.signal}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                  Explore revenue solution <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </div>
             </a>
           ))}
         </div>
@@ -230,7 +244,7 @@ function HomePageContent() {
             <a
               key={article.slug}
               href={`/resources/${article.slug}/`}
-              className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-5 transition-colors hover:border-data-blue/45"
+              className="glass rounded-[var(--radius-root)] p-5 transition-colors hover:border-data-blue/45"
             >
               <p className="text-sm font-medium text-text">{article.title}</p>
               {article.summary ? <p className="mt-2 text-xs text-muted">{article.summary}</p> : null}

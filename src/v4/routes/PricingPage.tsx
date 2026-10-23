@@ -53,7 +53,7 @@ function PricingGlance() {
                 <th scope="row" className="px-4 py-3 font-semibold text-text">
                   {model.name}
                 </th>
-                <td className="px-4 py-3 text-accent">{model.price}</td>
+                <td className="px-4 py-3 font-semibold text-text">{model.price}</td>
                 <td className="px-4 py-3 text-muted">{model.bestFor}</td>
               </tr>
             ))}
@@ -83,10 +83,10 @@ export function PricingPage() {
         </Section>
 
         <Section tone="flow" wide>
-          <GlassCard as="div" variant="matrix" accent="cyan" hover={false} className="p-6 md:p-8">
+          <GlassCard as="div" variant="glass" accent="cyan" hover={false} className="p-6 md:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">Focused entry engagement</p>
             <h2 className="mt-2 text-2xl font-semibold text-text sm:text-3xl">{diagnostic.name}</h2>
-            <p className="mt-2 text-xl text-accent md:text-2xl">{diagnostic.price}</p>
+            <p className="mt-2 text-xl font-semibold text-text md:text-2xl">{diagnostic.price}</p>
             <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">{diagnostic.bestFor}</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {diagnostic.includes.map((item: string) => (
@@ -116,7 +116,7 @@ export function PricingPage() {
             {primaryModels.map((model: (typeof pricingModels)[number]) => (
               <GlassCard key={model.name} as="div" variant="glass" accent="indigo" className="p-6">
                 <h2 className="text-xl font-semibold text-text">{model.name}</h2>
-                <p className="mt-2 text-accent">{model.price}</p>
+                <p className="mt-2 font-semibold text-text">{model.price}</p>
                 <p className="mt-3 text-sm text-muted">{model.bestFor}</p>
                 <ul className="mt-4 space-y-1 text-sm text-muted">
                   {model.includes.map((item: string) => (
@@ -141,7 +141,7 @@ export function PricingPage() {
             {specializedModels.map((model: (typeof pricingModels)[number]) => (
               <GlassCard key={model.name} as="div" variant="glass" className="p-5">
                 <h3 className="font-semibold text-text">{model.name}</h3>
-                <p className="mt-2 text-sm text-accent">{model.price}</p>
+                <p className="mt-2 text-sm font-semibold text-text">{model.price}</p>
                 <p className="mt-2 text-sm text-muted">{model.bestFor}</p>
                 <p className="mt-3 text-xs text-muted">Scope and outcomes</p>
                 <LinkButton href={model.href} variant="ghost" size="sm" className="mt-3" {...cardTracking(model, 'pricing-specialized')}>
