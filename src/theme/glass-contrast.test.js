@@ -15,7 +15,7 @@ function extractBlock(marker) {
   return css.slice(start, css.indexOf('}', start) + 1);
 }
 const lightTokens = extractBlock(':root {');
-const darkTokens = extractBlock(":root[data-theme='dark'],");
+const darkTokens = extractBlock(":root[data-theme='dark'] {");
 function expectToken(block, name, value) {
   expect(block, name).toContain(`${name}: ${value};`);
 }
