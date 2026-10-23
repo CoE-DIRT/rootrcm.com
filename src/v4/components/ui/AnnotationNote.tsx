@@ -11,7 +11,7 @@ export function AnnotationNote({ label = 'Operational note', text, className }: 
   return (
     <p
       className={cn(
-        'rounded-[var(--radius-root)] border border-border-strong/70 bg-panel/78 px-3 py-2 text-xs font-medium text-muted shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]',
+        'rounded-[var(--radius-root)] border border-border-strong/70 bg-panel/78 px-3 py-2 text-xs font-medium text-muted shadow-[var(--note-highlight)]',
         className,
       )}
     >
