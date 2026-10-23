@@ -63,12 +63,12 @@ export function ArAgingMatrix() {
       <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="A/R aging bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.aging}>
-            <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+            <CartesianGrid stroke="var(--chart-grid-line)" vertical={false} />
             <XAxis dataKey="bucket" tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
             <YAxis tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} width={48} />
             <Tooltip
-              cursor={{ fill: 'rgba(99,102,241,0.08)' }}
-              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              cursor={{ fill: 'var(--chart-cursor)' }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid var(--glass-border)', borderRadius: 8 }}
               formatter={(value) => [formatCompactUsd(Number(value)), 'A/R']}
             />
             <Bar dataKey="amount" radius={[4, 4, 0, 0]} isAnimationActive={!reducedMotion}>
@@ -92,11 +92,11 @@ export function DenialPareto() {
       <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="Denial category bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>
-            <CartesianGrid stroke="rgba(255,255,255,0.06)" horizontal={false} />
+            <CartesianGrid stroke="var(--chart-grid-line)" horizontal={false} />
             <XAxis type="number" tickFormatter={(v) => formatCompactUsd(Number(v))} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
             <YAxis type="category" dataKey="category" width={88} tick={{ fill: 'var(--color-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ background: 'var(--color-panel)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}
+              contentStyle={{ background: 'var(--color-panel)', border: '1px solid var(--glass-border)', borderRadius: 8 }}
               formatter={(value, _n, item) => [formatCompactUsd(Number(value)), `${item?.payload?.count ?? ''} events`]}
             />
             <Bar dataKey="value" fill="var(--color-data-blue)" radius={[0, 4, 4, 0]} isAnimationActive={!reducedMotion} />
