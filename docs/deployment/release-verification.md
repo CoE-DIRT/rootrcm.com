@@ -6,26 +6,45 @@
 
 PR: https://github.com/CoE-DIRT/rootrcm.com/pull/31 (`site-overhaul-2026-10-19`). The resumed release starts from `598c2eb2b3b48d6ea44497d1e6f4303d947c592e`; use the updated PR head and Appwrite deployment metadata for the final candidate SHA. Local verification work is on `verify/site-release-20261020`.
 
-## Current resumption checkpoint
+## Current recovery checkpoint — 23 October 2026
 
-The environment changed from revision 4 to revision 7, but the current enforced network policy still has
-`allowed_hosts: []`, only the package-manager preset, and proxy HTTP 403 for both apex and the branch preview.
-No public or hosted-preview verification is inferred from the configuration edit.
+**HOLD.** The production and rollback baseline is ready deployment `6ada40702ade70b09cc1`,
+source `0f2d54028c89eda2fd9f5425b876b171c2dd5cc9`. Authenticated Site readback and apex HTTP
+`x-appwrite-deployment-id` agree. The older PR preview must not be activated.
 
-Production changed outside this release work: the Site and apex domain now reference ready deployment
-`6ad90bbf208b407c8ed0`, source `f1e7dafa56c49a57c01819f86b8c90285a2a9fdc` (the public trust and responsible-operations
-statement). **This is the current rollback baseline**, superseding the older deployment recorded below.
-PR #31 is still open. Its release branch now incorporates that main commit and preserves both the new
-`Our commitments` footer link and the improved `How We Work` label. The runtime merge source is
-`574e6655aa59a544096744bc9cf6e3236fcbc44b`; the following handoff-only commit does not change site runtime behavior.
+The release branch integrates current main, retaining partner-network, partner terms, opportunities,
+careers, ASC guide, founders, mission, branding and editorial-image disclosures. Existing PR consent,
+SEO and performance fixes are retained. Reveal registration now covers sections mounted after Suspense;
+the DIRT route test awaits both lazy components independently.
 
-After synchronization, lint, the configured production build, all 583 unit tests, and rendered checks on all 50 public
-routes passed again. The responsible-operations anchor and footer link were checked at 390 px and 1440 px with no
-runtime errors or horizontal overflow. CI for the previous documentation head `9c673923cdf3d636154fe748ec59c67ede0e9305`
-also passed (run 39652345862). The synchronized head requires its own CI/preview result before release. A fresh check after the user reported saving custom domains still observed revision 7, an empty allowlist and proxy HTTP 403; the saved configuration has not reached this running environment.
+Observed environment desired/observed revision: **2 / 2**, observations current. Network policy state and
+runtime-variable readiness are `unknown`; actual HTTP checks establish reachability, not policy enforcement.
+The four release hosts are present in both the configured allowlist and startup policy:
 
-The analytics deployment still reports logging disabled, a 1440-minute retention interval and 30-second timeout.
-No production Site activation, domain-rule change or DNS change was performed during this resumption.
+- `rootrcm.com`
+- `www.rootrcm.com`
+- `branch-site-overhaul-20-f4b24b9-61f7447.appwrite.network`
+- `rootrcm-com.nyc.appwrite.run`
+
+GET checks: apex 200 with baseline deployment; www 302; preview 401 `preview_signin`;
+analytics host 503. A www request to `/partners/?release_probe=20261023` redirects to
+`https://rootrcm.com/`, dropping both path and query. These are origin responses, not proxy denials.
+The owner reports preview authorization, but the workspace still receives 401 and has no connected
+browser-control tool to reuse that session. Authenticated hosted verification remains incomplete.
+
+Authenticated `tracking-ingest` readback confirms execute `any`, enabled, logging false, interval 1440,
+timeout 30, ready deployment `6ada4073ed19a27e8a3a`. An authenticated OPTIONS execution also fails
+with 503 and empty error output. No secret values were inspected or displayed. Runtime/retention/browser
+ingest success is not established by ready build status.
+
+Local inherited configuration is `VITE_SITE_ENV=preview`, `VITE_EXPERIMENTS_ENABLED=false`.
+Retain its failing log separately from the CI-default suite (those two variables unset) and the production
+build (production environment, experiments true, observed public tracking endpoint). Final validation
+must name the exact candidate SHA and commands; historical counts below are not current results.
+
+No production activation, DNS or domain-rule change is authorized before merge and hosted QA gates pass.
+The remaining sections are historical evidence; their older deployment/revision identifiers are superseded
+by this checkpoint.
 
 ## Earlier Appwrite checkpoint
 
@@ -92,7 +111,7 @@ browser transport, real visitor data or the first scheduled purge has been verif
 1. Verify the updated candidate's exact SHA, ready Appwrite build and complete GitHub CI.
 2. Finish preview visual/interactive and HTTP checks, including all public routes, deep links, assets, unknown-route status, TLS, redirects, cache/security behavior and consent accept/reject/withdrawal.
 3. Verify the intended contact fallback or owned-delivery mode. Mocked inquiry tests do not establish real mailbox receipt; no real message has been sent during this verification pass.
-4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the current production deployment `6ad90bbf208b407c8ed0` (source `f1e7dafa56c49a57c01819f86b8c90285a2a9fdc`) for rollback; verify both the Site and actual apex rule after promotion.
+4. Merge PR #31 and promote the verified release only after the gates pass under the user's publishing authorization. Preserve the current production deployment `6ada40702ade70b09cc1` (source `0f2d54028c89eda2fd9f5425b876b171c2dd5cc9`) for rollback; verify both the Site and actual apex rule after promotion.
 5. Recheck public apex and www against the released source. Record final deployment ID, source SHA, live URL, preview URL and observed results.
 
 Do not change DNS, registrar settings, GitHub Pages production settings or `public/CNAME`. This release has not changed the production Site assignment, DNS or domain rules; the external trust-statement deployment is preserved as the current baseline. The analytics Function scheduling/timeout metadata was repaired under the privacy-verification scope; only a synthetic preview event was written and then removed.

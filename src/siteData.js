@@ -63,6 +63,33 @@ export const companyInfo = {
   whatsappHref: 'https://wa.me/13025064685?text=Hello%20ROOT%20Revenue%20Operations%20%26%20Outcomes%20Technology%20Incorporated%2C%20I%20would%20like%20to%20discuss%20a%20deidentified%20practice%20operations%20or%20revenue%20cycle%20need.',
 };
 
+/**
+ * Public leadership profiles. Titles are taken from the supplied October 2026 ROOT
+ * signatures. The named individuals' co-founder designation was confirmed by
+ * the ROOT owner on 2026-10-21; equity and legal filing status are separate.
+ * Only verified personal profile URLs are rendered.
+ */
+export const leadershipProfiles = [
+  {
+    id: 'aftab-shaukat',
+    name: 'Aftab Shaukat',
+    role: 'Principal, Client Solutions & Service Delivery',
+    isCoFounder: true,
+    focus: 'Healthcare revenue operations, solutions architecture, process optimization, and accountable client delivery.',
+    linkedIn: 'https://www.linkedin.com/in/healthcare-rcm-leader/',
+    gitHub: 'https://github.com/aashaukatc',
+  },
+  {
+    id: 'kashif-ali',
+    name: 'Kashif Ali',
+    role: 'Senior Operations & Service Delivery Lead',
+    isCoFounder: true,
+    focus: 'Operating coordination, work allocation, service delivery oversight, and escalation management.',
+    linkedIn: 'https://www.linkedin.com/in/kashif-ali-9874a6237/',
+    gitHub: null,
+  },
+];
+
 export const outreachChannels = [
   { label: 'WhatsApp', href: companyInfo.whatsappHref, status: 'Live', cta: 'whatsapp-instant-chat', engagementType: 'instant-chat' },
   { label: 'Call', href: companyInfo.phoneHref, status: 'Live', cta: 'phone-call', engagementType: 'phone' },
@@ -122,7 +149,7 @@ export const solutionPages = [
     title: 'Revenue Leakage',
     summary: 'Expose hidden revenue leakage across eligibility, authorizations, claim quality, payer reimbursement, underpayments, takebacks, denials, and aging A/R.',
     problem: 'Revenue leakage often hides as ordinary backlog: unresolved edits, small recurring denials, payer variance, delayed credentialing, weak follow-up, and reports no one trusts.',
-    rootResponse: 'ROOT combines revenue-cycle execution, workflow redesign, DIRT analysis, and leadership reporting so leakage becomes a prioritized operating plan.',
+    rootResponse: 'We combine revenue-cycle execution, workflow redesign, DIRT analysis, and leadership reporting so leakage becomes a prioritized operating plan.',
     services: ['Medical billing', 'A/R recovery', 'Denial management', 'Reporting analytics', 'Operational consulting'],
     dirt: 'DIRT segments opportunities by value, age, payer, recurrence, and recoverability so the team works the highest-impact constraint first.',
     cta: 'Find revenue leakage',
@@ -132,7 +159,7 @@ export const solutionPages = [
     title: 'Aging A/R',
     summary: 'Turn aging A/R into financial triage: separate collectible balances, payer delays, rework, and recovery opportunities by value and urgency.',
     problem: 'Older A/R grows when claims are worked oldest-first without enough payer segmentation, escalation standards, documentation, or ownership.',
-    rootResponse: 'ROOT cleans up backlog, builds follow-up logic, tightens reporting, and creates an operating cadence that keeps aging from rebuilding.',
+    rootResponse: 'We review backlog, build follow-up logic, tighten reporting, and establish an operating cadence designed to prevent recurring backlog.',
     services: ['A/R recovery', 'Payment posting', 'Patient balances', 'Reporting analytics'],
     dirt: 'DIRT separates collectible, doubtful, payer-stalled, patient-responsibility, and workflow-generated balances to guide work sequencing.',
     cta: 'Prioritize A/R recovery',
@@ -142,7 +169,7 @@ export const solutionPages = [
     title: 'Denials',
     summary: 'Move beyond denial counts to payer-specific root causes, denial prevention, recoverable value, and accountable corrective action.',
     problem: 'Denials become expensive when the team only works transactions and the upstream workflow keeps creating the same failure.',
-    rootResponse: 'ROOT works recoverable denials, traces patterns to cause, and helps practices correct the operational source of recurring denials.',
+    rootResponse: 'We work recoverable denials, trace patterns to cause, and help practices correct the operational source of recurring denials.',
     services: ['Denial management', 'Medical billing', 'Workflow automation', 'Operational consulting'],
     dirt: 'DIRT groups denial signals by payer, code family, reason, recurrence, preventability, and value at risk.',
     cta: 'Reduce denial drag',
@@ -152,7 +179,7 @@ export const solutionPages = [
     title: 'Credentialing Bottlenecks',
     summary: 'Protect revenue readiness by connecting provider enrollment, payer participation, effective dates, revalidation, and location rosters.',
     problem: 'Credentialing issues can quietly delay revenue, disrupt growth, and create payer participation ambiguity across locations or providers.',
-    rootResponse: 'ROOT brings process ownership, payer follow-up, status tracking, roster discipline, and escalation routines into one managed workflow.',
+    rootResponse: 'We bring process ownership, payer follow-up, status tracking, roster discipline, and escalation routines into one managed workflow.',
     services: ['Credentialing', 'Operational consulting', 'Healthcare IT', 'Reporting analytics'],
     dirt: 'DIRT connects enrollment status and revenue signals so leaders can see which bottlenecks are commercially material.',
     cta: 'Fix credentialing visibility',
@@ -162,7 +189,7 @@ export const solutionPages = [
     title: 'Operational Efficiency',
     summary: 'Reduce administrative drag by aligning workflows, technology, accountability, and automation around the work that matters.',
     problem: 'Many practices are not understaffed as much as they are under-systemized: handoffs are unclear, reports disagree, and exceptions are invisible.',
-    rootResponse: 'ROOT maps the workflow, redesigns ownership, adds controls, and automates repetitive work where it can be measured and monitored.',
+    rootResponse: 'We map the workflow, redesign ownership, add controls, and automate repetitive work where it can be measured and monitored.',
     services: ['Practice operations', 'Workflow automation', 'Healthcare IT', 'Operational consulting'],
     dirt: 'DIRT highlights where revenue and operating signals suggest workflow friction, queue imbalance, or preventable rework.',
     cta: 'Improve practice operations',
@@ -172,7 +199,7 @@ export const solutionPages = [
     title: 'Reporting Visibility',
     summary: 'Bring fragmented EHR, PM, clearinghouse, payer, and finance data into a reliable view of revenue performance and next actions.',
     problem: 'Practices cannot manage what they cannot see. Disconnected reports make it hard to understand constraint, priority, and progress.',
-    rootResponse: 'ROOT builds practical reporting architecture, KPI rhythm, and leadership review structures connected to operating action.',
+    rootResponse: 'We build practical reporting architecture, KPI rhythm, and leadership review structures connected to operating action.',
     services: ['Reporting analytics', 'DIRT intelligence', 'Healthcare IT', 'Operational consulting'],
     dirt: 'DIRT translates raw exports into segmented intelligence views for leakage, aging, denials, payer behavior, and recovery priority.',
     cta: 'Build operating visibility',
@@ -182,7 +209,7 @@ export const solutionPages = [
     title: 'Scaling Practice Operations',
     summary: 'Expand providers, sites, and services with clearer revenue controls, credentialing readiness, and leadership visibility.',
     problem: 'Growth exposes weak process. Founder-level oversight, manual tracking, and informal escalation do not scale cleanly.',
-    rootResponse: 'ROOT provides management systems, recurring review rhythm, workflow design, technology alignment, and revenue-cycle accountability.',
+    rootResponse: 'We provide management systems, recurring review rhythm, workflow design, technology alignment, and revenue-cycle accountability.',
     services: ['Practice operations', 'Credentialing', 'Healthcare IT', 'Workflow automation', 'Full MSO support'],
     dirt: 'DIRT helps leadership see where growth is creating revenue friction before backlog becomes the first warning sign.',
     cta: 'Scale with control',
@@ -338,7 +365,7 @@ export const servicePages = [
 
 export const pricingModels = [
   { name: 'Revenue Optimization Diagnostic', price: '$2,500 fixed fee', bestFor: 'Practices that want evidence before changing vendors, systems, staffing, or operating model.', includes: ['A/R and denial review', 'Revenue opportunity register', 'Workflow and reporting assessment', '90-day roadmap'], cta: 'Book Diagnostic', href: '/diagnostic/' },
-  { name: 'Managed RCM', price: 'Onboarding from $1,500; approximately 5% of collections where appropriate', bestFor: 'Practices that need ROOT to own revenue-cycle execution and continuous improvement.', includes: ['Billing and follow-up', 'Denial management', 'A/R recovery', 'Leadership reporting'], cta: 'Talk to ROOT', href: '/contact/' },
+  { name: 'Managed RCM', price: 'Onboarding from $1,500; approximately 5% of collections where appropriate', bestFor: 'Practices that need us to own revenue-cycle execution and continuous improvement.', includes: ['Billing and follow-up', 'Denial management', 'A/R recovery', 'Leadership reporting'], cta: 'Talk to ROOT', href: '/contact/' },
   { name: 'DIRT / Data Intelligence', price: '$1,500-$2,500/month', bestFor: 'Healthcare organizations seeking connected financial visibility, payer and denial intelligence, and prioritized action beyond isolated dashboards.', includes: ['Leakage analysis', 'Denial intelligence', 'A/R prioritization', 'PracticeOps signals'], cta: 'Explore DIRT', href: '/technology/dirt/' },
   { name: 'Projects & Automation', price: '$5,000-$25,000 scoped projects', bestFor: 'Specific cleanup, automation, reporting, technology, or operating-system improvement needs.', includes: ['Defined scope', 'Implementation roadmap', 'Workflow controls', 'Measured handoff'], cta: 'Discuss Project', href: '/contact/' },
   { name: 'Credentialing', price: '$750-$1,500/provider initial; $150-$300/provider/month maintenance', bestFor: 'Provider enrollment, revalidation, roster maintenance, and payer-status visibility.', includes: ['Enrollment support', 'Payer follow-up', 'Status tracking', 'Maintenance cadence'], cta: 'Review Credentialing', href: '/services/credentialing/' },
@@ -346,6 +373,108 @@ export const pricingModels = [
 ];
 
 export const resourceArticles = [
+  {
+  "slug": "healthcare-revenue-intelligence-asc-denials",
+  "title": "Healthcare Revenue Intelligence: An ASC Denials Guide",
+  "metaTitle": "Healthcare Revenue Intelligence & ASC Denials | ROOT",
+  "summary": "Use healthcare revenue intelligence to investigate ASC denials, measure payer exposure, and prioritize recovery and prevention.",
+  "sections": [
+    [
+      "What is healthcare revenue intelligence?",
+      "Healthcare revenue intelligence connects billing, remittance, authorization, contract, and workflow data to explain where revenue is delayed or lost and what to do next. For an ambulatory surgery center (ASC), the objective is a decision: which denial pattern deserves intervention, who owns it, and how will leadership verify the result?"
+    ],
+    [
+      "Why an ASC needs more than a denial dashboard",
+      "A dashboard can show unpaid balances without explaining their causes. ASC revenue operations need to distinguish facility reimbursement from professional billing, separate submission failures from adjudicated denials, and connect each exception to the applicable payer, procedure, service date, and operational handoff. An authorization obtained for one billing entity or setting should not be assumed to cover another."
+    ],
+    [
+      "Start with a reconciled financial picture",
+      "Connect practice-management claims and service lines to clearinghouse acknowledgements, payer remittances, adjustments, and cash posting. Retain authorization evidence and the contract version relevant to the service date. Reconcile source totals before drawing conclusions; isolate unmatched records, duplicate exports, reversals, and recoupments so that reporting does not turn accounting noise into apparent revenue opportunity."
+    ],
+    [
+      "Denial versus rejection versus underpayment",
+      "A rejection generally means a claim failed an acceptance edit; an adjudicated denial reflects a payer payment decision. An underpayment requires comparison with the applicable expected allowed amount and payment rules. Give each category its own queue and denominator rather than combining all three into one denial rate. A contractual adjustment is not automatically recoverable revenue."
+    ],
+    [
+      "Investigate authorization and eligibility mismatches",
+      "Compare the authorized procedure, units, dates, facility, provider, and setting with what was scheduled, performed, and billed. Route procedure changes back to the authorization owner before claim submission. Preserve dated payer responses and reference numbers; an authorization or an eligibility response alone does not establish that every condition of payment has been met."
+    ],
+    [
+      "The 2026 Medicare ASC authorization distinction",
+      "CMS operates a demonstration for selected ASC services in ten states. Its updated rollout permits requests from January 5, 2026 for services from January 19 in California, Florida, Tennessee, Pennsylvania, Maryland, Georgia, and New York; Texas, Arizona, and Ohio use February 2 and February 16 respectively. Targeted categories include blepharoplasty, botulinum toxin injections, panniculectomy, rhinoplasty, and vein ablation. [1]"
+    ],
+    [
+      "Do not copy hospital outpatient rules into an ASC workflow",
+      "The ASC demonstration and the hospital outpatient prior authorization program are separate. Noridian explains that prior authorization is optional under the ASC demonstration, but bypassing it subjects applicable claims to prepayment review; its guidance also identifies Medicare Advantage among excluded claim types. Confirm the current CMS code list and the responsible Medicare Administrative Contractor instructions for the facility. [2]"
+    ],
+    [
+      "Review coding, coverage, and payment configuration",
+      "Investigate recurring procedure and modifier combinations, documentation gaps, medical-necessity decisions, and site-of-service mismatches with qualified coding staff. Check the service-date version of Medicare ASC payment files and relevant coverage policies rather than assuming a procedure receives the same facility payment in every setting. CMS publishes ASC approved HCPCS codes and payment rates. [3]"
+    ],
+    [
+      "Turn payer exposure into a decision queue",
+      "Group unresolved balances by payer, product, denial family, service period, and responsible workflow. Rank work using supported expected reimbursement, deadline proximity, documentation readiness, and recovery effort. Keep gross charges, expected allowed amounts, outstanding balances, and estimated recoverable amounts separate. A large billed balance can overstate the opportunity when contractual terms are ignored."
+    ],
+    [
+      "Measure denial incidence consistently",
+      "For an initial line-level denial rate, divide uniquely denied service lines at first adjudication by all service lines first adjudicated in the same cohort. Define how partial denials, zero-pay lines, secondary claims, and reversals are handled. Report a dollar-based measure separately, using a documented dollar basis; do not mix line counts, claim counts, and charge dollars. These are proposed operating definitions, not universal benchmarks."
+    ],
+    [
+      "Measure recovery and prevention separately",
+      "Track cash recovered for a defined denied cohort against that cohort\u2019s documented collectible amount, alongside resolution time and unresolved value. Keep pending appeals out of realized recovery. For prevention, compare new denial incidence after a workflow change using comparable payer and procedure cohorts and enough adjudication runout. A cleared backlog does not prove that the upstream failure has stopped."
+    ],
+    [
+      "Control appeal deadlines by payer and appeal level",
+      "Assign an owner, deadline, evidence checklist, next action, and escalation date to each recoverable segment. CMS generally allows 120 days from receipt of the initial determination to request an Original Medicare redetermination. That is not a universal deadline for commercial plans, Medicaid, Medicare Advantage, or subsequent appeal levels; verify the governing rules and contract. [4]"
+    ],
+    [
+      "A practical first-month operating plan",
+      "First, reconcile data and agree on definitions. Next, identify a narrow payer-and-denial segment with actionable evidence and name its owner. Then work the recoverable queue while correcting the originating authorization, coding, enrollment, or submission handoff. Finally, review cash results, unresolved exceptions, and new denial incidence; retain a weekly decision log so the team can distinguish completed activity from measurable improvement."
+    ],
+    [
+      "Where ROOT and DIRT fit",
+      "We approach revenue operations through Connect \u2192 Reconcile \u2192 Explain \u2192 Prioritize \u2192 Act \u2192 Measure. DIRT\u2014Data Intelligence for Revenue Transformation\u2014is our embedded intelligence capability. A practice-specific diagnostic should establish available data, reconciliation gaps, priority exposure, and feasible actions before committing to automation; this guide does not assert undocumented integrations or automated appeal capabilities."
+    ],
+    [
+      "Frequently asked: Is revenue intelligence the same as billing software?",
+      "Billing software supports transactions. Revenue intelligence adds a structured method for reconciling evidence, diagnosing variation, and assigning action across systems and teams. Its usefulness depends on source quality, consistent definitions, and follow-through rather than the number of charts."
+    ],
+    [
+      "Frequently asked: Can automation eliminate ASC denials?",
+      "No. Rules, contracts, documentation, clinical decisions, and payer adjudication can all affect payment. Automation can support exception routing and consistent checks, but disputed coding and coverage decisions need appropriate review. Start with a validated recurring workflow and measure both error rates and staff rework before expanding it."
+    ],
+    [
+      "Frequently asked: What data should leadership request?",
+      "Begin with aggregated payer-level denial counts and values, adjudication cohorts, aging, recovery status, and authorization exceptions. Use authorized access and the minimum necessary information for operational investigation. Do not send patient records, claim identifiers, or other protected health information through ROOT\u2019s public inquiry form."
+    ],
+    [
+      "Start with the $2,500 Revenue Optimization Diagnostic",
+      "If leadership cannot reconcile denied revenue or identify its next operational priority, start with our fixed-fee $2,500 Revenue Optimization Diagnostic. Discuss the available source systems, payer exposure, and decision requirements before sharing sensitive data. Use the Start Diagnostic button below to review the offer and scope."
+    ],
+    [
+      "Editorial scope and evidence",
+      "Published October 21, 2026 by ROOT. This guide presents an operating framework, not a client outcome claim. No verified ASC recovery case study is asserted. Apply current payer contracts, CMS and state requirements, and qualified coding or compliance review to specific billing decisions."
+    ]
+  ],
+  "sources": [
+    [
+      "[1] CMS: ASC prior authorization demonstration and updated timeline",
+      "https://www.cms.gov/data-research/monitoring-programs/medicare-fee-service-compliance-programs/prior-authorization-pre-claim-review-initiatives/prior-authorization-demonstration-certain-ambulatory-surgical-center-services"
+    ],
+    [
+      "[2] Noridian: ASC demonstration scope, exclusions, and prepayment review",
+      "https://med.noridianmedicare.com/web/jeb/cert-reviews/pre-claim/prior-authorization-for-asc"
+    ],
+    [
+      "[3] CMS: ASC payment system, approved codes and rates",
+      "https://www.cms.gov/medicare/payment/prospective-payment-systems/ambulatory-surgical-center-asc"
+    ],
+    [
+      "[4] CMS: First-level appeal and redetermination",
+      "https://www.cms.gov/medicare/appeals-grievances/fee-for-service/first-level-appeal-redetermination-medicare-contractor"
+    ]
+  ]
+},
   {
     slug: 'revenue-leakage-guide',
     title: 'Revenue Leakage Guide for Independent Practices',
@@ -425,8 +554,8 @@ export const diagnosticDeliverables = [
 ];
 
 export const diagnosticFaq = [
-  ['What data do you need?', 'ROOT begins with deidentified operational and revenue-cycle exports such as aging, denial, rejection, posting, credentialing-status, and payment reports. If patient-level data becomes necessary, ROOT first establishes an approved secure channel and the required agreements.'],
-  ['Is ROOT only a diagnostic company?', 'No. ROOT is a healthcare revenue intelligence and operating partner spanning managed RCM, credentialing, practice operations, technology, and DIRT. The Diagnostic is an optional fixed-fee entry engagement.'],
+  ['What data do you need?', 'We begin with deidentified operational and revenue-cycle exports such as aging, denial, rejection, posting, credentialing-status, and payment reports. If patient-level data becomes necessary, we first establish an approved secure channel and the required agreements.'],
+  ['Is ROOT only a diagnostic company?', 'No. We are a healthcare revenue intelligence and operating partner spanning managed RCM, credentialing, practice operations, technology, and DIRT. The Diagnostic is an optional fixed-fee entry engagement.'],
   ['Do we have to sign a long-term RCM contract?', 'No. The Revenue Optimization Diagnostic is standalone. Any managed service, project, or MSO recommendation is separate and optional.'],
   ['How long does the diagnostic take?', 'The target delivery window is within 14 days after the required, usable data set is received. Timing may change if source data is incomplete or requires remediation.'],
   ['How is sensitive data handled?', 'The public website does not accept PHI. Any later PHI-enabled workflow is activated only after the appropriate agreement, access controls, approved storage, and secure transfer process are in place.'],
@@ -445,6 +574,7 @@ export const primaryNav = [
   { label: 'How We Work', href: '/case-studies/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Resources', href: '/resources/' },
+  { label: 'Opportunities', href: '/opportunities/' },
   { label: 'Contact', href: '/contact/' },
 ];
 
@@ -468,6 +598,7 @@ export const legalLinks = [
   { label: 'Terms', href: '/terms/' },
   { label: 'Refund Policy', href: '/refund-policy/' },
   { label: 'Cookies', href: '/legal/cookies/' },
+  { label: 'Partner Guidelines', href: '/partners/terms/' },
 ];
 
 /** Legacy structure kept for any consumer that still reads it; derived from the primary order. */
@@ -486,21 +617,25 @@ export const footerGroups = [
     title: 'Company',
     links: [
       { label: 'About ROOT', href: '/about/' },
+      { label: 'Our mission', href: '/about/#our-mission' },
       { label: 'Our commitments', href: '/about/#responsible-operations' },
       { label: 'How We Work', href: '/case-studies/' },
+      { label: 'Opportunities', href: '/opportunities/' },
+      { label: 'Partner Network', href: '/partners/' },
+      { label: 'Careers', href: '/careers/' },
       { label: 'Pricing', href: '/pricing/' },
       { label: 'FAQ', href: '/faq/' },
-      { label: 'Contact', href: '/contact/' },
       { label: 'Book a conversation', href: '/book/' },
+
     ],
   },
   {
     title: 'Services',
-    links: [{ label: 'All services', href: '/services/' }, ...servicePages.slice(0, 6).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))],
+    links: [{ label: 'All services', href: '/services/' }, ...servicePages.slice(0, 4).map((service) => ({ label: service.title, href: `/services/${service.slug}/` }))],
   },
   {
     title: 'Solutions',
-    links: [{ label: 'All solutions', href: '/solutions/' }, ...solutionPages.slice(0, 6).map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` }))],
+    links: [{ label: 'All solutions', href: '/solutions/' }, ...solutionPages.slice(0, 4).map((page) => ({ label: page.title, href: `/solutions/${page.slug}/` }))],
   },
   {
     title: 'Platform & resources',
@@ -520,21 +655,45 @@ export const footerGroups = [
  * Legacy alias paths (/company/about, /legal/privacy, /legal/terms) resolve to the canonical entries below.
  */
 export const routeMeta = {
+  '/opportunities': {
+    title: "ROOT Opportunities | Partnerships & Careers",
+    description: "Explore ROOT business partnerships, its Growth Partner Network, and future career opportunities in healthcare revenue operations.",
+    h1: "Build what comes next in healthcare revenue.",
+    image: brandAssets.og,
+  },
+  '/partners': {
+    title: "ROOT Partner Network | Healthcare Business Growth",
+    description: "Join the ROOT Growth Partner Network. Independent healthcare consultants and business professionals can explore approved commercial partnerships.",
+    h1: "Your network. Our expertise. Shared growth.",
+    image: brandAssets.og,
+  },
+  '/careers': {
+    title: "Careers at ROOT | Healthcare Revenue Operations",
+    description: "Explore ROOT career opportunities in RCM, credentialing, healthcare operations and technology. No openings are currently advertised.",
+    h1: "Help build more accountable healthcare operations.",
+    image: brandAssets.og,
+  },
+  '/partners/terms': {
+    title: "Partner Network Guidelines | ROOT",
+    description: "Review the ROOT partner program's eligibility, conflict-of-interest, privacy, ethical marketing, and healthcare compliance guidelines.",
+    h1: "ROOT Growth Partner Network Guidelines",
+    image: brandAssets.og,
+  },
   '/': {
     title: 'ROOT | Healthcare Revenue Intelligence & RCM Technology',
-    description: 'ROOT connects revenue cycle management, credentialing, practice operations and DIRT revenue intelligence to turn financial exposure into accountable action.',
+    description: 'We connect revenue cycle management, credentialing, practice operations and DIRT revenue intelligence to turn financial exposure into accountable action.',
     h1: 'The intelligence behind healthcare revenue.',
     image: brandAssets.og,
   },
   '/about': {
     title: 'About ROOT | Revenue Operations & Outcomes Technology',
-    description: 'ROOT joins managed revenue cycle management, credentialing, practice operations and DIRT data intelligence in one accountable operating model for healthcare.',
+    description: 'Co-founded by Aftab Shaukat and Kashif Ali, ROOT joins managed revenue cycle management, credentialing, practice operations and DIRT data intelligence.',
     h1: 'Built for the business behind healthcare.',
     image: brandAssets.og,
   },
   '/platform': {
     title: 'ROOT Platform | Healthcare Revenue & Operating Infrastructure',
-    description: 'See how ROOT integrates revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
+    description: 'See how we integrate revenue operations, credentialing, practice operations, healthcare IT, automation, analytics, and DIRT intelligence.',
     h1: 'The operating infrastructure behind healthcare revenue.',
     image: brandAssets.og,
   },
@@ -672,5 +831,21 @@ servicePages.forEach((service) => {
 });
 
 resourceArticles.forEach((article) => {
-  routeMeta[`/resources/${article.slug}`] = { title: `${article.title} | ROOT Resources`, description: article.summary, h1: article.title, image: brandAssets.og };
+  routeMeta[`/resources/${article.slug}`] = { title: article.metaTitle || `${article.title} | ROOT Resources`, description: article.summary, h1: article.title, image: brandAssets.og };
 });
+
+
+/** Public operating commitments; management targets and client results are not marketing claims. */
+export const operatingCommitments = [
+  { title: 'Evidence before assertions', copy: 'We reconcile source reports, document assumptions, and distinguish findings from estimates. We label demonstrations and never present modeled results as client outcomes.' },
+  { title: 'Automation with human judgment', copy: 'We use automation and AI-assisted work to reduce repetition. We review the output, verify material findings, and keep decisions with accountable people.' },
+  { title: 'Ownership after insight', copy: 'We connect each agreed priority to an owner, a next action, and a review date. We measure progress against a documented baseline.' },
+  { title: 'Clear scope and data boundaries', copy: 'We define deliverables, fees, responsibilities, and approved data channels before work begins. We keep patient information out of public marketing and inquiry systems.' },
+];
+
+export const commercialJourney = [
+  { title: 'Discuss the constraint', copy: 'We clarify your revenue question, current systems, and service needs in a discovery conversation.', href: '/contact/' },
+  { title: 'Establish the evidence', copy: 'Our $2,500 fixed-fee Diagnostic reviews agreed data and produces an opportunity register and 90-day roadmap.', href: '/diagnostic/' },
+  { title: 'Choose the intervention', copy: 'We agree a focused project or ongoing RCM, credentialing, practice operations, or DIRT engagement when it fits.', href: '/services/' },
+  { title: 'Measure and improve', copy: 'We define ownership, review progress, and refine the operating plan with your leadership team.', href: '/platform/' },
+];

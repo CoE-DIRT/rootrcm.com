@@ -38,7 +38,7 @@ export function TechnologyHubPage() {
           Connected data. Clearer revenue decisions.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT brings healthcare data architecture, EHR/PM workflow alignment, interoperability planning, analytics, and monitored automation together around financial performance.
+          We bring healthcare data architecture, EHR/PM workflow alignment, interoperability planning, analytics, and monitored automation together around financial performance.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/technology/dirt/" variant="primary">
@@ -52,7 +52,7 @@ export function TechnologyHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.healthcareIt}
-          alt="Healthcare IT professional working at a computer."
+          alt="Healthcare IT workstation. Editorial stock photograph; not ROOT staff or clients."
           caption="Editorial Healthcare IT context"
           aspect="wide"
         />
@@ -106,7 +106,7 @@ export function DirtPage() {
           Your data already contains the signals. DIRT connects them.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          DIRT — Data Intelligence for Revenue Transformation — is ROOT's embedded intelligence capability. It connects fragmented healthcare revenue data to explain leakage, examine payer performance, prioritize recovery, and identify what deserves action next.
+          DIRT — Data Intelligence for Revenue Transformation — is our embedded intelligence capability. It connects fragmented healthcare revenue data to explain leakage, examine payer performance, prioritize recovery, and identify what deserves action next.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="dirt-hero" data-destination="/diagnostic/">
@@ -168,8 +168,8 @@ export function DirtPage() {
         />
         <MediaFrame
           src={mediaAssets.dirtAnalytics}
-          alt="Revenue analytics dashboard arranged for management review."
-          caption="Illustrative dashboard view."
+          alt="Illustrative analytics context. Editorial stock photograph; not live PHI or client dashboards."
+          caption="Editorial context — DIRT demo data is synthetic"
           className="mt-8"
           aspect="video"
         />

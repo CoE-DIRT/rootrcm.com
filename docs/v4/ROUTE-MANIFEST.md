@@ -15,7 +15,11 @@ Every page is a V4 page (`src/v4/routes/*`). The old split between "legacy" and 
 | `/solutions/` + 7 slugs | `solutions/**` | `SolutionsHubPage`, `SolutionPage` (`ContentPages.tsx`) | Slugs from `solutionPages` |
 | `/case-studies/` | `case-studies/index.html` | `CaseStudiesHubPage` (`ContentPages.tsx`) | |
 | `/pricing/` | `pricing/index.html` | `PricingPage` (`PricingPage.tsx`) | Pricing A/B surface; optional test-mode checkout button |
-| `/resources/` + 6 articles | `resources/**` | `ResourcesHubPage`, `ResourceArticlePage` (`ContentPages.tsx`) | Slugs from `resourceArticles` |
+| `/resources/` + 7 articles | `resources/**` | `ResourcesHubPage`, `ResourceArticlePage` (`ContentPages.tsx`) | Slugs from `resourceArticles` |
+| `/opportunities/` | `opportunities/index.html` | `OpportunitiesPage` (`OpportunitiesPages.tsx`) | Partner and careers hub |
+| `/partners/` | `partners/index.html` | `PartnersPage` (`OpportunitiesPages.tsx`) | Public growth partner invitation |
+| `/partners/terms/` | `partners/terms/index.html` | `PartnerTermsPage` (`OpportunitiesPages.tsx`) | Partner guidelines |
+| `/careers/` | `careers/index.html` | `CareersPage` (`OpportunitiesPages.tsx`) | No current openings; future listing home |
 | `/contact/` | `contact/index.html` | `ContactPage` (`CompanyPages.tsx`) | Inquiry form |
 | `/book/` | `book/index.html` | `BookPage` (`CompanyPages.tsx`) | |
 | `/faq/` | `faq/index.html` | `FaqPage` (`CompanyPages.tsx`) | FAQ content also feeds `FAQPage` JSON-LD |
@@ -35,8 +39,8 @@ Every page is a V4 page (`src/v4/routes/*`). The old split between "legacy" and 
 | `/__v4-lab/` | `__v4-lab/index.html` | `V4LabPage` | Internal, dev server only |
 | `/case-studies/dirt-poc-01/` | `case-studies/dirt-poc-01/index.html` | `CaseStudyDetailPage` | Internal and unpublished, dev server only |
 
-**Counts.** 50 public HTML entries are built for every deployable build (a production build or any other non-`development` Vite
-mode such as `preview`): 43 are indexable and listed in `sitemap.xml`; the rest are `noindex` system pages (thank-you, the two
+**Counts.** 55 public HTML entries are built for every deployable build (a production build or any other non-`development` Vite
+mode such as `preview`): 48 are indexable and listed in `sitemap.xml`; the rest are `noindex` system pages (thank-you, the two
 checkout pages, the 404 fallback) and the three legacy aliases. `/__v4-lab/` and `/case-studies/dirt-poc-01/` exist only on the dev server, in the test runner and in an explicit
 `--mode development` build (`internalRoutesEnabled` in `src/build/buildMode.js` decides this for the route table, the route metadata, the
 case-study data and the Vite inputs alike): they are left out of every deployable build and, if one were ever built, its head is forced to `noindex`.

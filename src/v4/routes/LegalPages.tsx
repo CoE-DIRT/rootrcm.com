@@ -58,6 +58,7 @@ export function PrivacyPage() {
           </p>
         )}
         <p>Do not use any form on this website for sensitive data.</p>
+        <p>Prospective business partners who choose to email us may provide their name, professional affiliation, role, location, business contact details, and relevant professional background. We use this information to respond, evaluate eligibility and potential conflicts, and administer approved business relationships. Email is not a secure channel for PHI or sensitive identity documents. Our <a className={linkClass} href="/partners/terms/">Partner Guidelines</a> explain program limits.</p>
       </LegalSection>
       <LegalSection title="Analytics and cookies">
         {anyAnalytics(disclosure) ? (
@@ -138,6 +139,9 @@ export function TermsPage() {
           Fees are stated in the applicable written scope or order confirmation. Refund and cancellation handling is described in the <a className="text-accent hover:underline" href="/refund-policy/">refund and cancellation policy</a>.
         </p>
       </LegalSection>
+      <LegalSection title="Partnerships and recruitment">
+        <p>Partner network information and prospective career listings are invitations to explore opportunities only. They do not establish employment, agency, a client relationship, a right to fees, or guaranteed participation. The <a className={linkClass} href="/partners/terms/">Partner Guidelines</a> govern public program conduct; any approved compensation is subject to a separate written agreement.</p>
+      </LegalSection>
       <LegalSection title="Privacy">
         <p>
           How this website handles inquiry data, cookies and analytics is described in the <a className="text-accent hover:underline" href="/privacy-policy/">privacy policy</a>.
@@ -160,7 +164,7 @@ export function RefundPolicyPage() {
       </LegalSection>
       <LegalSection title="Revenue Optimization Diagnostic">
         <p>
-          Before any Diagnostic work begins, ROOT confirms scope, data requirements and timing in writing. Questions about changing or cancelling a Diagnostic before work starts should be sent to info@rootrcm.com so they can be handled in writing.
+          Before any Diagnostic work begins, we confirm scope, data requirements and timing in writing. Questions about changing or cancelling a Diagnostic before work starts should be sent to info@rootrcm.com so they can be handled in writing.
         </p>
       </LegalSection>
       <LegalSection title="Online payments">

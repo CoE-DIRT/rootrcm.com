@@ -108,7 +108,7 @@
 /* Contrast patches for legacy form captions that sat just under WCAG AA on the dark surface. */
 .formNote,
 .optional {
-  color: #93a79d;
+  color: var(--color-muted);
 }
 
 /* Footer contact block: legacy `address` rules (src/styles.css) set a grid with accent, heavy links. */
@@ -144,3 +144,9 @@
   padding-top: clamp(2.5rem, 4vw, 3.5rem);
   padding-bottom: clamp(3rem, 5vw, 5rem);
 }
+
+/* Brand marks retain their original proportions; header hit areas meet V2. */
+.v4-header img, .v4-footer img { object-fit: contain; }
+.v4-header nav a, .v4-header nav button { min-height: 44px; display: inline-flex; align-items: center; }
+.v4-footer :is(a,button) { min-height: 44px; }
+.v4-footer address a { display: inline-flex; align-items: center; overflow-wrap: anywhere; }

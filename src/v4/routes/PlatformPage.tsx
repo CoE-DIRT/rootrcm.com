@@ -19,7 +19,7 @@ const engagementRows = [
   {
     title: 'Managed RCM',
     eyebrow: 'Operating ownership',
-    copy: 'ROOT connects billing, payer follow-up, denials, posting, and A/R recovery to measurable financial controls.',
+    copy: 'We connect billing, payer follow-up, denials, posting, and A/R recovery to measurable financial controls.',
     href: '/services/rcm/',
   },
   {
@@ -37,7 +37,7 @@ const engagementRows = [
 ];
 
 const layers = [
-  { title: 'Clinical practice', copy: 'Care delivery stays with the practice. ROOT never claims clinical authority.' },
+  { title: 'Clinical practice', copy: 'Care delivery stays with the practice. We do not exercise clinical authority.' },
   { title: 'DIRT intelligence', copy: 'Reconciled financial signals become payer insight, revenue exposure, and financially prioritized recommendations.' },
   { title: 'Management action', copy: 'Queues, cadence, and escalation turn insight into operating change.' },
 ];
@@ -54,7 +54,7 @@ export function PlatformPage() {
           The operating infrastructure behind healthcare revenue.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT connects managed revenue operations, credentialing, healthcare technology, and DIRT data intelligence to give leadership one coherent view of financial performance and operational accountability.
+          We connect managed revenue operations, credentialing, healthcare technology, and DIRT data intelligence to give leadership one coherent view of financial performance and operational accountability.
         </p>
         <CTAGroup className="mt-8">
           <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="platform-hero" data-destination="/diagnostic/">
@@ -78,7 +78,7 @@ export function PlatformPage() {
         </div>
         <MediaFrame
           src={mediaAssets.operationsPlanning}
-          alt="Healthcare operations team planning work around a table."
+          alt="Operations planning workshop. Editorial stock photograph; not ROOT staff or clients."
           caption="Editorial planning context"
           className="mt-10"
           aspect="wide"
@@ -101,7 +101,7 @@ export function PlatformPage() {
         <SectionHeader
           eyebrow="Practice lifecycle"
           title="From provider readiness to final reimbursement."
-          description="Clinical practice stays at the center — ROOT owns the operating stages around it."
+          description="Clinical practice stays at the center — we own the operating stages around it."
         />
         <div className="mt-8">
           <PracticeLifecycle />

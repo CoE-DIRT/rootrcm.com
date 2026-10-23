@@ -23,7 +23,7 @@ export function SolutionsHubPage() {
         <Breadcrumb items={[{ label: 'Solutions' }]} />
         <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Solutions for the revenue behind healthcare</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. ROOT brings intelligence and execution together.
+          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. We bring intelligence and execution together.
         </p>
       </Section>
       <Section tone="soft">
@@ -67,7 +67,7 @@ export function SolutionPage({ page }: { page: Solution }) {
         <Section tone="soft">
           <MediaFrame
             src={mediaAssets.practiceAdmin}
-            alt="Practice administrator reviewing operations at a workstation."
+            alt="Practice administrator workstation. Editorial stock photograph; not ROOT staff or clients."
             caption="Editorial operations context"
             aspect="video"
           />
@@ -106,7 +106,7 @@ export function ResourcesHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.operationsPlanning}
-          alt="Healthcare operations team planning work around a table."
+          alt="Operations planning workshop. Editorial stock photograph; not ROOT staff or clients."
           caption="Editorial resource context"
           aspect="wide"
         />
@@ -193,7 +193,7 @@ export function CaseStudiesHubPage() {
         <p className="mt-5 max-w-3xl text-lg text-muted">
           ROOT connects revenue-cycle performance, payer behavior, enrollment, and practice operations so leaders can see what needs attention, why it matters, and who owns the next step.
         </p>
-        <MediaFrame src={mediaAssets.dirtAnalytics} alt="Revenue analytics dashboard arranged for management review." caption="Illustrative view of financial and revenue-cycle measures." className="mt-10" aspect="wide" />
+        <MediaFrame src={mediaAssets.dirtAnalytics} alt="Illustrative analytics workstation. Editorial stock photograph; not live PHI or client dashboards." caption="Editorial context — proof-of-concept visuals use synthetic data only" className="mt-10" aspect="wide" />
       </Section>
 
       <Section tone="soft">

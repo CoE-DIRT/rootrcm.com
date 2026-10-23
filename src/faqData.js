@@ -13,7 +13,7 @@ export const faqItems = [
   {
     group: 'About ROOT',
     question: 'What does ROOT do?',
-    answer: 'ROOT (Revenue Operations & Outcomes Technology Incorporated) is a healthcare revenue intelligence and operating partner. ROOT connects revenue cycle management, credentialing, practice operations, healthcare technology and DIRT data intelligence so financial findings become accountable action.',
+    answer: 'We are ROOT (Revenue Operations & Outcomes Technology Incorporated), a healthcare revenue intelligence and operating partner. We connect revenue cycle management, credentialing, practice operations, healthcare technology and DIRT data intelligence so financial findings become accountable action.',
   },
   {
     group: 'About ROOT',
@@ -24,13 +24,13 @@ export const faqItems = [
   {
     group: 'About ROOT',
     question: 'Who is ROOT built for?',
-    answer: 'ROOT is built for independent physician practices and specialty groups, including behavioral health groups, ambulatory surgery centers, office-based surgery and labs, anesthesia groups, cardiology and electrophysiology practices, and multispecialty organizations.',
+    answer: 'We work with independent physician practices and specialty groups, including behavioral health groups, ambulatory surgery centers, office-based surgery and labs, anesthesia groups, cardiology and electrophysiology practices, and multispecialty organizations.',
     href: '/solutions/',
   },
   {
     group: 'Revenue Optimization Diagnostic',
     question: 'How much does the Revenue Optimization Diagnostic cost?',
-    answer: 'The Revenue Optimization Diagnostic is a fixed-fee $2,500 engagement. ROOT confirms scope and payment arrangements in writing before work begins.',
+    answer: 'The Revenue Optimization Diagnostic is a fixed-fee $2,500 engagement. We confirm scope and payment arrangements in writing before work begins.',
     href: '/diagnostic/',
   },
   {
@@ -49,7 +49,7 @@ export const faqItems = [
   {
     group: 'Engagement and pricing',
     question: 'What engagement models does ROOT offer?',
-    answer: 'ROOT offers the fixed-fee Diagnostic, managed revenue cycle management, DIRT data intelligence, scoped projects and automation, credentialing, and a full MSO partnership. Final pricing depends on specialty, volume, payer mix, systems and scope.',
+    answer: 'We offer the fixed-fee Diagnostic, managed revenue cycle management, DIRT data intelligence, scoped projects and automation, credentialing, and a full MSO partnership. Final pricing depends on specialty, volume, payer mix, systems and scope.',
     href: '/pricing/',
   },
   {
@@ -61,7 +61,7 @@ export const faqItems = [
   {
     group: 'Engagement and pricing',
     question: 'Can I pay online?',
-    answer: 'Online checkout is offered only where it is shown on the Pricing or Diagnostic page. Otherwise, request the Diagnostic or book a conversation and ROOT will confirm scope and payment arrangements in writing.',
+    answer: 'Online checkout is offered only where it is shown on the Pricing or Diagnostic page. Otherwise, request the Diagnostic or book a conversation and we will confirm scope and payment arrangements in writing.',
     href: '/book/',
   },
   {

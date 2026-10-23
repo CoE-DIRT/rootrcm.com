@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 import { resetAnalyticsConsent } from './v4/analytics/consent.ts';
@@ -25,6 +25,22 @@ afterEach(() => {
 });
 
 describe('ROOT commercial site', () => {
+  it('reveals sections mounted after the initial route render', async () => {
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal('IntersectionObserver', class {
+      observe = observe;
+      disconnect = disconnect;
+    });
+    const { container, unmount } = renderRoute('/');
+    const section = document.createElement('section');
+    section.dataset.reveal = '';
+    container.appendChild(section);
+    await waitFor(() => expect(observe).toHaveBeenCalledWith(section));
+    unmount();
+    expect(disconnect).toHaveBeenCalled();
+  });
+
   it('associates form hints and errors with the control', () => {
     const { rerender } = render(
       <FormField label="Email" htmlFor="email" hint="Use a work email">
@@ -57,7 +73,7 @@ describe('ROOT commercial site', () => {
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
     // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
-    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Contact']);
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
     const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
     expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
     expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
@@ -100,7 +116,7 @@ describe('ROOT commercial site', () => {
     expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
     expect(screen.getAllByText(/aging A\/R/i).length).toBeGreaterThan(0);
     expect(await screen.findByRole('heading', { name: /From signal to an owned next action/i }, { timeout: 10_000 })).toBeTruthy();
-    expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
+    await waitFor(() => expect(document.querySelector('[data-dirt-command]')).toBeTruthy());
 
     cleanup();
     vi.stubGlobal('matchMedia', () => ({

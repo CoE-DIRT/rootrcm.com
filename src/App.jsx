@@ -5,6 +5,7 @@ import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './s
 import { getSiteEnv } from './v4/analytics/config.ts';
 import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
+import { OpportunitiesPage, PartnersPage, CareersPage, PartnerTermsPage } from './v4/routes/OpportunitiesPages.tsx';
 const V4LabPage = (import.meta.env.DEV || import.meta.env.MODE === 'development')
   ? lazy(() => import('./v4/routes/V4LabPage.tsx').then((module) => ({ default: module.V4LabPage })))
   : () => null;
@@ -47,6 +48,10 @@ const routes = {
   '/faq': FaqPage,
   '/book': BookPage,
   '/contact': ContactPage,
+  '/opportunities': OpportunitiesPage,
+  '/partners': PartnersPage,
+  '/partners/terms': PartnerTermsPage,
+  '/careers': CareersPage,
   '/privacy-policy': PrivacyPage,
   '/terms': TermsPage,
   '/refund-policy': RefundPolicyPage,
@@ -133,23 +138,34 @@ export default function App() {
   }, [path]);
 
   useEffect(() => {
-    const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
-    if (!('IntersectionObserver' in window)) {
-      reveals.forEach((element) => element.classList.add('is-visible'));
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
+    const observer = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.08 }) : null;
 
-    reveals.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    const register = (root) => {
+      const reveals = [...(root.matches?.('[data-reveal]') ? [root] : []), ...root.querySelectorAll('[data-reveal]')];
+      reveals.forEach((element) => {
+        if (observer) observer.observe(element);
+        else element.classList.add('is-visible');
+      });
+    };
+    register(document);
+    // Suspense can mount sections after this effect's initial scan.
+    const mutations = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node instanceof Element) register(node);
+      }));
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      mutations.disconnect();
+      observer?.disconnect();
+    };
   }, [path]);
 
   useEffect(() => {

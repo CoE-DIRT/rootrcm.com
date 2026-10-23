@@ -15,7 +15,7 @@ import { CheckoutButton } from '@/components/CheckoutButton';
 
 const diagnosticJourney = [
   { title: 'Inputs', copy: 'Share deidentified operating context — aging, denial, rejection, posting, credentialing-status, and payment exports.' },
-  { title: 'Analysis', copy: 'ROOT reviews leakage, denial families, A/R priority, workflow friction, and reporting gaps against the practice system.' },
+  { title: 'Analysis', copy: 'We review leakage, denial families, A/R priority, workflow friction, and reporting gaps against the practice system.' },
   { title: 'Finding', copy: 'Material constraints surface as ranked opportunities — not a generic audit checklist.' },
   { title: 'Significance', copy: 'Each finding is framed for leadership: value at risk, recoverability, and operating consequence.' },
   { title: 'Roadmap', copy: 'A prioritized 90-day plan with owners and next actions.', note: 'Output is a roadmap, not a guaranteed delivery duration.' },
@@ -47,8 +47,8 @@ export function DiagnosticPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Revenue Optimization Diagnostic</p>
             <h1 className="mt-3 text-4xl font-semibold text-text sm:text-5xl">See where your revenue system is leaking.</h1>
             <p className="lede mt-4 text-lg text-muted">
-              For a fixed fee of $2,500, ROOT analyzes A/R, denials, workflow, payer signals, credentialing visibility, and
-              operating reporting, then turns the findings into a prioritized 90-day roadmap.
+              For a fixed fee of $2,500, we analyze A/R, denials, workflow, payer signals, credentialing visibility, and
+              operating reporting, then turn the findings into a prioritized 90-day roadmap.
             </p>
             <ul className="mt-6 space-y-2 text-sm text-muted">
               <li className="flex gap-2">
@@ -82,13 +82,13 @@ export function DiagnosticPage() {
         <SectionHeader
           eyebrow="Delivery journey"
           title="Inputs → analysis → finding → significance → roadmap → engagement"
-          description="The Diagnostic is a decision path, not a form alone."
+          description="We confirm scope and usable inputs, review the findings with your leadership team, and deliver a standalone roadmap. Any implementation or ongoing service is a separate, optional engagement."
         />
         <div className="mt-8">
           <ImplementationSteps steps={diagnosticJourney} />
         </div>
         <details className="mt-6 rounded-[var(--radius-root)] border border-border p-4">
-          <summary className="cursor-pointer text-sm font-medium text-text">Inputs ROOT can review</summary>
+          <summary className="cursor-pointer text-sm font-medium text-text">Inputs we can review</summary>
           <ul className="mt-3 space-y-2 text-sm text-muted">
             {diagnosticInputs.map((item) => (
               <li key={item} className="flex gap-2">
@@ -126,7 +126,7 @@ export function DiagnosticPage() {
         <p className="mt-4 text-sm text-muted">{syntheticPractice.name} · {syntheticPractice.label}</p>
         <MediaFrame
           src={mediaAssets.claimsAr}
-          alt="Revenue-cycle team reviewing claims and accounts receivable."
+          alt="Claims and A/R administration context. Editorial stock photograph; not ROOT staff or clients."
           caption="Editorial revenue-cycle context"
           className="mt-8"
           aspect="video"

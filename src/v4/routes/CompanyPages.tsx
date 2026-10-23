@@ -11,8 +11,9 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { WorkforceGrid } from '@/components/sections/WorkforceGrid';
 import InquiryForm from '../../components/InquiryForm.jsx';
 import { attachFormFrictionListeners } from '@/analytics/formFriction';
-import { companyInfo, outreachChannels, mediaAssets, pricingModels } from '../../siteData.js';
+import { companyInfo, outreachChannels, mediaAssets, pricingModels, operatingCommitments, leadershipProfiles } from '../../siteData.js';
 import { faqGroups, faqItems } from '../../faqData.js';
+import { missionCharter } from '../../missionData.js';
 
 export function ContactPage() {
   const formWrapRef = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ export function ContactPage() {
               Bring us the revenue question your systems cannot answer.
             </h1>
             <p className="mt-4 text-lg text-muted">
-              Tell ROOT about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
+              Tell us about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
             </p>
             <p className="mt-6 flex items-start gap-2 text-sm text-muted">
               <ShieldCheck className="mt-0.5 h-4 w-4 text-accent" aria-hidden="true" />
@@ -79,7 +80,7 @@ export function ContactPage() {
         <TrustSignals className="mt-10" />
         <MediaFrame
           src={mediaAssets.practiceConsultation}
-          alt="Practice consultation context. "
+          alt="Practice consultation context. Editorial stock photograph; not ROOT staff or clients."
           caption="Editorial consultation context"
           className="mt-10"
           aspect="wide"
@@ -98,28 +99,112 @@ export function AboutPage() {
           Built for the business behind healthcare.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          ROOT brings revenue cycle management, data intelligence, credentialing, practice operations, and healthcare technology into one accountable operating model. We connect financial insight to the people and processes needed to act on it; clinical authority remains with your practice.
+          We bring revenue cycle management, data intelligence, credentialing, practice operations, and healthcare technology into one accountable operating model. We connect financial insight to the people and processes needed to act on it; clinical authority remains with your practice.
         </p>
       </Section>
       <Section tone="soft">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <MediaFrame
             src={mediaAssets.operationsCollaboration}
-            alt="Healthcare operations collaboration. "
+            alt="Healthcare operations collaboration. Editorial stock photograph; not ROOT staff or clients."
             caption="Photography is editorial context only and does not represent ROOT clients, employees, or results."
             aspect="video"
           />
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">How ROOT operates</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">How we operate</p>
             <h2 className="mt-2 text-2xl font-semibold text-text">Revenue intelligence with execution behind it.</h2>
             <p className="mt-4 text-sm text-muted">
-              After years working across US healthcare revenue operations, recurring denials, aging balances, fragmented EHR and payer reports, and credentialing delays made one pattern clear: organizations need a connected financial picture, not another isolated workflow.
+              We built ROOT around a recurring operating problem: denials, aging balances, credentialing delays, and fragmented reports are often managed separately. We connect the financial picture to the work needed to improve it.
             </p>
             <p className="mt-3 text-sm text-muted">
-              ROOT was founded to join revenue operations with data intelligence. DIRT connects financial signals, helps explain revenue exposure, and informs prioritized action; ROOT provides the operating ownership to follow through.
+              We join revenue operations with data intelligence. DIRT is our embedded capability for examining financial signals, explaining exposure, and prioritizing action. We define the operating ownership needed to follow through.
             </p>
           </div>
         </div>
+      </Section>
+      <Section id="our-mission" aria-labelledby="our-mission-heading">
+        <SectionHeader eyebrow="Our mission" title={<span id="our-mission-heading">Turn revenue intelligence into accountable improvement.</span>} description="We help US independent physician practices and specialty groups understand revenue constraints, choose practical interventions, and measure progress. We combine people, processes, and technology around agreed business outcomes." />
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 className="text-xl font-semibold text-text">Our vision</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{missionCharter.vision}</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-text">Who we build for</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{missionCharter.audience}</p>
+          </div>
+        </div>
+        <p className="mt-6 max-w-4xl text-base font-medium leading-relaxed text-text">{missionCharter.philosophy}</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {operatingCommitments.map((item) => (
+            <GlassCard key={item.title} as="div" hover={false} className="p-6">
+              <h3 className="text-lg font-semibold text-text">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{item.copy}</p>
+            </GlassCard>
+          ))}
+        </div>
+        <details className="group mt-8 rounded-[var(--radius-root)] border border-border bg-panel/40 p-5">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 rounded font-medium text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue [&::-webkit-details-marker]:hidden">
+            How we put our mission into practice
+            <ChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+          </summary>
+          <div className="mt-6 space-y-6">
+            {[
+              ['A clear engagement path', missionCharter.engagement],
+              ['Connect → Reconcile → Explain → Prioritize → Act → Measure', missionCharter.method],
+              ['Progress we can assess', missionCharter.measurement],
+              ['Review, improve, and follow through', missionCharter.review],
+            ].map(([title, copy]) => (
+              <div key={title}>
+                <h3 className="text-lg font-semibold text-text">{title}</h3>
+                <p className="mt-3 max-w-4xl text-sm leading-relaxed text-muted">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+        <p className="mt-6 max-w-4xl text-sm leading-relaxed text-muted">{missionCharter.declaration}</p>
+        <LinkButton href="/diagnostic/" variant="primary" className="mt-6" data-cta="book-diagnostic">Explore our $2,500 Diagnostic</LinkButton>
+      </Section>
+      <Section id="leadership" tone="soft" aria-labelledby="leadership-heading">
+        <SectionHeader
+          eyebrow="People & accountability"
+          title={<span id="leadership-heading">Meet ROOT's co-founders.</span>}
+          description="Co-founded by Aftab Shaukat and Kashif Ali, ROOT connects healthcare revenue intelligence with accountable execution. Their professional roles and verified profiles are listed below."
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {leadershipProfiles.map((person: { id: string; name: string; role: string; isCoFounder: boolean; focus: string; linkedIn: string; gitHub: string | null }) => (
+            <GlassCard key={person.id} as="article" variant="glass" hover={false} className="flex h-full flex-col p-6">
+              <div className="flex items-start gap-4">
+                <div aria-hidden="true" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-border bg-panel text-xl font-semibold text-accent">
+                  {person.name.split(' ').map((part) => part.charAt(0)).join('')}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-text">{person.name}</h3>
+                  {person.isCoFounder && <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-accent">Co-Founder</p>}
+                  <p className="mt-1 text-sm font-medium text-accent">{person.role}</p>
+                  <p className="mt-1 text-xs text-muted">ROOT — Revenue Operations &amp; Outcomes Technology</p>
+                </div>
+              </div>
+              <p className="mt-5 flex-1 text-sm leading-relaxed text-muted">{person.focus}</p>
+              <nav aria-label={person.name + ' professional profiles'} className="mt-6 flex flex-wrap gap-2">
+                <a href={person.linkedIn} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
+                  LinkedIn ↗
+                </a>
+                {person.gitHub ? (
+                  <a href={person.gitHub} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-text hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue">
+                    GitHub ↗
+                  </a>
+                ) : null}
+              </nav>
+            </GlassCard>
+          ))}
+        </div>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted">
+          <a href={companyInfo.emailHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.email}</a>
+          <a href={companyInfo.phoneHref} className="inline-flex items-center gap-2 hover:text-text">{companyInfo.phone}</a>
+          <a href={companyInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-text">WhatsApp ROOT ↗</a>
+        </div>
+        <p className="mt-3 text-xs text-muted">Corporate correspondence: {companyInfo.addressLines.join(', ')}, United States.</p>
       </Section>
       <Section tone="grid" wide>
         <SectionHeader eyebrow="Responsibility areas" title="Intelligence and execution across the healthcare business." />
@@ -132,7 +217,7 @@ export function AboutPage() {
         <SectionHeader
           eyebrow="Public trust & responsible operations"
           title={<span id="responsible-operations-heading">The standards we aim to uphold.</span>}
-          description="ROOT is a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
+          description="We are a Wyoming-incorporated business focused on evidence-based healthcare revenue operations. DIRT is our embedded data-intelligence capability, not a separate company. Our commitments below describe how we intend to operate; they are not claims of independent certification."
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <GlassCard as="div" variant="glass" hover={false} className="p-6">
@@ -144,7 +229,7 @@ export function AboutPage() {
           <GlassCard as="div" variant="glass" hover={false} className="p-6">
             <h3 className="text-lg font-semibold text-text">Privacy-first commercial inquiries</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              ROOT public forms are for business inquiries, not patient information. Please do not send medical records, claim extracts, member identifiers, payment credentials, or other sensitive clinical information through our website or marketing channels.
+              Our public forms are for business inquiries, not patient information. Please do not send medical records, claim extracts, member identifiers, payment credentials, or other sensitive clinical information through our website or marketing channels.
             </p>
             <a className="mt-4 inline-block text-sm font-medium text-accent hover:underline" href="/privacy-policy/">Read the Privacy Policy →</a>
           </GlassCard>
