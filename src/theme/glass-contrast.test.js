@@ -122,7 +122,7 @@ describe('Phase 1.1a/b canonical dual-mode palette', () => {
   it('uses 18px initial / 10px scrolled header blur and respects focus', () => {
     expect(chrome).toContain('blur(var(--glass-blur-lg))');
     expect(chrome).toContain('blur(10px)');
-    expect(chrome).toContain('var(--glass-bg-readable)');
+    expect(chrome).toContain('var(--glass-bg-strong)');
     expect(glass).toContain('box-shadow: var(--focus-ring)');
   });
 });
