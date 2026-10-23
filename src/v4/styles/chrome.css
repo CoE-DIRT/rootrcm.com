@@ -20,15 +20,27 @@
   /* Text-bearing navigation uses the higher-contrast tier over hero imagery. */
   background: var(--glass-bg-readable);
   border-bottom: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  box-shadow: var(--glass-inner-light);
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
   transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
 }
-.v4-header[data-scrolled='true'] { box-shadow: var(--glass-shadow); }
-@supports not (backdrop-filter: blur(1px)) {
-  .v4-header, .v4-header[data-scrolled='true'] { background: var(--color-panel); }
+.v4-header[data-scrolled='true'] {
+  box-shadow: var(--glass-inner-light), var(--shadow-glass-2);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .v4-header, .v4-header[data-scrolled='true'] { background: var(--glass-fallback); }
 }
 
+@media (prefers-reduced-transparency: reduce) {
+  .v4-header, .v4-header[data-scrolled='true'] {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .v4-header {
     transition: none;
