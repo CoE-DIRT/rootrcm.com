@@ -38,7 +38,7 @@ export function DirtExecutiveMetrics({ compact = false }: { compact?: boolean })
           <div
             key={m.label}
             className={cn(
-              'min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50',
+              'min-w-0 rounded-[var(--radius-root)] border border-border bg-panel-solid',
               compact ? 'p-3' : 'p-4',
             )}
           >
