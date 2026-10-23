@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 const theme = readFileSync('src/theme/theme.css', 'utf8');
 const styles = readFileSync('src/v4/styles/tailwind.css', 'utf8');
 const chrome = readFileSync('src/v4/styles/chrome.css', 'utf8');
+const nestedGrid = readFileSync('src/v4/components/dirt/NestedDataGridContainer.tsx', 'utf8');
 
 const light = {
   panel: [255, 255, 255], alpha: 0.78, readableAlpha: 0.92,
@@ -84,6 +85,10 @@ describe('Phase 1.1 dual-theme accessible glass design system', () => {
     expect(shell).toContain('background: var(--glass-bg-strong)');
     expect(styles).toContain('.v4-root .glass-surface--readable { background: var(--glass-bg-readable); }');
     expect(chrome).toContain('background: var(--glass-bg-readable)');
+    expect(styles).toContain('background: var(--glass-fallback)');
+    expect(blockAfter(':root {')).toContain('--glass-fallback: #f7f9fd;');
+    expect(blockAfter(":root[data-theme='dark'],")).toContain('--glass-fallback: #121826;');
+    expect(nestedGrid).not.toContain('text-muted/70');
     expect(styles).toContain('blur(var(--glass-blur))');
   });
 });
