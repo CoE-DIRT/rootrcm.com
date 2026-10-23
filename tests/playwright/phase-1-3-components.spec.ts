@@ -75,7 +75,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.goto('/');
       const node = page.locator('.glass-feature-card').first();
       await expect(node).toBeVisible();
-      expect(await node.evaluate(el => getComputedStyle(el).transitionDuration)).toMatch(/^(0s|0\.01ms)$/);
+      expect(await node.evaluate(el => getComputedStyle(el).transitionDuration)).toMatch(/^(0s|0\.01ms|1e-05s)$/);
     });
   });
 }
