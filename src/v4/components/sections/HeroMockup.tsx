@@ -37,10 +37,10 @@ export function HeroMockup({ label = 'Command Viewframe', badge, children }: Her
 
         <div className="mt-3 grid gap-2 rounded-[var(--radius-root)] border border-border bg-bg-deep/70 p-3 text-xs text-muted sm:mt-4 md:grid-cols-2">
           <div className="flex items-center gap-2">
-            <SearchCheck className="h-4 w-4 shrink-0 text-recovery" aria-hidden="true" /> Synthetic demo data only
+            <SearchCheck className="h-4 w-4 shrink-0 text-recovery" aria-hidden="true" /> Illustrative sample metrics
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 shrink-0 text-data-blue" aria-hidden="true" /> Human-reviewed decision framing
+            <ShieldCheck className="h-4 w-4 shrink-0 text-data-blue" aria-hidden="true" /> Human judgment in the workflow
           </div>
         </div>
       </div>

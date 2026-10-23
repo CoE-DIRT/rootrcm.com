@@ -40,12 +40,12 @@ describe('internal routes follow the build mode', () => {
 
   it('an explicit development-mode build serves them, matching the HTML it emits', async () => {
     await renderAt('/__v4-lab/', { mode: 'development', dev: false });
-    expect(lab()).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: /V4 component gallery/i })).toBeTruthy();
     expect(notFound()).toBeNull();
   });
 
   it('the dev server serves them', async () => {
     await renderAt('/__v4-lab/', { mode: 'development', dev: true });
-    expect(lab()).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: /V4 component gallery/i })).toBeTruthy();
   });
 });

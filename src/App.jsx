@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { getCaseStudyBySlug } from './data/caseStudies.js';
 import { brandAssets, resourceArticles, routeMeta, servicePages, solutionPages } from './siteData.js';
 import { SITE_ORIGIN, findRoute, normalizePath, resolveCanonicalPath } from './seo/routeRegistry.js';
@@ -6,7 +6,9 @@ import { getSiteEnv } from './v4/analytics/config.ts';
 import { internalRoutesEnabled } from './build/buildMode.js';
 import { CookiesLegalPage } from './v4/routes/CookiesLegalPage.tsx';
 import { OpportunitiesPage, PartnersPage, CareersPage, PartnerTermsPage } from './v4/routes/OpportunitiesPages.tsx';
-import { V4LabPage } from './v4/routes/V4LabPage.tsx';
+const V4LabPage = (import.meta.env.DEV || import.meta.env.MODE === 'development')
+  ? lazy(() => import('./v4/routes/V4LabPage.tsx').then((module) => ({ default: module.V4LabPage })))
+  : () => null;
 import { HomePage } from './v4/routes/HomePage.tsx';
 import { PlatformPage } from './v4/routes/PlatformPage.tsx';
 import { ServicesHubPage, ServicePage } from './v4/routes/ServicesPages.tsx';
@@ -31,7 +33,7 @@ const showInternalRoutes = internalRoutesEnabled({ dev: import.meta.env.DEV, mod
 const routes = {
   '/': HomePage,
   '/legal/cookies': CookiesLegalPage,
-  ...(showInternalRoutes ? { '/__v4-lab': V4LabPage } : {}),
+  ...(showInternalRoutes ? { '/__v4-lab': () => <Suspense fallback={<p>Loading component library…</p>}><V4LabPage /></Suspense> } : {}),
   '/platform': PlatformPage,
   '/solutions': SolutionsHubPage,
   '/services': ServicesHubPage,
@@ -136,23 +138,34 @@ export default function App() {
   }, [path]);
 
   useEffect(() => {
-    const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
-    if (!('IntersectionObserver' in window)) {
-      reveals.forEach((element) => element.classList.add('is-visible'));
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
+    const observer = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.08 }) : null;
 
-    reveals.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    const register = (root) => {
+      const reveals = [...(root.matches?.('[data-reveal]') ? [root] : []), ...root.querySelectorAll('[data-reveal]')];
+      reveals.forEach((element) => {
+        if (observer) observer.observe(element);
+        else element.classList.add('is-visible');
+      });
+    };
+    register(document);
+    // Suspense can mount sections after this effect's initial scan.
+    const mutations = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node instanceof Element) register(node);
+      }));
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      mutations.disconnect();
+      observer?.disconnect();
+    };
   }, [path]);
 
   useEffect(() => {

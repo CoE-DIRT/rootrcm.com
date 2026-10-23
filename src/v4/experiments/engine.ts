@@ -1,5 +1,5 @@
 import { getGaMeasurementId, getSiteEnv, getTrackingEndpoint } from '../analytics/config';
-import { analyticsAllowed, subscribeAnalyticsConsent } from '../analytics/consent';
+import { getAnalyticsConsent, subscribeAnalyticsConsent } from '../analytics/consent';
 import type { SiteEnv } from '../analytics/taxonomy';
 import { EXPERIMENT_KEYS, EXPERIMENTS, type ExperimentDefinition, type ExperimentKey } from './registry';
 
@@ -8,12 +8,13 @@ import { EXPERIMENT_KEYS, EXPERIMENTS, type ExperimentDefinition, type Experimen
  *  1. Tests are off in production unless VITE_EXPERIMENTS_ENABLED=true; elsewhere they are on unless it is "false".
  *  2. A QA override (?exp_<key>=<variant>) shows that variant on this page only. It is never stored and never
  *     tracked, and it works without consent because nothing is recorded.
- *  3. Without analytics consent, or when there is nowhere to send measurements, everyone sees the control and
+ *  3. Without first-party analytics consent, or when there is nowhere to send measurements, everyone sees the control and
  *     nothing is stored.
- *  4. Otherwise the visitor gets one randomly chosen variant per experiment, kept in localStorage so the page stays
+ *  4. Otherwise the visitor gets one randomly chosen variant per experiment, kept in a first-party cookie so the page stays
  *     consistent. If storage is unavailable the control is shown (an unstable assignment would corrupt results).
  *  Withdrawing consent deletes the stored assignments.
  */
+/** First-party cookie that keeps a consented visitor's experiment assignment consistent. */
 export const EXPERIMENT_STORAGE_KEY = 'root-exp-v2';
 
 export type ResolutionSource = 'off' | 'assigned' | 'override';
@@ -68,29 +69,45 @@ function defaultRandom(): number {
 
 let random: () => number = defaultRandom;
 
-function readStore(): Record<string, string> {
+function removeLegacyStore(): void {
   try {
-    const parsed: unknown = JSON.parse(window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) || '{}');
+    window.localStorage.removeItem(EXPERIMENT_STORAGE_KEY);
+  } catch {
+    /* Storage may be unavailable; cookie cleanup still runs. */
+  }
+}
+
+function readStore(): Record<string, string> {
+  removeLegacyStore();
+  try {
+    if (typeof document === 'undefined') return {};
+    const prefix = `${EXPERIMENT_STORAGE_KEY}=`;
+    const entry = document.cookie.split(';').map((part) => part.trim()).find((part) => part.startsWith(prefix));
+    if (!entry) return {};
+    const parsed: unknown = JSON.parse(decodeURIComponent(entry.slice(prefix.length)));
     return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed as Record<string, string>) : {};
   } catch {
     return {};
   }
 }
 
-/** True only if the value can be read back, so a blocked or full store never yields an unstable assignment. */
+/** Assignments live in a first-party cookie, and only after analytics consent. */
 function writeStore(store: Record<string, string>): boolean {
   try {
     const serialised = JSON.stringify(store);
-    window.localStorage.setItem(EXPERIMENT_STORAGE_KEY, serialised);
-    return window.localStorage.getItem(EXPERIMENT_STORAGE_KEY) === serialised;
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${EXPERIMENT_STORAGE_KEY}=${encodeURIComponent(serialised)}; Max-Age=15552000; Path=/; SameSite=Lax${secure}`;
+    return JSON.stringify(readStore()) === serialised;
   } catch {
     return false;
   }
 }
 
 function removeStore(): void {
+  removeLegacyStore();
   try {
-    window.localStorage.removeItem(EXPERIMENT_STORAGE_KEY);
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${EXPERIMENT_STORAGE_KEY}=; Max-Age=0; Path=/; SameSite=Lax${secure}`;
   } catch {
     /* nothing to remove */
   }
@@ -131,7 +148,7 @@ function compute(key: ExperimentKey): Resolution {
   const override = overrideFor(key, definition);
   if (override) return { key, experimentId: definition.id, variant: override.id, source: 'override', label: override.label };
 
-  if (!analyticsAllowed() || !experimentsMeasurable()) return off;
+  if (!getAnalyticsConsent().firstParty || !experimentsMeasurable()) return off;
 
   const store = readStore();
   let chosen = definition.variants.find((variant) => variant.id === store[definition.id]);
@@ -150,8 +167,9 @@ let wired = false;
 function wireConsent(): void {
   if (wired) return;
   wired = true;
+  removeLegacyStore();
   subscribeAnalyticsConsent(() => {
-    if (!analyticsAllowed()) removeStore();
+    if (!getAnalyticsConsent().firstParty) removeStore();
     cache.clear();
     listeners.forEach((listener) => listener());
   });
@@ -183,7 +201,7 @@ export function subscribeExperiments(listener: () => void): () => void {
  * Nothing is reported without analytics consent, and a QA override (never stored, never tracked) is never reported.
  */
 export function getExperimentContext(): { experiment?: string; experiment_variant?: string } {
-  if (typeof window === 'undefined' || !experimentsEnabled() || !experimentsMeasurable() || !analyticsAllowed()) return {};
+  if (typeof window === 'undefined' || !experimentsEnabled() || !experimentsMeasurable() || !getAnalyticsConsent().firstParty) return {};
   const store = readStore();
   const assigned = EXPERIMENT_KEYS.flatMap((key) => {
     const definition = EXPERIMENTS[key];

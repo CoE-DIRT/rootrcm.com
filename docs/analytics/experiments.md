@@ -1,8 +1,7 @@
 # Website experiments (A/B tests)
 
-**Status: framework built and tested; no experiment has been run and no result exists. Nothing in this repository
-claims that any variant wins.** Experiments are **off in production** until someone sets
-`VITE_EXPERIMENTS_ENABLED=true` for a build and approves the decision rules below.
+**Status: no result has been measured and no variant is claimed to win. Experiments are off by default in production; this release opts in with `VITE_EXPERIMENTS_ENABLED=true`.**
+The hero test compares a distinct revenue-priority headline and explanation with ROOT's existing homepage message.
 
 Source of truth: [`src/v4/experiments/registry.ts`](../../src/v4/experiments/registry.ts). A test fails if an
 experiment below is missing from this document.
@@ -12,16 +11,16 @@ experiment below is missing from this document.
 - Presentation only. The published **$2,500 Revenue Optimization Diagnostic** price, the Trust Boundary language and
   the no-PHI acknowledgement are identical in every variant. A test fails if a variant label names any other amount.
 - The first variant of every experiment is the **control**: the existing, unchanged experience.
-- The home headline and every page's H1/meta copy are **not** part of any test.
+- The hero test changes the homepage's visible headline, supporting sentence, and primary button label. SEO metadata and all other page headings remain unchanged.
 - Experiments never read or store anything about a visitor except which variant they were shown.
 
 ## How it works
 
 | Concern | Behaviour |
 | --- | --- |
-| Where it runs | Production: **off** unless `VITE_EXPERIMENTS_ENABLED=true` at build time. Preview, staging and local: **on** unless `VITE_EXPERIMENTS_ENABLED=false`. "Production" means the production hostnames only (`rootrcm.com`, `www.rootrcm.com`). |
-| Who is assigned | Only visitors who accepted an analytics service in the cookie banner (first-party or GA4), when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
-| Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in `localStorage` key `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
+| Where it runs | The `VITE_EXPERIMENTS_ENABLED` flag is read at build time. This release opts in; experiments remain consent-gated and only run on the production hostnames (`rootrcm.com`, `www.rootrcm.com`) after the new production build is active. Preview, staging and local: on unless the flag is `false`. |
+| Who is assigned | Only visitors who accepted ROOT first-party analytics in the cookie banner, when at least one measurement destination is configured. Everyone else sees the control and nothing is stored. Global Privacy Control counts as a refusal. |
+| Assignment | One random variant per experiment (weights in the registry, currently 50/50), generated in the browser and kept in the first-party cookie `root-exp-v2` so the page stays consistent. If storage is blocked the control is shown, because an unstable assignment would corrupt results. |
 | Withdrawing consent | `root-exp-v2` is deleted and the page returns to the control immediately. |
 | Exposure | One `experiment_exposure` event per experiment per browser session (`experiment_id`, `variant`) when the test surface renders for an assigned visitor. On narrow screens the header test counts visitors who never open the mobile menu; this dilutes both arms equally. |
 | Click attribution | The element a test changes carries `data-experiment` / `data-variant`; `src/App.jsx` copies them onto the `root:cta` event, and the tracker records them as `experiment_id` / `variant` on `cta_click`. |
@@ -32,11 +31,11 @@ experiment below is missing from this document.
 
 All variants are 50/50 by default. Guardrails and the shared stop rules apply to every experiment.
 
-### `exp-hero-cta-v1` - Home hero button
+### `exp-hero-cta-v1` - Home hero message and primary action
 
-- **Surface:** the primary button in the home hero (label only; both variants go to `/diagnostic/`).
-- **Variants:** `control` ("Discover Your Revenue Exposure"), `fixed-fee` ("Book the $2,500 Diagnostic").
-- **Hypothesis:** naming the fixed-fee Diagnostic in the hero button will raise the share of visitors who continue to the Diagnostic page, because it removes pricing uncertainty before the click.
+- **Surface:** the homepage hero headline, supporting sentence, and primary button; both buttons go to `/diagnostic/`.
+- **Variants:** `control` keeps ROOT's existing homepage message and "Discover Your Revenue Exposure" button; `fixed-fee` uses "Find the revenue work worth doing first." with a distinct supporting sentence and "Book the $2,500 Diagnostic" button.
+- **Hypothesis:** prioritizing the next revenue task in the headline and pairing it with the published Diagnostic fee will raise qualified visits by making the decision and next step clearer.
 - **Primary metric:** visitors with a `cta_click` (`cta_id` `book-diagnostic`, `cta_location` `home-hero`) divided by visitors exposed to the home page hero.
 - **Guardrails:** diagnostic inquiry submissions per exposed visitor do not fall; the 50% scroll milestone rate on `/` does not fall by more than 10% relative.
 
@@ -86,8 +85,7 @@ All variants are 50/50 by default. Guardrails and the shared stop rules apply to
 2. Stop and revert to the control if a guardrail metric falls by more than 20% relative once each variant has at least 100 exposed visitors.
 3. Do not declare a result before 14 full days **and** at least 100 primary-metric conversions per variant. Below that volume the outcome is "inconclusive", not a win.
 
-These thresholds are defaults chosen to prevent premature conclusions at small-practice traffic levels. **They need
-owner approval before any experiment runs in production.**
+These thresholds are defaults chosen to prevent premature conclusions at small-practice traffic levels. Follow them for every run; do not characterize a result as a winner before both the time and conversion thresholds are met.
 
 ## Analysing results
 
@@ -101,7 +99,7 @@ owner approval before any experiment runs in production.**
 ## Running a test
 
 1. Preview: deploy a preview build. Experiments are on by default there; use `?exp_<key>=<variant>` to review each variant.
-2. Production: set `VITE_EXPERIMENTS_ENABLED=true` for the build, only after the owner approves the experiment's decision rules and the privacy language.
+2. Production: this owner-authorized release sets `VITE_EXPERIMENTS_ENABLED=true`. For a future experiment, review its decision rules and privacy wording before enabling it.
 3. Stop a test by rebuilding with `VITE_EXPERIMENTS_ENABLED=false` (everyone returns to the control; stored assignments are ignored and removed when consent is next withdrawn or storage is cleared).
 
 ## Adding or changing an experiment
@@ -116,4 +114,8 @@ owner approval before any experiment runs in production.**
 
 The previous framework (`src/experiments.js`, `src/v4/growth/experiments.ts`, `src/v4/growth/growthbook.ts`) ran a 50/50 home
 hero headline test and a Diagnostic hero test for every visitor, stored assignments without consent and was not part of
-the required test surfaces. It was removed in this change; the hero headline now always shows the control copy.
+the required test surfaces. It was removed. The current consent-gated hero experiment changes the headline, supporting sentence and primary action together; visitors without first-party consent see the control.
+
+## Consent migration
+
+The first-party service is versioned as `root-first-party-analytics-v2` so an old consent choice does not authorize the new assignment cookie. Returning visitors must answer the updated banner. GA4-only consent does not assign experiments. Legacy `root-exp-v2` localStorage values are discarded rather than imported and are cleared on withdrawal.

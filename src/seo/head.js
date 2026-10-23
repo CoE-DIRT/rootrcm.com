@@ -3,7 +3,7 @@ import { companyInfo, primaryNav, routeMeta, resourceArticles } from '../siteDat
 import { faqItems } from '../faqData.js';
 import { themeBootstrapScript } from '../theme/themeConfig.js';
 import { SITE_ORIGIN, allRoutes, canonicalForm, normalizePath, resolveCanonicalPath } from './routeRegistry.js';
-import { faqSchema, organizationSchema, webPageSchema, webSiteSchema } from './schema.js';
+import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, serviceSchema, webPageSchema, webSiteSchema } from './schema.js';
 
 const NOT_FOUND = {
   title: 'Page Not Found | ROOT',
@@ -35,6 +35,13 @@ function structuredData(canonical, meta) {
   if (canonical === '/') blocks.push(organizationSchema(), webSiteSchema());
   if (canonical === '/about/') blocks.push(organizationSchema());
   blocks.push(webPageSchema({ path: canonical, title: meta.title, description: meta.description }));
+  blocks.push(breadcrumbSchema(canonical, meta.h1 || meta.title));
+  if (canonical === '/services/' || canonical.startsWith('/services/') || canonical === '/diagnostic/') {
+    blocks.push(serviceSchema({ path: canonical, title: meta.title, description: meta.description }));
+  }
+  if (canonical.startsWith('/resources/') && canonical !== '/resources/') {
+    blocks.push(articleSchema({ path: canonical, title: meta.title, description: meta.description, image: meta.image }));
+  }
   if (canonical === '/faq/') blocks.push(faqSchema(faqItems));
   return blocks;
 }
@@ -82,6 +89,8 @@ export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVeri
 
   let out = html.replace(/<title>[^<]*<\/title>/, () => `<title>${escapeText(meta.title)}</title>`);
   out = setMeta(out, 'name', 'description', meta.description);
+  out = setMeta(out, 'name', 'referrer', 'strict-origin-when-cross-origin');
+  out = upsertTag(out, /<meta\s+http-equiv="Content-Security-Policy"[^>]*>/, `<meta http-equiv="Content-Security-Policy" content="base-uri 'self'; object-src 'none'" />`);
   out = upsertTag(out, /<link[^>]+href="\/brand\/favicon\/favicon\.ico"[^>]*>/, '<link rel="icon" type="image/x-icon" href="/brand/favicon/favicon.ico" />');
   out = upsertTag(out, /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${url}" />`);
   out = setMeta(out, 'property', 'og:type', 'website');

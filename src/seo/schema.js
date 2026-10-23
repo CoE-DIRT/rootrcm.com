@@ -1,5 +1,5 @@
-import { companyInfo, socialProfiles, leadershipProfiles } from '../siteData.js';
-import { SITE_ORIGIN } from './routeRegistry.js';
+import { companyInfo, leadershipProfiles, resourceArticles, routeMeta, servicePages, socialProfiles } from '../siteData.js';
+import { SITE_ORIGIN, allRoutes, resolveCanonicalPath } from './routeRegistry.js';
 
 export const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
 export const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
@@ -92,6 +92,66 @@ export function webPageSchema({ path, title, description }) {
 }
 
 /** FAQPage schema generated from the same items the page renders, so markup and content cannot drift. */
+/** Breadcrumbs mirror the published route hierarchy and use the same canonical paths as the page head. */
+export function breadcrumbSchema(path, title) {
+  const canonical = resolveCanonicalPath(path);
+  const items = [{ name: 'Home', item: `${SITE_ORIGIN}/` }];
+  const parents = allRoutes.filter((route) =>
+    !route.internal && !route.alias && route.path !== '/' &&
+    route.path !== canonical && canonical.startsWith(route.path) && !route.system,
+  ).sort((a, b) => a.path.length - b.path.length);
+  for (const route of parents) {
+    const meta = routeMeta[route.path.replace(/\/$/, '')];
+    items.push({ name: meta?.h1 || meta?.title || route.key, item: `${SITE_ORIGIN}${route.path}` });
+  }
+  if (canonical !== '/' && allRoutes.some((route) => route.path === canonical && !route.internal)) {
+    items.push({ name: title, item: `${SITE_ORIGIN}${canonical}` });
+  }
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.item,
+    })),
+  };
+}
+
+/** Describes ROOT's published service pages without adding outcomes, availability, or prices not stated there. */
+export function serviceSchema({ path, title, description }) {
+  const slug = path.split('/').filter(Boolean).pop();
+  const service = servicePages.find((item) => item.slug === slug);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${SITE_ORIGIN}${path}#service`,
+    name: service?.title || title,
+    serviceType: service?.family || 'Healthcare revenue operations',
+    description: service?.summary || description,
+    url: `${SITE_ORIGIN}${path}`,
+    provider: { '@id': ORGANIZATION_ID },
+  };
+}
+
+/** Resource articles have no publication dates in the source data, so none are asserted here. */
+export function articleSchema({ path, title, description, image }) {
+  const slug = path.split('/').filter(Boolean).pop();
+  const article = resourceArticles.find((item) => item.slug === slug);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${SITE_ORIGIN}${path}#article`,
+    headline: article?.title || title,
+    description: article?.summary || description,
+    image,
+    mainEntityOfPage: { '@id': `${SITE_ORIGIN}${path}#webpage` },
+    publisher: { '@id': ORGANIZATION_ID },
+    inLanguage: 'en-US',
+  };
+}
+
 export function faqSchema(items) {
   return {
     '@context': 'https://schema.org',

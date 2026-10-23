@@ -130,11 +130,30 @@ describe('rendered page head', () => {
 
   it('emits valid JSON-LD: Organization on home, FAQPage matching the FAQ items, never LocalBusiness', () => {
     const home = jsonLdBlocks(renderPageHtml(read('index.html'), '/'));
-    expect(home.map((block) => block['@type'])).toEqual(['Organization', 'WebSite', 'WebPage']);
+    expect(home.map((block) => block['@type'])).toEqual(['Organization', 'WebSite', 'WebPage', 'BreadcrumbList']);
     const faq = jsonLdBlocks(renderPageHtml(read('faq/index.html'), '/faq/')).find((block) => block['@type'] === 'FAQPage');
     expect(faq.mainEntity).toHaveLength(faqItems.length);
     expect(faq.mainEntity[0].name).toBe(faqItems[0].question);
     for (const route of entries) expect(renderPageHtml(read(route.entry), route.path)).not.toContain('LocalBusiness');
+  });
+
+  it('adds breadcrumbs to every public page and article or service markup where it fits', () => {
+    for (const route of entries) {
+      const blocks = jsonLdBlocks(renderPageHtml(read(route.entry), route.path));
+      expect(blocks.map((block) => block['@type']), route.path).toContain('BreadcrumbList');
+    }
+    const serviceRoute = entries.find((route) => route.path.startsWith('/services/') && route.path !== '/services/');
+    expect(jsonLdBlocks(renderPageHtml(read(serviceRoute.entry), serviceRoute.path)).map((block) => block['@type'])).toContain('Service');
+    const articleRoute = entries.find((route) => route.path.startsWith('/resources/') && route.path !== '/resources/');
+    expect(jsonLdBlocks(renderPageHtml(read(articleRoute.entry), articleRoute.path)).map((block) => block['@type'])).toContain('Article');
+  });
+
+  it('emits only registered canonical breadcrumb destinations, including 404 and cookies', () => {
+    const destinations = new Set(entries.map((route) => `${SITE_ORIGIN}${resolveCanonicalPath(route.path)}`));
+    for (const route of entries) {
+      const breadcrumb = jsonLdBlocks(renderPageHtml(read(route.entry), route.path)).find((block) => block['@type'] === 'BreadcrumbList');
+      for (const item of breadcrumb.itemListElement) expect(destinations.has(item.item), item.item).toBe(true);
+    }
   });
 
   it('keeps the Organization schema factual: published address, no unverified profile', () => {

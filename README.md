@@ -117,6 +117,10 @@ Review [the quality gates](docs/qa/browser-qa-checklist.md) and [deploy/rollback
 
 </details>
 
+Every static route is defined once in `src/seo/routeRegistry.js`; the sitemap, robots, page heads and tests are generated from it. The public
+navigation is Home, About, Services, Solutions, How We Work, Pricing, Resources, Opportunities, Contact and the primary call to action. See
+[docs/website/sitemap.md](docs/website/sitemap.md) for the full list, including `/book/`, `/faq/`, `/privacy-policy/`, `/terms/`,
+`/refund-policy/`, `/thank-you/` and the `404.html` fallback.
 <details>
 <summary><strong>▶ Status and release distinctions (verified 21 Oct 2026)</strong></summary>
 
@@ -130,6 +134,16 @@ Review [the quality gates](docs/qa/browser-qa-checklist.md) and [deploy/rollback
 
 See [Source of truth & evidence](docs/governance/source-register.md) and [Google readiness](docs/seo/google-platform-readiness.md).
 
+| Capability | Status | Docs |
+| --- | --- | --- |
+| Google Analytics 4 | **Disabled**: no Measurement ID supplied (`VITE_GA_MEASUREMENT_ID`) | [docs/analytics/tracking-plan.md](docs/analytics/tracking-plan.md) |
+| First-party analytics (Appwrite `tracking-ingest` + private table) | Function and private table deployed; candidate build configured, production promotion pending | [ADR-009](docs/adr/ADR-009-first-party-analytics-on-appwrite.md), [runbook](docs/deployment/appwrite-analytics.md) |
+| A/B experiments | Built; **off in production** unless `VITE_EXPERIMENTS_ENABLED=true`; no results exist | [docs/analytics/experiments.md](docs/analytics/experiments.md) |
+| Stripe test-mode checkout | Code and tests ready, **inert**; ADR-010 accepted, awaiting test credentials and preview gates | [ADR-010](docs/adr/ADR-010-stripe-test-mode-checkout.md), [runbook](docs/deployment/stripe-test-mode.md) |
+| Search Console, Business Profile | **Not done** (manual owner steps) | [docs/seo/](docs/seo/README.md) |
+
+Appwrite Functions live in `functions/` (`contact`, `tracking-ingest`, `checkout`, `stripe-webhook`); each has its own README. `contact` is the approved
+commercial-inquiry relay (ADR-008), `tracking-ingest` is authorized by ADR-009, and the test-mode-only `checkout` and `stripe-webhook` Functions are authorized by ADR-010 but remain undeployed. The contact and tracking Functions are deployed in Appwrite; checkout and webhook Functions remain undeployed.
 </details>
 
 ## Security, claims & contribution rules
@@ -141,6 +155,7 @@ See [Source of truth & evidence](docs/governance/source-register.md) and [Google
 - Patient-level work requires appropriate agreements, approved systems and controls outside this public application.
 - Production merges follow reviewed CI, QA, release gating and rollback documentation.
 
+Appwrite Sites is the production target for the static build; GitHub Pages compatibility is retained. `public/CNAME` must remain `rootrcm.com`. DNS, registrar settings, GitHub Pages production settings, HTTPS enforcement, and production-domain configuration are intentionally out of scope for feature work in this repository.
 ## Source navigation
 
 [Architecture](docs/architecture/overview.md) · [Deployment](docs/deployment/appwrite-cutover.md) · [Analytics](docs/deployment/appwrite-analytics.md) · [Service catalog](docs/website/service-catalog.md) · [SEO](docs/seo/README.md) · [Trust boundary](docs/security/public-site-no-phi-boundary.md) · [Leadership evidence](docs/brand/leadership-source-of-truth.md)

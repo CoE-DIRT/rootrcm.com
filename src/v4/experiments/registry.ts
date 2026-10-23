@@ -46,9 +46,9 @@ export const EXPERIMENTS: Record<ExperimentKey, ExperimentDefinition> = {
   heroCta: {
     key: 'heroCta',
     id: 'exp-hero-cta-v1',
-    surface: 'Home hero primary button (label only; both variants go to /diagnostic/)',
+    surface: 'Home hero message and primary action; both variants go to /diagnostic/',
     hypothesis:
-      'Naming the fixed-fee Diagnostic in the hero button will raise the share of visitors who continue to the Diagnostic page, because it removes pricing uncertainty before the click.',
+      'A distinct revenue-priority headline and lede paired with the published fixed fee will raise qualified visits to the Diagnostic page by making the next step and its commercial context immediately clear.',
     primaryMetric: 'Visitors with a cta_click (cta_id book-diagnostic, cta_location home-hero) divided by visitors exposed to the home page hero.',
     guardrails: [
       'Diagnostic inquiry form submissions per exposed visitor (form_id diagnostic-inquiry, status success) must not fall.',
@@ -56,8 +56,8 @@ export const EXPERIMENTS: Record<ExperimentKey, ExperimentDefinition> = {
     ],
     stopRules: COMMON_STOP_RULES,
     variants: [
-      { id: 'control', weight: 1, description: 'Existing label: "Discover Your Revenue Exposure".' },
-      { id: 'fixed-fee', weight: 1, description: 'Offer and fee named in the label.', label: 'Book the $2,500 Diagnostic' },
+      { id: 'control', weight: 1, description: 'Existing positioning and label: "Discover Your Revenue Exposure".' },
+      { id: 'fixed-fee', weight: 1, description: 'Distinct revenue-priority headline and lede paired with the published diagnostic fee.', label: 'Book the $2,500 Diagnostic' },
     ],
   },
   headerCta: {

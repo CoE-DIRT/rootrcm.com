@@ -42,6 +42,7 @@ export function SocialLinks({ variant = 'icons', location = 'social-links', clas
                 data-cta="social-click"
                 data-location={location}
                 data-destination={profile.label}
+                data-engagement-type="social"
                 className={cn(itemClass, variant === 'icons' ? 'h-11 w-11' : 'min-h-11 px-4 text-sm font-medium')}
               >
                 <SocialIcon label={profile.label} />

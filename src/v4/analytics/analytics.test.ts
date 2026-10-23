@@ -114,14 +114,14 @@ describe('configuration', () => {
 });
 
 describe('consent state', () => {
-  const SERVICES = ['root-session', 'root-first-party-analytics', 'google-analytics'];
+  const SERVICES = ['root-session', 'root-first-party-analytics-v2', 'google-analytics'];
   const saveChoice = (choice: Record<string, boolean>) => {
     document.cookie = `root_consent=${encodeURIComponent(JSON.stringify(choice))}; path=/`;
   };
 
   it('reads a saved choice synchronously from the consent cookie and tolerates garbage', () => {
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: false, ga4: false });
-    saveChoice({ 'root-session': true, 'root-first-party-analytics': true, 'google-analytics': false });
+    saveChoice({ 'root-session': true, 'root-first-party-analytics-v2': true, 'google-analytics': false });
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: true, ga4: false });
     document.cookie = 'root_consent=%7Bnot-json; path=/';
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: false, ga4: false });
@@ -131,19 +131,19 @@ describe('consent state', () => {
 
   it('ignores a saved choice that no longer answers for every configured service, as Klaro does', () => {
     // Saved before the GA4 service was configured: Klaro is asking again, so the old "yes" must not count.
-    saveChoice({ 'root-session': true, 'root-first-party-analytics': true });
+    saveChoice({ 'root-session': true, 'root-first-party-analytics-v2': true });
     expect(isChoiceComplete(readSavedChoice(), SERVICES)).toBe(false);
     expect(readStoredServices(SERVICES)).toEqual({});
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: false, ga4: false });
     // The same cookie is a complete answer for a build that only configures what it covers.
-    expect(readStoredConsent(['root-session', 'root-first-party-analytics'])).toEqual({ firstParty: true, ga4: false });
+    expect(readStoredConsent(['root-session', 'root-first-party-analytics-v2'])).toEqual({ firstParty: true, ga4: false });
     // A non-boolean entry is not an answer.
-    saveChoice({ 'root-session': true, 'root-first-party-analytics': 'yes' as unknown as boolean, 'google-analytics': true });
+    saveChoice({ 'root-session': true, 'root-first-party-analytics-v2': 'yes' as unknown as boolean, 'google-analytics': true });
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: false, ga4: false });
   });
 
   it('ignores answers for services this build no longer configures', () => {
-    saveChoice({ 'root-session': true, 'root-first-party-analytics': true, 'google-analytics': true, 'retired-service': true });
+    saveChoice({ 'root-session': true, 'root-first-party-analytics-v2': true, 'google-analytics': true, 'retired-service': true });
     expect(readStoredConsent(SERVICES)).toEqual({ firstParty: true, ga4: true });
   });
 });

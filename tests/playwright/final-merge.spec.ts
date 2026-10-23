@@ -23,6 +23,7 @@ test.describe('DIRT-led merge — final QA', () => {
   ];
 
   test('no horizontal overflow at 390px / 430px on core routes', async ({ page, isMobile }) => {
+    test.setTimeout(120_000); // Two widths across 23 routes require 46 complete navigations.
     test.skip(!isMobile, 'mobile widths are covered by the mobile-chromium project');
     for (const width of [390, 430]) {
       await page.setViewportSize({ width, height: 844 });
@@ -36,6 +37,7 @@ test.describe('DIRT-led merge — final QA', () => {
 
   for (const width of [768, 1024, 1366, 1440, 1536]) {
     test(`no horizontal overflow at ${width}px on core routes`, async ({ page, isMobile }) => {
+      test.setTimeout(90_000); // Budget for the complete route matrix on shared runners.
       test.skip(isMobile, 'laptop/desktop widths are covered by the desktop chromium project');
       await page.setViewportSize({ width, height: 900 });
       for (const path of routes) {
@@ -51,11 +53,26 @@ test.describe('DIRT-led merge — final QA', () => {
     await expect(page.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeVisible();
   });
 
-  test('reduced motion: DIRT scenario toggle still updates values with no animation errors', async ({ page }) => {
+  test('homepage renders executive metrics without downloading the chart library', async ({ page }) => {
+    const chartRequests: string[] = [];
+    page.on('request', (request) => {
+      if (/DirtCommandCenter|charts-[^/]+\.js|recharts|tanstack.*react-table/.test(request.url())) chartRequests.push(request.url());
+    });
+    const response = await page.goto('/');
+    expect(response?.status()).toBe(200);
+    await expect(page.getByRole('heading', { name: 'Executive revenue view' })).toBeVisible();
+    await expect(page.locator('[data-dirt-command]')).toBeVisible();
+    expect(chartRequests).toEqual([]);
+  });
+
+  test('reduced motion: DIRT scenario toggle updates values and returns to baseline', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/technology/dirt/');
-    const modelButton = page.getByRole('button', { name: /Model the improvement/i });
-    await modelButton.click();
-    await expect(page.getByRole('button', { name: /Reset to baseline/i })).toBeVisible();
+    const scenario = page.getByRole('region', { name: 'Illustrative revenue-cycle scenario preview' });
+    await expect(scenario.getByText('32d', { exact: true })).toBeVisible();
+    await scenario.getByRole('button', { name: /Compare a modeled scenario/i }).click();
+    await expect(scenario.getByText('28d', { exact: true })).toBeVisible();
+    await scenario.getByRole('button', { name: /Return to example baseline/i }).click();
+    await expect(scenario.getByText('32d', { exact: true })).toBeVisible();
   });
 });

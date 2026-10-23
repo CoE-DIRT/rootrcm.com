@@ -1,6 +1,6 @@
 export const syntheticPractice = {
-  name: 'Willowbend Physician Group',
-  label: 'Synthetic demonstration practice',
+  name: 'Illustrative Practice Profile',
+  label: 'Sample operating scenario',
   specialty: 'Independent primary care and adult medicine',
   providers: 5,
   period: 'Illustrative 90-day operating view',
@@ -23,7 +23,7 @@ export const syntheticPractice = {
 export const proofWorkAssets = {
   rcmControl: {
     title: 'Revenue-cycle KPI control view',
-    label: 'Synthetic demonstration',
+    label: 'Illustrative operating example',
     capability: 'RCM operating controls',
     seeing: 'Charges, collections, denials, clean-claim quality, and active follow-up in one control view.',
     meaning: 'Leadership can see whether the revenue engine is controlled or simply busy.',
@@ -44,7 +44,7 @@ export const proofWorkAssets = {
   },
   arAnalysis: {
     title: 'A/R aging and recovery priority',
-    label: 'Illustrative practice data',
+    label: 'Illustrative sample metrics',
     capability: 'A/R recovery analysis',
     seeing: 'Aging buckets, high-value segments, recoverability, payer friction, and next action.',
     meaning: 'A/R is not one backlog; it is several different workflows competing for attention.',
@@ -66,12 +66,12 @@ export const proofWorkAssets = {
   },
   denialPareto: {
     title: 'Denial root-cause Pareto',
-    label: 'Sample analytical output',
+    label: 'Illustrative analytical example',
     capability: 'Denial management',
     seeing: 'Denial events grouped into cause families with value-at-risk context.',
     meaning: 'Recurring denial categories point to workflow defects, not only claim-level rework.',
     action: 'Recover what is collectible and close the upstream loop on preventable sources.',
-    insight: '182 synthetic denial events reconcile to six categories and separate recoverable work from upstream prevention.',
+    insight: 'In this example, 182 sample denial events are grouped into six categories to separate recoverable work from upstream prevention.',
     categories: [
       ['Eligibility', 56, 64000, 'Front-end verification'],
       ['Authorization', 42, 52000, 'Referral and auth workflow'],
@@ -83,7 +83,7 @@ export const proofWorkAssets = {
   },
   credentialingTracker: {
     title: 'Credentialing command view',
-    label: 'De-identified workflow example',
+    label: 'Illustrative workflow example',
     capability: 'Credentialing operations',
     seeing: 'Enrollment status, payer, aging task, owner, and bottleneck in one workflow table.',
     meaning: 'Credentialing delay can become revenue timing risk before leadership sees it in cash.',
@@ -98,7 +98,7 @@ export const proofWorkAssets = {
   },
   practiceOpsScorecard: {
     title: 'Practice operations scorecard',
-    label: 'Representative workflow based on RCM operating experience',
+    label: 'Illustrative practice-operations example',
     capability: 'Practice operations',
     seeing: 'Backlog, overdue escalations, posting exceptions, credentialing blockers, and queue priority.',
     meaning: 'Operational drag shows up as revenue-cycle noise unless the workflow is visible.',
@@ -119,7 +119,7 @@ export const proofWorkAssets = {
   },
   dirtCommand: {
     title: 'DIRT management intelligence view',
-    label: 'Demonstration dataset',
+    label: 'Illustrative dashboard dataset',
     capability: 'DIRT intelligence',
     seeing: 'Revenue leakage, A/R concentration, payer risk, and workflow priority signals.',
     meaning: 'DIRT turns scattered operational exports into management intelligence.',
@@ -137,8 +137,8 @@ export const proofWorkAssets = {
 export const diagnosticSample = {
   title: 'Illustrative Revenue Optimization Diagnostic',
   pages: [
-    ['Executive summary', 'Five-provider practice, $780K A/R, 34% over 90 days, denial concentration in eligibility and authorization.'],
-    ['Revenue leakage map', '$214K synthetic value at risk across denials, payer delay, unresolved A/R, and credentialing exposure.'],
+    ['Executive summary', 'Example five-provider practice profile: $780K A/R, 34% over 90 days, with denial concentration in eligibility and authorization.'],
+    ['Revenue leakage map', '$214K illustrative value at risk across denials, payer delay, unresolved A/R, and credentialing exposure.'],
     ['Opportunity register', 'Ranked work queue with owner, evidence, next action, recoverability, and escalation path.'],
     ['30/60/90 roadmap', 'Stabilize work queues, correct denial causes, rebuild KPI cadence, then monitor DIRT signals weekly.'],
   ],

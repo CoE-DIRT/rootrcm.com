@@ -42,6 +42,11 @@
   }
 }
 
+/* Keep the final legal/privacy controls above the fixed outreach dock at the end of the page. */
+.v4-root > footer {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+}
+
 /* Footer "Talk to us" band. */
 .v4-footer-cta {
   background:

@@ -9,7 +9,7 @@ export interface AnalyticsConsent {
 }
 
 /** Klaro service names (src/v4/consent/klaroConfig.ts). */
-export const SERVICE_FIRST_PARTY = 'root-first-party-analytics';
+export const SERVICE_FIRST_PARTY = 'root-first-party-analytics-v2';
 export const SERVICE_GA4 = 'google-analytics';
 export const SERVICE_POSTHOG = 'posthog';
 export const CONSENT_COOKIE = 'root_consent';

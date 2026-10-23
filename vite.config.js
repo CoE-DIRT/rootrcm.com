@@ -113,7 +113,8 @@ export default defineConfig(({ mode }) => {
       input: Object.fromEntries(Object.entries(inputs).map(([name, path]) => [name, resolve(rootDir, path)])),
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/recharts') || id.includes('node_modules/@tanstack/react-table')) return 'charts';
+          // Keep React shared without pulling the chart library into every route's initial download.
+          if (/node_modules\/(?:react(?:-dom|-is)?|scheduler)\//.test(id)) return 'react-vendor';
           if (id.includes('node_modules/klaro')) return 'consent';
           if (id.includes('node_modules/posthog-js')) return 'analytics';
           if (id.includes('node_modules/@growthbook/growthbook')) return 'growth';

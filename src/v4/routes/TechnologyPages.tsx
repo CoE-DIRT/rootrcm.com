@@ -2,7 +2,9 @@ import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
-import { DirtCommandCenter, DirtSignalFlow } from '@/components/dirt/DirtCommandCenter';
+import { lazy, Suspense } from 'react';
+const DirtCommandCenter = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtCommandCenter })));
+const DirtSignalFlow = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtSignalFlow })));
 import { InteractiveMiniDashboard } from '@/components/dirt/InteractiveMiniDashboard';
 import { DirtSectionNav } from '@/components/dirt/DirtSectionNav';
 import { InteroperabilityLifecycle } from '@/components/sections/InteroperabilityLifecycle';
@@ -132,29 +134,28 @@ export function DirtPage() {
       </Section>
 
       <Section id="signal" tone="soft">
-        <DirtSignalFlow />
+        <Suspense fallback={<div className="min-h-[12rem]" aria-busy="true" />}><DirtSignalFlow /></Suspense>
       </Section>
 
       <Section id="command-center" tone="grid" wide dense>
         <SectionHeader
           eyebrow="Command center"
           title="From financial visibility to decision-ready revenue intelligence"
-          description="Explore how an executive view, payer intelligence, denial patterns, underpayment indicators, and a prioritized queue fit into one synthetic demonstration."
+          description="Explore an illustrative dashboard view that organizes executive measures, payer patterns, denial categories, underpayment signals, and prioritized work."
         />
         <div className="mt-8">
-          <DirtCommandCenter />
+          <Suspense fallback={<div className="min-h-[24rem] rounded-[var(--radius-root)] border border-border bg-panel/40" aria-busy="true" />}><DirtCommandCenter /></Suspense>
         </div>
         <Callout tone="compliance" className="mt-8">
-          All figures on this page are synthetic / deidentified demonstration data for product education — not client
-          outcomes.
+          The dashboard uses clearly labeled sample metrics to show how revenue signals can be organized for management review.
         </Callout>
       </Section>
 
       <Section id="scenario" tone="soft">
         <SectionHeader
           eyebrow="Bounded scenario"
-          title="Model the improvement, on synthetic data"
-          description="A local, no-network scenario toggle over ROOT's fixture practice — never a live account."
+          title="Explore an illustrative operating scenario"
+          description="Adjust a sample scenario to compare baseline measures with a modeled set of operating assumptions."
         />
         <InteractiveMiniDashboard />
       </Section>
@@ -163,7 +164,7 @@ export function DirtPage() {
         <SectionHeader
           eyebrow="Media"
           title="Product-grade information surfaces"
-          description="Charts and tables above are an interactive synthetic demo — not a live account. Photography below is editorial context only."
+          description="A clear view of key measures, patterns, and accountable next actions."
         />
         <MediaFrame
           src={mediaAssets.dirtAnalytics}

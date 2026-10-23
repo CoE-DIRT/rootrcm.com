@@ -310,7 +310,7 @@ describe('CheckoutButton', () => {
 describe('/checkout/success/', () => {
   const consentCookie = () => {
     // Klaro writes an answer for every configured service; analytics honours only a complete saved choice.
-    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics': true }))}; path=/`;
+    document.cookie = `root_consent=${encodeURIComponent(JSON.stringify({ 'root-session': true, 'root-first-party-analytics-v2': true }))}; path=/`;
   };
   const renderSuccess = (query = `?session_id=${SESSION}`) => {
     window.history.pushState({}, '', `/checkout/success/${query}`);

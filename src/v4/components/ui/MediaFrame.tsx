@@ -18,6 +18,13 @@ const aspectClass = {
   hero: 'aspect-[16/10] min-h-[280px] md:min-h-[420px]',
 };
 
+const intrinsicSize = {
+  video: { width: 1200, height: 675 },
+  wide: { width: 1680, height: 720 },
+  square: { width: 800, height: 800 },
+  hero: { width: 1600, height: 1000 },
+};
+
 export function MediaFrame({
   src,
   alt,
@@ -39,7 +46,10 @@ export function MediaFrame({
           onError={() => setLoaded({ src, state: 'error' })}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
+          width={intrinsicSize[aspect].width}
+          height={intrinsicSize[aspect].height}
           className={cn('h-full w-full object-cover object-center', imgClassName)}
         />
         {state === 'error' ? <p className="absolute inset-0 flex items-center justify-center p-4 text-sm text-muted">Image unavailable: {alt}</p> : null}

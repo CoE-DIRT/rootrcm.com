@@ -16,8 +16,8 @@ describe('experiments documentation', () => {
   });
 
   it('states that no result exists and that production is off by default', () => {
-    expect(doc).toMatch(/no experiment has been run/i);
-    expect(doc).toMatch(/off in production/i);
+    expect(doc).toMatch(/no result has been measured/i);
+    expect(doc).toMatch(/off by default in production/i);
     expect(doc).not.toMatch(/is the winner|won the test|statistically significant win/i);
   });
 });

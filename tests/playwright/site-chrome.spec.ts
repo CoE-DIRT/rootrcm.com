@@ -101,7 +101,7 @@ test.describe('header', () => {
     await consentGiven(page);
     const nav = page.getByRole('navigation', { name: 'Primary navigation' });
     const labels = await nav.locator('li > a, li > button').allInnerTexts();
-    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
+    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
     await expect(page.locator('header').getByRole('link', { name: 'Book a Diagnostic' })).toHaveAttribute('href', '/diagnostic/');
   });
 
@@ -147,7 +147,7 @@ test.describe('header', () => {
     await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog', { name: 'Menu' });
     await expect(dialog).toBeVisible();
-    for (const label of ['Home', 'About', 'Case Studies', 'Pricing', 'Resources', 'Contact']) {
+    for (const label of ['Home', 'About', 'How We Work', 'Pricing', 'Resources', 'Contact']) {
       await expect(dialog.getByRole('link', { name: label, exact: true })).toBeVisible();
     }
     await expect(dialog.getByRole('link', { name: 'Book a Diagnostic' })).toBeVisible();
@@ -170,6 +170,15 @@ test.describe('header', () => {
 });
 
 test.describe('footer and social controls', () => {
+  test('Cookie Settings remains clickable above the floating contact control', async ({ page }) => {
+    await page.goto('/?exp_talkToUsPlacement=control');
+    await page.getByRole('button', { name: 'Reject non-essential', exact: true }).click();
+    const settings = page.getByRole('button', { name: 'Cookie Settings', exact: true });
+    await settings.scrollIntoViewIfNeeded();
+    await settings.click();
+    await expect(page.getByRole('button', { name: 'Save preferences' })).toBeVisible();
+  });
+
   test('social links are labelled, open safely in a new tab and show a tooltip on keyboard focus', async ({ page, isMobile }) => {
     await page.goto('/');
     await consentGiven(page);

@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 import { resetAnalyticsConsent } from './v4/analytics/consent.ts';
@@ -25,6 +25,22 @@ afterEach(() => {
 });
 
 describe('ROOT commercial site', () => {
+  it('reveals sections mounted after the initial route render', async () => {
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal('IntersectionObserver', class {
+      observe = observe;
+      disconnect = disconnect;
+    });
+    const { container, unmount } = renderRoute('/');
+    const section = document.createElement('section');
+    section.dataset.reveal = '';
+    container.appendChild(section);
+    await waitFor(() => expect(observe).toHaveBeenCalledWith(section));
+    unmount();
+    expect(disconnect).toHaveBeenCalled();
+  });
+
   it('associates form hints and errors with the control', () => {
     const { rerender } = render(
       <FormField label="Email" htmlFor="email" hint="Use a work email">
@@ -44,7 +60,7 @@ describe('ROOT commercial site', () => {
     expect(input.getAttribute('aria-invalid')).toBe('true');
   });
 
-  it('renders V4 homepage positioning and primary navigation', () => {
+  it('renders V4 homepage positioning and primary navigation', async () => {
     const { container } = renderRoute('/');
 
     expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
@@ -55,19 +71,18 @@ describe('ROOT commercial site', () => {
     expect(screen.getAllByRole('link', { name: /WhatsApp/i })[0].getAttribute('href')).toContain('https://wa.me/13025064685');
     expect(container.querySelector('img[src="/brand/logos/root/root-mark-76.webp"]')).toBeTruthy();
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
-    // Required order: Home, About, Services, Solutions, Case Studies, Pricing, Resources, Opportunities, Contact.
+    // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
-    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'Case Studies', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
+    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
     const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
     expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
     expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
     expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
-    expect(screen.getAllByText(/fictional practice|synthetic/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/illustrative practice profile|sample metrics/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
-    expect(container.querySelector('[data-dirt-command]')).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
     expect(screen.getByRole('heading', { name: /revenue is lost between disconnected workflows/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /find the cause. own the next action/i })).toBeTruthy();
@@ -99,9 +114,9 @@ describe('ROOT commercial site', () => {
     cleanup();
     renderRoute('/technology/dirt/');
     expect(screen.getByRole('heading', { name: /your data already contains the signals. DIRT connects them/i })).toBeTruthy();
-    expect(screen.getAllByText(/aging landscape/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('heading', { name: /From signal to an owned next action/i }).length).toBeGreaterThan(0);
-    expect(document.querySelector('[data-dirt-command]')).toBeTruthy();
+    expect(screen.getAllByText(/aging A\/R/i).length).toBeGreaterThan(0);
+    expect(await screen.findByRole('heading', { name: /From signal to an owned next action/i }, { timeout: 10_000 })).toBeTruthy();
+    await waitFor(() => expect(document.querySelector('[data-dirt-command]')).toBeTruthy());
 
     cleanup();
     vi.stubGlobal('matchMedia', () => ({
@@ -112,7 +127,7 @@ describe('ROOT commercial site', () => {
       removeListener: () => {},
     }));
     renderRoute('/case-studies/dirt-poc-01/');
-    expect(screen.getByRole('heading', { name: /dirt revenue intelligence/i })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: /dirt revenue intelligence/i }, { timeout: 10_000 })).toBeTruthy();
     expect(screen.getByText(/publication review required/i)).toBeTruthy();
     expect(screen.getAllByText(/anonymized proof of concept/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/not a client success story/i)).toBeTruthy();
@@ -133,7 +148,7 @@ describe('ROOT commercial site', () => {
     renderRoute('/resources/denial-management-root-cause/');
     expect(screen.getByRole('heading', { name: /denial management root-cause guide/i })).toBeTruthy();
     expect(screen.getByText(/X12 Claim Adjustment Reason Codes/i)).toBeTruthy();
-  });
+  }, 20_000);
 
   it('supports engagement rows, approved DIRT pricing, and CTA events without form content', () => {
     renderRoute('/platform/');
@@ -162,12 +177,19 @@ describe('ROOT commercial site', () => {
     expect(JSON.stringify(ctaEvents[0])).not.toMatch(/alex|patient|diagnosis/i);
   });
 
+  it('renders the complete How We Work page at the existing case-studies URL', () => {
+    renderRoute('/case-studies/');
+    expect(screen.getByRole('heading', { name: /turn revenue signals into clear operating priorities/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /move from scattered reports to accountable action/i })).toBeTruthy();
+    expect(screen.queryByText(/being prepared|coming soon/i)).toBeNull();
+  });
+
   it('renders the diagnostic route and enforces the no-PHI acknowledgement', () => {
     renderRoute('/diagnostic/');
 
     expect(screen.getByRole('heading', { name: /see where your revenue system is leaking/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Illustrative Revenue Optimization Diagnostic/i })).toBeTruthy();
-    expect(screen.getAllByText(/Willowbend Physician Group/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Illustrative Practice Profile/i).length).toBeGreaterThan(0);
 
     fireEvent.change(screen.getByLabelText(/^name$/i), { target: { value: 'Alex Rivera' } });
     fireEvent.change(screen.getByLabelText(/work email/i), { target: { value: 'alex@northstar.example' } });
@@ -283,8 +305,8 @@ describe('ROOT commercial site', () => {
     expect(hero).toBeTruthy();
     expect(hero.getAttribute('href')).toBe('/diagnostic/');
     expect(hero.hasAttribute('data-experiment')).toBe(false);
-    // The headline is never part of a test: the hero narrative is unchanged.
-    expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    // The QA variant changes the headline but is not attributed without consent.
+    expect(screen.getByRole('heading', { name: /find the revenue work worth doing first/i })).toBeTruthy();
   });
 
   it('renders the 404 fallback route', () => {

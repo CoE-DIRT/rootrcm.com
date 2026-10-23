@@ -44,9 +44,9 @@ export function buildKlaroServices(): KlaroService[] {
       purposes: ['analytics'],
       required: false,
       default: false,
-      cookies: [],
+      cookies: [/^root-exp-v2$/],
       description:
-        'Counts page views, scrolling, button clicks and form results on ROOT\'s own systems using random anonymous identifiers. Never includes names, emails, phone numbers, form messages or PHI.',
+        'Counts page views, scrolling, button clicks and form results on ROOT\'s own systems using random anonymous identifiers. With consent, a first-party cookie keeps a website-test assignment consistent. Never includes names, emails, phone numbers, form messages or PHI.',
     });
   }
 
@@ -96,6 +96,7 @@ export const klaroConfig = {
   hideDeclineAll: false,
   hideLearnMore: false,
   noticeAsModal: false,
+  showNoticeTitle: true,
   htmlTexts: true,
   translations: {
     en: {
@@ -105,6 +106,7 @@ export const klaroConfig = {
           'ROOT uses necessary cookies to run this site. Analytics and marketing are off until you allow them. We also honor the Global Privacy Control signal.',
       },
       consentNotice: {
+        title: 'Cookie preferences',
         description:
           'We use cookies to run this site. Necessary cookies are always on; analytics and marketing are off until you say yes.',
         learnMore: 'Manage preferences',

@@ -30,26 +30,26 @@ export const mediaAssets = {
 
 export const serviceMediaBySlug = {
   'ar-recovery': null,
-  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. ', caption: 'Practice operations context' },
   'patient-balances': null,
   credentialing: null,
-  'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
-  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial Healthcare IT context' },
-  'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Team discussion in a healthcare operations setting. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial workflow context' },
+  'practice-ops': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. ', caption: 'Practice operations context' },
+  'healthcare-it': { src: mediaAssets.healthcareIt, alt: 'Healthcare-themed desk and laptop workstation. ', caption: 'Healthcare technology context' },
+  'workflow-automation': { src: mediaAssets.workflowAutomation, alt: 'Team discussion in a healthcare operations setting. ', caption: 'Workflow collaboration' },
   'reporting-analytics': null,
-  'operational-consulting': { src: mediaAssets.consulting, alt: 'Professional workshop in a healthcare business setting. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial consulting context' },
-  rcm: { src: mediaAssets.physicianNurseCoordination, alt: 'Physician and nurse coordinating in a clinical hallway. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial clinical operations context' },
-  'medical-billing': { src: mediaAssets.practiceConsultation, alt: 'Practice consultation context. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice context' },
+  'operational-consulting': { src: mediaAssets.consulting, alt: 'Professional workshop in a healthcare business setting. ', caption: 'Practice leadership workshop' },
+  rcm: { src: mediaAssets.physicianNurseCoordination, alt: 'Physician and nurse coordinating in a clinical hallway. ', caption: 'Clinical operations context' },
+  'medical-billing': { src: mediaAssets.practiceConsultation, alt: 'Practice consultation context. ', caption: 'Practice operations context' },
   'payment-posting': null,
 };
 
 export const solutionMediaBySlug = {
   'aging-ar': null,
-  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  denials: { src: mediaAssets.practiceAdmin, alt: 'Practice administrator working at a desk workstation. ', caption: 'Practice operations context' },
   'credentialing-bottlenecks': null,
-  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  'operational-efficiency': { src: mediaAssets.practiceOperations, alt: 'Practice operations desk workstation. ', caption: 'Practice operations context' },
   'reporting-visibility': null,
-  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration. Editorial stock photograph; not ROOT staff or clients.', caption: 'Editorial practice operations context' },
+  'scaling-practice-ops': { src: mediaAssets.operationsCollaboration, alt: 'Healthcare operations collaboration. ', caption: 'Practice operations context' },
   'revenue-leakage': null,
 };
 
@@ -94,8 +94,6 @@ export const outreachChannels = [
   { label: 'WhatsApp', href: companyInfo.whatsappHref, status: 'Live', cta: 'whatsapp-instant-chat', engagementType: 'instant-chat' },
   { label: 'Call', href: companyInfo.phoneHref, status: 'Live', cta: 'phone-call', engagementType: 'phone' },
   { label: 'Email', href: companyInfo.emailHref, status: 'Live', cta: 'email-root', engagementType: 'email' },
-  { label: 'YouTube', status: 'Coming soon', cta: 'youtube-coming-soon', engagementType: 'social' },
-  { label: 'Calendly', status: 'Coming soon', cta: 'calendly-coming-soon', engagementType: 'scheduling' },
 ];
 
 /** Founder-supplied public social targets — used by footer and Follow ROOT dock. */
@@ -565,7 +563,7 @@ export const diagnosticFaq = [
 
 /**
  * Primary navigation, in the required order:
- * Home, About, Services, Solutions, Case Studies, Pricing, Resources, Contact, then the primary CTA.
+ * Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact, then the primary CTA.
  * `menu` marks items that open a mega menu in the desktop header.
  */
 export const primaryNav = [
@@ -573,7 +571,7 @@ export const primaryNav = [
   { label: 'About', href: '/about/' },
   { label: 'Services', href: '/services/', menu: 'services' },
   { label: 'Solutions', href: '/solutions/', menu: 'solutions' },
-  { label: 'Case Studies', href: '/case-studies/' },
+  { label: 'How We Work', href: '/case-studies/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Resources', href: '/resources/' },
   { label: 'Opportunities', href: '/opportunities/' },
@@ -621,7 +619,7 @@ export const footerGroups = [
       { label: 'About ROOT', href: '/about/' },
       { label: 'Our mission', href: '/about/#our-mission' },
       { label: 'Our commitments', href: '/about/#responsible-operations' },
-      { label: 'Case Studies', href: '/case-studies/' },
+      { label: 'How We Work', href: '/case-studies/' },
       { label: 'Opportunities', href: '/opportunities/' },
       { label: 'Partner Network', href: '/partners/' },
       { label: 'Careers', href: '/careers/' },
@@ -724,9 +722,9 @@ export const routeMeta = {
     image: brandAssets.og,
   },
   '/case-studies': {
-    title: 'Case Studies & Proof of Capability | ROOT',
-    description: 'Browse ROOT anonymized proof-of-capability scenarios that show how revenue intelligence becomes prioritized operating action. No client results are claimed.',
-    h1: 'Proof of capability',
+    title: 'How ROOT Works | Healthcare Revenue Operations',
+    description: 'See how ROOT reviews revenue-cycle signals, prioritizes work, assigns clear next steps, and tracks agreed operating measures for healthcare practices.',
+    h1: 'Turn revenue signals into clear operating priorities.',
     image: brandAssets.og,
   },
   '/pricing': {

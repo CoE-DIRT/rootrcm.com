@@ -7,7 +7,7 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
-import { DirtCommandCenter } from '@/components/dirt/DirtCommandCenter';
+
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
@@ -18,7 +18,9 @@ import {
   pricingModels,
   resourceArticles,
 } from '../../siteData.js';
-import { syntheticPractice } from '../../proofData.js';
+
+
+import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
@@ -53,7 +55,7 @@ function HomePageContent() {
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
-            <DirtCommandCenter compact />
+            <div className="min-w-0 space-y-3" data-dirt-command><DirtExecutiveMetrics compact /></div>
           </HeroMockup>
         }
       />
@@ -70,7 +72,6 @@ function HomePageContent() {
             alt="Practice team collaborating on operations. Editorial stock photograph; not ROOT staff or clients."
             caption="Editorial operations context — not a client claim"
             aspect="video"
-            priority
           />
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-text">Find the cause. Own the next action.</h2>
@@ -161,7 +162,7 @@ function HomePageContent() {
         <SectionHeader
           eyebrow="See the method"
           title="From a revenue signal to a decision."
-          description={`Explore synthetic, clearly labeled demonstrations using ${syntheticPractice.name} to see how We connect financial findings to owned corrective action.`}
+          description="Explore an illustrative operating view to see how revenue signals can be organized, prioritized, and connected to clear next steps. Sample metrics are labeled throughout."
         />
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-center">
           <MediaFrame
@@ -175,7 +176,7 @@ function HomePageContent() {
               See how payer, denial, A/R, and credentialing signals can be reconciled, prioritized by financial significance, and connected to an accountable next step.
             </p>
             <LinkButton href="/case-studies/" variant="ghost" size="sm" className="mt-6">
-              View proof of capability <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              See how ROOT works <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </LinkButton>
           </div>
         </div>

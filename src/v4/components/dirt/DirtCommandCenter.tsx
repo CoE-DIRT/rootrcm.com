@@ -1,3 +1,4 @@
+import { DirtExecutiveMetrics } from './DirtExecutiveMetrics';
 import {
   Bar,
   BarChart,
@@ -21,52 +22,11 @@ import { NestedDataGridContainer } from '@/components/dirt/NestedDataGridContain
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { cn } from '@/lib/cn';
 
-const metricCards = [
-  { label: 'Monthly charges', value: formatCompactUsd(dirtDemo.executive.charges) },
-  { label: 'Collections', value: formatCompactUsd(dirtDemo.executive.collections) },
-  { label: 'Total A/R', value: formatCompactUsd(dirtDemo.executive.totalAr) },
-  { label: 'A/R over 90', value: formatCompactUsd(dirtDemo.executive.arOver90) },
-  { label: 'Clean claim', value: dirtDemo.executive.cleanClaimRate },
-  { label: 'Denial rate', value: dirtDemo.executive.denialRate },
-  { label: 'Value at risk', value: formatCompactUsd(dirtDemo.executive.valueAtRisk) },
-];
-
 export function DirtCommandCenter({ compact = false }: { compact?: boolean }) {
-  const visibleMetrics = compact ? metricCards.slice(0, 4) : metricCards;
 
   return (
     <div className={cn('min-w-0 space-y-8', compact && 'space-y-3')} data-dirt-command>
-      <div className={cn('flex flex-wrap items-end justify-between gap-3', compact && 'flex-col items-start gap-1.5')}>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">DIRT command center</p>
-          <h2 className={cn('mt-1 font-semibold text-text', compact ? 'text-lg' : 'text-2xl sm:text-3xl')}>
-            Executive revenue view
-          </h2>
-          {!compact ? (
-            <p className="mt-2 max-w-2xl text-sm text-muted">
-              Synthetic demonstration for {dirtDemo.practice.name} — {dirtDemo.practice.label}. Not client results.
-            </p>
-          ) : (
-            <p className="mt-1 text-xs text-muted">Synthetic demo · {dirtDemo.practice.name}</p>
-          )}
-        </div>
-        <p className="rounded-full border border-border px-3 py-1 text-xs text-signal-amber">{dirtDemo.practice.period}</p>
-      </div>
-
-      <div className={cn('grid min-w-0 gap-3', compact ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7')}>
-        {visibleMetrics.map((m) => (
-          <div
-            key={m.label}
-            className={cn(
-              'min-w-0 rounded-[var(--radius-root)] border border-border bg-panel/50',
-              compact ? 'p-3' : 'p-4',
-            )}
-          >
-            <p className="truncate text-[11px] uppercase tracking-wide text-muted">{m.label}</p>
-            <p className={cn('mt-2 truncate font-semibold text-text', compact ? 'text-lg' : 'text-xl')}>{m.value}</p>
-          </div>
-        ))}
-      </div>
+      <DirtExecutiveMetrics compact={compact} />
 
       {!compact ? (
         <>
@@ -128,7 +88,7 @@ export function DenialPareto() {
   return (
     <div className="rounded-[var(--radius-root)] border border-border bg-panel/40 p-4">
       <h3 className="text-sm font-semibold text-text">Denial analytics</h3>
-      <p className="mt-1 text-xs text-muted">Cause families with value at risk — synthetic events.</p>
+      <p className="mt-1 text-xs text-muted">Illustrative denial categories with example value-at-risk measures.</p>
       <div className="mt-4 h-[220px] w-full sm:h-56 md:h-[280px]" role="img" aria-label="Denial category bar chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={dirtDemo.denials} layout="vertical" margin={{ left: 8 }}>
