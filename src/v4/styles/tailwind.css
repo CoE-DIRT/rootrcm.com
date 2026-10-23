@@ -349,15 +349,15 @@ body:has(.klaro .cookie-notice:not(.cn-close)) .intent-banner {
 @media (prefers-reduced-motion: reduce) { .v4-root .media-placeholder::after { animation: none !important; } .v4-root .media-placeholder img { transition: none; } }
 
 /* Tokenized primary CTA; solid hover/pressed colors preserve AA text contrast. */
-.v4-root .root-primary-cta {
+.root-primary-cta {
   background-color: var(--accent);
   color: var(--accent-fg);
   box-shadow: var(--accent-glow);
 }
-.v4-root .root-primary-cta:hover {
+.root-primary-cta:hover {
   background-color: var(--accent-hover);
   color: var(--accent-fg);
   box-shadow: var(--accent-glow-hover);
 }
-.v4-root .root-primary-cta:active { background-color: var(--accent-pressed); }
-.v4-root .root-primary-cta:focus-visible { box-shadow: var(--focus-ring); }
+.root-primary-cta:active { background-color: var(--accent-pressed); }
+.root-primary-cta:focus-visible { box-shadow: var(--focus-ring); }
