@@ -5,17 +5,16 @@
   --v4-header-h: 4.25rem;
 }
 
-/* The header is fixed and keeps high-contrast readable glass over the hero; main clears it. */
-.v4-root main#main-content {
-  padding-top: var(--v4-header-h);
-}
+/* Sticky header occupies normal document flow; no empty spacer or
+   negative hero offsets are needed. Keep anchor scroll margins intact. */
+.v4-root main#main-content { padding-top: 0; }
+.v4-root .homeHero { margin-top: 0; padding-top: 0; }
 
-/* Home hero bleeds beneath the fixed header; glass ensures readable navigation. */
-.v4-root .homeHero {
-  margin-top: calc(var(--v4-header-h) * -1);
-  padding-top: var(--v4-header-h);
+.v4-header.glass-strong {
+  border: 0;
+  border-bottom: 1px solid var(--glass-border);
+  border-radius: 0;
 }
-
 .v4-header {
   /* Text-bearing navigation uses the higher-contrast tier over hero imagery. */
   background: var(--glass-bg-strong);
@@ -274,7 +273,7 @@
   color: var(--text-primary);
   transition: border-color 180ms ease-out, box-shadow 180ms ease-out;
 }
-.v4-root .root-feature-card p { color: var(--text-secondary-solid); }
+.v4-root .root-feature-card p { color: var(--text-secondary); }
 .v4-root .root-feature-card:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
@@ -303,3 +302,5 @@
 @media (prefers-reduced-motion: reduce) {
   .v4-root .root-feature-card { transition: none; }
 }
+
+.v4-footer.glass-subtle { border-radius: 0; border-inline: 0; border-bottom: 0; }
