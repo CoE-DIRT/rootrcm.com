@@ -21,7 +21,7 @@
 
 | Phase | Scope | Acceptance criteria | State |
 | --- | --- | --- | --- |
-| 0 — Foundation & Agent Harness | Update `AGENTS.md`; create `PLANS.md`; reconcile actual stack/ADRs/build gates. | 50–120 line agent contract; accurate command/folder maps; safety/design protections retained; PR submitted; no production changes. | In progress — pending PR review and CI |
+| 0 — Foundation & Agent Harness | Update `AGENTS.md`; create `PLANS.md`; reconcile actual stack/ADRs/build gates. | 50–120 line agent contract; accurate command/folder maps; safety/design protections retained; PR submitted; no production changes. | PR #42 open — review and CI pending |
 | 1 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 1 brief; cannot pass while undefined. | Not started |
 | 2 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 2 brief; cannot pass while undefined. | Not started |
 | 3 — Founder brief pending | To be provided by founder. | Defined after receiving full Phase 3 brief; cannot pass while undefined. | Not started |
@@ -35,9 +35,9 @@ Additional Phase 7/8 rows may be added if supplied; no scope or priority is assu
 - [x] Identify the actual GitHub repository and main branch.
 - [x] Inspect current `AGENTS.md`, `package.json`, `tsconfig.json`, CI commands, folder structure, and accepted ADRs.
 - [x] Identify the Vite/Next.js contradiction and retain the existing architecture until a change is approved.
-- [ ] Update `AGENTS.md` in an isolated branch with a concise, executable contract.
-- [ ] Create `PLANS.md` in the same branch, with undefined future phases explicitly marked pending.
-- [ ] Create pull request and confirm file contents, size, and GitHub validation status.
+- [x] Update `AGENTS.md` in an isolated branch with a concise, executable contract.
+- [x] Create `PLANS.md` in the same branch, with undefined future phases explicitly marked pending.
+- [x] Create pull request and confirm file contents, size, and GitHub validation status.
 - [ ] Obtain review/approval and merge; only then mark Phase 0 complete on `main`.
 
 ## Standing release gates (applies to each implementation phase)
