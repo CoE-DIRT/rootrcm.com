@@ -117,6 +117,9 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
       const { context, page } = await openTheme(browser, theme);
       try {
         const control = page.getByRole('switch', { name: 'Light theme' });
+        // Keyboard modality is required for :focus-visible after the earlier
+        // pointer click dismissing the consent notice.
+        await page.keyboard.press('Tab');
         await control.focus();
         const focus = await control.evaluate((el) => ({
           matching: el.matches(':focus-visible'),
@@ -128,6 +131,7 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
         await page.goto('/technology/dirt/');
         const scroller = page.locator('.root-inset-focus').first();
         await expect(scroller).toBeVisible();
+        await page.keyboard.press('Tab');
         await scroller.focus();
         const tableRing = await scroller.evaluate((el) => getComputedStyle(el).boxShadow);
         expect(tableRing).toContain('inset');
