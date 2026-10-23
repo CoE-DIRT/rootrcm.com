@@ -26,6 +26,8 @@ test.describe('Phase 1.3 CPO tier assignments and AA', () => {
       expect(styles.blur).toContain('blur(18px)');
       await page.evaluate(() => window.scrollTo(0, 120));
       await expect(header).toHaveAttribute('data-scrolled', 'true');
+      const headerTop = await header.evaluate((el) => el.getBoundingClientRect().top);
+      expect(Math.abs(headerTop)).toBeLessThanOrEqual(1);
       await expect.poll(() => header.evaluate((el) => getComputedStyle(el).backdropFilter)).toContain('blur(10px)');
       if (isMobile) {
         await page.getByRole('button', { name: 'Open menu' }).click();
