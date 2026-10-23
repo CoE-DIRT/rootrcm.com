@@ -21,7 +21,7 @@
   --glass-solid: #F7F9FD;
   --form-input-bg: #FFFFFF;
   --form-input-border: #7B8DA5;
-  --form-placeholder: #394F6D;
+  --form-placeholder: var(--text-tertiary);
   --drawer-scrim: rgba(1, 26, 61, 0.50);
   --hero-scrim: linear-gradient(90deg, rgba(244, 247, 251, 0.96), rgba(244, 247, 251, 0.84));
 
@@ -99,7 +99,7 @@
   --glass-solid: #121826;
   --form-input-bg: rgba(1, 26, 61, 0.85);
   --form-input-border: #8398B6;
-  --form-placeholder: #A7B2C4;
+  --form-placeholder: var(--text-tertiary);
   --drawer-scrim: rgba(1, 26, 61, 0.50);
   --hero-scrim: linear-gradient(90deg, rgba(6, 13, 26, 0.94), rgba(6, 13, 26, 0.86));
   --glass-border: rgba(0, 240, 255, 0.20);
