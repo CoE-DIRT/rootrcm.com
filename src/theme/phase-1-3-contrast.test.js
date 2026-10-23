@@ -2,15 +2,15 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const source = Object.fromEntries([
-  'tokens', 'src/theme/theme.css',
-  'glass', 'src/v4/styles/tailwind.css',
-  'chrome', 'src/v4/styles/chrome.css',
-  'hero', 'src/v4/components/sections/HeroSection.tsx',
-  'home', 'src/v4/routes/HomePage.tsx',
-  'pricing', 'src/v4/routes/PricingPage.tsx',
-  'form', 'src/v4/routes/DiagnosticPage.tsx',
-  'footer', 'src/v4/components/MarketingFooter.tsx',
-  'drawer', 'src/v4/components/ui/Sheet.tsx',
+  ['tokens', 'src/theme/theme.css'],
+  ['glass', 'src/v4/styles/tailwind.css'],
+  ['chrome', 'src/v4/styles/chrome.css'],
+  ['hero', 'src/v4/components/sections/HeroSection.tsx'],
+  ['home', 'src/v4/routes/HomePage.tsx'],
+  ['pricing', 'src/v4/routes/PricingPage.tsx'],
+  ['form', 'src/v4/routes/DiagnosticPage.tsx'],
+  ['footer', 'src/v4/components/MarketingFooter.tsx'],
+  ['drawer', 'src/v4/components/ui/Sheet.tsx'],
 ].map(([id, path]) => [id, readFileSync(path, 'utf8')]));
 const rgb = (hex) => [1,3,5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
 const lum = (value) => value.map((c) => c / 255).map((c) => c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4).reduce((n, c, i) => n + c * [.2126,.7152,.0722][i], 0);
