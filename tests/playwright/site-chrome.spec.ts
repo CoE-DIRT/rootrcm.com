@@ -10,7 +10,7 @@ const consentGiven = async (page: Page) => {
 };
 
 test.describe('theme', () => {
-  test('is applied before the app bundle runs (no flash) and follows the system preference on a first visit', async ({ browser }) => {
+  test('is applied before the app bundle runs (no flash) and defaults to light regardless of OS', async ({ browser }) => {
     for (const scheme of ['light', 'dark'] as const) {
       const context = await browser.newContext({ colorScheme: scheme });
       const page = await context.newPage();
@@ -18,11 +18,11 @@ test.describe('theme', () => {
       await page.route('**/src/main.jsx', (route) => route.abort());
       await page.route('**/assets/main-*.js', (route) => route.abort());
       await page.goto('/contact/');
-      expect(await themeOf(page), `system ${scheme}`).toBe(scheme);
+      expect(await themeOf(page), `system ${scheme}`).toBe('light');
       // The bootstrap also sets color-scheme (native form controls/scrollbars) and the browser chrome color.
-      expect(await page.evaluate(() => document.documentElement.style.colorScheme)).toBe(scheme);
+      expect(await page.evaluate(() => document.documentElement.style.colorScheme)).toBe('light');
       const themeColor = await page.locator('meta[name="theme-color"]').getAttribute('content');
-      expect(themeColor).toBe(scheme === 'light' ? '#F4F7FB' : '#060D1A');
+      expect(themeColor).toBe('#F4F7FB');
       await context.close();
     }
   });
@@ -33,19 +33,19 @@ test.describe('theme', () => {
     await page.goto('/pricing/');
     await consentGiven(page);
     const toggle = page.getByRole('switch', { name: 'Light theme' });
-    await expect(toggle).toHaveAttribute('aria-checked', 'false');
+    await expect(toggle).toHaveAttribute('aria-checked', 'true');
 
     await toggle.click();
-    await expect(toggle).toHaveAttribute('aria-checked', 'true');
-    expect(await themeOf(page)).toBe('light');
-    expect(await page.evaluate((key) => localStorage.getItem(key), THEME_KEY)).toBe('light');
+    await expect(toggle).toHaveAttribute('aria-checked', 'false');
+    expect(await themeOf(page)).toBe('dark');
+    expect(await page.evaluate((key) => localStorage.getItem(key), THEME_KEY)).toBe('dark');
     expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).not.toBe('rgb(7, 17, 14)');
 
     await page.reload();
-    expect(await themeOf(page)).toBe('light');
+    expect(await themeOf(page)).toBe('dark');
     await page.goto('/contact/');
-    expect(await themeOf(page)).toBe('light');
-    await expect(page.getByRole('switch', { name: 'Light theme' })).toHaveAttribute('aria-checked', 'true');
+    expect(await themeOf(page)).toBe('dark');
+    await expect(page.getByRole('switch', { name: 'Light theme' })).toHaveAttribute('aria-checked', 'false');
     await context.close();
   });
 
