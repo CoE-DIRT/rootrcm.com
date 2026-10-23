@@ -17,23 +17,16 @@
 }
 
 .v4-header {
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  /* Text-bearing navigation uses the higher-contrast tier over hero imagery. */
+  background: var(--glass-bg-readable);
+  border-bottom: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
 }
-
-.v4-header[data-scrolled='true'] {
-  background: color-mix(in srgb, var(--color-bg-deep) 84%, transparent);
-  border-bottom-color: var(--color-border);
-  box-shadow: var(--shadow-panel-soft);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
-}
-
+.v4-header[data-scrolled='true'] { box-shadow: var(--glass-shadow); }
 @supports not (backdrop-filter: blur(1px)) {
-  .v4-header[data-scrolled='true'] {
-    background: var(--color-bg-deep);
-  }
+  .v4-header, .v4-header[data-scrolled='true'] { background: var(--color-panel); }
 }
 
 @media (prefers-reduced-motion: reduce) {
