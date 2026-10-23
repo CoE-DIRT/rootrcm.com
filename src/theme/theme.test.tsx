@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { THEME_COLORS, THEME_STORAGE_KEY, themeBootstrapScript } from './themeConfig.js';
-import { THEME_CHANGE_EVENT, applyTheme, followSystemTheme, getActiveTheme, getStoredTheme, toggleTheme } from './theme';
+import { THEME_CHANGE_EVENT, applyTheme, getActiveTheme, getStoredTheme, toggleTheme } from './theme';
 import { ThemeToggle } from '../v4/components/ThemeToggle';
 
 type Listener = () => void;
@@ -60,16 +60,16 @@ describe('no-flash theme bootstrap (inline <head> script)', () => {
     expect(runBootstrap({ stored: 'dark', systemLight: true }).theme).toBe('dark');
   });
 
-  it('respects the system preference on a first visit', () => {
+  it('always defaults to light on a first visit regardless of OS preference', () => {
     expect(runBootstrap({ systemLight: true }).theme).toBe('light');
-    expect(runBootstrap({ systemLight: false }).theme).toBe('dark');
+    expect(runBootstrap({ systemLight: false }).theme).toBe('light');
   });
 
   it('ignores invalid saved values and survives blocked storage or missing matchMedia', () => {
     expect(runBootstrap({ stored: 'blue', systemLight: true }).theme).toBe('light');
     expect(runBootstrap({ storageThrows: true, systemLight: true }).theme).toBe('light');
-    expect(runBootstrap({ mediaThrows: true }).theme).toBe('dark');
-    expect(runBootstrap({ storageThrows: true, mediaThrows: true }).theme).toBe('dark');
+    expect(runBootstrap({ mediaThrows: true }).theme).toBe('light');
+    expect(runBootstrap({ storageThrows: true, mediaThrows: true }).theme).toBe('light');
   });
 
   it('sets color-scheme and the browser theme-color together', () => {
@@ -95,20 +95,13 @@ describe('theme runtime', () => {
     expect(seen).toEqual(['light', 'dark']);
   });
 
-  it('does not persist system-driven changes, and follows the OS until the visitor chooses', () => {
+  it('does not change with an OS preference change when no preference was stored', () => {
     const media = stubMatchMedia(false);
-    applyTheme('dark', { persist: false });
-    const stop = followSystemTheme();
-
+    applyTheme('light', { persist: false });
     media.set(true);
+    media.set(false);
     expect(getActiveTheme()).toBe('light');
     expect(getStoredTheme()).toBeNull();
-
-    window.localStorage.setItem(THEME_STORAGE_KEY, 'dark');
-    media.set(false);
-    media.set(true);
-    expect(getActiveTheme()).toBe('light'); // explicit choice wins: no further system-driven change
-    stop();
   });
 
   it('survives storage that throws', () => {
