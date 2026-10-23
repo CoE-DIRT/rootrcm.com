@@ -4,7 +4,7 @@ import { cn } from '@/lib/cn';
 
 const fieldStyles =
   'w-full rounded-[var(--radius-root)] border border-[var(--form-input-border)] root-form-input px-4 py-3 text-base text-text ' +
-  'placeholder:text-[var(--form-placeholder)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ' +
+  'placeholder:text-[var(--text-tertiary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ' +
   'disabled:pointer-events-none disabled:opacity-50';
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
