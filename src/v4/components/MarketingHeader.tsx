@@ -21,7 +21,7 @@ interface MarketingHeaderProps {
   minimal?: boolean;
 }
 
-/** True once the page has scrolled, so the header can switch from transparent to a solid, blurred bar. */
+/** True once the page has scrolled 40px; the sticky header then uses cheaper blur. */
 function useScrolled(threshold = 40): boolean {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -59,7 +59,7 @@ function navState(href: string, currentPath: string): NavState {
 }
 
 const linkClass =
-  'relative block rounded-[var(--radius-root)] px-3 py-2 text-sm font-medium text-text/90 transition-colors ' +
+  'relative block rounded-[var(--radius-root)] px-3 py-2 text-sm font-medium text-text transition-colors ' +
   'hover:bg-panel hover:text-text motion-reduce:transition-none ' +
   `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue ${navCurrentClass}`;
 
@@ -101,7 +101,7 @@ export function MarketingHeader({ minimal = false }: MarketingHeaderProps) {
 
   return (
     <header
-      className="v4-header fixed inset-x-0 top-0 z-40"
+      className="v4-header sticky inset-x-0 top-0 z-40"
       data-scrolled={scrolled || mobileOpen ? 'true' : 'false'}
     >
       <a

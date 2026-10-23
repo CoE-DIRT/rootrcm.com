@@ -5,25 +5,18 @@
   --v4-header-h: 4.25rem;
 }
 
-/* The header is fixed and keeps high-contrast readable glass over the hero; main clears it. */
-.v4-root main#main-content {
-  padding-top: var(--v4-header-h);
-}
-
-/* Home hero bleeds beneath the fixed header; glass ensures readable navigation. */
-.v4-root .homeHero {
-  margin-top: calc(var(--v4-header-h) * -1);
-  padding-top: var(--v4-header-h);
-}
+/* Sticky navigation participates in document flow; no fixed-header compensation. */
+.v4-root main#main-content { padding-top: 0; }
+.v4-root .homeHero { margin-top: 0; padding-top: 0; }
 
 .v4-header {
   /* Text-bearing navigation uses the higher-contrast tier over hero imagery. */
-  background: var(--glass-bg-readable);
+  background: var(--glass-bg-strong);
   border-bottom: 1px solid var(--glass-border);
   box-shadow: var(--glass-inner-light);
   -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
   backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
-  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out, backdrop-filter 0.2s ease-out;
 }
 .v4-header[data-scrolled='true'] {
   box-shadow: var(--glass-inner-light), var(--shadow-glass-2);
@@ -155,3 +148,36 @@
 .v4-header nav a, .v4-header nav button { min-height: 44px; display: inline-flex; align-items: center; }
 .v4-footer :is(a,button) { min-height: 44px; }
 .v4-footer address a { display: inline-flex; align-items: center; overflow-wrap: anywhere; }
+
+/* 1.3: Strong mobile portal surface without theme branching in the component. */
+.v4-mobile-drawer { background: var(--glass-bg-strong); color: var(--text-primary); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .v4-mobile-drawer { background: var(--glass-fallback-strong); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .v4-mobile-drawer { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* Footer glass is decorative; legal and functional links use solid AA-oriented ink. */
+.v4-footer, .v4-footer-minimal {
+  background: var(--glass-bg-subtle);
+  border-color: var(--glass-border);
+  color: var(--text-secondary-solid);
+}
+.v4-footer :is(a,button):not(.root-primary-cta),
+.v4-footer-minimal a {
+  transition: color 200ms ease-out;
+}
+.v4-footer [aria-label='Legal'] :is(a,button),
+.v4-footer-minimal a,
+.v4-footer nav a {
+  color: var(--footer-link);
+}
+.v4-footer [aria-label='Legal'] :is(a,button):hover,
+.v4-footer-minimal a:hover,
+.v4-footer nav a:hover {
+  color: var(--text-primary);
+}
+@media (prefers-reduced-motion: reduce) {
+  .v4-footer :is(a,button), .v4-footer-minimal a { transition: none; }
+}

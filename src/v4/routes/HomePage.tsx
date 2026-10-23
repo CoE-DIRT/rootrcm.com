@@ -13,6 +13,7 @@ import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
   commercialJourney,
   mediaAssets,
+  serviceMediaBySlug,
   platformNodes,
   servicePages,
   pricingModels,
@@ -23,6 +24,7 @@ import {
 import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
+const featuredServiceSlugs = ['rcm', 'denial-management', 'practice-ops', 'workflow-automation'];
 
 const healthcareSegments = [
   { name: 'Behavioral Health Groups', signal: 'Documentation-driven denials, payer enrollment timelines, and revenue visibility across group practices.', href: '/solutions/denials/' },
@@ -126,7 +128,25 @@ function HomePageContent() {
           title="Intelligence with people and processes behind it."
           description="Managed RCM, credentialing, practice operations, data architecture, and automation—connected around financial performance."
         />
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-feature-grid>
+          {servicePages.filter((service: { slug: string }) => featuredServiceSlugs.includes(service.slug)).map((service: { slug: string; title: string; summary: string }) => {
+            const media = serviceMediaBySlug[service.slug as keyof typeof serviceMediaBySlug];
+            return (
+              <a key={service.slug} href={`/services/${service.slug}/`} className="glass-feature-card group block overflow-hidden rounded-[var(--radius-panel)]" data-feature-card>
+                <div className="aspect-square overflow-hidden">
+                  {media ? (
+                    <img src={media.src} alt={media.alt + 'Editorial context, not ROOT staff or clients.'} width={640} height={640} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  ) : <div aria-hidden="true" className="h-full w-full bg-bg-soft" />}
+                </div>
+                <div className="glass-feature-copy p-4">
+                  <h3 className="font-semibold text-text">{service.title}</h3>
+                  <p className="mt-2 text-sm text-muted">{service.summary}</p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+        <div className="mt-6 flex flex-wrap gap-3" aria-label="All healthcare services">
           {servicePages.map((service: { slug: string; title: string }) => (
             <a
               key={service.slug}
