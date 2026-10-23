@@ -135,7 +135,10 @@ test.describe('Phase 1.2 CPO seven-gate evidence', () => {
         await scroller.focus();
         const tableRing = await scroller.evaluate((el) => getComputedStyle(el).boxShadow);
         expect(tableRing).toContain('inset');
-        await screenshot(page, `05-focus-${theme}`);
+        // Element capture waits for the focused scrollable region itself to be
+        // onscreen. A viewport capture could catch the page mid smooth-scroll.
+        mkdirSync(screenshotDir, { recursive: true });
+        await scroller.screenshot({ path: `${screenshotDir}/05-focus-${theme}.png`, animations: 'disabled' });
       } finally { await context.close(); }
     });
 
