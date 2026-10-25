@@ -39,6 +39,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
   const [attribution] = useState(getAttribution);
   const [copied, setCopied] = useState(false);
   const [verificationToken, setVerificationToken] = useState('');
+  const [verificationAttempt, setVerificationAttempt] = useState(0);
   const ownedDelivery = import.meta.env.VITE_CONTACT_MODE === 'owned';
   const verificationKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
   const configuredEndpoint = import.meta.env.VITE_FORM_ENDPOINT || '';
@@ -101,6 +102,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
         : await submitCommercialInquiry(identity, options);
       if (!result.ok) {
         setVerificationToken('');
+        setVerificationAttempt((attempt) => attempt + 1);
         formElement.dispatchEvent(new CustomEvent('root:form-failure'));
         dispatch({ type: 'FAILURE', message: mapLeadError(result.error) });
         return;
@@ -112,6 +114,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       if (import.meta.env.DEV && error?.name === 'AppwriteException') console.error(error.message);
       formElement.dispatchEvent(new CustomEvent('root:form-failure'));
       setVerificationToken('');
+      setVerificationAttempt((attempt) => attempt + 1);
       dispatch({ type: 'FAILURE', message: mapLeadError({ code: error?.code ?? 0 }) });
     }
   };
@@ -220,7 +223,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
         {fieldMessage('noPhi')}
       </label>
 
-      {ownedDelivery && <InquiryVerification siteKey={verificationKey} onToken={setVerificationToken} />}
+      {ownedDelivery && <InquiryVerification key={verificationAttempt} siteKey={verificationKey} onToken={setVerificationToken} />}
       {machine.errors.verification && <small className="fieldError" role="alert">{machine.errors.verification}</small>}
 
       <button className="button primary full" type="submit" disabled={busy} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination="info@rootrcm.com" data-engagement-type={variant}>
