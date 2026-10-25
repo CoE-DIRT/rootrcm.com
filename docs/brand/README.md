@@ -10,4 +10,4 @@ See `asset-inventory.md` before replacing or adding assets.
 
 <img src="root-logo.png" width="88" alt="ROOT company logo">
 
-The Founder supplied `logo2.png` and approved the [documentation brand standard](documentation-standard.md) on 26 October 2026. `root-logo.png` is a byte-for-byte copy for documentation. This supersedes the absence of an approved documentation logo described above; production asset replacement remains governed by the asset inventory and release gates.
+The Founder supplied `logo2.png` and approved the [documentation brand standard](documentation-standard.md) on 26 October 2026. `root-logo.png` is a byte-for-byte copy for documentation. This supplies an approved documentation asset; production asset replacement remains governed by the asset inventory and release gates.

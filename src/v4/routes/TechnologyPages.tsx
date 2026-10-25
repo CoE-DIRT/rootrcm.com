@@ -1,3 +1,4 @@
+import { GlassSkeleton } from '@/components/ui/GlassPlaceholder';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -134,7 +135,7 @@ export function DirtPage() {
       </Section>
 
       <Section id="signal" tone="soft">
-        <Suspense fallback={<div className="min-h-[12rem]" aria-busy="true" />}><DirtSignalFlow /></Suspense>
+        <Suspense fallback={<GlassSkeleton minHeight="12rem" label="Loading DIRT signal flow" />}><DirtSignalFlow /></Suspense>
       </Section>
 
       <Section id="command-center" tone="grid" wide dense>
@@ -144,7 +145,9 @@ export function DirtPage() {
           description="Explore an illustrative dashboard view that organizes executive measures, payer patterns, denial categories, underpayment signals, and prioritized work."
         />
         <div className="mt-8">
-          <Suspense fallback={<div className="min-h-[24rem] rounded-[var(--radius-root)] border border-border bg-panel/40" aria-busy="true" />}><DirtCommandCenter /></Suspense>
+          <div className="min-h-[100rem]" data-dashboard-reserved>
+            <Suspense fallback={<GlassSkeleton minHeight="100rem" label="Loading illustrative revenue dashboard" />}><DirtCommandCenter /></Suspense>
+          </div>
         </div>
         <Callout tone="compliance" className="mt-8">
           The dashboard uses clearly labeled sample metrics to show how revenue signals can be organized for management review.

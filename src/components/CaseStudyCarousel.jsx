@@ -48,7 +48,9 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
           {slides.map((slide) => (
             <li key={slide.src}>
               <figure className="caseStudySlide">
-                <img src={slide.src} alt={slide.alt || slide.title || ''} loading="lazy" decoding="async" />
+                <div className="caseStudyMedia" style={{ aspectRatio: '16 / 9', width: '100%', overflow: 'hidden' }}>
+                  <img src={slide.src} alt={slide.alt || slide.title || ''} width={1600} height={900} loading="lazy" decoding="async" style={{ display: 'block', width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 {slide.title ? <figcaption>{slide.title}</figcaption> : null}
               </figure>
             </li>
@@ -98,7 +100,9 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
         {slides.map((slide) => (
           <SplideSlide key={slide.src}>
             <figure className="caseStudySlide">
-              <img src={slide.src} alt={slide.alt || slide.title || ''} loading="lazy" decoding="async" />
+              <div className="caseStudyMedia" style={{ aspectRatio: '16 / 9', width: '100%', overflow: 'hidden' }}>
+                  <img src={slide.src} alt={slide.alt || slide.title || ''} width={1600} height={900} loading="lazy" decoding="async" style={{ display: 'block', width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
               {slide.title ? <figcaption>{slide.title}</figcaption> : null}
             </figure>
           </SplideSlide>

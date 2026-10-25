@@ -400,7 +400,8 @@ describe('experiment surfaces (QA overrides)', () => {
     expect(screen.queryByRole('link', { name: /^Book a Diagnostic$/ })).toBeNull();
   });
 
-  it('pricing: the comparison table adds no price and leaves the published $2,500 Diagnostic intact', () => {
+  it('pricing: the async comparison table adds no price and leaves the published $2,500 Diagnostic intact', async () => {
+    vi.useRealTimers(); // React.lazy resolution and Testing Library polling need real timers.
     renderRoute('/pricing/');
     expect(screen.queryByTestId('pricing-glance')).toBeNull();
     expect(screen.getAllByText(/\$2,500 fixed fee/).length).toBeGreaterThan(0);
@@ -409,7 +410,7 @@ describe('experiment surfaces (QA overrides)', () => {
     resetExperimentsForTests(); // a new page load resolves every test afresh
 
     renderRoute('/pricing/?exp_pricingPresentation=at-a-glance');
-    const table = screen.getByTestId('pricing-glance');
+    const table = await screen.findByTestId('pricing-glance');
     for (const model of pricingModels) {
       const row = within(table).getByRole('rowheader', { name: model.name }).closest('tr') as HTMLElement;
       expect(within(row).getByText(model.price)).toBeTruthy();

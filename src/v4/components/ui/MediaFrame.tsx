@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/cn';
+import { GlassPlaceholder, reservedIntrinsic, type PlaceholderAspect } from './GlassPlaceholder';
 
 interface MediaFrameProps {
   src: string;
@@ -8,22 +9,8 @@ interface MediaFrameProps {
   className?: string;
   imgClassName?: string;
   priority?: boolean;
-  aspect?: 'video' | 'wide' | 'square' | 'hero';
+  aspect?: PlaceholderAspect;
 }
-
-const aspectClass = {
-  video: 'aspect-video',
-  wide: 'aspect-[21/9]',
-  square: 'aspect-square',
-  hero: 'aspect-[16/10] min-h-[280px] md:min-h-[420px]',
-};
-
-const intrinsicSize = {
-  video: { width: 1200, height: 675 },
-  wide: { width: 1680, height: 720 },
-  square: { width: 800, height: 800 },
-  hero: { width: 1600, height: 1000 },
-};
 
 export function MediaFrame({
   src,
@@ -34,11 +21,11 @@ export function MediaFrame({
   priority = false,
   aspect = 'video',
 }: MediaFrameProps) {
-  const [loaded, setLoaded] = useState({ src: '', state: 'loading' });
+  const [loaded, setLoaded] = useState<{ src: string; state: 'loading' | 'ready' | 'error' }>({ src: '', state: 'loading' });
   const state = loaded.src === src ? loaded.state : 'loading';
   return (
     <figure className={cn('overflow-hidden rounded-[var(--radius-root)] border border-border bg-panel', className)}>
-      <div data-state={state} className={cn('media-placeholder relative w-full overflow-hidden', aspectClass[aspect])}>
+      <GlassPlaceholder aspect={aspect} state={state} className={cn('media-frame-image', aspect === 'hero' && 'min-h-[280px] md:min-h-[420px]')}>
         <img
           key={src}
           src={src}
@@ -48,12 +35,12 @@ export function MediaFrame({
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
-          width={intrinsicSize[aspect].width}
-          height={intrinsicSize[aspect].height}
+          width={reservedIntrinsic[aspect].width}
+          height={reservedIntrinsic[aspect].height}
           className={cn('h-full w-full object-cover object-center', imgClassName)}
         />
         {state === 'error' ? <p className="absolute inset-0 flex items-center justify-center p-4 text-sm text-muted">Image unavailable: {alt}</p> : null}
-      </div>
+      </GlassPlaceholder>
       {caption ? <figcaption className="border-t border-border px-4 py-2 text-xs text-muted">{caption}</figcaption> : null}
     </figure>
   );
