@@ -161,18 +161,18 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       <div className="fieldRow">
         <label>
           Name
-          <input required readOnly={busy} value={form.name} onChange={update('name')} onBlur={blur('name')} autoComplete="name" {...invalidProps('name')} />
+          <input aria-label="Name" required readOnly={busy} value={form.name} onChange={update('name')} onBlur={blur('name')} autoComplete="name" {...invalidProps('name')} />
           {fieldMessage('name')}
         </label>
         <label>
           Work email
-          <input required readOnly={busy} type="email" value={form.email} onChange={update('email')} onBlur={blur('email')} autoComplete="email" {...invalidProps('email')} />
+          <input aria-label="Work email" required readOnly={busy} type="email" value={form.email} onChange={update('email')} onBlur={blur('email')} autoComplete="email" {...invalidProps('email')} />
           {fieldMessage('email')}
         </label>
       </div>
       <label>
         Practice / organization
-        <input required readOnly={busy} value={form.organization} onChange={update('organization')} onBlur={blur('organization')} autoComplete="organization" {...invalidProps('organization')} />
+        <input aria-label="Practice / organization" required readOnly={busy} value={form.organization} onChange={update('organization')} onBlur={blur('organization')} autoComplete="organization" {...invalidProps('organization')} />
         {fieldMessage('organization')}
       </label>
 
@@ -181,7 +181,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
           <div className="fieldRow">
             <label>
               Number of providers
-              <select required disabled={busy} value={form.providers} onChange={update('providers')} onBlur={blur('providers')} {...invalidProps('providers')}>
+              <select aria-label="Number of providers" required disabled={busy} value={form.providers} onChange={update('providers')} onBlur={blur('providers')} {...invalidProps('providers')}>
                 <option value="">Select</option>
                 <option>1-5</option><option>6-10</option><option>11-20</option><option>21+</option>
               </select>
@@ -189,13 +189,13 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
             </label>
             <label>
               Primary EHR / PM system <span className="optional">Optional</span>
-              <input readOnly={busy} value={form.system} onChange={update('system')} onBlur={blur('system')} {...invalidProps('system')} />
+              <input aria-label="Primary EHR / PM system" readOnly={busy} value={form.system} onChange={update('system')} onBlur={blur('system')} {...invalidProps('system')} />
               {fieldMessage('system')}
             </label>
           </div>
           <label>
             Biggest current challenge
-            <select required disabled={busy} value={form.challenge} onChange={update('challenge')} onBlur={blur('challenge')} {...invalidProps('challenge')}>
+            <select aria-label="Biggest current challenge" required disabled={busy} value={form.challenge} onChange={update('challenge')} onBlur={blur('challenge')} {...invalidProps('challenge')}>
               <option value="">Select</option>
               <option>High / aging A/R</option>
               <option>Denials and rejections</option>
@@ -210,7 +210,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       ) : (
         <label>
           How can we help?
-          <textarea required readOnly={busy} rows="5" value={form.focus} onChange={update('focus')} onBlur={blur('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" {...invalidProps('focus')} />
+          <textarea aria-label="How can we help?" required readOnly={busy} rows="5" value={form.focus} onChange={update('focus')} onBlur={blur('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" {...invalidProps('focus')} />
           {fieldMessage('focus')}
         </label>
       )}
