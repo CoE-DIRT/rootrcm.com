@@ -410,3 +410,25 @@ html:has(.v4-root), body:has(.v4-root) { overflow-x: clip; }
   .v4-root .inquirySpinner { animation: none; }
   .v4-root .inquiryForm[data-state='submitting'] { transition: none; }
 }
+
+/* Phase 3.3: reserve aspect/minimum height before first image or lazy chunk. */
+.glass-placeholder {
+  background: var(--glass-bg-subtle);
+  border-color: var(--glass-border);
+  contain: layout style;
+}
+.glass-placeholder-sheen { background: var(--glass-bg-subtle); }
+.caseStudySlideMedia {
+  width: 100%;
+  overflow: hidden;
+}
+.caseStudySlideMedia > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-placeholder { background: var(--glass-solid); }
+}
