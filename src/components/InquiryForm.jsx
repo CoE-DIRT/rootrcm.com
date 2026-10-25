@@ -136,7 +136,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
         <CircleCheck size={30} aria-hidden="true" />
         <h3>We've received your {variant === 'diagnostic' ? 'Diagnostic inquiry' : 'inquiry'}.</h3>
         <p>Thank you. Our team will review your deidentified details and follow up through the contact information supplied. This is not a confirmed appointment or payment.</p>
-        <a className="button primary" href={variant === 'diagnostic' ? '/diagnostic/#diagnostic-form' : '/contact/'}>{variant === 'diagnostic' ? 'Book another diagnostic' : 'Send another inquiry'} <ArrowRight size={16} aria-hidden="true" /></a>
+        <a className="button primary" href={variant === 'diagnostic' ? '/diagnostic/#diagnostic-form' : '/contact/'} onClick={() => dispatch({ type: 'RESET' })}>{variant === 'diagnostic' ? 'Book another diagnostic' : 'Send another inquiry'} <ArrowRight size={16} aria-hidden="true" /></a>
         {toast}
       </div>
     );
