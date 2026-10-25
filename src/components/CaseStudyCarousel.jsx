@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
+import { GlassPlaceholder } from '../v4/components/ui/GlassPlaceholder';
 
 function canUseSplide() {
   return typeof window !== 'undefined' && typeof window.matchMedia === 'function';
@@ -48,7 +49,9 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
           {slides.map((slide) => (
             <li key={slide.src}>
               <figure className="caseStudySlide">
-                <img src={slide.src} alt={slide.alt || slide.title || ''} loading="lazy" decoding="async" />
+                <GlassPlaceholder aspect="carousel" className="caseStudySlideMedia">
+                  <img src={slide.src} alt={slide.alt || slide.title || ''} width={1200} height={675} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                </GlassPlaceholder>
                 {slide.title ? <figcaption>{slide.title}</figcaption> : null}
               </figure>
             </li>
@@ -98,7 +101,9 @@ export default function CaseStudyCarousel({ slides = [], label = 'Proof of Capab
         {slides.map((slide) => (
           <SplideSlide key={slide.src}>
             <figure className="caseStudySlide">
-              <img src={slide.src} alt={slide.alt || slide.title || ''} loading="lazy" decoding="async" />
+              <GlassPlaceholder aspect="carousel" className="caseStudySlideMedia">
+                  <img src={slide.src} alt={slide.alt || slide.title || ''} width={1200} height={675} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                </GlassPlaceholder>
               {slide.title ? <figcaption>{slide.title}</figcaption> : null}
             </figure>
           </SplideSlide>
