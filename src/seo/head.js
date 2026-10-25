@@ -1,3 +1,4 @@
+import { phase2Content } from './phase2Content.js';
 import { missionCharter } from '../missionData.js';
 import { companyInfo, primaryNav, routeMeta, resourceArticles } from '../siteData.js';
 import { faqItems } from '../faqData.js';
@@ -33,10 +34,10 @@ export function metaForPath(pathname) {
 function structuredData(canonical, meta) {
   const blocks = [];
   if (canonical === '/') blocks.push(organizationSchema(), webSiteSchema());
-  if (canonical === '/about/') blocks.push(organizationSchema());
+  if (canonical === '/about/' || canonical === '/contact/') blocks.push(organizationSchema());
   blocks.push(webPageSchema({ path: canonical, title: meta.title, description: meta.description }));
   blocks.push(breadcrumbSchema(canonical, meta.h1 || meta.title));
-  if (canonical === '/services/' || canonical.startsWith('/services/') || canonical === '/diagnostic/') {
+  if (canonical === '/services/' || canonical.startsWith('/services/') || canonical === '/diagnostic/' || canonical === '/pricing/') {
     blocks.push(serviceSchema({ path: canonical, title: meta.title, description: meta.description }));
   }
   if (canonical.startsWith('/resources/') && canonical !== '/resources/') {
@@ -54,13 +55,23 @@ function noscriptFallback(canonical, meta) {
   const mission = canonical === '/about/'
     ? `<section id="our-mission"><h2>Our mission and vision</h2><p>${escapeText(missionCharter.vision)}</p><h3>Who we build for</h3><p>${escapeText(missionCharter.audience)}</p><h3>Our operating philosophy</h3><p>${escapeText(missionCharter.philosophy)}</p><h3>How we work together</h3><p>${escapeText(missionCharter.engagement)}</p><h3>Our operating method</h3><p>${escapeText(missionCharter.method)}</p><h3>How we measure progress</h3><p>${escapeText(missionCharter.measurement)}</p><h3>Review and improvement</h3><p>${escapeText(missionCharter.review)}</p><p>${escapeText(missionCharter.declaration)}</p></section>`
     : '';
+  const editorial = phase2Content[canonical];
+  // An explicit, safe no-JavaScript answer layer for crawlers that cannot
+  // render React; all text is escaped and backed by visible page content.
+  const editorialBody = editorial
+    ? '<section aria-label="Revenue intelligence evidence"><p>' + escapeText(editorial.lead) + '</p>' +
+      editorial.sections.map((section) => '<section><h2>' + escapeText(section.heading) + '</h2><p>' + escapeText(section.body) + '</p><ol>' +
+        section.items.map((item) => '<li>' + escapeText(item) + '</li>').join('') + '</ol></section>').join('') +
+      '<blockquote>' + escapeText(editorial.principle) + '</blockquote><p>' + escapeText(editorial.definition) + '</p>' +
+      '<p><a href="/diagnostic/">Explore the fixed-fee $2,500 Diagnostic</a> or <a href="/resources/">read the resource guides</a>.</p></section>'
+    : '';
   const faq = canonical === '/faq/'
     ? faqItems.map((item) => `<h2>${escapeText(item.question)}</h2><p>${escapeText(item.answer)}</p>`).join('')
     : '';
   return (
     `<noscript><div style="max-width:60rem;margin:0 auto;padding:2rem 1rem;font-family:system-ui,sans-serif">` +
     `<nav aria-label="Primary"><ul style="display:flex;flex-wrap:wrap;gap:1rem;list-style:none;padding:0">${links}</ul></nav>` +
-    `<main><h1>${escapeText(meta.h1 || meta.title)}</h1><p>${escapeText(meta.description)}</p>${faq}${articleBody}${mission}` +
+    `<main><h1>${escapeText(meta.h1 || meta.title)}</h1><p>${escapeText(meta.description)}</p>${editorialBody}${faq}${articleBody}${mission}` +
     `<p>JavaScript is required for interactive features. Email <a href="${escapeAttr(companyInfo.emailHref)}">${escapeText(companyInfo.email)}</a> or call ${escapeText(companyInfo.phone)}. Do not send PHI.</p></main></div></noscript>`
   );
 }
@@ -93,7 +104,7 @@ export function renderPageHtml(html, pathname, { siteEnv = 'production', gscVeri
   out = upsertTag(out, /<meta\s+http-equiv="Content-Security-Policy"[^>]*>/, `<meta http-equiv="Content-Security-Policy" content="base-uri 'self'; object-src 'none'" />`);
   out = upsertTag(out, /<link[^>]+href="\/brand\/favicon\/favicon\.ico"[^>]*>/, '<link rel="icon" type="image/x-icon" href="/brand/favicon/favicon.ico" />');
   out = upsertTag(out, /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${url}" />`);
-  out = setMeta(out, 'property', 'og:type', 'website');
+  out = setMeta(out, 'property', 'og:type', canonical.startsWith('/resources/') && canonical !== '/resources/' ? 'article' : 'website');
   out = setMeta(out, 'property', 'og:site_name', 'ROOT');
   out = setMeta(out, 'property', 'og:title', meta.title);
   out = setMeta(out, 'property', 'og:description', meta.description);
