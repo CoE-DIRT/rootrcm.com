@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
 import { getExperimentContext } from '../v4/experiments/engine.ts';
-import { buildDeliveryPayload, getInquiryEndpoint, isDeliveryAcknowledged } from '../modules/glass-core/formDelivery.js';
+import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
+import { submitDiagnosticLead, submitCommercialInquiry } from '../v4/lib/appwrite/mutations.ts';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 import InquiryVerification from './InquiryVerification.jsx';
 
@@ -89,18 +90,14 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
         { ...payload, ...experiment },
         typeof window === 'undefined' ? 'https://rootrcm.com' : window.location.origin + window.location.pathname,
       );
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(deliveryPayload),
-        signal: AbortSignal.timeout(25000),
-      });
-      if (!response.ok) throw new Error('Submission failed');
-      const result = await response.json();
-      if (!isDeliveryAcknowledged(result, ownedDelivery)) throw new Error('Delivery not acknowledged');
+      const options = { endpoint, ownedDelivery, deliveryPayload };
+      const identity = {
+        name: form.name, email: form.email, organization: form.organization, noPhi: form.noPhi,
+      };
+      const result = variant === 'diagnostic'
+        ? await submitDiagnosticLead({ ...identity, providers: form.providers, challenge: form.challenge }, options)
+        : await submitCommercialInquiry(identity, options);
+      if (!result.ok) throw new Error(result.error.message);
       formElement.dispatchEvent(new CustomEvent('root:form-success'));
       window.location.assign('/thank-you/?delivery=form');
     } catch {
