@@ -37,7 +37,6 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
   const fieldMessage = (name) => showError(name) ? <small id={errorId(name)} className="fieldError">{showError(name)}</small> : null;
   const busy = status === 'submitting';
   const [attribution] = useState(getAttribution);
-  const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
   const [verificationToken, setVerificationToken] = useState('');
   const ownedDelivery = import.meta.env.VITE_CONTACT_MODE === 'owned';
