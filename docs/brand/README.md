@@ -1,7 +1,7 @@
-# Brand
+<img src="root-logo.png" width="88" alt="ROOT company logo">
 
-Official ROOT assets must be imported from the approved asset collection as original files when access is available.
+# ROOT documentation identity
 
-Current repository assets under `public/brand/` are temporary fallbacks. They exist so favicon, README cover, Open Graph metadata, and header/footer brand placement resolve during founder QA. They are not official ROOT logos.
+Use the [approved documentation standard](documentation-standard.md) for company-authored documents and documentation as code. The Founder supplied this logo and palette on 26 October 2026.
 
-See `asset-inventory.md` before replacing or adding assets.
+Website runtime styling remains governed by [the existing UI standard](../design-system/ui-ux-v2.md) and live token files. This directory adds documentation assets only; it does not replace production UI components or theme behavior.
