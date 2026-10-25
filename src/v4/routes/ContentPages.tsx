@@ -1,3 +1,4 @@
+import { GlassSkeleton } from '@/components/ui/GlassPlaceholder';
 import { phase2Content } from '../../seo/phase2Content.js';
 import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { lazy, Suspense } from 'react';
@@ -257,7 +258,7 @@ export function CaseStudyDetailPage({ slug }: { slug: string }) {
   return (
     <V4Shell>
       <div className="v4-legacy-case-study">
-        <Suspense fallback={<p role="status">Loading illustrative case study…</p>}>
+        <Suspense fallback={<GlassSkeleton minHeight="32rem" label="Loading illustrative case study…" />}>
           <LegacyCaseStudyDetailPage slug={slug} />
         </Suspense>
       </div>
