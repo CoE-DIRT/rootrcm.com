@@ -28,7 +28,7 @@ describe('Phase 3.3 performance/CLS architecture contract', () => {
     expect(dirt).toContain("lazy(() => import('@/components/dirt/DirtCommandCenter')");
     expect(dirt).toContain('<GlassSkeleton minHeight="100rem"');
     expect(content).toContain('<GlassSkeleton minHeight="32rem"');
-    expect(carousel.match(/width={1600} height={900}/g)).toHaveLength(2);
+    expect(carousel.match(/width=\{1600\} height=\{900\}/g)).toHaveLength(2);
     expect(carousel).toContain("aspectRatio: '16 / 9'");
   });
   it('avoids font network layout changes and enforces Lighthouse CLS in GitHub CI', () => {
