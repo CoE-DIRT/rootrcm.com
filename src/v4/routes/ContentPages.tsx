@@ -105,6 +105,9 @@ export function ResourcesHubPage() {
         <Breadcrumb items={[{ label: 'Resources' }]} />
         <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">{phase2Content['/resources/'].h1}</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">{phase2Content['/resources/'].lead}</p>
+        <a href="/downloads/root-revenue-intelligence-checklist.txt" download className="mt-5 inline-flex min-h-11 items-center rounded-full border border-border px-5 py-3 text-sm font-semibold text-accent hover:underline">
+          Download the free revenue evidence checklist (TXT, ungated)
+        </a>
       </Section>
       <Section tone="soft">
         <MediaFrame
