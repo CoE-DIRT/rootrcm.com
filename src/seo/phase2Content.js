@@ -214,7 +214,7 @@ export const phase2Content = {
       },
       {
         "heading": "Open-access guides and checklists",
-        "body": "Published ROOT resource pages are ungated and readable without a form; downloadable files are not implied where none has been published. We identify each resource by title and subject so teams can share practical guidance directly.",
+        "body": "Published ROOT guides are ungated and readable without a form. The free revenue evidence checklist is downloadable as a plain-text worksheet, and it excludes patient identifiers so teams can prepare a deidentified operating review.",
         "items": [
           "Open a published guide from the library.",
           "Use its workflow checklist in a team review.",
