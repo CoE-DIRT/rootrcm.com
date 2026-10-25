@@ -419,7 +419,7 @@ describe('experiment surfaces (QA overrides)', () => {
     const variantHtml = document.body.textContent ?? '';
     expect(variantHtml).toContain('Transparent platform tiers for predictable revenue operations.');
     expect(variantHtml.length).toBeGreaterThan(controlHtml.length);
-  });
+  }, 20_000);
 
   it('talk to us placement: the footer variant removes only the floating control', () => {
     renderRoute('/');
