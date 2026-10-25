@@ -126,8 +126,7 @@ export function DiagnosticPage() {
         <p className="mt-4 text-sm text-muted">{syntheticPractice.name} · {syntheticPractice.label}</p>
         <MediaFrame
           src={mediaAssets.claimsAr}
-          alt="Claims and A/R administration context. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial revenue-cycle context"
+          alt="Claims and A/R administration context."
           className="mt-8"
           aspect="video"
         />

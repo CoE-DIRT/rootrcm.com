@@ -81,8 +81,7 @@ function HomePageContent() {
         <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-center">
           <MediaFrame
             src={mediaAssets.practiceTeamCollaboration}
-            alt="Practice team collaborating on operations. Editorial stock photograph; not ROOT staff or clients."
-            caption="Editorial operations context — not a client claim"
+            alt="Practice team collaborating on operations."
             aspect="video"
           />
           <div className="space-y-4">
@@ -184,8 +183,7 @@ function HomePageContent() {
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-center">
           <MediaFrame
             src={mediaAssets.dirtAnalytics}
-            alt="Illustrative analytics workstation. Editorial stock photograph; not ROOT product UI or client data."
-            caption="Editorial analytics context — case studies use synthetic data only"
+            alt="Illustrative analytics workstation."
             aspect="wide"
           />
           <div>

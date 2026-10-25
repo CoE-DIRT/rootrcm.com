@@ -19,7 +19,7 @@ export default function HeroPracticeVisual() {
       <img
         className="heroPracticePhoto"
         src={mediaAssets.practiceTeamCollaboration}
-        alt="Clinical team coordinating around a practice workstation. Editorial stock photograph; not ROOT staff or clients."
+        alt="Clinical team coordinating around a practice workstation."
         width="940"
         height="627"
         decoding="async"

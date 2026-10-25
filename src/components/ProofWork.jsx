@@ -196,7 +196,7 @@ export function ProofLibrarySection() {
       <div className="sectionHeading">
         <p className="eyebrow">See how ROOT works</p>
         <h2>See how ROOT structures the work.</h2>
-        <p>Synthetic demonstrations show the analysis, operating meaning, and next action. Keep each proof disclaimer.</p>
+        <p>Explore sample analyses, operational findings, and next actions.</p>
       </div>
       <div className="proofFeatureGrid">
         <ProofAsset assetKey="arAnalysis" />
@@ -215,7 +215,7 @@ export function CapabilityProofSection({ assetKey, heading = 'Representative wor
       <div>
         <p className="eyebrow">Synthetic proof of work</p>
         <h2>{heading}</h2>
-        <p>{copy || 'A public-safe demonstration based on verified healthcare revenue-cycle operating patterns, rebuilt with fictional practice data and explicit synthetic labeling.'}</p>
+        <p>{copy || 'A sample work product showing healthcare revenue-cycle analysis, operating priorities, and next actions.'}</p>
         <p className="syntheticNote">No patient, claim, provider NPI, payer contract, client, facility, or production-system identifier is used in this preview.</p>
       </div>
       <ProofAsset assetKey={assetKey} />
@@ -229,7 +229,7 @@ export function DiagnosticSampleSection() {
       <div className="sectionHeading">
         <p className="eyebrow">Sample analytical output</p>
         <h2>{diagnosticSample.title}</h2>
-        <p>A realistic preview of the Diagnostic package structure using Willowbend Physician Group, a fictional five-provider practice. The numbers reconcile to the same demonstration universe used throughout the site.</p>
+        <p>Explore the Diagnostic package for a sample five-provider practice, with consistent figures across each analysis.</p>
       </div>
       <div className="diagnosticPages">
         {diagnosticSample.pages.map(([title, copy], index) => (
@@ -279,7 +279,7 @@ export function ResourceProofCallout({ assetKey }) {
       <ClipboardList size={21} />
       <span>
         <b>Example output: {asset.title}</b>
-        <small>{asset.label}. Built from fictional practice data to show the operating method, not a client result.</small>
+        <small>{asset.label}</small>
       </span>
       <a
         href="/diagnostic/"
