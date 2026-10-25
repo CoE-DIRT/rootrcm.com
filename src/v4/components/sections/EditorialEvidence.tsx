@@ -42,7 +42,7 @@ export function EditorialEvidence({ path }: { path: EditorialRoute }) {
             Or review our open-access resources and bring a specific question to the discussion.
           </p>
           <CTAGroup className="mt-5">
-            <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="cso-evidence" data-destination="/diagnostic/" data-engagement-type="diagnostic">Explore the $2,500 Diagnostic and 90-day roadmap</LinkButton>
+            <LinkButton href="/diagnostic/" variant="primary" data-cta="book-diagnostic" data-location="page" data-destination="/diagnostic/" data-engagement-type="diagnostic">Explore the $2,500 Diagnostic and 90-day roadmap</LinkButton>
             <LinkButton href="/resources/" variant="outline">Read the revenue intelligence guides</LinkButton>
           </CTAGroup>
         </div>
