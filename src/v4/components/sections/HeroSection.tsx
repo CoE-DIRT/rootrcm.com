@@ -1,6 +1,7 @@
 // Ported from DIRT premium-react-site: src/components/sections/HeroSection.jsx
 // ROOT copy/CTA/business-truth substituted for DIRT's commercial text (MERGE-LAW.md).
 import type { ReactNode } from 'react';
+import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -26,9 +27,9 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative">
-      <div className="hero-photo-backdrop" data-hero-image-placeholder aria-hidden="true">
-        <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} fetchPriority="high" decoding="async" />
-      </div>
+      <GlassPlaceholder className="hero-photo-backdrop" aspect="video" data-hero-image-placeholder aria-hidden="true">
+        <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} loading="eager" fetchPriority="high" decoding="async" />
+      </GlassPlaceholder>
       <div
         aria-hidden="true"
         className="root-mesh pointer-events-none absolute inset-x-0 -top-8 h-72 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"

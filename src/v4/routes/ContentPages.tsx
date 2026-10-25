@@ -1,6 +1,7 @@
 import { phase2Content } from '../../seo/phase2Content.js';
 import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { lazy, Suspense } from 'react';
+import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -257,7 +258,7 @@ export function CaseStudyDetailPage({ slug }: { slug: string }) {
   return (
     <V4Shell>
       <div className="v4-legacy-case-study">
-        <Suspense fallback={<p role="status">Loading illustrative case study…</p>}>
+        <Suspense fallback={<GlassPlaceholder minHeight="32rem" busy label="Loading illustrative case study" className="glass glass-strong rounded-[var(--radius-root)]" />}>
           <LegacyCaseStudyDetailPage slug={slug} />
         </Suspense>
       </div>

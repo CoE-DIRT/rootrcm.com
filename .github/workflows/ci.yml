@@ -30,3 +30,25 @@ jobs:
           path: test-results/phase-1-2-evidence/*.png
           if-no-files-found: warn
           retention-days: 30
+
+  lighthouse-cls:
+    # Build and serve the exact PR commit as a static preview; measure simulated mobile CLS.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run build
+      - name: Lighthouse CI CLS gate (target 0.05; block above 0.1)
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.json
+      - name: Upload Lighthouse preview reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-3-3-lighthouse-cls
+          path: |
+            lighthouse-reports/**
+            .lighthouseci/**
+          if-no-files-found: warn
+          retention-days: 30

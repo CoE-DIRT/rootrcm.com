@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { GlassPlaceholder } from './v4/components/ui/GlassPlaceholder';
 import {
   ArrowRight,
   Blocks,
@@ -842,7 +843,7 @@ export function CaseStudyDetailPage({ slug }) {
           <h2>Proof carousel</h2>
           <p>Slides support the narrative. Semantic content and disclaimers live on this page, not only inside the carousel.</p>
         </div>
-        <Suspense fallback={<p className="caseStudyCarouselStatus">Loading proof slides…</p>}>
+        <Suspense fallback={<GlassPlaceholder aspect="carousel" busy label="Loading proof carousel" className="glass caseStudyCarouselWrap" />}>
           <CaseStudyCarousel slides={study.slides} label={`${study.title} proof slides`} />
         </Suspense>
       </section>

@@ -3,6 +3,7 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import { lazy, Suspense } from 'react';
+import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 const DirtCommandCenter = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtCommandCenter })));
 const DirtSignalFlow = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtSignalFlow })));
 import { InteractiveMiniDashboard } from '@/components/dirt/InteractiveMiniDashboard';
@@ -134,7 +135,7 @@ export function DirtPage() {
       </Section>
 
       <Section id="signal" tone="soft">
-        <Suspense fallback={<div className="min-h-[12rem]" aria-busy="true" />}><DirtSignalFlow /></Suspense>
+        <Suspense fallback={<GlassPlaceholder minHeight="12rem" busy label="Loading signal flow" className="glass rounded-[var(--radius-root)]" />}><DirtSignalFlow /></Suspense>
       </Section>
 
       <Section id="command-center" tone="grid" wide dense>
@@ -144,7 +145,7 @@ export function DirtPage() {
           description="Explore an illustrative dashboard view that organizes executive measures, payer patterns, denial categories, underpayment signals, and prioritized work."
         />
         <div className="mt-8">
-          <Suspense fallback={<div className="min-h-[24rem] rounded-[var(--radius-root)] border border-border bg-panel/40" aria-busy="true" />}><DirtCommandCenter /></Suspense>
+          <Suspense fallback={<GlassPlaceholder minHeight="40rem" busy label="Loading DIRT dashboard" className="glass glass-strong rounded-[var(--radius-root)]" />}><DirtCommandCenter /></Suspense>
         </div>
         <Callout tone="compliance" className="mt-8">
           The dashboard uses clearly labeled sample metrics to show how revenue signals can be organized for management review.
