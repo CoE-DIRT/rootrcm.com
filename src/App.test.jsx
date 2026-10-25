@@ -198,10 +198,13 @@ describe('ROOT commercial site', () => {
     fireEvent.change(screen.getByLabelText(/biggest current challenge/i), { target: { value: 'Denials and rejections' } });
 
     const submit = screen.getByRole('button', { name: /request diagnostic/i });
-    expect(submit.disabled).toBe(true);
+    // Phase 3.2 keeps idle submit enabled so the state machine can display
+    // inline validation; no delivery can occur without the no-PHI acknowledgement.
+    expect(submit.disabled).toBe(false);
     expect(submit.getAttribute('data-cta')).toBe('request-diagnostic');
     expect(submit.getAttribute('data-destination')).toBe('info@rootrcm.com');
-
+    fireEvent.click(submit);
+    expect(screen.getByText(/Confirm that this inquiry contains no PHI/i)).toBeTruthy();
     fireEvent.click(screen.getByLabelText(/will not submit Protected Health Information/i));
     expect(submit.disabled).toBe(false);
   });
