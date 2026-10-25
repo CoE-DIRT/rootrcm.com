@@ -81,6 +81,13 @@ describe('public build configuration guard', () => {
     expect(() => assertSafePublicEnv({ VITE_GSC_VERIFICATION: '<meta name="google-site-verification" content="x">' })).toThrow(/VITE_GSC_VERIFICATION/);
   });
 
+  it('validates the optional public Appwrite ID pair without requiring a browser SDK', () => {
+    expect(() => assertSafePublicEnv({ VITE_APPWRITE_ENDPOINT: 'https://cloud.appwrite.io/v1', VITE_APPWRITE_PROJECT_ID: 'root-project' })).not.toThrow();
+    expect(() => assertSafePublicEnv({ VITE_APPWRITE_PROJECT_ID: 'root-project' })).toThrow(/both/);
+    expect(() => assertSafePublicEnv({ VITE_APPWRITE_ENDPOINT: 'https://cloud.appwrite.io/v1' })).toThrow(/both/);
+    expect(() => assertSafePublicEnv({ VITE_APPWRITE_ENDPOINT: 'http://example.test/v1', VITE_APPWRITE_PROJECT_ID: 'root-project' })).toThrow(/https/);
+  });
+
   it('reports every problem at once', () => {
     expect(() => assertSafePublicEnv({ VITE_GA_MEASUREMENT_ID: 'bad', VITE_SITE_ENV: 'nope' })).toThrow(/VITE_GA_MEASUREMENT_ID[\s\S]*VITE_SITE_ENV/);
   });
