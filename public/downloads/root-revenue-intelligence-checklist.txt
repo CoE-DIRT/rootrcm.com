@@ -1,0 +1,50 @@
+ROOT — Revenue Intelligence Evidence Checklist
+Open-access resource | No registration required | October 2026
+https://rootrcm.com/resources/
+
+PURPOSE
+Use this checklist to prepare a deidentified revenue-cycle operating review.
+ROOT is a healthcare revenue intelligence and operating partner; this worksheet
+defines evidence needs, not a guaranteed financial result.
+
+1. BASELINE AND PERIOD
+[ ] Specify the reporting period, service dates, and comparison period.
+[ ] Record total allowed amounts, contractual adjustments, payments, and reversals.
+[ ] Document collection rate numerator and denominator explicitly.
+[ ] Record gross/net days in A/R calculations and excluded balances.
+
+2. A/R SEGMENTATION
+[ ] Segment outstanding A/R by age band, payer, specialty, and ownership.
+[ ] Record counts and aggregate dollar balances only; do not include patient IDs.
+[ ] Distinguish actionable follow-up from nonrecoverable balances.
+[ ] Identify filing deadlines, pending responses, and unapplied cash.
+
+3. DENIAL ROOT-CAUSE TAXONOMY
+[ ] Eligibility / coverage / coordination-of-benefits failure.
+[ ] Prior authorization / referral mismatch.
+[ ] Coding, modifier, documentation, or medical-necessity denial.
+[ ] Credentialing, roster, NPI, taxonomy, or payer enrollment exception.
+[ ] Timely filing, administrative payer error, duplicate, or underpayment.
+[ ] Assign accountable process owner and a measurable correction date.
+
+4. PAYER AND CONTRACT REVIEW
+[ ] Compare allowed and paid at a consistent service/code level.
+[ ] Confirm fee schedule and contract effective dates.
+[ ] Check takebacks/recoupments in the original accounting period.
+[ ] Document payer response and evidence for disputes.
+
+5. IMPLEMENTATION AND AUDIT TRAIL
+[ ] Assign one owner, next action, due date, and review status per issue class.
+[ ] Record validation of payment only after ERA/EOB and bank reconciliation.
+[ ] Recalculate the same KPIs on a consistent comparison cohort.
+[ ] Disclose methodology, exclusions, unresolved issues, and assumptions.
+
+PRIVACY BOUNDARY
+Do not place PHI, patient identifiers, claim IDs, dates of birth, or chart details
+in this worksheet or submit them through ROOT's public website. Use deidentified,
+aggregate reports for initial consultation. Any later PHI exchange requires an
+approved agreement and secure channel.
+
+NEXT STEP
+Request the fixed-fee $2,500 Revenue Optimization Diagnostic:
+https://rootrcm.com/diagnostic/
