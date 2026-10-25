@@ -63,7 +63,7 @@ describe('ROOT commercial site', () => {
   it('renders V4 homepage positioning and primary navigation', async () => {
     const { container } = renderRoute('/');
 
-    expect(screen.getByRole('heading', { name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /revenue intelligence for healthcare organizations that refuse to guess/i })).toBeTruthy();
     expect(screen.getByText(/where revenue cycle management meets data intelligence/i)).toBeTruthy();
     const primaryDiagnosticLinks = screen.getAllByRole('link', { name: /Discover Your Revenue Exposure|Discover Revenue Exposure/i });
     expect(primaryDiagnosticLinks[0].getAttribute('data-cta')).toBe('book-diagnostic');
@@ -179,7 +179,7 @@ describe('ROOT commercial site', () => {
 
   it('renders the complete How We Work page at the existing case-studies URL', () => {
     renderRoute('/case-studies/');
-    expect(screen.getByRole('heading', { name: /turn revenue signals into clear operating priorities/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /measured outcomes, not testimonials/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /move from scattered reports to accountable action/i })).toBeTruthy();
     expect(screen.queryByText(/being prepared|coming soon/i)).toBeNull();
   });
@@ -305,8 +305,8 @@ describe('ROOT commercial site', () => {
     expect(hero).toBeTruthy();
     expect(hero.getAttribute('href')).toBe('/diagnostic/');
     expect(hero.hasAttribute('data-experiment')).toBe(false);
-    // The QA variant changes the headline but is not attributed without consent.
-    expect(screen.getByRole('heading', { name: /find the revenue work worth doing first/i })).toBeTruthy();
+    // QA CTA variants retain the canonical SEO headline and vary only the action label/eyebrow.
+    expect(screen.getByRole('heading', { name: /revenue intelligence for healthcare organizations that refuse to guess/i })).toBeTruthy();
   });
 
   it('renders the 404 fallback route', () => {
