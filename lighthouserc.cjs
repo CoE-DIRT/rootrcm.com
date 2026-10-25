@@ -1,6 +1,6 @@
 /**
  * Phase 3.3: audits the exact production Vite artifact through a local preview
- * server. CLS <=0.05 is the stretch goal; >=0.1 fails the CI build.
+ * server. CLS <=0.05 is the stretch goal; >0.1 fails the CI build.
  * Do not assert deployed-field Web Vitals from this synthetic lab run.
  */
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
     },
     assert: {
       assertions: {
-        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1, aggregationMethod: 'median' }],
+        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1, aggregationMethod: 'pessimistic' }],
         'largest-contentful-paint': ['warn', { maxNumericValue: 1500, aggregationMethod: 'median' }],
       },
     },
