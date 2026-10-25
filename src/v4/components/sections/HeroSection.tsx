@@ -19,10 +19,10 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
   const heroCta = useExperiment('heroCta');
   const usesPriorityMessage = heroCta.variant === 'fixed-fee';
   const displayEyebrow = usesPriorityMessage ? 'A clearer view of revenue work' : eyebrow;
-  const displayTitle = usesPriorityMessage ? 'Find the revenue work worth doing first.' : title;
-  const displayDescription = usesPriorityMessage
-    ? 'Connect revenue-cycle, payer, and practice-operations signals to a prioritized view with clear owners and next steps.'
-    : description;
+  // The commercial H1 and opening definition are canonical, not experiment variants.
+  // CTA label testing can continue without conflicting with SEO and no-JS copy.
+  const displayTitle = title;
+  const displayDescription = description;
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative">
