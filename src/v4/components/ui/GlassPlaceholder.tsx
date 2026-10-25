@@ -1,47 +1,61 @@
-import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
-import { GlassPlaceholder, reservedIntrinsic, type PlaceholderAspect } from './GlassPlaceholder';
 
-interface MediaFrameProps {
-  src: string;
-  alt: string;
-  caption?: string;
-  className?: string;
-  imgClassName?: string;
-  priority?: boolean;
+/** Vite/React replacement for the fixed-geometry placeholder provided by next/image.
+ * The wrapper exists in the DOM before image decoding or a lazy component resolves.
+ * Width and height are image-intrinsic dimensions; CSS holds the final visual ratio.
+ */
+export type PlaceholderAspect = 'video' | 'wide' | 'square' | 'hero';
+export const reservedAspect: Record<PlaceholderAspect, string> = {
+  video: '16 / 9',
+  wide: '7 / 3',
+  square: '1 / 1',
+  hero: '8 / 5',
+};
+export const reservedIntrinsic: Record<PlaceholderAspect, { width: number; height: number }> = {
+  video: { width: 1200, height: 675 },
+  wide: { width: 1680, height: 720 },
+  square: { width: 800, height: 800 },
+  hero: { width: 1600, height: 1000 },
+};
+
+export function GlassPlaceholder({
+  aspect = 'video', className, children, state = 'ready',
+}: {
   aspect?: PlaceholderAspect;
+  className?: string;
+  children?: ReactNode;
+  state?: 'loading' | 'ready' | 'error';
+}) {
+  return (
+    <div
+      data-glass-placeholder=""
+      data-state={state}
+      aria-busy={state === 'loading' ? 'true' : undefined}
+      className={cn('media-placeholder relative w-full overflow-hidden bg-panel-solid', className)}
+      style={{ aspectRatio: reservedAspect[aspect] }}
+    >
+      {children}
+    </div>
+  );
 }
 
-export function MediaFrame({
-  src,
-  alt,
-  caption,
-  className,
-  imgClassName,
-  priority = false,
-  aspect = 'video',
-}: MediaFrameProps) {
-  const [loaded, setLoaded] = useState({ src: '', state: 'loading' });
-  const state = loaded.src === src ? loaded.state : 'loading';
+/** Fixed vertical space for costly async dashboard/table/carousel modules.
+ * Caller chooses the same min-block-size as the resolved module's shell.
+ */
+export function GlassSkeleton({ minHeight = '24rem', label = 'Loading section' }: {
+  minHeight?: string;
+  label?: string;
+}) {
   return (
-    <figure className={cn('overflow-hidden rounded-[var(--radius-root)] border border-border bg-panel', className)}>
-      <GlassPlaceholder aspect={aspect} state={state} className={cn('media-frame-image', aspect === 'hero' && 'min-h-[280px] md:min-h-[420px]')}>
-        <img
-          key={src}
-          src={src}
-          onLoad={() => setLoaded({ src, state: 'ready' })}
-          onError={() => setLoaded({ src, state: 'error' })}
-          alt={alt}
-          loading={priority ? 'eager' : 'lazy'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          decoding="async"
-          width={reservedIntrinsic[aspect].width}
-          height={reservedIntrinsic[aspect].height}
-          className={cn('h-full w-full object-cover object-center', imgClassName)}
-        />
-        {state === 'error' ? <p className="absolute inset-0 flex items-center justify-center p-4 text-sm text-muted">Image unavailable: {alt}</p> : null}
-      </GlassPlaceholder>
-      {caption ? <figcaption className="border-t border-border px-4 py-2 text-xs text-muted">{caption}</figcaption> : null}
-    </figure>
+    <div
+      className="glass glass-skeleton relative w-full overflow-hidden rounded-[var(--radius-root)] border border-border"
+      style={{ minHeight }}
+      role="status"
+      aria-label={label}
+      aria-busy="true"
+    >
+      <span className="sr-only">{label}</span>
+    </div>
   );
 }
