@@ -29,8 +29,8 @@ describe('required routes render a single, meaningful H1', () => {
     ['/privacy-policy/', /^privacy policy$/i],
     ['/terms/', /^terms of use$/i],
     ['/refund-policy/', /refund & cancellation policy/i],
-    ['/contact/', /revenue question your systems cannot answer/i],
-    ['/pricing/', /intelligence and execution, scoped to your business/i],
+    ['/contact/', /book a revenue diagnostic. leave with a hypothesis/i],
+    ['/pricing/', /transparent platform tiers for predictable revenue operations/i],
     ['/thank-you/', /request received/i],
   ])('%s', (path, heading) => {
     renderRoute(path);

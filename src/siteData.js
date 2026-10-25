@@ -1,3 +1,4 @@
+import { phase2Content } from './seo/phase2Content.js';
 import { internalRoutesEnabled } from './build/buildMode.js';
 
 export const brandAssets = {
@@ -806,6 +807,13 @@ export const routeMeta = {
     image: brandAssets.og,
   },
 };
+
+// The seven principal buying routes share independently editable CSO metadata
+// and the same H1 text as their hydrated React views and no-JS fallback.
+for (const [route, editorial] of Object.entries(phase2Content)) {
+  const key = route === '/' ? '/' : route.replace(/\/$/, '');
+  routeMeta[key] = { ...routeMeta[key], title: editorial.title, description: editorial.description, h1: editorial.h1 };
+}
 
 // Evaluated by the Node-side build too, where `import.meta.env` does not exist: nothing is added there, and src/seo/head.js forces
 // noindex on an internal page if one is ever built.

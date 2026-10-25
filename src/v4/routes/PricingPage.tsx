@@ -1,3 +1,5 @@
+import { phase2Content } from '../../seo/phase2Content.js';
+import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -5,7 +7,6 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { pricingModels, mediaAssets } from '../../siteData.js';
-import { formatUsd, DIAGNOSTIC_PRICE_USD } from '@/growth/locale';
 import { CheckoutButton } from '@/components/CheckoutButton';
 import { useExperiment } from '@/experiments/useExperiment';
 
@@ -76,9 +77,9 @@ export function PricingPage() {
       <div className="contents" {...presentation.attrs}>
         <Section className="pt-10 md:pt-14">
           <Breadcrumb items={[{ label: 'Pricing' }]} />
-          <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Intelligence and execution, scoped to your business.</h1>
+          <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">{phase2Content['/pricing/'].h1}</h1>
           <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
-            Start with a fixed-fee {formatUsd(DIAGNOSTIC_PRICE_USD)} Revenue Optimization Diagnostic or choose an ongoing revenue operations, DIRT intelligence, credentialing, project, or MSO engagement. The published Diagnostic price does not change with personalization.
+            {phase2Content['/pricing/'].lead}
           </p>
         </Section>
 
@@ -160,6 +161,7 @@ export function PricingPage() {
           />
         </Section>
       </div>
+      <EditorialEvidence path="/pricing/" />
     </V4Shell>
   );
 }

@@ -1,3 +1,5 @@
+import { phase2Content } from '../../seo/phase2Content.js';
+import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -17,9 +19,9 @@ export function ServicesHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Services' }]} />
-        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">Healthcare revenue & operating services</h1>
+        <h1 className="mt-4 measure-exec text-4xl font-semibold text-text sm:text-5xl">{phase2Content['/services/'].h1}</h1>
         <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
-          Revenue cycle management, credentialing, practice operations, healthcare IT, and analytics delivered as connected capabilities — so findings become owned work.
+          {phase2Content['/services/'].lead}
         </p>
       </Section>
       <Section tone="soft">
@@ -47,6 +49,7 @@ export function ServicesHubPage() {
           </div>
         ))}
       </Section>
+      <EditorialEvidence path="/services/" />
     </V4Shell>
   );
 }

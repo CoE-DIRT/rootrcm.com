@@ -206,7 +206,7 @@ test.describe('A/B experiments', () => {
     const hero = await page.locator('[data-cta="book-diagnostic"][data-location="home-hero"]').first().innerText();
     expect(hero.trim()).toBe(assignments['exp-hero-cta-v1'] === 'fixed-fee' ? 'Book the $2,500 Diagnostic' : 'Discover Your Revenue Exposure');
     const headline = (await page.getByRole('heading', { level: 1 }).innerText()).trim();
-    expect(headline).toBe(assignments['exp-hero-cta-v1'] === 'fixed-fee' ? 'Find the revenue work worth doing first.' : 'The intelligence behind healthcare revenue.');
+    expect(headline).toBe('Revenue intelligence for healthcare organizations that refuse to guess.');
     expect(await page.getByRole('button', { name: 'Talk to us' }).count()).toBe(assignments['exp-talk-to-us-placement-v1'] === 'footer-only' ? 0 : 1);
     const socialLabelled = (await page.locator('footer nav[aria-label="Follow ROOT on social media"] a').first().innerText()).trim() !== '';
     expect(socialLabelled).toBe(assignments['exp-follow-us-design-v1'] === 'labeled');

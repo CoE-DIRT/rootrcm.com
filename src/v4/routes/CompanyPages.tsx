@@ -1,3 +1,5 @@
+import { phase2Content } from '../../seo/phase2Content.js';
+import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { useEffect, useRef } from 'react';
 import { ChevronDown, ShieldCheck } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
@@ -33,10 +35,10 @@ export function ContactPage() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Contact ROOT</p>
             <h1 className="mt-3 text-4xl font-semibold text-text sm:text-5xl">
-              Bring us the revenue question your systems cannot answer.
+              {phase2Content['/contact/'].h1}
             </h1>
             <p className="mt-4 text-lg text-muted">
-              Tell us about your financial visibility, payer performance, aging A/R, denial patterns, credentialing, or growth challenge. We will identify the right commercial next step.
+              {phase2Content['/contact/'].lead}
             </p>
             <p className="mt-6 flex items-start gap-2 text-sm text-muted">
               <ShieldCheck className="mt-0.5 h-4 w-4 text-accent" aria-hidden="true" />
@@ -86,6 +88,7 @@ export function ContactPage() {
           aspect="wide"
         />
       </Section>
+      <EditorialEvidence path="/contact/" />
     </V4Shell>
   );
 }
