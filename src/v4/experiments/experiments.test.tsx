@@ -401,6 +401,7 @@ describe('experiment surfaces (QA overrides)', () => {
   });
 
   it('pricing: the async comparison table adds no price and leaves the published $2,500 Diagnostic intact', async () => {
+    vi.useRealTimers(); // React.lazy resolution and Testing Library polling need real timers.
     renderRoute('/pricing/');
     expect(screen.queryByTestId('pricing-glance')).toBeNull();
     expect(screen.getAllByText(/\$2,500 fixed fee/).length).toBeGreaterThan(0);
