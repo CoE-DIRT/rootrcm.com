@@ -375,9 +375,9 @@ describe('experiment surfaces (QA overrides)', () => {
     return render(<App />);
   }
 
-  it('hero test uses a distinct message while both actions point to the Diagnostic', () => {
+  it('hero CTA test changes action copy without changing the canonical revenue intelligence H1', () => {
     renderRoute('/?exp_heroCta=fixed-fee');
-    expect(screen.getByRole('heading', { level: 1, name: /find the revenue work worth doing first/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1, name: /revenue intelligence for healthcare organizations that refuse to guess/i })).toBeTruthy();
     const variant = document.querySelector<HTMLAnchorElement>('a[data-cta="book-diagnostic"][data-location="home-hero"]');
     expect(variant?.textContent).toContain('Book the $2,500 Diagnostic');
     expect(variant?.getAttribute('href')).toBe('/diagnostic/');
@@ -385,7 +385,7 @@ describe('experiment surfaces (QA overrides)', () => {
     resetExperimentsForTests();
 
     renderRoute('/');
-    expect(screen.getByRole('heading', { level: 1, name: /the intelligence behind healthcare revenue/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1, name: /revenue intelligence for healthcare organizations that refuse to guess/i })).toBeTruthy();
     const control = document.querySelector<HTMLAnchorElement>('a[data-cta="book-diagnostic"][data-location="home-hero"]');
     expect(control?.textContent).toContain('Discover Your Revenue Exposure');
     expect(control?.getAttribute('href')).toBe('/diagnostic/');
@@ -417,7 +417,7 @@ describe('experiment surfaces (QA overrides)', () => {
     expect(within(table).getByText('$2,500 fixed fee')).toBeTruthy();
     // Everything the control shows is still shown.
     const variantHtml = document.body.textContent ?? '';
-    expect(variantHtml).toContain('Intelligence and execution, scoped to your business.');
+    expect(variantHtml).toContain('Transparent platform tiers for predictable revenue operations.');
     expect(variantHtml.length).toBeGreaterThan(controlHtml.length);
   });
 
