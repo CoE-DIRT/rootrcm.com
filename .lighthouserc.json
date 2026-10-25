@@ -1,0 +1,27 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://127.0.0.1:4173/",
+        "http://127.0.0.1:4173/pricing/",
+        "http://127.0.0.1:4173/diagnostic/",
+        "http://127.0.0.1:4173/technology/dirt/"
+      ],
+      "startServerCommand": "npx vite preview --outDir dist-staging --host 127.0.0.1 --port 4173 --strictPort",
+      "startServerReadyPattern": "Local:|127.0.0.1:4173",
+      "startServerReadyTimeout": 30000,
+      "numberOfRuns": 1,
+      "settings": {
+        "onlyCategories": ["performance"],
+        "chromeFlags": "--headless --no-sandbox --disable-dev-shm-usage",
+        "maxWaitForLoad": 45000
+      }
+    },
+    "assert": {
+      "assertions": {
+        "cumulative-layout-shift": ["error", {"maxNumericValue": 0.1, "aggregationMethod": "pessimistic"}]
+      }
+    },
+    "upload": {"target": "filesystem", "outputDir": "./lighthouse-reports"}
+  }
+}
