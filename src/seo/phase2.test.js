@@ -40,6 +40,7 @@ describe('Phase 2.1–2.3 seven-route CSO contract', () => {
     expect(html).toContain('<ol>');
     expect(html).toContain('href="/diagnostic/"');
     expect(html).toContain('href="/resources/"');
+    if (route === '/resources/') expect(readFileSync('public/downloads/root-revenue-intelligence-checklist.txt', 'utf8')).toContain('Do not place PHI');
     expect(html).toContain(`<meta property="og:url" content="https://rootrcm.com${route}" />`);
     expect(html).toContain('name="twitter:card" content="summary_large_image"');
   });
