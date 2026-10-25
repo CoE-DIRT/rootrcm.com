@@ -153,8 +153,8 @@ export const phase2Content = {
   },
   "/pricing/": {
     "h1": "Transparent platform tiers for predictable revenue operations.",
-    "title": "Healthcare RCM Pricing & Diagnostic Tiers | ROOT",
-    "description": "Compare ROOT RCM and healthcare revenue intelligence pricing, including the fixed $2,500 Diagnostic and scoped managed service options.",
+    "title": "Healthcare RCM Pricing & Diagnostic Service Tiers | ROOT",
+    "description": "Compare ROOT RCM and healthcare revenue intelligence pricing, including the fixed $2,500 Diagnostic and transparently scoped managed service options.",
     "lead": "Unclear billing fees and undefined responsibilities make revenue operations difficult to budget and govern. ROOT separates a fixed-fee $2,500 Revenue Optimization Diagnostic from scoped managed RCM, credentialing, DIRT intelligence, and project engagements. We identify included work, implementation dependencies, and contractual exclusions in writing before an ongoing scope is approved.",
     "sections": [
       {
