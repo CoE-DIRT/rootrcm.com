@@ -63,7 +63,10 @@ export function inquiryReducer(state, action) {
     const issue = fieldError(action.field, state.fields[action.field], action.variant);
     if (issue) errors[action.field] = issue;
     else delete errors[action.field];
-    return { ...state, phase: 'validating', touched: { ...state.touched, [action.field]: true }, errors };
+    // Do not hide the failure banner / email fallback just because a field
+    // loses focus. Only an actual edit or deliberate resubmit changes phase.
+    return { ...state, phase: state.phase === 'error' ? 'error' : 'validating',
+      touched: { ...state.touched, [action.field]: true }, errors };
   }
   if (type === 'INVALID') {
     if (state.phase === 'submitting' || state.phase === 'success') return state;
