@@ -69,9 +69,14 @@ export function PricingPage() {
         </Section>
 
         {presentation.variant === 'at-a-glance' ? (
-          <Suspense fallback={<Section tone="soft"><GlassSkeleton minHeight="30rem" label="Loading pricing comparison" /></Section>}>
-            <PricingGlance />
-          </Suspense>
+          <Section tone="soft">
+            <SectionHeader eyebrow="At a glance" title="Compare engagement models" description="Every published ROOT engagement in one place. Project and operating-partner scope is defined in writing." />
+            <div className="mt-6 min-h-[30rem]">
+              <Suspense fallback={<GlassSkeleton minHeight="30rem" label="Loading pricing comparison" />}>
+                <PricingGlance />
+              </Suspense>
+            </div>
+          </Section>
         ) : null}
 
         <Section>
