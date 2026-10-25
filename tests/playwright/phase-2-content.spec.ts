@@ -33,7 +33,10 @@ test.describe('Phase 2 CSO content and semantic markup', () => {
       await expect(page.locator('head meta[name="description"]')).toHaveAttribute('content', /.+/);
       await expect(page.locator('head meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\//);
       const json = await page.locator('script[type="application/ld+json"]').allTextContents();
-      expect(json.length).toBeGreaterThanOrEqual(3);
+      expect(json.length).toBeGreaterThanOrEqual(2);
+      const schemaTypes = json.map((data) => JSON.parse(data)['@type']);
+      expect(schemaTypes).toContain('WebPage');
+      expect(schemaTypes).toContain('BreadcrumbList');
       if (route === '/contact/') expect(json.some((data) => JSON.parse(data)['@type'] === 'LocalBusiness')).toBe(false);
     });
   }
