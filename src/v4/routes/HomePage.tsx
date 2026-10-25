@@ -6,6 +6,7 @@ import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { Callout } from '@/components/ui/Callout';
 import { MediaFrame } from '@/components/ui/MediaFrame';
+import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
@@ -159,9 +160,9 @@ function HomePageContent() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {healthcareSegments.map((segment, index) => (
             <a key={segment.name} href={segment.href} className="root-feature-card glass block overflow-hidden rounded-[var(--radius-root)]">
-              <div className="aspect-square overflow-hidden bg-panel-solid">
-                <img src={featureImages[index]} alt={`Editorial context for ${segment.name}; not a ROOT client or team photo`} width={480} height={480} loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
-              </div>
+              <GlassPlaceholder aspect="square" className="bg-panel-solid">
+                <img src={featureImages[index]} alt={`Editorial context for ${segment.name}; not a ROOT client or team photo`} width={480} height={480} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              </GlassPlaceholder>
               <div className="p-5">
                 <h3 className="font-semibold text-text">{segment.name}</h3>
                 <p className="mt-2 text-sm text-muted">{segment.signal}</p>

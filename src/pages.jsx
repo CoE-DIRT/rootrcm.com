@@ -1,3 +1,4 @@
+import { GlassSkeleton } from './v4/components/ui/GlassPlaceholder';
 import { lazy, Suspense } from 'react';
 import {
   ArrowRight,
@@ -842,7 +843,7 @@ export function CaseStudyDetailPage({ slug }) {
           <h2>Proof carousel</h2>
           <p>Slides support the narrative. Semantic content and disclaimers live on this page, not only inside the carousel.</p>
         </div>
-        <Suspense fallback={<p className="caseStudyCarouselStatus">Loading proof slides…</p>}>
+        <Suspense fallback={<GlassSkeleton minHeight="28rem" label="Loading proof slides…" />}>
           <CaseStudyCarousel slides={study.slides} label={`${study.title} proof slides`} />
         </Suspense>
       </section>
