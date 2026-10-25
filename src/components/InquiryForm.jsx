@@ -1,5 +1,5 @@
 import { useId, useMemo, useReducer, useState } from 'react';
-import { ArrowRight, CircleAlert, CircleCheck, Copy, LoaderCircle, Mail, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, CircleAlert, CircleCheck, Copy, LoaderCircle, Mail, X } from 'lucide-react';
 import { getExperimentContext } from '../v4/experiments/engine.ts';
 import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
 import { submitDiagnosticLead, submitCommercialInquiry } from '../v4/lib/appwrite/mutations.ts';
