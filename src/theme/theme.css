@@ -68,6 +68,9 @@
   /* Semantic signals */
   --success: #0E7C5A;
   --success-bg: rgba(14, 124, 90, 0.10);
+  --glass-success: var(--success-bg);
+  --glass-danger: var(--danger-bg);
+  --inquiry-submitting-opacity: 0.94;
   --warning: #9A5B00;
   --warning-bg: rgba(154, 91, 0, 0.10);
   --danger: #C0242B;
@@ -132,6 +135,9 @@
   --accent-glow-hover: 0 0 28px rgba(0, 240, 255, 0.45);
   --success: #34D399;
   --success-bg: rgba(52, 211, 153, 0.12);
+  --glass-success: var(--success-bg);
+  --glass-danger: var(--danger-bg);
+  --inquiry-submitting-opacity: 0.94;
   --warning: #FBBF24;
   --warning-bg: rgba(251, 191, 36, 0.12);
   --danger: #F87171;

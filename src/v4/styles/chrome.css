@@ -329,3 +329,84 @@
    vertical scroll container and prevents a true sticky header from pinning to
    the viewport. clip does not create a scroll container. */
 html:has(.v4-root), body:has(.v4-root) { overflow-x: clip; }
+
+/* Phase 3.2: explicit booking state machine. Shared semantic tokens only. */
+.v4-root .inquiryForm[data-state='submitting'] {
+  opacity: var(--inquiry-submitting-opacity);
+  transition: opacity 180ms ease-out;
+}
+.v4-root .inquiryForm[data-state='submitting'] :is(input, textarea)[readonly] {
+  cursor: wait;
+}
+.v4-root .inquiryForm .fieldError {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.v4-root .inquiryErrorBanner.glass-danger {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: var(--glass-danger);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-root);
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.v4-root .inquiryResult.glass-success {
+  background: var(--glass-success);
+  border: 1px solid var(--success);
+  color: var(--text-primary);
+}
+.v4-root .inquiryResult.glass-success > svg {
+  color: var(--success);
+}
+.v4-root .inquiryResult.glass-success :is(h3,p) { color: var(--text-primary); }
+.v4-root .inquirySpinner {
+  display: inline-block;
+  vertical-align: middle;
+  animation: root-inquiry-spin 800ms linear infinite;
+}
+@keyframes root-inquiry-spin { to { transform: rotate(360deg); } }
+.v4-root .inquiryToast.glass-strong {
+  position: fixed;
+  left: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(27rem, calc(100vw - 2rem));
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-root);
+  background: var(--glass-bg-strong);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glass-2);
+}
+.v4-root .inquiryToast[role='alert'] > svg { color: var(--danger); }
+.v4-root .inquiryToast[role='status'] > svg { color: var(--success); }
+.v4-root .inquiryToastClose {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin-left: auto;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+}
+.v4-root .inquiryToastClose:focus-visible { box-shadow: var(--focus-ring); }
+@media (prefers-reduced-transparency: reduce) {
+  .v4-root .inquiryToast.glass-strong { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v4-root .inquirySpinner { animation: none; }
+  .v4-root .inquiryForm[data-state='submitting'] { transition: none; }
+}

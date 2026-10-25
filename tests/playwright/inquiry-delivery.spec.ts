@@ -22,7 +22,9 @@ test('acknowledged asynchronous delivery reaches confirmation', async ({ page })
   }));
   await completeInquiry(page);
   await page.getByRole('button', { name: 'Start the Conversation' }).click();
-  await expect(page).toHaveURL(/\/thank-you\/\?delivery=form/);
+  await expect(page).toHaveURL(/contact\/$/);
+  await expect(page.getByText("We've received your inquiry.", { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Send another inquiry' })).toHaveAttribute('href', '/contact/');
 });
 
 for (const [name, status, body] of [
@@ -36,9 +38,11 @@ for (const [name, status, body] of [
     }));
     await completeInquiry(page);
     await page.getByRole('button', { name: 'Start the Conversation' }).click();
-    await expect(page.getByText('We could not confirm delivery.', { exact: false })).toBeVisible();
+    await expect(page.getByText('Our system is temporarily unavailable. Please retry in a moment.')).toBeVisible();
+    await expect(page.locator('form.inquiryForm')).toHaveAttribute('data-state', 'error');
+    await expect(page.getByText('Something went wrong — please try again')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Email info@rootrcm.com' })).toHaveAttribute('href', /Synthetic%20QA%20Organization/);
-    await page.getByRole('button', { name: 'Edit inquiry' }).click();
     await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Synthetic Website QA');
+    await expect(page.getByRole('button', { name: 'Start the Conversation' })).toBeEnabled();
   });
 }

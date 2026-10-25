@@ -176,7 +176,9 @@ test.describe('first-party analytics follows the real cookie banner', () => {
     await page.getByLabel('How can we help?', { exact: true }).fill('Synthetic website analytics check. No patient data.');
     await page.getByLabel(/will not submit Protected Health Information/).check();
     await page.getByRole('button', { name: 'Start the Conversation' }).click();
-    await expect(page).toHaveURL(/\/thank-you\/\?delivery=form/);
+    await expect(page).toHaveURL(/contact\/$/);
+    await expect(page.getByText("We've received your inquiry.", { exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Send another inquiry' })).toHaveAttribute('href', '/contact/');
     await expect.poll(() => named(captured, 'form_submit').length, { timeout: 10_000 }).toBe(1);
     expect(named(captured, 'form_submit')[0].properties).toEqual({ form_id: 'contact-inquiry', status: 'success' });
     expect(JSON.stringify(captured.events)).not.toMatch(/Synthetic|example\.test|website-qa/);

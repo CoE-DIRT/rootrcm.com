@@ -51,6 +51,12 @@ export function rejected(code: number, message: string, kind: PublicErrorKind = 
 
 /** Inspect AppwriteException.code OR a Response-like status without leaking stack/body. */
 export function normalizeServiceError(cause: unknown): PublicError {
+  // Never echo SDK error messages to customers or production logs.
+  if (import.meta.env.DEV && typeof cause === 'object' && cause !== null &&
+      'name' in cause && cause.name === 'AppwriteException' &&
+      'message' in cause && typeof cause.message === 'string') {
+    console.error(cause.message);
+  }
   const code = typeof cause === 'object' && cause !== null
     ? ('code' in cause && typeof cause.code === 'number' ? cause.code
       : 'status' in cause && typeof cause.status === 'number' ? cause.status : 0)
