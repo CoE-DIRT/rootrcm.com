@@ -16,7 +16,7 @@ The existing `src/seo/routeRegistry.js` and `src/seo/head.js` are authoritative 
 - `og:type=article` only on published resource article URLs; `website` for home, hub and commercial routes.
 - `Organization` on Home with verified brand, contact and `sameAs` profile policy; `Service` on service routes and Pricing with provider `@id` referencing Organization; Contact adds an `Organization` with `contactPoint`. **No `LocalBusiness`** markup while the published mailing address lacks verified walk-in business status.
 - No invented dollar results, net collection percentage improvements, days-in-A/R reductions, names, quotes, client testimonials or fabricated case studies. Case-study methods label unpublished quantitative proof explicitly.
-- Resources are labeled open-access published articles: no invented downloadable or gated assets.
+- Resources are labeled open-access published articles: a real open-access TXT checklist at `/downloads/root-revenue-intelligence-checklist.txt` (no registration or PHI).
 - Existing no-PHI form, privacy, consent, metadata noindex rules and security boundaries stay intact.
 
 ## Acceptance gates
