@@ -1,3 +1,5 @@
+import { phase2Content } from '../../seo/phase2Content.js';
+import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { lazy, Suspense } from 'react';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
@@ -21,9 +23,9 @@ export function SolutionsHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Solutions' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Solutions for the revenue behind healthcare</h1>
+        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">{phase2Content['/solutions/'].h1}</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Explore the financial problems behind denials, underpayments, aging A/R, payer behavior, credentialing delays, fragmented reports, and growth. We bring intelligence and execution together.
+          {phase2Content['/solutions/'].lead}
         </p>
       </Section>
       <Section tone="soft">
@@ -38,6 +40,7 @@ export function SolutionsHubPage() {
           ))}
         </div>
       </Section>
+      <EditorialEvidence path="/solutions/" />
     </V4Shell>
   );
 }
@@ -100,8 +103,8 @@ export function ResourcesHubPage() {
     <V4Shell>
       <Section className="pt-10 md:pt-14">
         <Breadcrumb items={[{ label: 'Resources' }]} />
-        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">Operating knowledge for practice leadership.</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">Guides and checklists — not filler blog posts.</p>
+        <h1 className="mt-4 text-4xl font-semibold text-text sm:text-5xl">{phase2Content['/resources/'].h1}</h1>
+        <p className="mt-4 max-w-2xl text-lg text-muted">{phase2Content['/resources/'].lead}</p>
       </Section>
       <Section tone="soft">
         <MediaFrame
@@ -121,6 +124,7 @@ export function ResourcesHubPage() {
           ))}
         </div>
       </Section>
+      <EditorialEvidence path="/resources/" />
     </V4Shell>
   );
 }
@@ -188,10 +192,10 @@ export function CaseStudiesHubPage() {
         <Breadcrumb items={[{ label: 'How We Work' }]} />
         <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-accent">The ROOT method</p>
         <h1 className="mt-3 max-w-4xl text-balance text-4xl font-semibold text-text sm:text-5xl">
-          Turn revenue signals into clear operating priorities.
+          {phase2Content['/case-studies/'].h1}
         </h1>
         <p className="mt-5 max-w-3xl text-lg text-muted">
-          ROOT connects revenue-cycle performance, payer behavior, enrollment, and practice operations so leaders can see what needs attention, why it matters, and who owns the next step.
+          {phase2Content['/case-studies/'].lead}
         </p>
         <MediaFrame src={mediaAssets.dirtAnalytics} alt="Illustrative analytics workstation. Editorial stock photograph; not live PHI or client dashboards." caption="Editorial context — proof-of-concept visuals use synthetic data only" className="mt-10" aspect="wide" />
       </Section>
@@ -228,6 +232,7 @@ export function CaseStudiesHubPage() {
           <LinkButton href="/contact/" variant="outline">Talk to ROOT</LinkButton>
         </CTAGroup>
       </Section>
+      <EditorialEvidence path="/case-studies/" />
     </V4Shell>
   );
 }
