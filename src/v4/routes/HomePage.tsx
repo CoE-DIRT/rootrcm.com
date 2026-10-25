@@ -1,4 +1,6 @@
 import { ArrowRight } from 'lucide-react';
+import { phase2Content } from '../../seo/phase2Content.js';
+import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
@@ -59,8 +61,8 @@ function HomePageContent() {
     <>
       <HeroSection
         eyebrow="Healthcare Revenue Intelligence + Operating Infrastructure"
-        title="The intelligence behind healthcare revenue."
-        description="We help independent physician practices and specialty groups connect revenue cycle management, credentialing, practice operations, and data intelligence—so leaders can investigate revenue exposure and assign the next action."
+        title={phase2Content['/'].h1}
+        description={phase2Content['/'].lead}
         supportLine={personalization.ctaSupport}
         mockup={
           <HeroMockup badge="DIRT product preview">
@@ -252,6 +254,8 @@ function HomePageContent() {
           ))}
         </div>
       </Section>
+
+      <EditorialEvidence path="/" />
 
       <Section>
         <SectionHeader align="center" eyebrow="Trust" title="Financial intelligence needs dependable evidence." />
