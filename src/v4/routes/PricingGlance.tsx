@@ -1,18 +1,11 @@
-import { Section, SectionHeader } from '@/components/ui/Section';
 import { pricingModels } from '../../siteData.js';
 
- type PricingModel = (typeof pricingModels)[number];
+type PricingModel = (typeof pricingModels)[number];
 
 /** Variant of the pricing A/B test: the same published models in one comparison table. No new claims or numbers. */
 export default function PricingGlance() {
   return (
-    <Section tone="soft">
-      <SectionHeader
-        eyebrow="At a glance"
-        title="Compare engagement models"
-        description="Every published ROOT engagement in one place. Project and operating-partner scope is defined in writing."
-      />
-      <div className="mt-6 min-h-[30rem] overflow-x-auto rounded-[var(--radius-root)] border border-border">
+    <div className="h-full min-h-[30rem] overflow-x-auto rounded-[var(--radius-root)] border border-border">
         <table className="w-full min-w-[40rem] border-collapse text-left text-sm" data-testid="pricing-glance">
           <caption className="sr-only">ROOT engagement models and their published pricing</caption>
           <thead>
@@ -40,8 +33,7 @@ export default function PricingGlance() {
             ))}
           </tbody>
         </table>
-      </div>
-    </Section>
+    </div>
   );
 }
 
