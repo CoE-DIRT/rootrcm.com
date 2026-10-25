@@ -46,6 +46,18 @@ describe('Phase 3.2 finite inquiry state machine', () => {
     expect(run(state, { type: 'FAILURE', message: 'late failure' })).toEqual(state);
     expect(run(state, { type: 'RESET' }).phase).toBe('idle');
   });
+  it('keeps error banner, email fallback and toast intact when unchanged inputs blur', () => {
+    let state = { ...createInquiryState(), fields: synthetic };
+    state = run(state, { type: 'SUBMIT' });
+    state = run(state, { type: 'FAILURE', message: 'Safe retry message' });
+    state = run(state, { type: 'BLUR', field: 'email', variant: 'diagnostic' });
+    expect(state.phase).toBe('error');
+    expect(state.message).toBe('Safe retry message');
+    expect(state.toast).toEqual({ kind: 'error', message: 'Something went wrong — please try again' });
+    state = run(state, { type: 'EDIT', field: 'email', value: 'different@example.test', variant: 'diagnostic' });
+    expect(state.phase).toBe('validating');
+  });
+
   it('maps all failed requests to safe error state and allows editing without losing input', () => {
     let state = { ...createInquiryState(), fields: synthetic };
     state = run(state, { type: 'SUBMIT' });
