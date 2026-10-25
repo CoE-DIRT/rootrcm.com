@@ -1,22 +1,11 @@
-import { useMemo, useState } from 'react';
-import { ArrowRight, Copy, Mail, ShieldCheck } from 'lucide-react';
+import { useId, useMemo, useReducer, useState } from 'react';
+import { ArrowRight, CircleAlert, CircleCheck, Copy, LoaderCircle, Mail, ShieldCheck, X } from 'lucide-react';
 import { getExperimentContext } from '../v4/experiments/engine.ts';
 import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
 import { submitDiagnosticLead, submitCommercialInquiry } from '../v4/lib/appwrite/mutations.ts';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 import InquiryVerification from './InquiryVerification.jsx';
-
-const initialState = {
-  name: '',
-  email: '',
-  organization: '',
-  providers: '',
-  system: '',
-  challenge: '',
-  focus: '',
-  noPhi: false,
-  _honey: '',
-};
+import { createInquiryState, inquiryReducer, validateFields, mapLeadError } from './inquiryStateMachine.js';
 
 function getAttribution() {
   if (typeof window === 'undefined') return {};
@@ -38,7 +27,15 @@ function getAttribution() {
 
 export default function InquiryForm({ variant = 'contact', formId = '' }) {
   const analyticsFormId = formId || (variant === 'diagnostic' ? 'diagnostic-inquiry' : 'contact-inquiry');
-  const [form, setForm] = useState(initialState);
+  const [machine, dispatch] = useReducer(inquiryReducer, undefined, createInquiryState);
+  const form = machine.fields;
+  const status = machine.phase;
+  const errorPrefix = useId().replace(/:/g, '');
+  const errorId = (name) => `${errorPrefix}-${name}-error`;
+  const showError = (name) => machine.touched[name] ? machine.errors[name] : '';
+  const invalidProps = (name) => ({ 'aria-invalid': Boolean(showError(name)), 'aria-describedby': showError(name) ? errorId(name) : undefined });
+  const fieldMessage = (name) => showError(name) ? <small id={errorId(name)} className="fieldError">{showError(name)}</small> : null;
+  const busy = status === 'submitting';
   const [attribution] = useState(getAttribution);
   const [status, setStatus] = useState('idle');
   const [copied, setCopied] = useState(false);
@@ -56,20 +53,26 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
   }), [form, attribution, variant, configuredEndpoint]);
   const mailto = useMemo(() => buildInquiryMailto(payload), [payload]);
   const summary = useMemo(() => buildInquirySummary(payload), [payload]);
-  const canSubmit = form.name && form.email && form.organization && form.noPhi && (!ownedDelivery || (configuredEndpoint && verificationKey && verificationToken)) && (variant === 'contact' ? form.focus : form.providers && form.challenge);
-
   const update = (field) => (event) => {
     const value = field === 'noPhi' ? event.target.checked : event.target.value;
-    setForm((current) => ({ ...current, [field]: value }));
+    dispatch({ type: 'EDIT', field, value, variant });
   };
+  const blur = (field) => () => dispatch({ type: 'BLUR', field, variant });
 
   const submit = async (event) => {
     event.preventDefault();
-    if (!canSubmit || form._honey || status === 'sending') return;
+    if (busy || status === 'success' || form._honey) return;
+    const errors = validateFields(form, variant);
+    if (ownedDelivery && (!configuredEndpoint || !verificationKey || !verificationToken)) {
+      errors.verification = 'Complete verification before submitting.';
+    }
+    if (Object.keys(errors).length) {
+      dispatch({ type: 'INVALID', errors, variant });
+      return; // VALIDATING never makes a network request.
+    }
     // React clears currentTarget after the synchronous event handler returns.
     const formElement = event.currentTarget;
-
-    setStatus('sending');
+    dispatch({ type: 'SUBMIT' });
     try {
       // Read at submit time: by now every A/B surface on the page has resolved, so the context is complete.
       const experiment = getExperimentContext();
@@ -97,13 +100,20 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       const result = variant === 'diagnostic'
         ? await submitDiagnosticLead({ ...identity, providers: form.providers, challenge: form.challenge }, options)
         : await submitCommercialInquiry(identity, options);
-      if (!result.ok) throw new Error(result.error.message);
+      if (!result.ok) {
+        setVerificationToken('');
+        formElement.dispatchEvent(new CustomEvent('root:form-failure'));
+        dispatch({ type: 'FAILURE', message: mapLeadError(result.error) });
+        return;
+      }
       formElement.dispatchEvent(new CustomEvent('root:form-success'));
-      window.location.assign('/thank-you/?delivery=form');
-    } catch {
+      dispatch({ type: 'SUCCESS' });
+    } catch (error) {
+      // Service exceptions are mapped, never shown verbatim to the visitor.
+      if (import.meta.env.DEV && error?.name === 'AppwriteException') console.error(error.message);
       formElement.dispatchEvent(new CustomEvent('root:form-failure'));
       setVerificationToken('');
-      setStatus('fallback');
+      dispatch({ type: 'FAILURE', message: mapLeadError({ code: error?.code ?? 0 }) });
     }
   };
 
@@ -113,42 +123,57 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
     setCopied(true);
   };
 
-  if (status === 'fallback') {
+  const toast = machine.toast ? (
+    <div className="inquiryToast glass-strong" role={machine.toast.kind === 'error' ? 'alert' : 'status'} aria-live={machine.toast.kind === 'error' ? 'assertive' : 'polite'}>
+      {machine.toast.kind === 'success' ? <CircleCheck aria-hidden="true" size={20} /> : <CircleAlert aria-hidden="true" size={20} />}
+      <span>{machine.toast.message}</span>
+      <button type="button" className="inquiryToastClose" aria-label="Dismiss notification" onClick={() => dispatch({ type: 'DISMISS_TOAST' })}><X size={18} aria-hidden="true" /></button>
+    </div>
+  ) : null;
+
+  if (status === 'success') {
     return (
-      <div className="glassCard formFallback" role="status">
-        <ShieldCheck size={28} />
-        <h3>Your deidentified inquiry is ready.</h3>
-        <p>We could not confirm delivery. Your inquiry is still available here. Continue by email or copy the summary.</p>
-        <div className="formActions">
-          <a className="button primary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto:info@rootrcm.com" data-engagement-type={variant}><Mail size={16} /> Email info@rootrcm.com</a>
-          <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
-        </div>
-        <button className="textButton" type="button" onClick={() => setStatus('idle')}>Edit inquiry</button>
+      <div className="glassCard glass-success inquiryResult" data-state="success" role="status">
+        <CircleCheck size={30} aria-hidden="true" />
+        <h3>We've received your {variant === 'diagnostic' ? 'Diagnostic inquiry' : 'inquiry'}.</h3>
+        <p>Thank you. Our team will review your deidentified details and follow up through the contact information supplied. This is not a confirmed appointment or payment.</p>
+        <a className="button primary" href={variant === 'diagnostic' ? '/diagnostic/#diagnostic-form' : '/contact/'}>{variant === 'diagnostic' ? 'Book another diagnostic' : 'Send another inquiry'} <ArrowRight size={16} aria-hidden="true" /></a>
+        {toast}
       </div>
     );
   }
 
   return (
-    <form className="glassCard inquiryForm" onSubmit={submit} data-form-id={analyticsFormId}>
+    <form className="glassCard inquiryForm" onSubmit={submit} noValidate aria-busy={busy} data-state={status} data-form-id={analyticsFormId}>
+      {status === 'error' && (
+        <div className="inquiryErrorBanner glass-danger" role="alert">
+          <CircleAlert size={20} aria-hidden="true" />
+          <span>{machine.message}</span>
+        </div>
+      )}
+      {toast}
       <div className="formHoney" aria-hidden="true">
         <label>
           Website
-          <input tabIndex="-1" autoComplete="off" value={form._honey} onChange={update('_honey')} />
+          <input tabIndex="-1" autoComplete="off" readOnly={busy} value={form._honey} onChange={update('_honey')} />
         </label>
       </div>
       <div className="fieldRow">
         <label>
           Name
-          <input required value={form.name} onChange={update('name')} autoComplete="name" />
+          <input required readOnly={busy} value={form.name} onChange={update('name')} onBlur={blur('name')} autoComplete="name" {...invalidProps('name')} />
+          {fieldMessage('name')}
         </label>
         <label>
           Work email
-          <input required type="email" value={form.email} onChange={update('email')} autoComplete="email" />
+          <input required readOnly={busy} type="email" value={form.email} onChange={update('email')} onBlur={blur('email')} autoComplete="email" {...invalidProps('email')} />
+          {fieldMessage('email')}
         </label>
       </div>
       <label>
         Practice / organization
-        <input required value={form.organization} onChange={update('organization')} autoComplete="organization" />
+        <input required readOnly={busy} value={form.organization} onChange={update('organization')} onBlur={blur('organization')} autoComplete="organization" {...invalidProps('organization')} />
+        {fieldMessage('organization')}
       </label>
 
       {variant === 'diagnostic' ? (
@@ -156,19 +181,21 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
           <div className="fieldRow">
             <label>
               Number of providers
-              <select required value={form.providers} onChange={update('providers')}>
+              <select required disabled={busy} value={form.providers} onChange={update('providers')} onBlur={blur('providers')} {...invalidProps('providers')}>
                 <option value="">Select</option>
                 <option>1-5</option><option>6-10</option><option>11-20</option><option>21+</option>
               </select>
+              {fieldMessage('providers')}
             </label>
             <label>
               Primary EHR / PM system <span className="optional">Optional</span>
-              <input value={form.system} onChange={update('system')} />
+              <input readOnly={busy} value={form.system} onChange={update('system')} onBlur={blur('system')} {...invalidProps('system')} />
+              {fieldMessage('system')}
             </label>
           </div>
           <label>
             Biggest current challenge
-            <select required value={form.challenge} onChange={update('challenge')}>
+            <select required disabled={busy} value={form.challenge} onChange={update('challenge')} onBlur={blur('challenge')} {...invalidProps('challenge')}>
               <option value="">Select</option>
               <option>High / aging A/R</option>
               <option>Denials and rejections</option>
@@ -177,25 +204,35 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
               <option>Credentialing / enrollment</option>
               <option>Other</option>
             </select>
+            {fieldMessage('challenge')}
           </label>
         </>
       ) : (
         <label>
           How can we help?
-          <textarea required rows="5" value={form.focus} onChange={update('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" />
+          <textarea required readOnly={busy} rows="5" value={form.focus} onChange={update('focus')} onBlur={blur('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" {...invalidProps('focus')} />
+          {fieldMessage('focus')}
         </label>
       )}
 
       <label className="phiCheck">
-        <input required type="checkbox" checked={form.noPhi} onChange={update('noPhi')} />
+        <input required disabled={busy} type="checkbox" checked={form.noPhi} onChange={update('noPhi')} onBlur={blur('noPhi')} {...invalidProps('noPhi')} />
         <span>I understand this is a commercial inquiry. I have not included and will not submit Protected Health Information (PHI) through this form.</span>
+        {fieldMessage('noPhi')}
       </label>
 
       {ownedDelivery && <InquiryVerification siteKey={verificationKey} onToken={setVerificationToken} />}
+      {machine.errors.verification && <small className="fieldError" role="alert">{machine.errors.verification}</small>}
 
-      <button className="button primary full" type="submit" disabled={!canSubmit || status === 'sending'} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination="info@rootrcm.com" data-engagement-type={variant}>
-        {status === 'sending' ? 'Sending…' : variant === 'diagnostic' ? 'Request Diagnostic' : 'Start the Conversation'} <ArrowRight size={17} />
+      <button className="button primary full" type="submit" disabled={busy} data-cta={variant === 'diagnostic' ? 'request-diagnostic' : 'start-conversation'} data-location={`${variant}-form`} data-destination="info@rootrcm.com" data-engagement-type={variant}>
+        {busy ? <><LoaderCircle className="inquirySpinner" size={18} aria-hidden="true" /> Sending…</> : <>{variant === 'diagnostic' ? 'Request Diagnostic' : 'Start the Conversation'} <ArrowRight size={17} /></>}
       </button>
+      {status === 'error' && (
+        <div className="formActions">
+          <a className="button secondary" href={mailto} data-cta="open-email" data-location={`${variant}-form-fallback`} data-destination="mailto:info@rootrcm.com" data-engagement-type={variant}><Mail size={16} /> Email info@rootrcm.com</a>
+          <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
+        </div>
+      )}
       <small className="formNote">Commercial inquiry only. Submission is relayed to info@rootrcm.com. Do not include PHI; sensitive data moves only through an approved secure channel after required agreements and controls are in place.</small>
     </form>
   );
