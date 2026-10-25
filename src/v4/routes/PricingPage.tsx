@@ -7,7 +7,6 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { pricingModels, mediaAssets } from '../../siteData.js';
-import { formatUsd, DIAGNOSTIC_PRICE_USD } from '@/growth/locale';
 import { CheckoutButton } from '@/components/CheckoutButton';
 import { useExperiment } from '@/experiments/useExperiment';
 
