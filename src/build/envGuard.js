@@ -25,6 +25,27 @@ export function assertSafePublicEnv(env = {}) {
     }
   }
 
+  // Public Appwrite identifiers are an optional pair on this static Vite site.
+  // Do not require them for the current server-side commercial relay.
+  const appwriteEndpoint = String(env.VITE_APPWRITE_ENDPOINT || '').trim();
+  const appwriteProject = String(env.VITE_APPWRITE_PROJECT_ID || '').trim();
+  if (Boolean(appwriteEndpoint) !== Boolean(appwriteProject)) {
+    problems.push('VITE_APPWRITE_ENDPOINT and VITE_APPWRITE_PROJECT_ID must both be configured, or both left empty.');
+  }
+  if (appwriteEndpoint) {
+    try {
+      const endpointUrl = new URL(appwriteEndpoint);
+      if (endpointUrl.protocol !== 'https:' || endpointUrl.username || endpointUrl.password || endpointUrl.search || endpointUrl.hash) {
+        problems.push('VITE_APPWRITE_ENDPOINT must be a plain https:// URL without credentials or query strings.');
+      }
+    } catch {
+      problems.push('VITE_APPWRITE_ENDPOINT must be a valid https:// URL.');
+    }
+  }
+  if (appwriteProject && !/^[A-Za-z0-9._-]{3,128}$/.test(appwriteProject)) {
+    problems.push('VITE_APPWRITE_PROJECT_ID is not a valid public project identifier.');
+  }
+
   const ga = String(env.VITE_GA_MEASUREMENT_ID || '').trim();
   if (ga && !GA4_ID.test(ga)) problems.push('VITE_GA_MEASUREMENT_ID must look like G-XXXXXXXXXX or be empty.');
 
