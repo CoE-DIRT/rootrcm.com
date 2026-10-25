@@ -21,7 +21,7 @@ export function MediaFrame({
   priority = false,
   aspect = 'video',
 }: MediaFrameProps) {
-  const [loaded, setLoaded] = useState({ src: '', state: 'loading' });
+  const [loaded, setLoaded] = useState<{ src: string; state: 'loading' | 'ready' | 'error' }>({ src: '', state: 'loading' });
   const state = loaded.src === src ? loaded.state : 'loading';
   return (
     <figure className={cn('overflow-hidden rounded-[var(--radius-root)] border border-border bg-panel', className)}>
