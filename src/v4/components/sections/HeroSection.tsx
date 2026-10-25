@@ -5,6 +5,7 @@ import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { NoPhiBanner } from '@/components/ui/NoPhiBanner';
+import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { useExperiment } from '@/experiments/useExperiment';
 
 export interface HeroSectionProps {
@@ -27,7 +28,9 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero relative">
       <div className="hero-photo-backdrop" data-hero-image-placeholder aria-hidden="true">
-        <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} fetchPriority="high" decoding="async" />
+        <GlassPlaceholder aspect="video" className="h-full">
+          <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} loading="eager" fetchPriority="high" decoding="async" />
+        </GlassPlaceholder>
       </div>
       <div
         aria-hidden="true"
