@@ -21,6 +21,7 @@ try {
         if (await reject.isVisible()) await reject.click();
         await page.evaluate(() => document.fonts.ready);
         const frames = page.locator('figure').filter({ has: page.locator('[data-glass-placeholder]') });
+        if (await frames.count() === 0) throw new Error(`No image frames rendered: ${revision} ${route}`);
         for (let index = 0; index < await frames.count(); index++) {
           const frame = frames.nth(index);
           await frame.scrollIntoViewIfNeeded();
