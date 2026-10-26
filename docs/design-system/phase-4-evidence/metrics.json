@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 375,
+    "revision": "before",
+    "height": 197.8125,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 375,
+    "revision": "before",
+    "height": 162.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 375,
+    "revision": "before",
+    "height": 213.8125,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 375,
+    "revision": "before",
+    "height": 162.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 375,
+    "revision": "before",
+    "height": 146.84375,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 375,
+    "revision": "before",
+    "height": 197.8125,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 375,
+    "revision": "before",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 375,
+    "revision": "after",
+    "height": 113.84375,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 375,
+    "revision": "after",
+    "height": 181.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 375,
+    "revision": "after",
+    "height": 181.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 375,
+    "revision": "after",
+    "height": 181.8125,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 375,
+    "revision": "after",
+    "height": 148.8125,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 768,
+    "revision": "before",
+    "height": 308.421875,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 768,
+    "revision": "before",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 768,
+    "revision": "after",
+    "height": 275.421875,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 768,
+    "revision": "after",
+    "height": 393.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 768,
+    "revision": "after",
+    "height": 393.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 768,
+    "revision": "after",
+    "height": 393.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 768,
+    "revision": "after",
+    "height": 360.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 1366,
+    "revision": "before",
+    "height": 285.875,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 1366,
+    "revision": "before",
+    "height": 227.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 1366,
+    "revision": "before",
+    "height": 301.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 1366,
+    "revision": "before",
+    "height": 466.140625,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 1366,
+    "revision": "before",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "home-0",
+    "route": "/",
+    "width": 1366,
+    "revision": "after",
+    "height": 252.875,
+    "image": "/media/images/practice-team-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "home-1",
+    "route": "/",
+    "width": 1366,
+    "revision": "after",
+    "height": 194.84375,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "contact-0",
+    "route": "/contact/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/practice-consultation-context.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "about-0",
+    "route": "/about/",
+    "width": 1366,
+    "revision": "after",
+    "height": 252.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "resources-0",
+    "route": "/resources/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "case-studies-0",
+    "route": "/case-studies/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "diagnostic-0",
+    "route": "/diagnostic/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/claims-ar-administration.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "platform-0",
+    "route": "/platform/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/operations-planning-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "pricing-0",
+    "route": "/pricing/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/management-consulting-workshop.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-0",
+    "route": "/services/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-0",
+    "route": "/technology/",
+    "width": 1366,
+    "revision": "after",
+    "height": 433.140625,
+    "image": "/media/images/healthcare-it-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "technology-dirt-0",
+    "route": "/technology/dirt/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/dirt-analytics-illustrative.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-revenue-leakage-0",
+    "route": "/solutions/revenue-leakage/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-aging-ar-0",
+    "route": "/solutions/aging-ar/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-denials-0",
+    "route": "/solutions/denials/",
+    "width": 1366,
+    "revision": "after",
+    "height": 600.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-credentialing-bottlenecks-0",
+    "route": "/solutions/credentialing-bottlenecks/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-operational-efficiency-0",
+    "route": "/solutions/operational-efficiency/",
+    "width": 1366,
+    "revision": "after",
+    "height": 600.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "solutions-reporting-visibility-0",
+    "route": "/solutions/reporting-visibility/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-admin-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "solutions-scaling-practice-ops-0",
+    "route": "/solutions/scaling-practice-ops/",
+    "width": 1366,
+    "revision": "after",
+    "height": 600.875,
+    "image": "/media/images/healthcare-operations-collaboration.jpg",
+    "caption": 1,
+    "overflow": false
+  },
+  {
+    "id": "services-ar-recovery-0",
+    "route": "/services/ar-recovery/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-patient-balances-0",
+    "route": "/services/patient-balances/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-credentialing-0",
+    "route": "/services/credentialing/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-payment-posting-0",
+    "route": "/services/payment-posting/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  },
+  {
+    "id": "services-reporting-analytics-0",
+    "route": "/services/reporting-analytics/",
+    "width": 1366,
+    "revision": "after",
+    "height": 567.875,
+    "image": "/media/images/practice-operations-workstation.jpg",
+    "caption": 0,
+    "overflow": false
+  }
+]
