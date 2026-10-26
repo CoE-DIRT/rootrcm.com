@@ -6,7 +6,7 @@ Status: implementation candidate in PR #60; launch blocked by missing owned-rela
 - Shared plain-text schema validates and trims the complete owned transport before fetch and again inside the Function. Names 200, email 254/local-part 64, organization 240, need 120, message 5000, metadata 200, verification token 2048 characters. Reject HTML delimiters, control characters, malformed DNS labels, edge/consecutive local-part dots and oversized fields. Unknown owned fields are discarded.
 - Form maxlength constraints and the existing no-PHI acknowledgement remain. No marketing checkbox is present; acknowledgement starts false.
 - Requested data-use sentence appears at both Contact and Diagnostic forms.
-- Email limits use atomic unique row creation (three requests per fixed 15-minute window). HMAC input is normalized email plus time window, with a purpose prefix. Only opaque IDs and Appwrite timestamps are stored. No email, IP or form content is stored in this table. Storage errors fail closed. Turnstile runs before consuming a slot. A failed delivery consumes a slot to bound retries.
+- Email limits use atomic unique row creation (three requests per fixed 15-minute window). HMAC input is normalized email plus time window, with a purpose prefix. Only opaque IDs, a slot number (0–2), and Appwrite timestamps are stored. No email, IP or form content is stored in this table. Storage errors fail closed. Turnstile runs before consuming a slot. A failed delivery consumes a slot to bound retries.
 - Generic 409/429 responses do not disclose booking/account existence.
 - Existing .env* ignore and VITE_ secret-name build guard retained. React/Vite exposes VITE_ rather than NEXT_PUBLIC_; no framework rewrite. The runtime Appwrite key is injected from the platform header and stays server-side.
 - Appwrite WAF rule root-contact-ip enabled: functions/root-contact, per IP, 20 requests/900 seconds, slidingWindow.
@@ -39,3 +39,8 @@ The inspected site variables contain only VITE_EXPERIMENTS_ENABLED and VITE_TRAC
 CI runs lint, strict TypeScript, unit tests, production build, browser QA and Lighthouse. Added tests cover malformed inputs before vendor calls, normalized transport, no enumeration, concurrent atomic counters, storage outage and expiry cleanup.
 Local execution was unavailable because the workspace is offline; checks run in GitHub Actions.
 Rollback: restore the prior site/Function deployment and prior site variables. Keep the WAF rule and private tables; they do not expose data. Do not delete rate-counter data while the new limiter is live.
+
+## Live counter schema verification — 27 October 2026 (Pakistan time)
+Appwrite rejected empty row data with row_missing_data. Added the required integer slot column, bounded to 0–2, and updated the rate limiter to persist that non-personal value. A synthetic row was successfully created with no permissions; repeating its ID returned HTTP 409; the test row was then deleted. This verifies the real storage contract and collision behavior through the administrative API, not the as-yet-unconfigured production Function.
+
+The prior candidate passed 684 unit tests, lint, typecheck, build, browser smoke and the Lighthouse CLS gate (CI run 40340963969). The schema correction is checked in a fresh CI run before PR handoff. Activation remains blocked on the configuration listed above.

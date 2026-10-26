@@ -7,7 +7,10 @@ describe('distributed inquiry rate limits',()=>{
     const ids = new Set();
     const fetch = vi.fn(async(url,options)=>{
       const {rowId,data,permissions} = JSON.parse(options.body);
-      expect(data).toEqual({}); expect(permissions).toEqual([]);
+      expect(Object.keys(data)).toEqual(['slot']);
+      expect([0, 1, 2]).toContain(data.slot);
+      expect(rowId.endsWith('-' + data.slot)).toBe(true);
+      expect(permissions).toEqual([]);
       expect(rowId).not.toContain('example');
       if(ids.has(rowId)) return new Response(null,{status:409});
       ids.add(rowId); return new Response(null,{status:201});

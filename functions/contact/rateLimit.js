@@ -19,7 +19,7 @@ export async function consumeEmailSlot(email, env, now = Date.now(), request = f
   // Unique row creation is atomic across instances; no read/increment race.
   for (let slot = 0; slot < 3; slot++) {
     const response = await request(url, { method: 'POST', headers, redirect: 'error',
-      signal: AbortSignal.timeout(4000), body: JSON.stringify({ rowId: id + '-' + slot, data: {}, permissions: [] }) });
+      signal: AbortSignal.timeout(4000), body: JSON.stringify({ rowId: id + '-' + slot, data: { slot }, permissions: [] }) });
     if (response.ok) return true;
     if (response.status !== 409) throw new Error('Rate service unavailable');
   }
