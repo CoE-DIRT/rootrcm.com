@@ -1,9 +1,9 @@
+import { isPlainText, isValidEmail } from '../../functions/contact/validation.js';
 /**
  * Phase 3.2 explicit finite-state reducer. Network side-effects stay in the
  * form controller; each transition is deterministic and individually testable.
  */
 export const PHASES = Object.freeze(['idle', 'validating', 'submitting', 'success', 'error']);
-const emailPattern = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
 const providers = new Set(['1-5','6-10','11-20','21+']);
 const challenges = new Set(['High / aging A/R','Denials and rejections','Staffing / workflow','Reporting / visibility','Credentialing / enrollment','Other']);
 export const initialFields = {
@@ -13,9 +13,10 @@ export const initialFields = {
 
 export function fieldError(field, value, variant = 'contact') {
   const string = typeof value === 'string' ? value.trim() : '';
+  if (typeof value === 'string' && !isPlainText(value, 5000, 0, field === 'focus')) return 'Use plain text without HTML or control characters.';
   switch (field) {
     case 'name': return !string || string.length > 200 ? 'Enter your name (up to 200 characters).' : '';
-    case 'email': return !emailPattern.test(string) || string.length > 254 ? 'Enter a valid work email address.' : '';
+    case 'email': return !isValidEmail(string) || string.length > 254 ? 'Enter a valid work email address.' : '';
     case 'organization': return string.length < 2 || string.length > 240 ? 'Enter a practice name between 2 and 240 characters.' : '';
     case 'providers': return variant === 'diagnostic' && !providers.has(value) ? 'Select the number of providers.' : '';
     case 'challenge': return variant === 'diagnostic' && !challenges.has(value) ? 'Select your primary challenge.' : '';
@@ -89,7 +90,7 @@ export function inquiryReducer(state, action) {
 export function mapLeadError(error) {
   switch (error?.code) {
     case 401: return 'Your session expired. Refresh and try again.';
-    case 409: return 'A booking already exists for this email.';
+    case 409: return 'We could not process this request. Please try again shortly.';
     case 429: return 'Too many requests. Please try again shortly.';
     default:
       return error?.code >= 500

@@ -1,3 +1,4 @@
+import { isPlainText, isValidEmail, parseContactPayload } from '../../../../functions/contact/validation.js';
 /**
  * A single, validated mutation boundary for ROOT's deidentified inquiries.
  * No browser Databases.createDocument; ADR-008 limits public delivery to the
@@ -32,12 +33,13 @@ export function validateLead(identity: LeadIdentity, extra?: Pick<DiagnosticLead
     return rejected(400, 'Enter a name of no more than 200 characters.');
   }
   if (typeof identity.email !== 'string' || identity.email.length > 254
-      || !/^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(identity.email.trim())) {
+      || !isValidEmail(identity.email)) {
     return rejected(400, 'Enter a valid work email address.');
   }
   if (typeof identity.organization !== 'string' || identity.organization.trim().length < 2 || identity.organization.length > 240) {
     return rejected(400, 'Enter a practice or organization name between 2 and 240 characters.');
   }
+  if (!isPlainText(identity.name, 200, 1) || !isPlainText(identity.organization, 240, 2)) return rejected(400, 'Use plain text without HTML.');
   if (identity.noPhi !== true) return rejected(400, 'Acknowledge that this public form contains no PHI.');
   if (extra && (!['1-5', '6-10', '11-20', '21+'].includes(extra.providers) ||
     !['High / aging A/R','Denials and rejections','Staffing / workflow','Reporting / visibility',
@@ -55,7 +57,7 @@ async function sendValidated(identity: LeadIdentity, options: SubmissionOptions,
   if (endpoint.protocol !== 'https:' || endpoint.username || endpoint.password) {
     return rejected(503, 'A secure inquiry endpoint is required.', 'unavailable');
   }
-  const payload = options.deliveryPayload;
+  let payload = options.deliveryPayload;
   // Do not accept substituted identity values in the relay body.
   if (payload.name !== identity.name || payload.email !== identity.email ||
       payload.organization !== identity.organization ||
@@ -63,11 +65,21 @@ async function sendValidated(identity: LeadIdentity, options: SubmissionOptions,
     return rejected(400, 'Please review the submitted identity and privacy acknowledgment.');
   }
   try {
+    if (options.ownedDelivery) payload = parseContactPayload(payload);
+    else {
+      for (const value of Object.values(payload)) {
+        if (typeof value === 'string' && !isPlainText(value, 5000, 0, true)) return rejected(400, 'Use bounded plain text without HTML.');
+      }
+      payload = Object.fromEntries(Object.entries(payload).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value]));
+    }
+  } catch { return rejected(400, 'Please review the inquiry fields.'); }
+  try {
     const response = await fetch(endpoint.href, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(25000),
+      // Allow verification (8s), rate-store retries (12s), and relay delivery (15s).
+      signal: AbortSignal.timeout(40000),
     });
     if (!response.ok) return { ok: false, error: normalizeServiceError({ code: response.status }) };
     const result: unknown = await response.json();
