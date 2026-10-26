@@ -77,7 +77,7 @@ it('submitting locks fields, shows inline spinner, and only succeeds on acknowle
   expect(container.querySelector('form')).toBeNull();
 });
 
-it('maps 409 to duplicate-booking copy with retryable error banner and toast', async () => {
+it('maps 409 to non-enumerating copy with retryable error banner and toast', async () => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 409 }));
   const { container } = render(<InquiryForm variant="diagnostic" />);
   for (const [label, value] of [
@@ -86,8 +86,14 @@ it('maps 409 to duplicate-booking copy with retryable error banner and toast', a
   ]) fireEvent.change(screen.getByLabelText(label, { exact: true }), { target: { value } });
   fireEvent.click(screen.getByLabelText(/will not submit Protected Health Information/));
   fireEvent.click(screen.getByRole('button', { name: /Request Diagnostic/ }));
-  await waitFor(() => expect(screen.getByText('A booking already exists for this email.')).toBeTruthy());
+  await waitFor(() => expect(screen.getByText('We could not process this request. Please try again shortly.')).toBeTruthy());
   expect(container.querySelector('form').getAttribute('data-state')).toBe('error');
   expect(screen.getByRole('button', { name: /Request Diagnostic/ }).disabled).toBe(false);
   expect(screen.getByText('Something went wrong — please try again')).toBeTruthy();
+});
+
+it('shows data use and leaves acknowledgement unchecked', () => {
+  render(<InquiryForm />);
+  expect(screen.getByText('We use the information you provide to prepare your diagnostic and respond to your inquiry. We do not sell or share it.')).toBeTruthy();
+  expect(screen.getByLabelText(/will not submit Protected Health Information/).checked).toBe(false);
 });
