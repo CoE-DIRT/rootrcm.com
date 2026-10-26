@@ -78,7 +78,8 @@ async function sendValidated(identity: LeadIdentity, options: SubmissionOptions,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(25000),
+      // Allow verification (8s), rate-store retries (12s), and relay delivery (15s).
+      signal: AbortSignal.timeout(40000),
     });
     if (!response.ok) return { ok: false, error: normalizeServiceError({ code: response.status }) };
     const result: unknown = await response.json();
