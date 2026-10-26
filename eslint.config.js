@@ -3,9 +3,16 @@ import globals from 'globals';
 import hooks from 'eslint-plugin-react-hooks';
 import refresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import noDefensiveDisclaimers from './scripts/eslint/no-defensive-disclaimers.mjs';
 
 export default [
   { ignores: ['dist', 'dist-staging', 'test-results', 'playwright-report', '.codex-qa'] },
+  {
+    files: ['src/**/*.{js,jsx,ts,tsx}', '{app,components,content,lib}/**/*.{js,jsx,ts,tsx}'],
+    ignores: ['**/*.test.*', '**/*.spec.*'],
+    plugins: { root: { rules: { 'no-defensive-disclaimers': noDefensiveDisclaimers } } },
+    rules: { 'root/no-defensive-disclaimers': 'error' },
+  },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
