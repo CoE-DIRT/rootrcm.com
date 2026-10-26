@@ -33,7 +33,7 @@ try {
           const docHeight = await page.evaluate(() => document.documentElement.scrollHeight);
           const scrollY = await page.evaluate(() => window.scrollY);
           const y = Math.max(0, box.y + scrollY - 80);
-          await page.screenshot({ path: `${output}/${id}-${width}-${revision}.png`, animations: 'disabled', clip: { x: 0, y, width, height: Math.min(box.height + 200, docHeight - y) } });
+          await page.screenshot({ path: `${output}/${id}-${width}-${revision}.png`, animations: 'disabled', fullPage: true, clip: { x: 0, y, width, height: Math.min(box.height + 200, docHeight - y) } });
           metrics.push({ id, route, width, revision, height: box.height, image: await frame.locator('img').getAttribute('src'), caption: await frame.locator('figcaption').count(), overflow: await page.evaluate(() => document.documentElement.scrollWidth > innerWidth) });
         }
       }
