@@ -1,3 +1,5 @@
+import { parseContactPayload } from './validation.js';
+import { consumeEmailSlot } from './rateLimit.js';
 // Adapted from ROOT temporary Sites contact worker for the Appwrite migration.
 const SITEVERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 const ALLOWED_ORIGINS = new Set(['https://rootrcm.com', 'https://www.rootrcm.com']);
@@ -22,9 +24,6 @@ const jsonResponse = (body, status, origin) => {
 
 const isNonEmptyString = (value, maxLength) =>
   typeof value === 'string' && value.trim().length > 0 && value.length <= maxLength;
-
-const isValidEmail = (value) =>
-  typeof value === 'string' && value.length <= 254 && /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(value);
 
 const failureMessage = "We couldn't send your inquiry just yet. Your information is still here — please try again.";
 const metadataValue = (value) => typeof value === 'string' ? value.trim().slice(0, 200) : '';
@@ -70,7 +69,7 @@ async function sendInquiry(payload, env, url) {
       result.requestId !== JSON.parse(body).requestId) throw new Error('Delivery unavailable');
 }
 
-export async function handleContact(request, env) {
+export async function handleContact(request, env, consume = consumeEmailSlot) {
   const url = new URL(request.url);
   const origin = request.headers.get('Origin') || '';
   const host = url.hostname.toLowerCase();
@@ -116,16 +115,8 @@ export async function handleContact(request, env) {
     return jsonResponse({ ok: false, message: 'Verification is required.' }, 400, origin);
   }
 
-  if (
-    !isNonEmptyString(payload?.name, 200) ||
-    !isValidEmail(payload?.email) ||
-    !isNonEmptyString(payload?.organization, 240) ||
-    !isNonEmptyString(payload?.need, 120) ||
-    !isNonEmptyString(payload?.message, 5000) ||
-    [...(payload.name + payload.organization + payload.need)].some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127) ||
-    payload?.no_phi_acknowledgement !== true
-  ) {
-    return jsonResponse({ ok: false, message: 'Please complete all required fields.' }, 400, origin);
+  try { payload = parseContactPayload(payload); } catch {
+    return jsonResponse({ ok: false, message: 'Please complete all required fields using plain text.' }, 400, origin);
   }
 
   const verifyBody = new URLSearchParams({
@@ -161,6 +152,11 @@ export async function handleContact(request, env) {
 
   // A valid challenge alone is never a successful inquiry.
   try {
+    if (!await consume(payload.email, env)) {
+      const limited = jsonResponse({ ok: false, message: 'Too many requests. Please try again shortly.' }, 429, origin);
+      limited.headers.set('retry-after', '900');
+      return limited;
+    }
     await sendInquiry(payload, env, url);
     return jsonResponse({ ok: true, delivered: true }, 200, origin);
   } catch {

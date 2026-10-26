@@ -1,8 +1,9 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createHmac } from 'node:crypto';
-import { handleContact } from './handler.js';
+import { handleContact as handleContactLive } from './handler.js';
 
+const handleContact = (request, env) => handleContactLive(request, env, async () => true);
 const env = { TURNSTILE_SECRET_KEY: 'synthetic-test-secret', CONTACT_RELAY_URL: 'https://relay.example.test/contact', CONTACT_RELAY_SECRET: 'synthetic-secret-only-for-tests-32-characters' };
 const payload = { name: 'Synthetic QA', email: 'qa@example.test', organization: 'Synthetic Organization', need: 'Commercial inquiry', message: 'Synthetic test, no patient data.', no_phi_acknowledgement: true, 'cf-turnstile-response': 'synthetic-token', inquiryType: 'contact', utm_source: 'linkedin', utm_medium: 'social', utm_campaign: 'launch', utm_content: 'hero', experiment: 'home-hero-revenue-intelligence-v2', experiment_variant: 'b' };
 function request(data = payload, origin = 'https://rootrcm.com') {
@@ -52,5 +53,29 @@ describe('owned contact delivery boundary', () => {
     const fetch = vi.fn().mockResolvedValueOnce(Response.json({ success: true, hostname: 'rootrcm.com', action: 'contact' })).mockResolvedValueOnce(Response.json({ ok: true, smtpAccepted: false }));
     vi.stubGlobal('fetch', fetch);
     expect((await handleContact(request(), env)).status).toBe(503);
+  });
+});
+
+describe('Phase 5 security boundary', () => {
+  it.each([
+    {name:'<b>Doctor</b>'}, {message:'<script>alert(1)</script>'},
+    {email:'two..dots@example.test'}, {email:'user@-bad.example'},
+    {organization:'x'.repeat(241)}, {utm_source:'<img src=x>'},
+  ])('rejects unsafe fields before a vendor call: %j', async change => {
+    const fetch = vi.fn(); vi.stubGlobal('fetch', fetch);
+    expect((await handleContact(request({...payload,...change}),env)).status).toBe(400);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+  it('returns a generic throttle response without delivering', async () => {
+    const fetch = vi.fn().mockResolvedValue(Response.json({success:true,hostname:'rootrcm.com',action:'contact'}));
+    vi.stubGlobal('fetch', fetch);
+    const result = await handleContactLive(request(),env,async()=>false);
+    expect(result.status).toBe(429);
+    expect(result.headers.get('retry-after')).toBe('900');
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+  it('fails closed if the durable rate store is unavailable', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json({success:true,hostname:'rootrcm.com',action:'contact'})));
+    expect((await handleContactLive(request(),env,async()=>{throw new Error('offline');})).status).toBe(503);
   });
 });

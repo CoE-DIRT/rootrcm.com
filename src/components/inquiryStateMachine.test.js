@@ -71,7 +71,7 @@ describe('Phase 3.2 finite inquiry state machine', () => {
   });
   it('never renders raw SDK messages and handles exact 401, 409, 5xx copy', () => {
     expect(mapLeadError({ code: 401 })).toBe('Your session expired. Refresh and try again.');
-    expect(mapLeadError({ code: 409 })).toBe('A booking already exists for this email.');
+    expect(mapLeadError({ code: 409 })).toBe('We could not process this request. Please try again shortly.');
     expect(mapLeadError({ code: 500 })).toBe('Our system is temporarily unavailable. Please retry in a moment.');
     expect(mapLeadError({ code: 503 })).toBe('Our system is temporarily unavailable. Please retry in a moment.');
     expect(mapLeadError({ code: 429 })).toMatch(/Too many requests/);

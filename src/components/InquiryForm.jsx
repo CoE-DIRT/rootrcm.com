@@ -163,18 +163,18 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       <div className="fieldRow">
         <label>
           Name
-          <input aria-label="Name" required readOnly={busy} value={form.name} onChange={update('name')} onBlur={blur('name')} autoComplete="name" {...invalidProps('name')} />
+          <input aria-label="Name" required readOnly={busy} maxLength={200} value={form.name} onChange={update('name')} onBlur={blur('name')} autoComplete="name" {...invalidProps('name')} />
           {fieldMessage('name')}
         </label>
         <label>
           Work email
-          <input aria-label="Work email" required readOnly={busy} type="email" value={form.email} onChange={update('email')} onBlur={blur('email')} autoComplete="email" {...invalidProps('email')} />
+          <input aria-label="Work email" required readOnly={busy} type="email" maxLength={254} value={form.email} onChange={update('email')} onBlur={blur('email')} autoComplete="email" {...invalidProps('email')} />
           {fieldMessage('email')}
         </label>
       </div>
       <label>
         Practice / organization
-        <input aria-label="Practice / organization" required readOnly={busy} value={form.organization} onChange={update('organization')} onBlur={blur('organization')} autoComplete="organization" {...invalidProps('organization')} />
+        <input aria-label="Practice / organization" required readOnly={busy} maxLength={240} value={form.organization} onChange={update('organization')} onBlur={blur('organization')} autoComplete="organization" {...invalidProps('organization')} />
         {fieldMessage('organization')}
       </label>
 
@@ -191,7 +191,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
             </label>
             <label>
               Primary EHR / PM system <span className="optional">Optional</span>
-              <input aria-label="Primary EHR / PM system" readOnly={busy} value={form.system} onChange={update('system')} onBlur={blur('system')} {...invalidProps('system')} />
+              <input aria-label="Primary EHR / PM system" readOnly={busy} maxLength={200} value={form.system} onChange={update('system')} onBlur={blur('system')} {...invalidProps('system')} />
               {fieldMessage('system')}
             </label>
           </div>
@@ -212,7 +212,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
       ) : (
         <label>
           How can we help?
-          <textarea aria-label="How can we help?" required readOnly={busy} rows="5" value={form.focus} onChange={update('focus')} onBlur={blur('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" {...invalidProps('focus')} />
+          <textarea aria-label="How can we help?" required readOnly={busy} rows="5" maxLength={5000} value={form.focus} onChange={update('focus')} onBlur={blur('focus')} placeholder="A/R, denials, credentialing, reporting, practice operations…" {...invalidProps('focus')} />
           {fieldMessage('focus')}
         </label>
       )}
@@ -235,6 +235,7 @@ export default function InquiryForm({ variant = 'contact', formId = '' }) {
           <button className="button secondary" type="button" onClick={copy}><Copy size={16} /> {copied ? 'Copied' : 'Copy summary'}</button>
         </div>
       )}
+      <p className="formNote">We use the information you provide to prepare your diagnostic and respond to your inquiry. We do not sell or share it.</p>
       <small className="formNote">Commercial inquiry only. Submission is relayed to info@rootrcm.com. Do not include PHI; sensitive data moves only through an approved secure channel after required agreements and controls are in place.</small>
     </form>
   );
