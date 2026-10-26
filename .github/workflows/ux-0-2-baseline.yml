@@ -9,7 +9,7 @@ permissions:
 
 concurrency:
   group: ux-0-2-screenshots
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   capture:
@@ -26,7 +26,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chromium
 
       # Only this explicit command runs the baseline tests.
       - run: npx playwright test e2e/baseline/capture.spec.ts
