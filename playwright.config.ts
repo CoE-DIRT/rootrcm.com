@@ -1,8 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Capture is intentionally excluded from the normal CI/browser suite. It is
+// discovered only when its exact, explicit command is used.
+const captureRequested = process.argv.some((arg) =>
+  arg.replaceAll('\\', '/').includes('e2e/baseline/capture.spec.ts'),
+);
+
 export default defineConfig({
-  testDir: './tests/playwright',
+  testDir: captureRequested ? './e2e/baseline' : './tests/playwright',
   fullyParallel: true,
+  ...(captureRequested ? { workers: 2 } : {}),
   reporter: [['list']],
   webServer: [
     {
@@ -33,7 +40,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4319',
   },
-  projects: [
+  projects: captureRequested ? [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  ] : [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
   ],
