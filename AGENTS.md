@@ -30,7 +30,8 @@
 - First-party analytics may only use approved deidentified events, consent boundaries, and private Appwrite TablesDB access.
 - Stripe integrations, if touched, stay in authorized test-mode scope; no live keys, card data, or personal checkout data in our systems.
 - Do not invent certifications, guarantees, customer results, reviews, partnerships, legal statuses, or integrations.
-- Do not remove necessary legal, privacy, no-PHI, or consent language; avoid gratuitous defensive marketing disclaimers.
+- Do not add defensive disclaimers to UI copy, captions, alt text or accessible names. Previews stand on their own; useful context belongs in surrounding copy. `npm run lint` enforces the Phase 4.3 pattern gate. Preserve necessary legal, privacy, no-PHI and consent language.
+- Caption removal requires layout review at 375px, 768px and 1366px, before/after screenshots in the PR, and recorded CPO review. Preserve useful vertical rhythm with centered content or tokenized padding; collapse empty cards rather than retaining empty caption strips.
 - Do not rename/remove routes, CTAs, forms, analytics events, SEO metadata, or rollback paths without impact review.
 - Preserve approved brand imagery, logo provenance, and the existing light/dark theme with accessible contrast.
 
