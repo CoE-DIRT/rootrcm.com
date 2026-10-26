@@ -20,6 +20,7 @@ const fields = { name: [200, 1], email: [254, 1], organization: [240, 2], need: 
 const metadata = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'experiment', 'experiment_variant'];
 export function parseContactPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('Invalid inquiry');
+  /** @type {Record<string, string | boolean>} */
   const data = {};
   for (const [field, [max, min, multiline]] of Object.entries(fields)) {
     if (!isPlainText(input[field], max, min, multiline)) throw new TypeError('Invalid inquiry');

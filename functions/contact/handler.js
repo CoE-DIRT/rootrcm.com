@@ -121,7 +121,7 @@ export async function handleContact(request, env, consume = consumeEmailSlot) {
 
   const verifyBody = new URLSearchParams({
     secret: env.TURNSTILE_SECRET_KEY,
-    response: token
+    response: payload['cf-turnstile-response']
   });
   const remoteIp = request.headers.get('CF-Connecting-IP');
   if (remoteIp) verifyBody.set('remoteip', remoteIp);

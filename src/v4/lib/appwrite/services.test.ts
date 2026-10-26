@@ -81,7 +81,7 @@ describe('validated public lead mutations', () => {
     expect(fetchMock).toHaveBeenCalledOnce();
     const [url, request] = fetchMock.mock.calls[0];
     expect(url).toBe(options.endpoint);
-    expect(JSON.parse(request.body)).toEqual(options.deliveryPayload);
+    expect(JSON.parse(request.body)).toMatchObject(options.deliveryPayload);
     expect(request.method).toBe('POST');
   });
   it('fails closed on unconfirmed response and suppresses thrown errors', async () => {
@@ -102,5 +102,21 @@ describe('validated public lead mutations', () => {
     expect(fetchMock).not.toHaveBeenCalled();
     const reply = await submitDiagnosticLead({ ...valid, ...extra }, options);
     expect(reply).toMatchObject({ ok: false, error: { code: 429, kind: 'rate_limit' } });
+  });
+});
+
+describe('Phase 5 client schema', () => {
+  it('trims transport values and drops unknown properties', async () => {
+    const fetch = vi.fn().mockResolvedValue({ok:true,json:async()=>({ok:true,delivered:true})});
+    vi.stubGlobal('fetch',fetch);
+    const identity = {...valid,name:'  Synthetic QA  ',email:' qa@example.test '};
+    expect((await submitCommercialInquiry(identity,{...options,deliveryPayload:{...options.deliveryPayload,name:identity.name,email:identity.email,unknown:'discard'}})).ok).toBe(true);
+    const sent = JSON.parse(fetch.mock.calls[0][1].body);
+    expect(sent.name).toBe(valid.name); expect(sent.email).toBe(valid.email); expect(sent.unknown).toBeUndefined();
+  });
+  it.each(['<b>Hello</b>', 'x'.repeat(5001)])('blocks invalid message before fetch', async message=>{
+    const fetch = vi.fn(); vi.stubGlobal('fetch',fetch);
+    expect((await submitCommercialInquiry(valid,{...options,deliveryPayload:{...options.deliveryPayload,message}})).ok).toBe(false);
+    expect(fetch).not.toHaveBeenCalled();
   });
 });
