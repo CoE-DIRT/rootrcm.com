@@ -27,8 +27,7 @@ export function ServicesHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.practiceAdmin}
-          alt="Practice administrator workstation. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial practice operations context"
+          alt="Practice administrator workstation."
           aspect="wide"
         />
         {families.map((family) => (
@@ -95,8 +94,7 @@ export function ServicePage({ service }: { service: Service }) {
         ) : (
           <MediaFrame
             src={mediaAssets.practiceOperations}
-            alt="Practice operations workstation. Editorial stock photograph; not ROOT staff or clients."
-            caption="Editorial operations context"
+            alt="Practice operations workstation."
             aspect="video"
             className="mt-8"
           />

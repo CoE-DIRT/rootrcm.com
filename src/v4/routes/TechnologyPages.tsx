@@ -53,8 +53,7 @@ export function TechnologyHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.healthcareIt}
-          alt="Healthcare IT workstation. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial Healthcare IT context"
+          alt="Healthcare IT workstation."
           aspect="wide"
         />
         <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -171,8 +170,7 @@ export function DirtPage() {
         />
         <MediaFrame
           src={mediaAssets.dirtAnalytics}
-          alt="Illustrative analytics context. Editorial stock photograph; not live PHI or client dashboards."
-          caption="Editorial context — DIRT demo data is synthetic"
+          alt="Illustrative analytics context."
           className="mt-8"
           aspect="video"
         />

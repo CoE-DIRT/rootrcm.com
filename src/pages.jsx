@@ -548,7 +548,7 @@ export function PlatformPage() {
           className="platformContextMedia"
           media={{
             src: mediaAssets.operationsPlanning,
-            alt: 'Operations planning workshop in a professional setting. Editorial stock photograph; not ROOT staff or customers.',
+            alt: 'Operations planning workshop in a professional setting.',
             caption: 'Editorial operating context',
             width: 640,
             height: 480,
@@ -713,7 +713,7 @@ export function TechnologyHubPage() {
           <EditorialMedia
             media={{
               src: mediaAssets.healthcareIt,
-              alt: 'Desk and laptop workstation. Editorial stock photograph; not ROOT staff or clients.',
+              alt: 'Desk and laptop workstation.',
               caption: 'Editorial Healthcare IT context — not an EHR or PM integration claim',
             }}
             className="platformContextMedia"

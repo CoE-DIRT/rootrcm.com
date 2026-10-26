@@ -123,7 +123,7 @@ export function DirtCommandVisual({ compact = false, rows = commandRows }) {
       <div className="dirtCommandIntro">
         <span className="dirtStatus"><Activity size={14} aria-hidden="true" /> Illustrative operating signal</span>
         <strong>{compact ? 'Representative command record' : 'What leadership needs to act'}</strong>
-        <p>Signal → finding → financial significance → owner → next action. Synthetic demonstration only.</p>
+        <p>Signal → finding → financial significance → owner → next action.</p>
       </div>
 
       {!compact && (

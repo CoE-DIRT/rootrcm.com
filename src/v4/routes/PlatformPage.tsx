@@ -78,8 +78,7 @@ export function PlatformPage() {
         </div>
         <MediaFrame
           src={mediaAssets.operationsPlanning}
-          alt="Operations planning workshop. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial planning context"
+          alt="Operations planning workshop."
           className="mt-10"
           aspect="wide"
         />

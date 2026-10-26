@@ -71,8 +71,7 @@ export function SolutionPage({ page }: { page: Solution }) {
         <Section tone="soft">
           <MediaFrame
             src={mediaAssets.practiceAdmin}
-            alt="Practice administrator workstation. Editorial stock photograph; not ROOT staff or clients."
-            caption="Editorial operations context"
+            alt="Practice administrator workstation."
             aspect="video"
           />
         </Section>
@@ -113,8 +112,7 @@ export function ResourcesHubPage() {
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.operationsPlanning}
-          alt="Operations planning workshop. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial resource context"
+          alt="Operations planning workshop."
           aspect="wide"
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -201,7 +199,7 @@ export function CaseStudiesHubPage() {
         <p className="mt-5 max-w-3xl text-lg text-muted">
           {phase2Content['/case-studies/'].lead}
         </p>
-        <MediaFrame src={mediaAssets.dirtAnalytics} alt="Illustrative analytics workstation. Editorial stock photograph; not live PHI or client dashboards." caption="Editorial context — proof-of-concept visuals use synthetic data only" className="mt-10" aspect="wide" />
+        <MediaFrame src={mediaAssets.dirtAnalytics} alt="Illustrative analytics workstation." className="mt-10" aspect="wide" />
       </Section>
 
       <Section tone="soft">

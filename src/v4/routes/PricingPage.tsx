@@ -127,7 +127,6 @@ export function PricingPage() {
           <MediaFrame
             src={mediaAssets.consulting}
             alt="Management consulting workshop. "
-            caption="Editorial engagement context"
             className="mt-10"
             aspect="wide"
           />

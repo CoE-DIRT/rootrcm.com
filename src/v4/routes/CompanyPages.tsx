@@ -82,8 +82,7 @@ export function ContactPage() {
         <TrustSignals className="mt-10" />
         <MediaFrame
           src={mediaAssets.practiceConsultation}
-          alt="Practice consultation context. Editorial stock photograph; not ROOT staff or clients."
-          caption="Editorial consultation context"
+          alt="Practice consultation context."
           className="mt-10"
           aspect="wide"
         />
@@ -109,8 +108,7 @@ export function AboutPage() {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <MediaFrame
             src={mediaAssets.operationsCollaboration}
-            alt="Healthcare operations collaboration. Editorial stock photograph; not ROOT staff or clients."
-            caption="Photography is editorial context only and does not represent ROOT clients, employees, or results."
+            alt="Healthcare operations collaboration."
             aspect="video"
           />
           <div>
