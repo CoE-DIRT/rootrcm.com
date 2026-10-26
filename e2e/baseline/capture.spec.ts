@@ -97,7 +97,12 @@ test.describe('UX-0.2 per-route screenshot baseline', () => {
         });
 
         for (const theme of themes) {
-          if ((await page.locator('html').getAttribute('data-theme')) !== theme) {
+          // Internal-only pages can begin without a data-theme attribute.
+          // The site's default then resolves to light and the first switch
+          // click legitimately selects dark. Retry through the same switch
+          // (never mutate the document attribute directly).
+          for (let attempt = 0; attempt < 2; attempt += 1) {
+            if ((await page.locator('html').getAttribute('data-theme')) === theme) break;
             await themeSwitch.click();
           }
           await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
