@@ -19,6 +19,8 @@ tester.run('no-defensive-disclaimers', rule, {
     { code: 'const card = <div aria-label="Synthetic demo" />;', errors: [{ messageId: 'disclaimer' }] },
     { code: 'const copy = { caption: "Editorial stock photo" };', errors: [{ messageId: 'disclaimer' }] },
     { code: 'const copy = `For demonstration only`;', errors: [{ messageId: 'disclaimer' }] },
+    { code: 'const copy = `For demonstration: ${version}`;', errors: [{ messageId: 'disclaimer' }] },
+    { code: 'const copy = `synthetic ${"demo"}`;', errors: [{ messageId: 'disclaimer' }] },
     { code: 'const copy = "not a " + "client claim";', errors: [{ messageId: 'disclaimer' }] },
     { code: 'const card = <p>illustrative\n purposes</p>;', errors: [{ messageId: 'disclaimer' }] },
   ],

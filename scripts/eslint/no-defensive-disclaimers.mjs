@@ -5,7 +5,11 @@ export const disclaimerPattern = /editorial operations|not a client claim|synthe
 function staticText(node) {
   if (node.type === 'Literal' && typeof node.value === 'string') return node.value;
   if (node.type === 'JSXText') return node.value;
-  if (node.type === 'TemplateLiteral' && node.expressions.length === 0) return node.quasis[0].value.cooked;
+  if (node.type === 'TemplateElement') return node.value.cooked;
+  if (node.type === 'TemplateLiteral') {
+    const expressions = node.expressions.map(staticText);
+    if (expressions.every(value => value !== undefined)) return node.quasis.map((part, i) => part.value.cooked + (expressions[i] || '')).join('');
+  }
   if (node.type === 'BinaryExpression' && node.operator === '+') {
     const left = staticText(node.left), right = staticText(node.right);
     if (left !== undefined && right !== undefined) return left + right;
@@ -28,10 +32,11 @@ export default {
       }
       // Report a joined constant once, rather than each of its fragments.
       if (node.parent?.type === 'BinaryExpression' && staticText(node.parent) !== undefined) return;
+      if (node.parent?.type === 'TemplateLiteral' && staticText(node.parent) !== undefined) return;
       const value = staticText(node);
       const match = value?.replace(/\s+/g, ' ').match(disclaimerPattern);
       if (match) context.report({ node, messageId: 'disclaimer', data: { match: match[0] } });
     }
-    return { Literal: check, JSXText: check, TemplateLiteral: check, BinaryExpression: check };
+    return { Literal: check, JSXText: check, TemplateLiteral: check, TemplateElement: check, BinaryExpression: check };
   },
 };

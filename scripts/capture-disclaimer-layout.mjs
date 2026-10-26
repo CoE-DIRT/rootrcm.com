@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 
 // Run against the actual pre-cleanup revision and the candidate, never reconstructed captions.
 const output = process.env.EVIDENCE_DIR || 'test-results/phase-4-layout';
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined });
 const routes = ['/', '/contact/', '/about/', '/resources/', '/case-studies/', '/diagnostic/', '/platform/', '/pricing/', '/services/', '/technology/', '/technology/dirt/',
   ...['revenue-leakage', 'aging-ar', 'denials', 'credentialing-bottlenecks', 'operational-efficiency', 'reporting-visibility', 'scaling-practice-ops'].map(s => `/solutions/${s}/`),
   ...['ar-recovery', 'patient-balances', 'credentialing', 'payment-posting', 'reporting-analytics'].map(s => `/services/${s}/`)];

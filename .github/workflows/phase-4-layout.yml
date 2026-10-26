@@ -23,7 +23,7 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: candidate/package-lock.json
-      - run: npm ci && npx playwright install --with-deps chromium
+      - run: npm ci
         working-directory: candidate
       - name: Capture all affected frames at three widths
         run: |
@@ -38,6 +38,7 @@ jobs:
             done
           done
           cd candidate
+          export CHROME_PATH="$(command -v google-chrome || command -v google-chrome-stable)"
           node scripts/capture-disclaimer-layout.mjs
       - uses: actions/upload-artifact@v4
         if: always()
