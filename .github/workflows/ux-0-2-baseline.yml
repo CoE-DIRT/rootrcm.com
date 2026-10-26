@@ -1,0 +1,70 @@
+name: UX-0.2 Screenshot Baseline
+on:
+  push:
+    branches:
+      - codex/ux-0-2-screenshot-baseline
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ux-0-2-screenshots
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    # The GitHub Actions token's evidence push does not trigger new runs.
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # Only this explicit command runs the baseline tests.
+      - run: npx playwright test e2e/baseline/capture.spec.ts
+
+      - name: Verify screenshots and Markdown links
+        run: |
+          node --input-type=module <<'NODE'
+          import { allRoutes } from './src/seo/routeRegistry.js';
+          import { existsSync, readFileSync, readdirSync } from 'node:fs';
+          import { resolve } from 'node:path';
+          const dir = resolve('docs/website/baseline/screens');
+          const index = readFileSync(resolve(dir, 'index.md'), 'utf8');
+          const routes = allRoutes.map((r) => r.path);
+          const slugs = routes.map((p) => p.replace(/^\/+|\/+$/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase() || 'home');
+          const expected = slugs.flatMap((slug) =>
+            [[1920, 1080], [834, 1194], [390, 844]].flatMap(([w, h]) =>
+              ['light', 'dark'].map((theme) => slug + '__' + w + 'x' + h + '__' + theme + '.png'),
+            ),
+          );
+          const linked = [...index.matchAll(/\[PNG\]\(\.\/([^)]+)\)/g)].map((match) => match[1]);
+          const actual = readdirSync(dir).filter((p) => p.endsWith('.png'));
+          const missing = expected.filter((p) => !existsSync(resolve(dir, p)));
+          const unlinked = expected.filter((p) => !linked.includes(p));
+          const extras = actual.filter((p) => !expected.includes(p));
+          if (routes.length !== 57 || expected.length !== 342 || linked.length !== 342 || missing.length || unlinked.length || extras.length) {
+            throw new Error(JSON.stringify({ routes: routes.length, expected: expected.length, linked: linked.length, actual: actual.length, missing, unlinked, extras }, null, 2));
+          }
+          console.log('Verified 342 PNGs and 342 index links across 57 routes.');
+          NODE
+
+      - name: Commit baseline PNGs back to the UX-0.2 branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/website/baseline/screens/
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit"
+          else
+            git commit -m "test(ux-0.2): commit 342 route screenshot baselines"
+            git push origin HEAD:codex/ux-0-2-screenshot-baseline
+          fi
