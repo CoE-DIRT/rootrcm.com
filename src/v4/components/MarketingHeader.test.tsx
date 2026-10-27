@@ -7,99 +7,54 @@ afterEach(() => {
   cleanup();
   window.history.pushState({}, '', '/');
 });
-
 const at = (path: string) => {
   window.history.pushState({}, '', path);
   return render(<MarketingHeader />);
 };
+const trigger = (label: string) => screen.getByRole('button', { name: label });
 
-const trigger = (name: string) => screen.getByRole('button', { name: new RegExp(`^${name}$`) });
-
-describe('primary navigation current state', () => {
-  it('marks the Services trigger as the current page on the services hub, visibly and for assistive technology', () => {
+describe('navigation current-state and semantic destinations', () => {
+  it('marks the exact top page and a contained detail page', () => {
     at('/services/');
     expect(trigger('Services').getAttribute('aria-current')).toBe('page');
     expect(trigger('Services').getAttribute('data-current')).toBe('page');
-    expect(trigger('Solutions').getAttribute('aria-current')).toBeNull();
-    expect(trigger('Solutions').hasAttribute('data-current')).toBe(false);
-  });
-
-  it('marks the trigger as the current section on a detail page inside it', () => {
+    cleanup();
     at('/services/rcm/');
     expect(trigger('Services').getAttribute('aria-current')).toBe('true');
     expect(trigger('Services').getAttribute('data-current')).toBe('section');
-    cleanup();
-    at('/solutions/revenue-leakage/');
-    expect(trigger('Solutions').getAttribute('aria-current')).toBe('true');
-    expect(trigger('Services').getAttribute('aria-current')).toBeNull();
+    expect(trigger('Solutions').getAttribute('aria-current')).toBeNull();
   });
 
-  it('styles the trigger from its current state, with the same indicator the plain links use', () => {
-    at('/services/');
-    const classes = trigger('Services').className;
-    expect(classes).toContain('data-[current=page]:after:bg-accent');
-    expect(classes).toContain('relative'); // the underline is positioned against the trigger
-    // The plain links keep working exactly as before.
-    cleanup();
+  it('uses shared focus tokens and marks the active section', () => {
     at('/pricing/');
-    expect(screen.getAllByRole('link', { name: 'Pricing' })[0].getAttribute('aria-current')).toBe('page');
-    expect(screen.getAllByRole('link', { name: 'About' })[0].getAttribute('aria-current')).toBeNull();
+    expect(trigger('Technology').getAttribute('data-current')).toBe('section');
+    expect(trigger('Technology').className).toContain('--color-focus');
+    expect(screen.getByRole('link', { name: 'Book a Consultation with ROOT' }).getAttribute('href')).toBe('/book/');
   });
 });
 
-describe('mobile menu current state', () => {
-  const openMenu = () => fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
-  const mobileLink = (name: string) => within(screen.getByRole('navigation', { name: 'Mobile' })).getByRole('link', { name: new RegExp(`^${name}$`) });
-
-  it('marks the exact page and the section that contains it, for assistive technology and visibly', () => {
-    at('/pricing/');
-    openMenu();
-    expect(mobileLink('Pricing').getAttribute('aria-current')).toBe('page');
-    expect(mobileLink('Pricing').getAttribute('data-current')).toBe('page');
-    expect(mobileLink('Pricing').className).toContain('text-accent');
-    expect(mobileLink('About').getAttribute('aria-current')).toBeNull();
-    expect(mobileLink('About').hasAttribute('data-current')).toBe(false);
-    cleanup();
-
+describe('full-screen mobile navigation', () => {
+  it('identifies the section, expands the current child and reports a correct active link', () => {
     at('/services/rcm/');
-    openMenu();
-    expect(mobileLink('Services').getAttribute('aria-current')).toBe('true');
-    expect(mobileLink('Services').getAttribute('data-current')).toBe('section');
-    expect(mobileLink('Services').className).toContain('text-accent');
-    expect(mobileLink('Solutions').getAttribute('aria-current')).toBeNull();
-    cleanup();
-
-    at('/solutions/denials/');
-    openMenu();
-    expect(mobileLink('Solutions').getAttribute('aria-current')).toBe('true');
-    expect(mobileLink('Services').getAttribute('aria-current')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+    const nav = within(screen.getByRole('dialog', { name: 'Menu' })).getByRole('navigation', { name: 'Mobile' });
+    const services = within(nav).getByRole('button', { name: 'Services' });
+    expect(services.getAttribute('data-current')).toBe('section');
+    fireEvent.click(services);
+    expect(within(nav).getByRole('link', { name: /Revenue Cycle Management/ }).getAttribute('aria-current')).toBe('page');
   });
-});
 
-describe('mobile menu and the floating panels', () => {
-  it('announces that the menu opened, once, and not when it closes', () => {
-    at('/');
+  it('announces menu opening only once and closes floating Follow', () => {
+    render(<><MarketingHeader /><FloatingSiteControls /></>);
     const opened = vi.fn();
     window.addEventListener('root:nav-open', opened);
-    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
-    expect(opened).toHaveBeenCalledTimes(1);
-    expect(screen.getByRole('dialog', { name: /Menu/i })).toBeTruthy();
-    fireEvent.keyDown(screen.getByRole('dialog', { name: /Menu/i }), { key: 'Escape' });
-    expect(opened).toHaveBeenCalledTimes(1);
-    window.removeEventListener('root:nav-open', opened);
-  });
-
-  it('closes an open Follow panel when the menu opens, so it cannot sit above the menu', () => {
-    window.history.pushState({}, '', '/');
-    render(
-      <>
-        <MarketingHeader />
-        <FloatingSiteControls />
-      </>,
-    );
     act(() => void window.dispatchEvent(new CustomEvent('root:open-follow')));
     expect(screen.getByRole('dialog', { name: /Follow ROOT/i })).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+    expect(opened).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole('dialog', { name: /Follow ROOT/i })).toBeNull();
+    fireEvent.keyDown(screen.getByRole('dialog', { name: 'Menu' }), { key: 'Escape' });
+    expect(opened).toHaveBeenCalledTimes(1);
+    window.removeEventListener('root:nav-open', opened);
   });
 });

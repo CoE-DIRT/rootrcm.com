@@ -63,17 +63,17 @@ export const EXPERIMENTS: Record<ExperimentKey, ExperimentDefinition> = {
   headerCta: {
     key: 'headerCta',
     id: 'exp-header-cta-v1',
-    surface: 'Header primary button on every page (label only; both variants go to /diagnostic/)',
-    hypothesis: 'A lower-commitment verb ("Explore") in the header button will raise click-through to the Diagnostic page without lowering completed inquiries.',
-    primaryMetric: 'Visitors with a cta_click (cta_id book-diagnostic, cta_location header or mobile-nav) divided by exposed visitors.',
+    surface: 'Header consultation CTA on every full page (label only; both variants link to /book/).',
+    hypothesis: 'Outcome-specific consultation copy helps practice leaders select a commercial conversation.',
+    primaryMetric: 'Visitors with a cta_click (cta_id book-conversation, cta_location header or mobile-nav) divided by exposed visitors.',
     guardrails: [
-      'Diagnostic inquiry form submissions per exposed visitor must not fall.',
-      'Share of header-button clickers who go on to submit any ROOT inquiry form must not fall by more than 10% relative.',
+      'Commercial inquiry completion per exposed visitor must not fall.',
+      'Do not imply a scheduled appointment until an inquiry is acknowledged.',
     ],
     stopRules: COMMON_STOP_RULES,
     variants: [
-      { id: 'control', weight: 1, description: 'Existing label: "Book a Diagnostic".' },
-      { id: 'explore', weight: 1, description: 'Lower-commitment verb.', label: 'Explore the Diagnostic' },
+      { id: 'control', weight: 1, description: 'Book a Consultation.' },
+      { id: 'explore', weight: 1, description: 'Discuss practice priorities.', label: 'Discuss Practice Priorities' },
     ],
   },
   pricingPresentation: {

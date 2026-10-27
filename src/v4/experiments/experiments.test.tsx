@@ -239,7 +239,7 @@ describe('experiment resolution', () => {
 
   it('honours a QA override without consent, without storing it, and ignores unknown variants', () => {
     window.history.pushState({}, '', '/?exp_headerCta=explore&exp_heroCta=does-not-exist');
-    expect(resolveExperiment('headerCta')).toMatchObject({ variant: 'explore', source: 'override', label: 'Explore the Diagnostic' });
+    expect(resolveExperiment('headerCta')).toMatchObject({ variant: 'explore', source: 'override', label: 'Discuss Practice Priorities' });
     expect(resolveExperiment('heroCta')).toMatchObject({ variant: 'control', source: 'off' });
     expect(readExperimentCookie()).toBeNull();
     expect(getExperimentContext()).toEqual({}); // overrides are never reported with an inquiry
@@ -331,7 +331,7 @@ describe('useExperiment', () => {
       </StrictMode>,
     );
     const probe = screen.getByTestId('probe');
-    expect(probe.textContent).toBe('explore|Explore the Diagnostic');
+    expect(probe.textContent).toBe('explore|Discuss Practice Priorities');
     expect(probe.getAttribute('data-experiment')).toBe('exp-header-cta-v1');
     expect(probe.getAttribute('data-variant')).toBe('explore');
     first.unmount();
@@ -362,7 +362,7 @@ describe('useExperiment', () => {
     consent();
     window.history.pushState({}, '', '/?exp_headerCta=explore');
     render(<Probe experiment="headerCta" />);
-    expect(screen.getByTestId('probe').textContent).toBe('explore|Explore the Diagnostic');
+    expect(screen.getByTestId('probe').textContent).toBe('explore|Discuss Practice Priorities');
     expect(screen.getByTestId('probe').hasAttribute('data-experiment')).toBe(false);
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'experiment_exposure')).toHaveLength(0);
@@ -393,10 +393,11 @@ describe('experiment surfaces (QA overrides)', () => {
 
   it('header: the variant changes the label only, never the destination', () => {
     renderRoute('/?exp_headerCta=explore');
-    const link = screen.getAllByRole('link', { name: /^Explore the Diagnostic$/ }).find((anchor) => anchor.getAttribute('data-location') === 'header');
+    const link = screen.getAllByRole('link', { name: /Book a Consultation with ROOT/ }).find((anchor) => anchor.getAttribute('data-location') === 'header');
     expect(link).toBeTruthy();
-    expect(link?.getAttribute('href')).toBe('/diagnostic/');
-    expect(link?.getAttribute('data-cta')).toBe('book-diagnostic');
+    expect(link?.textContent).toContain('Discuss Practice Priorities');
+    expect(link?.getAttribute('href')).toBe('/book/');
+    expect(link?.getAttribute('data-cta')).toBe('book-conversation');
     expect(screen.queryByRole('link', { name: /^Book a Diagnostic$/ })).toBeNull();
   });
 
@@ -538,10 +539,10 @@ describe('experiment surfaces (assigned visitors)', () => {
     const details: Record<string, unknown>[] = [];
     window.addEventListener('root:cta', (event) => details.push((event as CustomEvent).detail));
 
-    const header = screen.getAllByRole('link', { name: /^Explore the Diagnostic$/ }).find((anchor) => anchor.getAttribute('data-location') === 'header') as HTMLElement;
+    const header = screen.getAllByRole('link', { name: /Book a Consultation with ROOT/ }).find((anchor) => anchor.getAttribute('data-location') === 'header') as HTMLElement;
     header.addEventListener('click', (event) => event.preventDefault(), { once: true });
     act(() => header.click());
-    expect(details.at(-1)).toMatchObject({ cta: 'book-diagnostic', location: 'header', experiment: 'exp-header-cta-v1', experiment_variant: 'explore' });
+    expect(details.at(-1)).toMatchObject({ cta: 'book-conversation', location: 'header', experiment: 'exp-header-cta-v1', experiment_variant: 'explore' });
     expect(JSON.stringify(details.at(-1))).not.toMatch(/@|tel:/);
     expect(getExperimentContext().experiment).toContain('exp-header-cta-v1');
   });

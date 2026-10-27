@@ -563,30 +563,84 @@ export const diagnosticFaq = [
 ];
 
 /**
- * Primary navigation, in the required order:
- * Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact, then the primary CTA.
- * `menu` marks items that open a mega menu in the desktop header.
+ * UX-1.1: Navigation contract; JSDoc preserves the JS source of truth while
+ * consumers use the recursively typed NavItem from Nav/types.ts.
+ * @typedef {import('./v4/components/Nav/types').NavItem} NavItem
  */
+
+/** @type {NavItem[]} Five destinations plus one consultation action. */
 export const primaryNav = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Services', href: '/services/', menu: 'services' },
-  { label: 'Solutions', href: '/solutions/', menu: 'solutions' },
-  { label: 'How We Work', href: '/case-studies/' },
-  { label: 'Pricing', href: '/pricing/' },
-  { label: 'Resources', href: '/resources/' },
-  { label: 'Opportunities', href: '/opportunities/' },
-  { label: 'Contact', href: '/contact/' },
+  {
+    label: 'Services', href: '/services/',
+    description: 'Revenue operations and practice support.',
+    children: [
+      { label: 'All services', href: '/services/', description: 'Compare the ways we support a practice.' },
+      ...servicePages.map((service) => ({
+        label: service.title, href: '/services/' + service.slug + '/', description: service.summary,
+      })),
+    ],
+  },
+  {
+    label: 'Solutions', href: '/solutions/',
+    description: 'Explore problems we help practices resolve.',
+    children: [
+      { label: 'All solutions', href: '/solutions/', description: 'Find the issue affecting your practice.' },
+      ...solutionPages.map((page) => ({
+        label: page.title, href: '/solutions/' + page.slug + '/', description: page.summary,
+      })),
+    ],
+  },
+  {
+    label: 'Technology', href: '/technology/',
+    description: 'Connected practice intelligence and automation.',
+    children: [
+      { label: 'Technology overview', href: '/technology/', description: 'Connect systems, workflows and revenue signals.' },
+      { label: 'ROOT Platform', href: '/platform/', description: 'See our integrated operating model.' },
+      { label: 'DIRT Intelligence', href: '/technology/dirt/', description: 'See how operating data informs priorities.' },
+      { label: 'Pricing', href: '/pricing/', description: 'Compare commercial engagement models.' },
+      { label: '$2,500 Diagnostic', href: '/diagnostic/', description: 'Review the fixed-scope paid diagnostic.' },
+    ],
+  },
+  {
+    label: 'Resources', href: '/resources/',
+    description: 'Evidence, operational guidance and our approach.',
+    children: [
+      { label: 'Resource library', href: '/resources/', description: 'Browse practical healthcare revenue guidance.' },
+      ...resourceArticles.map((article) => ({
+        label: article.title, href: '/resources/' + article.slug + '/', description: article.summary,
+      })),
+      { label: 'How We Work', href: '/case-studies/', description: 'Understand our evidence-to-action method.' },
+      { label: 'Frequently Asked Questions', href: '/faq/', description: 'Find details on scope, fees and delivery.' },
+    ],
+  },
+  {
+    label: 'Company', href: '/about/',
+    description: 'Who we are, opportunities and policies.',
+    children: [
+      { label: 'About ROOT', href: '/about/', description: 'Meet our founders and operating commitments.' },
+      { label: 'Contact', href: '/contact/', description: 'Reach our team about a commercial inquiry.' },
+      { label: 'Book a Conversation', href: '/book/', description: 'Request a discussion of your practice goals.' },
+      { label: 'Opportunities', href: '/opportunities/', description: 'Explore ways to collaborate with ROOT.' },
+      { label: 'Partner Network', href: '/partners/', description: 'Learn about independent strategic collaboration.' },
+      { label: 'Partner Guidelines', href: '/partners/terms/', description: 'Understand program eligibility and safeguards.' },
+      { label: 'Careers', href: '/careers/', description: 'See the current status of opportunities.' },
+      { label: 'Privacy Policy', href: '/privacy-policy/', description: 'Understand information and consent practices.' },
+      { label: 'Terms', href: '/terms/', description: 'Read the website terms of use.' },
+      { label: 'Refund Policy', href: '/refund-policy/', description: 'Read diagnostic cancellation and refund rules.' },
+      { label: 'Cookies', href: '/legal/cookies/', description: 'Review cookies and consent preferences.' },
+    ],
+  },
+  { label: 'Book a Consultation', href: '/book/', isCTA: true },
 ];
 
+/** Keep legacy consumers aligned with the sixth, clearly named action. */
 export const primaryCta = {
-  label: 'Book a Diagnostic',
-  href: '/diagnostic/',
-  cta: 'book-diagnostic',
-  engagementType: 'diagnostic',
+  label: 'Book a Consultation',
+  href: '/book/',
+  cta: 'book-conversation',
+  engagementType: 'consultation',
 };
 
-/** Pages that are not in the primary order but must stay one click from navigation (no orphans). */
 export const productLinks = [
   { label: 'ROOT Platform', href: '/platform/', description: 'How revenue operations, credentialing, technology and DIRT connect.' },
   { label: 'Technology', href: '/technology/', description: 'Healthcare data architecture and monitored automation.' },
@@ -602,16 +656,8 @@ export const legalLinks = [
   { label: 'Partner Guidelines', href: '/partners/terms/' },
 ];
 
-/** Legacy structure kept for any consumer that still reads it; derived from the primary order. */
-export const siteNav = primaryNav.map((item) => {
-  if (item.menu === 'services') {
-    return { ...item, description: 'Managed services and projects across RCM, operations, healthcare IT, automation, analytics, and credentialing.', children: servicePages.map((service) => ({ label: service.title, href: `/services/${service.slug}/`, description: service.summary })) };
-  }
-  if (item.menu === 'solutions') {
-    return { ...item, description: 'Start from the business problem: leakage, aging A/R, denials, credentialing, efficiency, visibility, and growth.', children: solutionPages.map((page) => ({ label: page.title, href: `/solutions/${page.slug}/`, description: page.summary })) };
-  }
-  return item;
-});
+/** The typed source serves any legacy siteNav consumer without a second menu. */
+export const siteNav = primaryNav;
 
 export const footerGroups = [
   {

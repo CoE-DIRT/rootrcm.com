@@ -410,3 +410,39 @@ html:has(.v4-root), body:has(.v4-root) { overflow-x: clip; }
   .v4-root .inquirySpinner { animation: none; }
   .v4-root .inquiryForm[data-state='submitting'] { transition: none; }
 }
+
+
+/* UX-1.1 Clinical Glass navigation. One shared tier for mobile and desktop. */
+.ux-nav-viewport,
+.ux-nav-mobile-sheet {
+  background: var(--surface-glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass-2);
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(140%);
+}
+.ux-nav-viewport {
+  position: relative;
+  width: min(820px, calc(100vw - 2rem));
+  max-height: min(75vh, 680px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: var(--radius-panel);
+}
+.root-nav-content { width: 100%; }
+.ux-nav-trigger[data-current='section'], .ux-nav-trigger[data-current='page'] { color: var(--accent-text); }
+.ux-nav-trigger[data-current='page']::after { content: ''; position: absolute; inset-inline: 0.75rem; bottom: -2px; height: 2px; background: var(--accent); }
+.ux-nav-child[aria-current='page'], .ux-nav-mobile-sheet [aria-current='page'] { color: var(--accent-text); background: var(--accent-subtle); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ux-nav-viewport, .ux-nav-mobile-sheet { background: var(--glass-fallback-strong); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ux-nav-viewport, .ux-nav-mobile-sheet {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ux-nav-viewport *, .ux-nav-mobile-sheet * { scroll-behavior: auto; transition: none; animation: none; }
+}

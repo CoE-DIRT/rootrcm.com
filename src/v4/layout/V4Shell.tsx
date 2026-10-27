@@ -22,7 +22,7 @@ export function V4Shell({ children, minimal = false, className }: V4ShellProps) 
       <AnalyticsBoot />
       <PersonalizationProvider>
         <MarketingHeader minimal={minimal} />
-        <main id="main-content">{children}</main>
+        <main id="main-content"><span id="main" tabIndex={-1} className="sr-only" />{children}</main>
         <MarketingFooter minimal={minimal} />
         <FloatingSiteControls placementTest={!minimal} />
         <IntentBannerHost />

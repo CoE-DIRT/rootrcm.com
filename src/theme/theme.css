@@ -5,6 +5,9 @@
    No Next.js app/globals.css exists in this repository.
    ============================================================ */
 :root {
+  /* UX-1.1 semantic aliases; keep all tier values owned by existing tokens. */
+  --surface-glass: var(--glass-bg-strong);
+  --color-focus: var(--accent);
   /* Base surfaces */
   --app-bg: #F4F7FB;
   --app-bg-deep: #EDF2F9;

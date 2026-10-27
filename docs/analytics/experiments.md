@@ -41,8 +41,8 @@ All variants are 50/50 by default. Guardrails and the shared stop rules apply to
 
 ### `exp-header-cta-v1` - Header button
 
-- **Surface:** the header primary button on every page (label only; both variants go to `/diagnostic/`).
-- **Variants:** `control` ("Book a Diagnostic"), `explore` ("Explore the Diagnostic").
+- **Surface:** the header primary button on every page (label only; both variants go to `/book/`).
+- **Variants:** `control` ("Book a Consultation"), `explore` ("Discuss Practice Priorities").
 - **Hypothesis:** a lower-commitment verb will raise click-through to the Diagnostic page without lowering completed inquiries.
 - **Primary metric:** visitors with a `cta_click` (`cta_id` `book-diagnostic`, `cta_location` `header` or `mobile-nav`) divided by exposed visitors.
 - **Guardrails:** diagnostic inquiry submissions per exposed visitor do not fall; the share of header-button clickers who go on to submit any inquiry does not fall by more than 10% relative.

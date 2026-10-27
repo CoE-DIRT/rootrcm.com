@@ -8,9 +8,13 @@ const captureRequested = process.env.ROOT_UX02_CAPTURE === '1' || process.argv.s
   arg.replaceAll('\\', '/').includes('e2e/baseline/capture.spec.ts'),
 );
 if (captureRequested) process.env.ROOT_UX02_CAPTURE = '1';
+// Explicit UX-1.1 suite remains separate from established browser regression suite.
+const navRequested = process.env.ROOT_UX11_NAV === '1' || process.argv.some((arg) => arg.replaceAll('\\', '/').includes('e2e/nav.spec.ts'));
+if (navRequested) process.env.ROOT_UX11_NAV = '1';
 
 export default defineConfig({
-  testDir: captureRequested ? './e2e/baseline' : './tests/playwright',
+  testDir: captureRequested ? './e2e/baseline' : navRequested ? './e2e' : './tests/playwright',
+  ...(navRequested ? { testMatch: 'nav.spec.ts' } : {}),
   fullyParallel: true,
   ...(captureRequested ? { workers: 2 } : {}),
   reporter: [['list']],
