@@ -73,10 +73,10 @@ describe('ROOT commercial site', () => {
     const primaryNav = screen.getByRole('navigation', { name: /primary navigation/i });
     // Required order: Home, About, Services, Solutions, How We Work, Pricing, Resources, Contact.
     const labels = Array.from(primaryNav.querySelectorAll('li > a, li > button')).map((element) => element.textContent.trim());
-    expect(labels).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
-    const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
-    expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
-    expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
+    expect(labels).toEqual(['Services', 'Solutions', 'Technology', 'Resources', 'Company', 'Book a Consultation']);
+    const headerCta = screen.getAllByRole('link', { name: /Book a Consultation with ROOT/i }).find((link) => link.dataset.location === 'header');
+    expect(headerCta.getAttribute('href')).toBe('/book/');
+    expect(headerCta.getAttribute('data-cta')).toBe('book-conversation');
     expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
     expect(screen.getAllByText(/illustrative practice profile|sample metrics/i).length).toBeGreaterThan(0);
