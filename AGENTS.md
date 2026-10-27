@@ -8,6 +8,8 @@
 - Our public website is a marketing and commercial-inquiry surface, NOT a clinical application or PHI intake system.
 - Use ROOT company voice ('we', 'our') in marketing copy, subject to normal legal and visitor-specific wording.
 
+- **FOUNDER PAUSE — 28 October 2026:** ROOT website UX modernization (Path A/B, UX-1.1, and all later UX-1.x redesign tasks) is **ON HOLD until further notice**. UX-0 baseline remains accepted; UX-1.1 [PR #62](https://github.com/CoE-DIRT/rootrcm.com/pull/62) is draft/unmerged. Do not continue, merge, deploy, or resume this program without a new explicit founder instruction. Ordinary production operations/security fixes are not paused. See `PLANS.md` and `docs/website/ux-modernization-status.md`.
+
 ## 2. Actual stack; no speculative rewrite
 - Current production-source architecture: React + Vite, mixed JavaScript/TypeScript, npm, static multi-page routes.
 - `tsconfig.json` has `strict: true` for checked TypeScript; much existing JSX/JS is not checked as TypeScript.

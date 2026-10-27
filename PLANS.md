@@ -7,6 +7,14 @@
 **Current baseline:** React + Vite static website, mixed JS/TS, Appwrite Sites target, `dist-staging/`, GitHub Actions, narrow Appwrite Functions.
 **Architecture hold:** Next.js App Router is a proposed direction only; ADR-001 and ADR-008 currently retain Vite. No migration until explicitly approved as a separate scoped phase.
 
+## UX modernization — SUSPENDED (founder directive, 28 October 2026)
+
+**Status: ON HOLD UNTIL FURTHER NOTICE.** Applies to the ROOT public-website UX modernization program, including Path A and Path B, all UX-1.x milestones (navigation, homepage and commercial-page redesign), visual release reviews, related implementation and production deployments. UX-0.1–0.6 baseline research/design evidence remains completed and approved **as historical baseline only**. UX-1.1 source work and screenshots are preserved in [PR #62](https://github.com/CoE-DIRT/rootrcm.com/pull/62) on `codex/ux-1-1-navigation-rebuild`, now **draft and labeled on-hold, NOT merged or deployed**. No automatic advancement from a previously approved brief, passing CI, or a historical approval.
+
+**Enforcement:** Do not advance UX-1, edit/rebase/merge PR #62 for implementation, queue UX-1.2+, launch redesign deployments, or restart the modernization campaign without **fresh explicit founder authorization**. This instruction does **not** suspend existing production website operations, ordinary incident response/security/bug fixes, support of live customers, or the already merged UX-0 baseline. On resumption, first validate the current production stack and PR divergence, rerun lint/typecheck/unit/browser/security/accessibility/performance/visual checks, and obtain a new scoped merge and deployment approval. No resume date has been set.
+
+**Canonical hold record:** [Website modernization status](docs/website/ux-modernization-status.md). The existing independently tracked phases below are retained as history; this hold overrides any implication that the UX modernization should proceed.
+
 ## Rules for executing the phases
 1. The founder supplies each phase brief individually; do not invent requirements for phases not yet supplied.
 2. Before code, record objective, affected routes, design references, architecture/security boundaries, metrics, and acceptance checks.
