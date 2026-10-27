@@ -1,10 +1,18 @@
-import { describe, expect, it, afterEach, vi } from 'vitest';
+import { describe, expect, it, afterEach, beforeAll, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, within, waitFor } from '@testing-library/react';
 import { primaryNav } from '../../../../siteData.js';
 import { allRoutes } from '../../../../seo/routeRegistry.js';
 import { routeCoverage, assertNavCoverage } from '../coverage';
 import { DesktopNav } from '../DesktopNav';
 import { MobileNav } from '../MobileNav';
+
+beforeAll(() => {
+  vi.stubGlobal('ResizeObserver', class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  });
+});
 
 afterEach(() => {
   cleanup();

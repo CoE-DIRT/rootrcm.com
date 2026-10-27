@@ -331,7 +331,7 @@ describe('useExperiment', () => {
       </StrictMode>,
     );
     const probe = screen.getByTestId('probe');
-    expect(probe.textContent).toBe('explore|Explore the Diagnostic');
+    expect(probe.textContent).toBe('explore|Discuss Practice Priorities');
     expect(probe.getAttribute('data-experiment')).toBe('exp-header-cta-v1');
     expect(probe.getAttribute('data-variant')).toBe('explore');
     first.unmount();
@@ -362,7 +362,7 @@ describe('useExperiment', () => {
     consent();
     window.history.pushState({}, '', '/?exp_headerCta=explore');
     render(<Probe experiment="headerCta" />);
-    expect(screen.getByTestId('probe').textContent).toBe('explore|Explore the Diagnostic');
+    expect(screen.getByTestId('probe').textContent).toBe('explore|Discuss Practice Priorities');
     expect(screen.getByTestId('probe').hasAttribute('data-experiment')).toBe(false);
     await flush();
     expect(sentEvents().filter((event) => event.event_name === 'experiment_exposure')).toHaveLength(0);
