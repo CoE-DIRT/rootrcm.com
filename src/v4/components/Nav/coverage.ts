@@ -8,10 +8,12 @@ import type { NavItem } from './types';
  * exposed as marketing navigation entries just to satisfy a coverage counter.
  */
 export function routeCoverage(items: readonly NavItem[]) {
-  const eligible = allRoutes.filter((route) =>
+  // The JS registry infers a union with optional flags only on some members.
+  const routes: Array<{ path: string; internal?: boolean; system?: boolean; alias?: boolean; noindex?: boolean }> = allRoutes;
+  const eligible = routes.filter((route) =>
     !route.internal && !route.system && !route.alias && !route.noindex,
   );
-  const excluded = allRoutes.filter((route) =>
+  const excluded = routes.filter((route) =>
     route.internal || route.system || route.alias || route.noindex,
   );
   const destinations = new Map<string, number>();
