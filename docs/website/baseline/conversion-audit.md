@@ -10,12 +10,12 @@
 |---|---:|
 | Registry routes visited | 57 |
 | Total rendered CTA instances (includes shared header/footer repeats) | 806 |
-| CTA instances mapped to the four primary funnels | 411 |
+| CTA instances mapped to the four primary funnels | 409 |
 | Consultation | 292 |
 | $2,500 Diagnostic | 116 |
 | Resource download | 1 |
-| Careers | 2 |
-| Unmapped / informational or partner-only actions | 395 |
+| Careers | 0 |
+| Unmapped / informational or partner-only actions | 397 |
 | CTA instances without an approved explicit CTA event | 17 |
 | Vague outcome-free labels (exact phrase match) | 0 |
 | Rendered forms | 3 |
@@ -177,8 +177,8 @@
 | `/opportunities/` | Book a conversation | `/book/` | footer | Consultation | Destination page/form; confirmation depends on subsequent action | Navigation/route error; no CTA-specific error state | cta_click | — |
 | `/partners/` | ROOT | `/` | header | Unmapped / informational | Destination page/form; confirmation depends on subsequent action | Navigation/route error; no CTA-specific error state | NO APPROVED EVENT (logo) | Review mapping |
 | `/partners/` | Book a Diagnostic | `/diagnostic/` | header | $2,500 Diagnostic | Destination page/form; confirmation depends on subsequent action | Navigation/route error; no CTA-specific error state | cta_click | — |
-| `/partners/` | Apply by email | `mailto:info@rootrcm.com?subject=ROOT%20Partner%20Network%20Application&body=Hello%20ROOT%20Team%2C%0A%0AI%20am%20interested%20in%20the%20ROOT%20Partner%20Network.%0A%0AName%3A%0AOrganization%20(optional)%3A%0AProfessional%20role%3A%0AState%20or%20country%3A%0APartnership%20type%3A%0ARelevant%20experience%3A%0AProfessional%20profile%20(optional)%3A%0A%0APlease%20do%20not%20include%20patient%20information%20or%20confidential%20client%20information.%0A` | page | Careers | External communication handoff (unverifiable) | External app / mail client unavailable | No explicit CTA event | — |
-| `/partners/` | Express interest | `mailto:info@rootrcm.com?subject=ROOT%20Partner%20Network%20Application&body=Hello%20ROOT%20Team%2C%0A%0AI%20am%20interested%20in%20the%20ROOT%20Partner%20Network.%0A%0AName%3A%0AOrganization%20(optional)%3A%0AProfessional%20role%3A%0AState%20or%20country%3A%0APartnership%20type%3A%0ARelevant%20experience%3A%0AProfessional%20profile%20(optional)%3A%0A%0APlease%20do%20not%20include%20patient%20information%20or%20confidential%20client%20information.%0A` | page | Careers | External communication handoff (unverifiable) | External app / mail client unavailable | No explicit CTA event | — |
+| `/partners/` | Apply by email | `mailto:info@rootrcm.com?subject=ROOT%20Partner%20Network%20Application&body=Hello%20ROOT%20Team%2C%0A%0AI%20am%20interested%20in%20the%20ROOT%20Partner%20Network.%0A%0AName%3A%0AOrganization%20(optional)%3A%0AProfessional%20role%3A%0AState%20or%20country%3A%0APartnership%20type%3A%0ARelevant%20experience%3A%0AProfessional%20profile%20(optional)%3A%0A%0APlease%20do%20not%20include%20patient%20information%20or%20confidential%20client%20information.%0A` | page | Unmapped / informational | External communication handoff (unverifiable) | External app / mail client unavailable | No explicit CTA event | Review mapping |
+| `/partners/` | Express interest | `mailto:info@rootrcm.com?subject=ROOT%20Partner%20Network%20Application&body=Hello%20ROOT%20Team%2C%0A%0AI%20am%20interested%20in%20the%20ROOT%20Partner%20Network.%0A%0AName%3A%0AOrganization%20(optional)%3A%0AProfessional%20role%3A%0AState%20or%20country%3A%0APartnership%20type%3A%0ARelevant%20experience%3A%0AProfessional%20profile%20(optional)%3A%0A%0APlease%20do%20not%20include%20patient%20information%20or%20confidential%20client%20information.%0A` | page | Unmapped / informational | External communication handoff (unverifiable) | External app / mail client unavailable | No explicit CTA event | Review mapping |
 | `/partners/` | Talk to us | `/contact/` | footer | Consultation | Destination page/form; confirmation depends on subsequent action | Navigation/route error; no CTA-specific error state | cta_click | — |
 | `/partners/` | WhatsApp | `https://wa.me/13025064685?text=Hello%20ROOT%20Revenue%20Operations%20%26%20Outcomes%20Technology%20Incorporated%2C%20I%20would%20like%20to%20discuss%20a%20deidentified%20practice%20operations%20or%20revenue%20cycle%20need.` | footer-outreach | Consultation | External communication handoff (unverifiable) | External app / mail client unavailable | cta_click | — |
 | `/partners/` | +1 (302) 506 4685 | `tel:+13025064685` | footer-contact | Consultation | External communication handoff (unverifiable) | External app / mail client unavailable | phone_click | — |

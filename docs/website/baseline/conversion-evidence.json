@@ -1,12 +1,12 @@
 {
-  "executedAt": "2026-10-27T16:18:53.615Z",
+  "executedAt": "2026-10-27T16:21:59.993Z",
   "routes": 57,
   "counts": {
     "Consultation": 292,
     "$2,500 Diagnostic": 116,
     "Resource download": 1,
-    "Careers": 2,
-    "Unmapped / informational": 395
+    "Careers": 0,
+    "Unmapped / informational": 397
   },
   "ctas": [
     {
@@ -2088,7 +2088,7 @@
       "formId": "",
       "location": "page",
       "ctaId": "",
-      "funnel": "Careers",
+      "funnel": "Unmapped / informational",
       "success": "External communication handoff (unverifiable)",
       "error": "External app / mail client unavailable",
       "analytic": "No explicit CTA event",
@@ -2102,7 +2102,7 @@
       "formId": "",
       "location": "page",
       "ctaId": "",
-      "funnel": "Careers",
+      "funnel": "Unmapped / informational",
       "success": "External communication handoff (unverifiable)",
       "error": "External app / mail client unavailable",
       "analytic": "No explicit CTA event",
