@@ -1,0 +1,1153 @@
+[
+  {
+    "route": "/about/",
+    "theme": "light",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (1 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"mailto:info@rootrcm.com\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/about/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (1 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"mailto:info@rootrcm.com\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/checkout/cancel/",
+    "theme": "light",
+    "category": "Accessibility: color-contrast",
+    "severity": "Critical",
+    "detail": "Elements must meet minimum color contrast ratio thresholds (5 elements; serious)",
+    "target": "a[href$=\"privacy-policy/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/company/about/",
+    "theme": "light",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (1 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"mailto:info@rootrcm.com\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/company/about/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (1 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"mailto:info@rootrcm.com\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/legal/cookies/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (1 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"privacy-policy/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/legal/privacy/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (4 elements; serious)",
+    "target": "p:nth-child(4) > .text-accent.hover\\:underline[href$=\"terms/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/legal/terms/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (3 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"refund-policy/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/partners/",
+    "theme": "light",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (3 elements; serious)",
+    "target": ".mt-3:nth-child(3) > .text-accent.hover\\:underline[href$=\"terms/\"]:nth-child(1)",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/partners/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (3 elements; serious)",
+    "target": ".mt-3:nth-child(3) > .text-accent.hover\\:underline[href$=\"terms/\"]:nth-child(1)",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/privacy-policy/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (4 elements; serious)",
+    "target": "p:nth-child(4) > .text-accent.hover\\:underline[href$=\"terms/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/refund-policy/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (2 elements; serious)",
+    "target": ".space-y-3.mt-3:nth-child(11) > p > .text-accent.hover\\:underline[href$=\"terms/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/technology/dirt/",
+    "theme": "dark",
+    "category": "Accessibility: color-contrast",
+    "severity": "Critical",
+    "detail": "Elements must meet minimum color contrast ratio thresholds (1 elements; serious)",
+    "target": ".border-signal-blush\\/30",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/terms/",
+    "theme": "dark",
+    "category": "Accessibility: link-in-text-block",
+    "severity": "Critical",
+    "detail": "Links must be distinguishable without relying on color (3 elements; serious)",
+    "target": ".text-accent.hover\\:underline[href$=\"refund-policy/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/thank-you/",
+    "theme": "dark",
+    "category": "Accessibility: color-contrast",
+    "severity": "Critical",
+    "detail": "Elements must meet minimum color contrast ratio thresholds (5 elements; serious)",
+    "target": "a[href$=\"privacy-policy/\"]",
+    "fix": "Correct the affected element(s) per axe rule, then retest keyboard/assistive tech in both themes."
+  },
+  {
+    "route": "/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14095 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84244 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/__v4-lab/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13248 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/__v4-lab/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "79583 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/404.html",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13887 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/404.html",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83976 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/about/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13997 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/about/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84560 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/book/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13889 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/book/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83818 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/careers/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13947 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/careers/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83869 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/case-studies/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14004 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/case-studies/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83864 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/case-studies/dirt-poc-01/",
+    "category": "CLS (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "0.332 (threshold 0.100)",
+    "fix": "Reserve image/component dimensions and eliminate post-load font or layout shifts."
+  },
+  {
+    "route": "/case-studies/dirt-poc-01/",
+    "category": "CLS (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "0.242 (threshold 0.100)",
+    "fix": "Reserve image/component dimensions and eliminate post-load font or layout shifts."
+  },
+  {
+    "route": "/case-studies/dirt-poc-01/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14707 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/case-studies/dirt-poc-01/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "87792 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/checkout/cancel/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13924 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/checkout/cancel/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83976 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/checkout/success/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13880 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/checkout/success/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83323 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/company/about/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14023 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/company/about/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84362 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/contact/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13964 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/contact/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83977 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/diagnostic/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14019 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/diagnostic/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83825 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/faq/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13953 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/faq/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83967 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/cookies/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13808 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/cookies/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83688 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/privacy/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13840 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/privacy/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83743 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/terms/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13897 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/legal/terms/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84006 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/opportunities/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13878 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/opportunities/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83525 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/partners/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13812 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/partners/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83727 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/partners/terms/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13981 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/partners/terms/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83895 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/platform/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13865 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/platform/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84038 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/pricing/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13954 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/pricing/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83811 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/privacy-policy/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13919 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/privacy-policy/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83941 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/refund-policy/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13948 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/refund-policy/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83722 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13940 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84273 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/aging-ar-playbook/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13852 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/aging-ar-playbook/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83855 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/credentialing-operations-checklist/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13885 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/credentialing-operations-checklist/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83836 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/denial-management-root-cause/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13853 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/denial-management-root-cause/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83809 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/healthcare-automation-readiness/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13946 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/healthcare-automation-readiness/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83822 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/healthcare-revenue-intelligence-asc-denials/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13908 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/healthcare-revenue-intelligence-asc-denials/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83679 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/practice-ops-kpi-model/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13840 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/practice-ops-kpi-model/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83961 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/revenue-leakage-guide/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13887 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/resources/revenue-leakage-guide/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83823 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13966 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83994 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/ar-recovery/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14027 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/ar-recovery/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84360 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/credentialing/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14053 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/credentialing/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84357 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/denial-management/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13897 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/denial-management/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83948 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/healthcare-it/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13969 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/healthcare-it/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84433 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/medical-billing/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13980 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/medical-billing/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84044 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/operational-consulting/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14008 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/operational-consulting/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84340 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/patient-balances/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14052 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/patient-balances/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84515 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/payment-posting/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14062 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/payment-posting/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84514 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/practice-ops/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14028 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/practice-ops/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84506 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/rcm/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13991 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/rcm/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84068 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/reporting-analytics/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14033 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/reporting-analytics/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84432 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/workflow-automation/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13957 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/services/workflow-automation/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84118 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13849 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83877 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/aging-ar/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13973 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/aging-ar/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84135 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/credentialing-bottlenecks/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13910 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/credentialing-bottlenecks/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84258 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/denials/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13930 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/denials/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84212 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/operational-efficiency/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13996 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/operational-efficiency/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84489 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/reporting-visibility/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13941 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/reporting-visibility/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84200 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/revenue-leakage/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13936 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/revenue-leakage/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84130 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/scaling-practice-ops/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14027 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/solutions/scaling-practice-ops/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84648 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/technology/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "14038 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/technology/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "84013 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/technology/dirt/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13892 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/technology/dirt/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83747 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/terms/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13830 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/terms/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83764 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/thank-you/",
+    "category": "LCP (desktop)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "13877 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/thank-you/",
+    "category": "LCP (mobile)",
+    "severity": "High",
+    "theme": "light",
+    "detail": "83813 ms (threshold 2500 ms)",
+    "fix": "Profile the LCP element; optimize hero asset delivery, render blocking resources and initial route chunk."
+  },
+  {
+    "route": "/about/ ↔ /company/about/",
+    "category": "Duplicate copy",
+    "severity": "Medium",
+    "theme": "light",
+    "detail": "100% 5-word shingle Jaccard overlap of main content",
+    "fix": "Review canonical intent and differentiate decision-support information; retain legally necessary shared wording."
+  },
+  {
+    "route": "/privacy-policy/ ↔ /legal/privacy/",
+    "category": "Duplicate copy",
+    "severity": "Medium",
+    "theme": "light",
+    "detail": "100% 5-word shingle Jaccard overlap of main content",
+    "fix": "Review canonical intent and differentiate decision-support information; retain legally necessary shared wording."
+  },
+  {
+    "route": "/terms/ ↔ /legal/terms/",
+    "category": "Duplicate copy",
+    "severity": "Medium",
+    "theme": "light",
+    "detail": "100% 5-word shingle Jaccard overlap of main content",
+    "fix": "Review canonical intent and differentiate decision-support information; retain legally necessary shared wording."
+  },
+  {
+    "route": "Cross-route (button, dark)",
+    "theme": "dark",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "10 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (button, light)",
+    "theme": "light",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "10 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (h1, dark)",
+    "theme": "dark",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "4 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (h1, light)",
+    "theme": "light",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "4 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (h2, dark)",
+    "theme": "dark",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "7 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (h2, light)",
+    "theme": "light",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "7 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (p, dark)",
+    "theme": "dark",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "24 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  },
+  {
+    "route": "Cross-route (p, light)",
+    "theme": "light",
+    "category": "Computed-style conflict",
+    "severity": "Medium",
+    "detail": "22 distinct computed style signatures (>2 threshold; may include intentional variants)",
+    "fix": "Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides."
+  }
+]

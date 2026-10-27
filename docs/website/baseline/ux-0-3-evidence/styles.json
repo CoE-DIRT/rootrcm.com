@@ -1,0 +1,1897 @@
+{
+  "light:h1": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "40px",
+        "lineHeight": "42.4px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "36px",
+        "lineHeight": "43.2px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/services/",
+        "/solutions/",
+        "/case-studies/",
+        "/pricing/",
+        "/resources/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "30px",
+        "lineHeight": "36px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/legal/cookies/",
+        "/thank-you/",
+        "/checkout/success/",
+        "/checkout/cancel/",
+        "/404.html"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "39.8101px",
+        "lineHeight": "47.7721px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    }
+  ],
+  "light:h2": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "21.6px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/case-studies/",
+        "/platform/",
+        "/technology/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "30px",
+        "lineHeight": "36px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/about/",
+        "/case-studies/",
+        "/pricing/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/careers/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/diagnostic/",
+        "/company/about/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "24px",
+        "lineHeight": "28.8px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/about/",
+        "/pricing/",
+        "/opportunities/",
+        "/partners/",
+        "/careers/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "20px",
+        "lineHeight": "24px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/services/",
+        "/pricing/",
+        "/contact/",
+        "/partners/terms/",
+        "/book/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "33.18px",
+        "lineHeight": "39.816px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/solutions/",
+        "/resources/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "16.8px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "16.8px",
+        "fontWeight": "600",
+        "color": "rgb(0, 82, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ],
+  "light:p": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "600",
+        "color": "rgb(0, 91, 214)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/case-studies/",
+        "/pricing/",
+        "/book/",
+        "/technology/dirt/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "17px",
+        "lineHeight": "26.35px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "oklab(0.480154 -0.033261 -0.198372 / 0.9)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "600",
+        "color": "rgb(0, 82, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/case-studies/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/platform/",
+        "/technology/",
+        "/diagnostic/",
+        "/company/about/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/services/",
+        "/solutions/",
+        "/case-studies/",
+        "/pricing/",
+        "/resources/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/faq/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/services/",
+        "/solutions/",
+        "/pricing/",
+        "/resources/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/legal/cookies/",
+        "/platform/",
+        "/technology/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/",
+        "/careers/",
+        "/legal/cookies/",
+        "/technology/dirt/",
+        "/diagnostic/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "20px",
+        "lineHeight": "28px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/pricing/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "500",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/contact/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/partners/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/partners/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(0, 82, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/book/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "27.52px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/thank-you/",
+        "/checkout/success/",
+        "/checkout/cancel/",
+        "/404.html",
+        "/legal/privacy/",
+        "/legal/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "27.9px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "500",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "oklab(0.981727 -0.000501394 -0.00568509 / 0.78)",
+        "padding": "8px 12px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(0, 82, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "22.75px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16.8px",
+        "fontWeight": "700",
+        "color": "rgb(0, 102, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "400",
+        "color": "rgb(215, 228, 222)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(180, 83, 9)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ],
+  "light:button": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "15px",
+        "lineHeight": "21px",
+        "fontWeight": "700",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(0, 102, 255)",
+        "padding": "13px 18px",
+        "borderRadius": "8px"
+      },
+      "routes": [
+        "/contact/",
+        "/book/",
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(57, 79, 109)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "4px"
+      },
+      "routes": [
+        "/privacy-policy/",
+        "/legal/privacy/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "8px 16px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/legal/cookies/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "25.6px",
+        "fontWeight": "400",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "4px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/technology/dirt/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "17.6px",
+        "fontWeight": "600",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "oklab(0.510554 0.0279175 -0.228344 / 0.12)",
+        "padding": "8px 12px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/technology/dirt/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "25.6px",
+        "fontWeight": "400",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(8, 22, 18, 0.88)",
+        "padding": "0px",
+        "borderRadius": "50%"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "50%"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(0, 102, 255)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgb(247, 249, 253)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ],
+  "dark:h1": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "40px",
+        "lineHeight": "42.4px",
+        "fontWeight": "600",
+        "color": "rgb(244, 251, 248)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "36px",
+        "lineHeight": "43.2px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/services/",
+        "/solutions/",
+        "/case-studies/",
+        "/pricing/",
+        "/resources/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "30px",
+        "lineHeight": "36px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/legal/cookies/",
+        "/thank-you/",
+        "/checkout/success/",
+        "/checkout/cancel/",
+        "/404.html"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "39.8101px",
+        "lineHeight": "47.7721px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    }
+  ],
+  "dark:h2": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "21.6px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/case-studies/",
+        "/platform/",
+        "/technology/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "30px",
+        "lineHeight": "36px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/about/",
+        "/case-studies/",
+        "/pricing/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/careers/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/diagnostic/",
+        "/company/about/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "24px",
+        "lineHeight": "28.8px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/about/",
+        "/pricing/",
+        "/opportunities/",
+        "/partners/",
+        "/careers/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "20px",
+        "lineHeight": "24px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/services/",
+        "/pricing/",
+        "/contact/",
+        "/partners/terms/",
+        "/book/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "33.18px",
+        "lineHeight": "39.816px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/solutions/",
+        "/resources/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "16.8px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "16.8px",
+        "fontWeight": "600",
+        "color": "rgb(0, 240, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ],
+  "dark:p": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "600",
+        "color": "rgb(0, 240, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/about/",
+        "/case-studies/",
+        "/pricing/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/diagnostic/",
+        "/company/about/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "17px",
+        "lineHeight": "26.35px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "oklab(0.870032 -0.136454 -0.0575718 / 0.9)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/services/",
+        "/solutions/",
+        "/case-studies/",
+        "/pricing/",
+        "/resources/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/book/",
+        "/faq/",
+        "/platform/",
+        "/technology/",
+        "/technology/dirt/",
+        "/company/about/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/",
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/about/",
+        "/contact/",
+        "/opportunities/",
+        "/partners/",
+        "/partners/terms/",
+        "/careers/",
+        "/faq/",
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/legal/cookies/",
+        "/platform/",
+        "/technology/",
+        "/company/about/",
+        "/legal/privacy/",
+        "/legal/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(167, 178, 196)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/services/",
+        "/solutions/",
+        "/pricing/",
+        "/resources/",
+        "/book/",
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/",
+        "/careers/",
+        "/legal/cookies/",
+        "/technology/dirt/",
+        "/diagnostic/",
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "20px",
+        "lineHeight": "28px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/pricing/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/contact/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/partners/",
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/partners/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "28px",
+        "fontWeight": "400",
+        "color": "rgb(0, 240, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/book/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "27.52px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/privacy-policy/",
+        "/terms/",
+        "/refund-policy/",
+        "/legal/privacy/",
+        "/legal/terms/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "27.52px",
+        "fontWeight": "400",
+        "color": "rgb(167, 178, 196)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/thank-you/",
+        "/checkout/success/",
+        "/checkout/cancel/",
+        "/404.html"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "18px",
+        "lineHeight": "27.9px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px",
+        "fontWeight": "400",
+        "color": "rgb(167, 178, 196)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "500",
+        "color": "rgb(167, 178, 196)",
+        "backgroundColor": "oklab(0.223136 -0.017419 -0.0726877 / 0.78)",
+        "padding": "8px 12px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/solutions/revenue-leakage/",
+        "/solutions/aging-ar/",
+        "/solutions/denials/",
+        "/solutions/credentialing-bottlenecks/",
+        "/solutions/operational-efficiency/",
+        "/solutions/reporting-visibility/",
+        "/solutions/scaling-practice-ops/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(0, 240, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/services/rcm/",
+        "/services/medical-billing/",
+        "/services/ar-recovery/",
+        "/services/denial-management/",
+        "/services/payment-posting/",
+        "/services/patient-balances/",
+        "/services/credentialing/",
+        "/services/practice-ops/",
+        "/services/healthcare-it/",
+        "/services/workflow-automation/",
+        "/services/reporting-analytics/",
+        "/services/operational-consulting/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "22.75px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/resources/healthcare-revenue-intelligence-asc-denials/",
+        "/resources/revenue-leakage-guide/",
+        "/resources/aging-ar-playbook/",
+        "/resources/denial-management-root-cause/",
+        "/resources/credentialing-operations-checklist/",
+        "/resources/practice-ops-kpi-model/",
+        "/resources/healthcare-automation-readiness/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16.8px",
+        "fontWeight": "700",
+        "color": "rgb(0, 240, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "24.08px",
+        "fontWeight": "400",
+        "color": "rgb(215, 228, 222)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(245, 158, 11)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ],
+  "dark:button": [
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "15px",
+        "lineHeight": "21px",
+        "fontWeight": "700",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgb(0, 240, 255)",
+        "padding": "13px 18px",
+        "borderRadius": "8px"
+      },
+      "routes": [
+        "/contact/",
+        "/book/",
+        "/diagnostic/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(168, 183, 204)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "4px"
+      },
+      "routes": [
+        "/privacy-policy/",
+        "/legal/privacy/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "8px 16px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/legal/cookies/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "25.6px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "4px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/technology/dirt/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "17.6px",
+        "fontWeight": "600",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "oklab(0.585387 0.0253055 -0.202469 / 0.12)",
+        "padding": "8px 12px",
+        "borderRadius": "13.6px"
+      },
+      "routes": [
+        "/technology/dirt/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "25.6px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(8, 22, 18, 0.88)",
+        "padding": "0px",
+        "borderRadius": "50%"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "16px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "50%"
+      },
+      "routes": [
+        "/case-studies/dirt-poc-01/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(1, 26, 61)",
+        "backgroundColor": "rgb(0, 240, 255)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(1, 26, 61)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    },
+    {
+      "style": {
+        "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, sans-serif",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "padding": "0px 20px",
+        "borderRadius": "3.35544e+07px"
+      },
+      "routes": [
+        "/__v4-lab/"
+      ]
+    }
+  ]
+}
