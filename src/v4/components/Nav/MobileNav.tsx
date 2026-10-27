@@ -31,7 +31,7 @@ export function MobileNav({ currentPath, onOpenChange }: { currentPath: string; 
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="root-mobile-scrim fixed inset-0 z-50" />
-        <Dialog.Content className="ux-nav-mobile-sheet fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-hidden text-text focus:outline-none xl:hidden" aria-describedby={undefined} aria-modal="true">
+        <Dialog.Content className="glass-strong ux-nav-mobile-sheet fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-hidden text-text focus:outline-none xl:hidden" aria-describedby={undefined} aria-modal="true">
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-5">
             <Dialog.Title className="text-lg font-semibold">Menu</Dialog.Title>
             <Dialog.Close aria-label="Close menu" className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-[var(--color-focus)]">

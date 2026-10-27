@@ -101,8 +101,8 @@ test.describe('header', () => {
     await consentGiven(page);
     const nav = page.getByRole('navigation', { name: 'Primary navigation' });
     const labels = await nav.locator('li > a, li > button').allInnerTexts();
-    expect(labels.map((label) => label.trim())).toEqual(['Home', 'About', 'Services', 'Solutions', 'How We Work', 'Pricing', 'Resources', 'Opportunities', 'Contact']);
-    await expect(page.locator('header').getByRole('link', { name: 'Book a Diagnostic' })).toHaveAttribute('href', '/diagnostic/');
+    expect(labels.map((label) => label.trim())).toEqual(['Services', 'Solutions', 'Technology', 'Resources', 'Company', 'Book a Consultation']);
+    await expect(page.locator('header').getByRole('link', { name: 'Book a Consultation with ROOT' })).toHaveAttribute('href', '/book/');
   });
 
   test('has no wrapped or clipped labels at laptop and desktop widths', async ({ page, isMobile }) => {
@@ -147,10 +147,12 @@ test.describe('header', () => {
     await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog', { name: 'Menu' });
     await expect(dialog).toBeVisible();
-    for (const label of ['Home', 'About', 'How We Work', 'Pricing', 'Resources', 'Contact']) {
-      await expect(dialog.getByRole('link', { name: label, exact: true })).toBeVisible();
+    for (const label of ['Services', 'Solutions', 'Technology', 'Resources', 'Company']) {
+      await expect(dialog.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
-    await expect(dialog.getByRole('link', { name: 'Book a Diagnostic' })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Resources' }).click();
+    await expect(dialog.getByRole('link', { name: /Resource library/ })).toBeVisible();
+    await expect(dialog.getByRole('link', { name: 'Book a Consultation with ROOT' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     await expect(open).toBeFocused();
@@ -165,7 +167,7 @@ test.describe('header', () => {
     await expect(skip).toBeFocused();
     await expect(skip).toBeVisible();
     await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/#main-content$/);
+    await expect(page).toHaveURL(/#main$/);
   });
 });
 

@@ -46,6 +46,7 @@ test.describe('ROOT V4 smoke', () => {
     test.skip(!isMobile, 'desktop project covers the inline nav');
     await page.goto('/__v4-lab/');
     await page.getByRole('button', { name: 'Open menu' }).click();
-    await expect(page.getByRole('link', { name: 'Platform' })).toBeVisible();
+    await page.getByRole('dialog', { name: 'Menu' }).getByRole('button', { name: 'Technology' }).click();
+    await expect(page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /ROOT Platform/ })).toBeVisible();
   });
 });
