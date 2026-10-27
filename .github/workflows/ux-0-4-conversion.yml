@@ -1,0 +1,58 @@
+name: UX-0.4 Conversion Audit
+on:
+  push:
+    branches:
+      - codex/ux-0-4-conversion-audit
+permissions:
+  contents: write
+concurrency:
+  group: ux-0-4-conversion-audit
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium
+      - name: Collect rendered conversion and field evidence
+        run: |
+          npx vite --host 127.0.0.1 --port 4319 --strictPort > /tmp/ux04-vite.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:4319/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/ux-audit/ux04-conversion.mjs
+      - name: Validate route, CTA and explicit PHI verdict coverage
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { allRoutes } from './src/seo/routeRegistry.js';
+          const data = JSON.parse(readFileSync('docs/website/baseline/conversion-evidence.json', 'utf8'));
+          const report = readFileSync('docs/website/baseline/conversion-audit.md', 'utf8');
+          const covered = new Set(data.ctas.map(x => x.route));
+          if (data.routes !== allRoutes.length || data.errors.length || data.ctas.length === 0 ||
+              allRoutes.some(x=>!covered.has(x.path)) || !report.includes('PHI scan verdict — NOT CERTIFIED') ||
+              !report.includes('## Every rendered CTA') || !report.includes('## Success, failure and instrumentation contract')) {
+            throw Error('UX-0.4 evidence coverage or PHI result incomplete');
+          }
+          console.log('UX04 verified', data.routes, 'routes,', data.ctas.length, 'CTA rows,', data.forms.length, 'forms');
+          NODE
+      - name: Commit report and inspectable JSON evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/website/baseline/conversion-audit.md docs/website/baseline/conversion-evidence.json
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(ux-0.4): audit RCM buyer conversion routes and PHI fields"
+            git push origin HEAD:codex/ux-0-4-conversion-audit
+          fi

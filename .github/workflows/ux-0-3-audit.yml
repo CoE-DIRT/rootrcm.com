@@ -1,0 +1,103 @@
+name: UX-0.3 Defect Matrix Audit
+on:
+  push:
+    branches: [codex/ux-0-3-defect-matrix]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ux-0-3-defect-matrix
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false @axe-core/playwright@4
+      - run: npx playwright install chromium
+      - name: Audit every route in light and dark
+        run: |
+          npx vite --host 127.0.0.1 --port 4319 --strictPort > /tmp/ux03-vite.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:4319/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/ux-audit/browser.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ux03-browser-evidence
+          path: .ux03-results/browser.json
+          if-no-files-found: error
+
+  lighthouse:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false lighthouse@12
+      - run: npx playwright install chromium
+      - name: Lighthouse CI mobile/desktop route shard
+        env:
+          UX03_SHARD: ${{ matrix.shard }}
+          UX03_SHARDS: '6'
+        run: |
+          npx vite --host 127.0.0.1 --port 4319 --strictPort > /tmp/ux03-vite.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:4319/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/ux-audit/lighthouse.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ux03-lighthouse-${{ matrix.shard }}
+          path: .ux03-results/lighthouse-${{ matrix.shard }}.json
+          if-no-files-found: error
+
+  report:
+    needs: [browser, lighthouse]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ux03-*
+          path: .ux03-results
+          merge-multiple: true
+      - name: Generate ranked issue matrix and verify screenshots
+        run: node scripts/ux-audit/merge.mjs
+      - name: Commit verified report and evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/website/baseline/issue-matrix.md docs/website/baseline/ux-0-3-evidence
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(ux-0.3): record Lighthouse axe links styles and copy defects"
+            git push origin HEAD:codex/ux-0-3-defect-matrix
+          fi
