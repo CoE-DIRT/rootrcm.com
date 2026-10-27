@@ -227,6 +227,14 @@
 | UX03-0141 | Cross-route (p, dark) | Computed-style conflict: 24 distinct computed style signatures (>2 threshold; may include intentional variants) | **Medium** | [JSON](./ux-0-3-evidence/styles.json) | Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides. |
 | UX03-0142 | Cross-route (p, light) | Computed-style conflict: 22 distinct computed style signatures (>2 threshold; may include intentional variants) | **Medium** | [JSON](./ux-0-3-evidence/styles.json) | Compare element roles and canonical Clinical Glass typography/button tokens; remove only unintended overrides. |
 
+## Calibration and interpretation warnings
+
+- **LCP values are provisional, not confirmed production defects.** All 114 simulated Lighthouse scans exceeded 2.5 s. Median LCP is approximately **83,976 ms mobile** and **13,946 ms desktop**, with remarkably similar results across unrelated routes. The audits used a **Vite development server**, not an optimized production preview. This unusually uniform pattern suggests test-environment or shared loading overhead may dominate; these 114 High flags require repeat measurement against `npm run build` + `npm run preview` before any route-specific performance remediation or public performance claim.
+- **CLS exceptions occur on an internal prototype.** The two CLS High flags (0.242 mobile, 0.332 desktop) are for `/case-studies/dirt-poc-01/`, excluded from production builds. Prioritize validation of real public routes separately.
+- **Copy overlaps are intentional aliases.** All three >85% shingle-overlap pairs are legacy canonical aliases (`/company/about/`, `/legal/privacy/`, `/legal/terms/`) and their destination pages. Treat as SEO canonical/redirect hygiene checks, **not** instructions to rewrite legitimate page content. No non-alias page pairs crossed the duplication threshold.
+- **15 Critical rows are theme/route observations, not 15 independent root causes.** Several repeat the same link styling rule across light/dark themes or canonical aliases. Axe JSON identifies affected nodes; linked UX-0.2 screenshots provide route/theme visual context but are not element-highlighted defect screenshots.
+- **INP is unmeasured.** Lighthouse's lab navigation cannot establish field Interaction to Next Paint. All 114 INP cells deliberately show `N/A`. TBT is reported independently, not as INP.
+
 ## Interpretation and release decision
 
 - Axe criticals require semantic/component remediation, then retest with a keyboard and at least one screen reader; axe alone cannot prove WCAG 2.2 AA compliance.
