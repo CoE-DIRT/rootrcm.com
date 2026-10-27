@@ -136,7 +136,7 @@ for (const [target, meta] of seenLinks) {
     });
   }
 }
-await reqContext.dispose();
+await reqContext.close();
 await reqBrowser.close();
 writeFileSync(resolve(DIR, 'browser.json'), JSON.stringify({ timestamp: new Date().toISOString(), routes: measurements, issues: [...allIssues, ...linkIssues], linkCount: seenLinks.size }, null, 2));
 console.log(JSON.stringify({ routes: measurements.length, themedAxeScans: measurements.length * 2, links: seenLinks.size, issues: allIssues.length + linkIssues.length }));
