@@ -214,7 +214,7 @@ lines.push('',
 );
 for (const e of errors) lines.push('- Audit warning: ' + quote(e.route) + ' ' + cell(e.message));
 mkdirSync(resolve(ROOT, 'docs/website/baseline'), { recursive: true });
-writeFileSync(OUT, lines.join('\n') + '\n');
+writeFileSync(OUT, lines.join('\n').trimEnd() + '\n');
 writeFileSync(JSON_OUT, JSON.stringify({ executedAt:new Date().toISOString(), routes:allRoutes.length, counts, ctas:rows, forms, phiFlags:riskFields, vague:suspicious, errors, analyticsSources:knownEvents, posthogFrictionEvents:frictionEvents, sourceIndicators:{
   formSourceHasBlockRegex: /(?:detectPhi|PHI_BLOCKLIST|blocklistRegex|rejectSensitive|containsPhi)/i.test(formSource+stateSource),
   formSourceContainsExplicitConsent:formSource.includes('have not included and will not submit Protected Health Information'),
