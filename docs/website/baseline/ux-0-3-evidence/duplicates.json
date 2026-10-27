@@ -1,0 +1,17 @@
+[
+  {
+    "first": "/about/",
+    "second": "/company/about/",
+    "overlap": 1
+  },
+  {
+    "first": "/privacy-policy/",
+    "second": "/legal/privacy/",
+    "overlap": 1
+  },
+  {
+    "first": "/terms/",
+    "second": "/legal/terms/",
+    "overlap": 1
+  }
+]

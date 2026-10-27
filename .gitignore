@@ -8,3 +8,8 @@ dist-staging/
 test-results/
 playwright-report/
 dist/
+
+# UX-0.2 reproducible visual baselines: explicitly version every PNG and index.
+!docs/website/baseline/screens/
+!docs/website/baseline/screens/*.png
+!docs/website/baseline/screens/index.md

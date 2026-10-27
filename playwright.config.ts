@@ -1,8 +1,18 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Capture is intentionally excluded from the normal CI/browser suite. It is
+// discovered only when its exact, explicit command is used.
+// Share the CLI-selected suite with Playwright worker subprocesses; workers
+// receive different argv values and otherwise load the default testDir.
+const captureRequested = process.env.ROOT_UX02_CAPTURE === '1' || process.argv.some((arg) =>
+  arg.replaceAll('\\', '/').includes('e2e/baseline/capture.spec.ts'),
+);
+if (captureRequested) process.env.ROOT_UX02_CAPTURE = '1';
+
 export default defineConfig({
-  testDir: './tests/playwright',
+  testDir: captureRequested ? './e2e/baseline' : './tests/playwright',
   fullyParallel: true,
+  ...(captureRequested ? { workers: 2 } : {}),
   reporter: [['list']],
   webServer: [
     {
@@ -33,7 +43,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4319',
   },
-  projects: [
+  projects: captureRequested ? [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  ] : [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
   ],
