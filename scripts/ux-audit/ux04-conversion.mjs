@@ -17,8 +17,10 @@ const tick = String.fromCharCode(96);
 const quote = (v) => tick + String(v ?? '').replaceAll(tick, "'") + tick;
 const cell = (s) => String(s ?? '').replace(/[\r\n]+/g, ' ').replace(/\|/g, '/').replace(/\s+/g, ' ').trim().slice(0, 200);
 const slug = (p) => p.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'home';
-const classification = (target, text, cta) => {
+const classification = (target, text, cta, route) => {
   const x = (target + ' ' + text + ' ' + cta).toLowerCase();
+  // A Partner Network application is commercial partnership interest, NOT a job application.
+  if (route.startsWith('/partners/') && /partner network|partnership|apply by email|express interest/.test(x)) return 'Unmapped / informational';
   if (/\.txt\b|\.pdf\b|download|checklist|playbook/.test(x)) return 'Resource download';
   if (/\/careers\/|apply by email|express interest|jobs|hiring|employment/.test(x)) return 'Careers';
   if (/diagnostic|checkout|stripe|purchase|2500|2,500/.test(x)) return '$2,500 Diagnostic';
@@ -80,7 +82,7 @@ for (const r of allRoutes) {
       return { ctas, formDetails };
     });
     for (const c of snapshot.ctas) {
-      const funnel = classification(c.target, c.label, c.id);
+      const funnel = classification(c.target, c.label, c.id, r.path);
       const vague = /^(learn more|get started|click here|read more|explore more|submit|continue|more information)\b/i.test(c.label);
       const [success, error] = expectedState(c.target, c.id, funnel);
       const analytic = c.id ? (approved.has(c.id) ? (/^(tel:)/.test(c.target) ? 'phone_click' : 'cta_click') : 'NO APPROVED EVENT (' + c.id + ')') :
