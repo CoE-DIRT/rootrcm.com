@@ -4,7 +4,7 @@
  */
 import { chromium } from '@playwright/test';
 import { allRoutes } from '../../src/seo/routeRegistry.js';
-import { initialFields, fieldNames, fieldError } from '../../src/components/inquiryStateMachine.js';
+import { fieldNames } from '../../src/components/inquiryStateMachine.js';
 import { CTA_IDS } from '../../src/v4/analytics/dimensions.js';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -99,11 +99,9 @@ await browser.close();
 
 // Also inspect the closed-state CTA drawer: a primary "Talk to us" button
 // expands to WhatsApp, phone, email, all excluded from initial DOM.
-const talkSource = readFileSync(resolve(ROOT, 'src/v4/components/TalkToUs.tsx'), 'utf8');
 const formSource = readFileSync(resolve(ROOT, 'src/components/InquiryForm.jsx'), 'utf8');
 const stateSource = readFileSync(resolve(ROOT, 'src/components/inquiryStateMachine.js'), 'utf8');
 const listeners = readFileSync(resolve(ROOT, 'src/v4/analytics/listeners.ts'), 'utf8');
-const friction = readFileSync(resolve(ROOT, 'src/v4/analytics/formFriction.ts'), 'utf8');
 const posthogAdapter = readFileSync(resolve(ROOT, 'src/v4/analytics/adapter.ts'), 'utf8');
 const PHI_BLOCK = /(?:patient(?:[\s_-]*(?:name|id|dob|details))?|date[\s_-]*of[\s_-]*birth|\bdob\b|\bssn\b|social[\s_-]*security|member[\s_-]*id|claim[\s_-]*(?:number|no|#)|diagnos(?:is|es)|\bmrn\b|medical[\s_-]*record[\s_-]*(?:number|id))/i;
 const formRows = forms.flatMap(f=>f.labels.map(x=>({route:f.route,id:f.id,...x,
