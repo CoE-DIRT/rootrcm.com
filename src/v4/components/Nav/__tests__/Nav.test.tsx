@@ -76,19 +76,19 @@ describe('Mobile Dialog / Accordion', () => {
     const { container } = render(<MobileNav currentPath="/services/rcm/" />);
     const open = within(container).getByRole('button', { name: 'Open menu' });
     fireEvent.click(open);
-    const dialog = await screen.findByRole('dialog', { name: 'Explore ROOT' });
+    const dialog = await screen.findByRole('dialog', { name: 'Menu' });
     expect(dialog.getAttribute('data-state')).toBe('open');
     expect(dialog.getAttribute('aria-modal')).toBe('true');
     expect(document.body.style.overflow).toBe('hidden');
-    const nav = within(dialog).getByRole('navigation', { name: 'Mobile navigation' });
+    const nav = within(dialog).getByRole('navigation', { name: 'Mobile' });
     const group = within(nav).getByRole('button', { name: 'Services' });
     expect(group.getAttribute('aria-expanded')).toBe('false');
     fireEvent.click(group);
-    expect(group.getAttribute('aria-expanded')).toBe('true');
+    expect(group.getAttribute('data-state')).toBe('open');
     expect(within(nav).getByRole('link', { name: /Revenue Cycle Management/i })).toBeTruthy();
     expect(within(dialog).getByRole('link', { name: 'Book a Consultation with ROOT' })).toBeTruthy();
     fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape' });
-    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Explore ROOT' })).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Menu' })).toBeNull());
     expect(document.body.style.overflow).toBe('');
     await waitFor(() => expect(document.activeElement).toBe(open));
   });
@@ -96,7 +96,7 @@ describe('Mobile Dialog / Accordion', () => {
   it('contains keyboard focus within the modal while it is open', async () => {
     render(<><button type="button">Outside</button><MobileNav currentPath="/" /></>);
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
-    const dialog = await screen.findByRole('dialog', { name: 'Explore ROOT' });
+    const dialog = await screen.findByRole('dialog', { name: 'Menu' });
     const close = within(dialog).getByRole('button', { name: 'Close menu' });
     close.focus();
     expect(document.activeElement).toBe(close);

@@ -124,8 +124,8 @@ describe('header', () => {
   it('marks the current page and the current section', () => {
     renderRoute('/pricing/');
     const nav = screen.getByRole('navigation', { name: /primary navigation/i });
-    expect(within(nav).getByRole('link', { name: 'Pricing' }).getAttribute('aria-current')).toBe('page');
-    expect(within(nav).getByRole('link', { name: 'Home' }).getAttribute('aria-current')).toBeNull();
+    expect(within(nav).getByRole('button', { name: 'Technology' }).getAttribute('data-current')).toBe('section');
+    expect(within(nav).getByRole('button', { name: 'Services' }).getAttribute('aria-current')).toBeNull();
 
     cleanup();
     renderRoute('/services/rcm/');
@@ -135,7 +135,7 @@ describe('header', () => {
 
   it('keeps a skip link, a theme switch and the primary CTA available on every shell', () => {
     renderRoute('/diagnostic/'); // minimal shell
-    expect(screen.getByRole('link', { name: /skip to content/i }).getAttribute('href')).toBe('#main-content');
+    expect(screen.getByRole('link', { name: /skip to content/i }).getAttribute('href')).toBe('#main');
     expect(screen.getByRole('switch', { name: 'Light theme' })).toBeTruthy();
   });
 

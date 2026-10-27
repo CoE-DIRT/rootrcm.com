@@ -26,11 +26,11 @@ test.describe('UX-1.1 Navigation rebuild', () => {
     await page.goto('/');
     const open = page.getByRole('button', { name: 'Open menu' });
     await open.click();
-    const dialog = page.getByRole('dialog', { name: 'Explore ROOT' });
+    const dialog = page.getByRole('dialog', { name: 'Menu' });
     await expect(dialog).toBeVisible();
     await expect(dialog).toHaveAttribute('aria-modal', 'true');
     await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
-    const nav = dialog.getByRole('navigation', { name: 'Mobile navigation' });
+    const nav = dialog.getByRole('navigation', { name: 'Mobile' });
     const tech = nav.getByRole('button', { name: 'Technology' });
     await tech.click();
     await expect(tech).toHaveAttribute('aria-expanded', 'true');

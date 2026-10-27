@@ -31,21 +31,21 @@ export function MobileNav({ currentPath, onOpenChange }: { currentPath: string; 
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="root-mobile-scrim fixed inset-0 z-50" />
-        <Dialog.Content className="root-nav-mobile-sheet fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-hidden text-text focus:outline-none xl:hidden" aria-describedby={undefined}>
+        <Dialog.Content className="ux-nav-mobile-sheet fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-hidden text-text focus:outline-none xl:hidden" aria-describedby={undefined} aria-modal="true">
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-5">
-            <Dialog.Title className="text-lg font-semibold">Explore ROOT</Dialog.Title>
+            <Dialog.Title className="text-lg font-semibold">Menu</Dialog.Title>
             <Dialog.Close aria-label="Close menu" className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-[var(--color-focus)]">
               <X size={22} aria-hidden="true" />
             </Dialog.Close>
           </div>
-          <nav aria-label="Mobile navigation" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5">
+          <nav aria-label="Mobile" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5">
             <Accordion.Root type="multiple" className="space-y-2">
               {items.map((item) => (
                 <Accordion.Item value={item.label} key={item.href} className="rounded-[var(--radius-root)] border border-border">
                   <Accordion.Header>
                     <Accordion.Trigger
-                      aria-current={isCurrent(item, currentPath) ? 'page' : undefined}
-                      data-current={isSectionCurrent(item, currentPath) ? 'section' : undefined}
+                      aria-current={isCurrent(item, currentPath) ? 'page' : isSectionCurrent(item, currentPath) ? 'true' : undefined}
+                      data-current={isCurrent(item, currentPath) ? 'page' : isSectionCurrent(item, currentPath) ? 'section' : undefined}
                       className="group flex min-h-12 w-full items-center justify-between gap-3 rounded-[var(--radius-root)] px-4 text-left font-medium focus-visible:outline-2 focus-visible:outline-[var(--color-focus)]"
                     >
                       {item.label}
@@ -71,7 +71,7 @@ export function MobileNav({ currentPath, onOpenChange }: { currentPath: string; 
               ))}
             </Accordion.Root>
           </nav>
-          <div className="root-nav-mobile-action shrink-0 border-t border-border bg-[var(--surface-glass)] px-5 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-4">
+          <div className="ux-nav-mobile-action shrink-0 border-t border-border bg-[var(--surface-glass)] px-5 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-4">
             <NavCta location="mobile-nav" className="flex w-full justify-center" onClick={() => change(false)} />
           </div>
         </Dialog.Content>
