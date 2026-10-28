@@ -110,7 +110,7 @@
 
 .v4-root .root-commercial-bento:hover,
 .v4-root .root-commercial-bento:focus-within {
-  border-color: var(--border-strong);
+  border-color: var(--color-border-strong);
   box-shadow: var(--shadow-glass-3);
 }
 
