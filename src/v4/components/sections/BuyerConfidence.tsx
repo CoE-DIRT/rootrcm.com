@@ -60,37 +60,37 @@ const additionalPressures = [
 
 export function BuyerConfidence() {
   return (
-    <Section id="buyer-confidence" className="root-buyer-confidence" dense>
+    <Section id="buyer-confidence" className="buyer-confidence-section" dense>
       <SectionHeader
         eyebrow="For practice owners, CFOs and revenue leaders"
         title="Keep visibility. Keep control. Change only what needs changing."
         description="Your concern is not simply whether billing can be outsourced. It is whether financial oversight, cash flow and the people running your practice stay protected."
       />
-      <div className="root-confidence-grid">
+      <div className="buyer-confidence-grid">
         {worries.map(({ title, concern, answer, Icon }) => (
-          <GlassCard key={title} as="article" variant="readable" hover={false} className="root-confidence-card">
-            <span className="root-confidence-icon"><Icon size={20} aria-hidden="true" /></span>
+          <GlassCard key={title} as="article" variant="readable" hover={false} className="buyer-confidence-card">
+            <span className="buyer-confidence-icon"><Icon size={20} aria-hidden="true" /></span>
             <h3>{title}</h3>
-            <p className="root-confidence-concern">{concern}</p>
+            <p className="buyer-confidence-concern">{concern}</p>
             <p>{answer}</p>
           </GlassCard>
         ))}
       </div>
 
-      <details className="root-confidence-disclosure">
+      <details className="buyer-confidence-disclosure">
         <summary>Four more reasons leaders hesitate to switch <span>See how ROOT reduces transition risk</span></summary>
-        <div className="root-risk-grid">
+        <div className="buyer-risk-grid">
           {switchRisks.map(({ title, fear, approach }) => (
-            <div key={title} className="root-risk-item">
+            <div key={title} className="buyer-risk-item">
               <h3>{title}</h3>
-              <p className="root-risk-fear">{fear}</p>
+              <p className="buyer-risk-fear">{fear}</p>
               <p>{approach}</p>
             </div>
           ))}
         </div>
       </details>
 
-      <div className="root-pressure-row" aria-label="Additional operating pressures we address">
+      <div className="buyer-pressure-row" aria-label="Additional operating pressures we address">
         {additionalPressures.map((pressure) => <span key={pressure}><CheckCircle2 size={14} aria-hidden="true" />{pressure}</span>)}
       </div>
     </Section>
@@ -99,20 +99,20 @@ export function BuyerConfidence() {
 
 export function ThreeStepTransition() {
   return (
-    <Section id="how-transition-works" dense tone="soft" className="root-transition-section">
-      <div className="root-transition-heading">
+    <Section id="how-transition-works" dense tone="soft" className="buyer-transition-section">
+      <div className="buyer-transition-heading">
         <SectionHeader
           eyebrow="Low-disruption entry"
           title="Getting clarity is as easy as 1–2–3."
           description="We can assess and improve your existing revenue operation without requiring an EHR or practice-management replacement."
         />
-        <LinkButton href="/diagnostic/" variant="outline" size="md" data-cta="book-diagnostic" data-location="home-three-steps" data-destination="/diagnostic/">
+        <LinkButton href="/diagnostic/" variant="outline" size="md" data-cta="book-diagnostic" data-location="home-operating-model" data-destination="/diagnostic/">
           Review the $2,500 Diagnostic <ArrowRight size={16} aria-hidden="true" />
         </LinkButton>
       </div>
-      <ol className="root-transition-grid">
+      <ol className="buyer-transition-grid">
         {operatingSteps.map(({ number, title, text }) => (
-          <li key={number} className="root-transition-step">
+          <li key={number} className="buyer-transition-step">
             <span>{number}</span>
             <h3>{title}</h3>
             <p>{text}</p>
@@ -125,14 +125,14 @@ export function ThreeStepTransition() {
 
 export function CredentialingReadiness() {
   return (
-    <Section id="credentialing-readiness" dense className="root-credentialing-section">
-      <div className="root-credentialing-intro">
+    <Section id="credentialing-readiness" dense className="buyer-credentialing-section">
+      <div className="buyer-credentialing-intro">
         <div>
-          <p className="root-credentialing-eyebrow"><ShieldCheck size={16} aria-hidden="true" /> Revenue-readiness infrastructure</p>
+          <p className="buyer-credentialing-eyebrow"><ShieldCheck size={16} aria-hidden="true" /> Revenue-readiness infrastructure</p>
           <h2>Credentialing delays can stop a practice from collecting.</h2>
           <p>Missing provider enrollment, unverified locations, missed revalidations and unclear effective dates can delay payer participation and create substantial revenue exposure. For larger organizations, the billing value at risk can reach millions.</p>
         </div>
-        <GlassCard as="div" hover={false} variant="readable" className="root-credentialing-commitment">
+        <GlassCard as="div" hover={false} variant="readable" className="buyer-credentialing-commitment">
           <span>Our approach</span>
           <strong>Verify before submitting. Track every payer handoff.</strong>
           <p>Pre-submission quality control + milestone monitoring + accountable follow-up. We do not ask practices to change their EHR to begin.</p>
@@ -141,16 +141,16 @@ export function CredentialingReadiness() {
           </LinkButton>
         </GlassCard>
       </div>
-      <div className="root-enrollment-grid">
+      <div className="buyer-enrollment-grid">
         {enrollmentSteps.map(({ title, Icon, text }) => (
-          <div className="root-enrollment-item" key={title}>
+          <div className="buyer-enrollment-item" key={title}>
             <Icon size={21} aria-hidden="true" />
             <h3>{title}</h3>
             <p>{text}</p>
           </div>
         ))}
       </div>
-      <p className="root-enrollment-context">
+      <p className="buyer-enrollment-context">
         Payers determine acceptance and approval dates. We assess completeness and processing-time risk before filing, then track outcomes and follow-up evidence using supported integrations or controlled manual workflows.
         {' '}<a href="https://www.cms.gov/medicare/enrollment-renewal/providers-suppliers/chain-ownership-system-pecos/manage-your-enrollment" target="_blank" rel="noopener noreferrer">CMS enrollment guidance</a>.
       </p>
