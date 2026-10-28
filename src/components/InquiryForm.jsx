@@ -2,6 +2,7 @@ import { useId, useMemo, useReducer, useState } from 'react';
 import { ArrowRight, CircleAlert, CircleCheck, Copy, LoaderCircle, Mail, X } from 'lucide-react';
 import { getExperimentContext } from '../v4/experiments/engine.ts';
 import { buildDeliveryPayload, getInquiryEndpoint } from '../modules/glass-core/formDelivery.js';
+import { readLeadAttribution } from '../modules/glass-core/leadAttribution.js';
 import { submitDiagnosticLead, submitCommercialInquiry } from '../v4/lib/appwrite/mutations.ts';
 import { buildInquiryMailto, buildInquirySummary } from '../modules/glass-core/inquiryTemplate.js';
 import InquiryVerification from './InquiryVerification.jsx';
@@ -9,19 +10,12 @@ import { createInquiryState, inquiryReducer, validateFields, mapLeadError } from
 
 function getAttribution() {
   if (typeof window === 'undefined') return {};
-  const params = new URLSearchParams(window.location.search);
-  const current = {
-    utm_source: params.get('utm_source') || '',
-    utm_medium: params.get('utm_medium') || '',
-    utm_campaign: params.get('utm_campaign') || '',
-    utm_content: params.get('utm_content') || '',
-  };
-  const hasCurrent = Object.values(current).some(Boolean);
-  if (hasCurrent) sessionStorage.setItem('root-attribution', JSON.stringify(current));
+  // Some privacy modes throw merely on reading the sessionStorage property.
+  // Attribution must never make the contact/Diagnostic form unavailable.
   try {
-    return hasCurrent ? current : JSON.parse(sessionStorage.getItem('root-attribution') || '{}');
+    return readLeadAttribution(window.location.search, window.sessionStorage);
   } catch {
-    return current;
+    return readLeadAttribution(window.location.search);
   }
 }
 

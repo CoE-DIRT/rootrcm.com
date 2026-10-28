@@ -602,6 +602,28 @@ describe('tracker', () => {
     expect(sent.at(-1)?.[1]).toBe('cta_click');
   });
 
+  it('reports GA4 generate_lead only for confirmed delivery, not clicks or failed forms', async () => {
+    const fetchMock = await setup({ firstParty: true, ga4: true });
+    window.history.pushState({}, '', '/contact/?email=patient@example.com&gclid=sensitive');
+    track('cta_click', { cta_id: 'start-conversation', cta_location: 'contact-form' });
+    track('form_submit', { form_id: 'contact-inquiry', status: 'failure', email: 'patient@example.com' });
+    track('form_submit', { form_id: 'contact-inquiry', status: 'success', email: 'patient@example.com' });
+    await vi.advanceTimersByTimeAsync(2_100);
+    const entries = (window.dataLayer as ArrayLike<unknown>[]).map((entry) => Array.from(entry));
+    const leadEvents = entries.filter((entry) => entry[0] === 'event' && entry[1] === 'generate_lead');
+    expect(leadEvents).toEqual([['event', 'generate_lead', { form_id: 'contact-inquiry', page_path: '/contact/' }]]);
+    expect(JSON.stringify(entries)).not.toContain('patient@example.com');
+    expect(JSON.stringify(entries)).not.toContain('gclid');
+    expect(bodies(fetchMock).filter((e) => e.event_name === 'form_submit').map((e) => e.properties.status)).toEqual(['failure', 'success']);
+    window.history.pushState({}, '', '/');
+  });
+
+  it('never emits generate_lead without GA4 consent or a valid Measurement ID', async () => {
+    await setup({ firstParty: true, ga4: false });
+    track('form_submit', { form_id: 'diagnostic-inquiry', status: 'success' });
+    expect(window.dataLayer).toBeUndefined();
+  });
+
   it('builds GA4 page_view and purchase payloads without query strings or personal data', async () => {
     await setup({ firstParty: false, ga4: true });
     window.history.pushState({}, '', '/pricing/?email=alex@example.com');

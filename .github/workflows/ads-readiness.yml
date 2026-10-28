@@ -1,0 +1,30 @@
+name: Paid media GO-NO-GO (evidence gate)
+
+# This is intentionally NOT a normal CI check. It must FAIL until real
+# production account settings and evidence are available. Do not treat a
+# successful build or screenshot as authorization to spend on advertising.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 22
+      - name: Strict external business-readiness evidence check
+        run: node scripts/ads/readiness-check.mjs --strict
+        env:
+          ROOT_P0_CONTACT_RECEIPT_ID: ${{ secrets.ROOT_P0_CONTACT_RECEIPT_ID }}
+          ROOT_P0_DIAGNOSTIC_RECEIPT_ID: ${{ secrets.ROOT_P0_DIAGNOSTIC_RECEIPT_ID }}
+          ROOT_P0_GA4_MEASUREMENT_ID: ${{ secrets.ROOT_P0_GA4_MEASUREMENT_ID }}
+          ROOT_P0_GENERATE_LEAD_VERIFIED: ${{ vars.ROOT_P0_GENERATE_LEAD_VERIFIED }}
+          ROOT_P0_ADS_CONVERSION_VERIFIED: ${{ vars.ROOT_P0_ADS_CONVERSION_VERIFIED }}
+          ROOT_P0_EMAIL_AUTH_VERIFIED: ${{ vars.ROOT_P0_EMAIL_AUTH_VERIFIED }}
+          ROOT_P0_CONSENT_VERIFIED: ${{ vars.ROOT_P0_CONSENT_VERIFIED }}
+          ROOT_P0_AD_POLICY_VERIFIED: ${{ vars.ROOT_P0_AD_POLICY_VERIFIED }}

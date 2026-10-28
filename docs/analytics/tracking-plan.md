@@ -68,6 +68,8 @@ build can run, and describes the bot-protection challenge only for owned contact
 | `cta_click` | a click on an approved `data-cta` element (`src/v4/analytics/approvedCtas.ts`; the ids are listed in `dimensions.js`) | `cta_id`, `cta_location`, `destination`, `engagement_type`, `experiment_id`, `variant` |
 | `phone_click` | a phone CTA or any `tel:` link | `cta_id`, `cta_location` (never the number) |
 | `form_submit` | an inquiry form result, by form id | `form_id` (`contact-inquiry`, `diagnostic-inquiry`, `book-inquiry`), `status` (`success` or `failure`) |
+
+**Paid acquisition conversion bridge (P0):** When GA4 is configured, consented and active, an acknowledged `form_submit` result with `status=success` additionally sends Google's recommended GA4 **`generate_lead`** event with only an allowlisted `form_id` and canonical `page_path`. This is a GA4-only derived event, not an added first-party/Appwrite schema event; the eight-event Appwrite allowlist remains unchanged. Failed, attempted and invalid forms never generate leads. No Measurement ID is configured as of 2026-10-28. Import from a real GA4 key event to Google Ads only after the account is connected, tested and approved. See `docs/ads/P0-LAUNCH-READINESS.md`.
 | `checkout_start` | the visitor starts Stripe test-mode checkout | `product_id`, `value`, `currency` |
 | `purchase` | **only** after the server has verified a paid Checkout Session | `product_id`, `transaction_id` (the server-derived purchase reference), `value`, `currency`, `status` |
 | `experiment_exposure` | an A/B surface renders for an assigned visitor, once per session | `experiment_id`, `variant` |
@@ -150,12 +152,17 @@ GA4 is not active until all of these are done and verified.
    period consistent with the owner's needs (2 months or 14 months).
 4. Register event-scoped **custom dimensions** for the parameters this site sends: `cta_id`, `cta_location`, `destination`,
    `engagement_type`, `form_id`, `status`, `percent_scrolled`, `product_id`, `variant`, `experiment_id`.
-5. Key events (conversions): create a derived event `generate_lead` (Events > Create event: `event_name` equals `form_submit`
-   and `status` equals `success`) and mark it a key event; mark `purchase` once Stripe is approved. Decide with the owner
-   whether `cta_click` (`book-diagnostic`) and `phone_click` are key events.
+5. Key events (conversions): **do not create a derived `generate_lead` event** in GA4. ROOT's current website
+   already sends exactly one `generate_lead` event directly after each acknowledged `form_submit` success.
+   **Delete/disable any pre-existing GA4 "Create event" rule that generates `generate_lead` from
+   `form_submit` + `status=success` before enabling the new website version**, or the lead will be
+   double-counted. Mark only the directly emitted `generate_lead` as the primary lead key event
+   after testing. Do not mark the raw `form_submit` event as another lead conversion. Mark
+   `purchase` only once Stripe is approved and verified; treat `cta_click` and `phone_click`
+   as engagement signals, not paid-lead conversions by default.
 6. Admin > Data filters: define internal-traffic rules (office IPs) in GA4 itself. The site never reads IP addresses.
 7. Verify on a preview deployment with **DebugView**: accept analytics in the banner, then confirm `page_view`, `scroll`,
-   `cta_click` and a synthetic `form_submit` arrive once each with the expected parameters, and that **nothing** arrives when analytics
+   `cta_click` and a synthetic `form_submit` plus a single `generate_lead` (on acknowledged success only) arrive with the expected parameters, and that **nothing** arrives when analytics
    is rejected or withdrawn. Only then may anyone say GA4 is active.
 
 Consent Mode: the tag loads only after consent, with `analytics_storage` defaulting to `denied` and updated to `granted`,
