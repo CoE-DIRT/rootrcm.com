@@ -120,3 +120,18 @@ it('sends only registered campaign labels on an acknowledged contact inquiry', a
     window.sessionStorage.clear();
   }
 });
+
+it('renders the contact form when reading window.sessionStorage throws SecurityError', () => {
+  const descriptor = Object.getOwnPropertyDescriptor(window, 'sessionStorage');
+  Object.defineProperty(window, 'sessionStorage', {
+    configurable: true,
+    get() { throw new DOMException('Storage blocked', 'SecurityError'); },
+  });
+  try {
+    render(<InquiryForm />);
+    expect(screen.getByLabelText('Name', { exact: true })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Start the Conversation/ })).toBeTruthy();
+  } finally {
+    if (descriptor) Object.defineProperty(window, 'sessionStorage', descriptor);
+  }
+});
