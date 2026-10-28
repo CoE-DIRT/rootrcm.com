@@ -151,7 +151,7 @@ export function CredentialingReadiness() {
         ))}
       </div>
       <p className="root-enrollment-context">
-        Payers determine acceptance and approval dates. We assess submission completeness and time risk before filing, then track outcomes and follow-up evidence; no universal API connectivity or guaranteed payer fast-track is implied.
+        Payers determine acceptance and approval dates. We assess completeness and processing-time risk before filing, then track outcomes and follow-up evidence using supported integrations or controlled manual workflows.
         {' '}<a href="https://www.cms.gov/medicare/enrollment-renewal/providers-suppliers/chain-ownership-system-pecos/manage-your-enrollment" target="_blank" rel="noopener noreferrer">CMS enrollment guidance</a>.
       </p>
     </Section>
