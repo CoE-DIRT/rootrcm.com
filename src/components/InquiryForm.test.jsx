@@ -91,3 +91,32 @@ it('maps 409 to duplicate-booking copy with retryable error banner and toast', a
   expect(screen.getByRole('button', { name: /Request Diagnostic/ }).disabled).toBe(false);
   expect(screen.getByText('Something went wrong — please try again')).toBeTruthy();
 });
+
+it('sends only registered campaign labels on an acknowledged contact inquiry', async () => {
+  window.sessionStorage.clear();
+  window.history.replaceState({}, '', '/contact/?utm_source=Google&utm_medium=CPC&utm_campaign=person%40example.com&utm_content=sensitive');
+  try {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ success: 'true' }) });
+    vi.stubGlobal('fetch', fetchMock);
+    render(<InquiryForm />);
+    for (const [label, value] of [
+      ['Name', 'Synthetic QA'], ['Work email', 'qa@example.test'],
+      ['Practice / organization', 'Synthetic Organization'], ['How can we help?', 'Discuss revenue workflow'],
+    ]) fireEvent.change(screen.getByLabelText(label, { exact: true }), { target: { value } });
+    fireEvent.click(screen.getByLabelText(/will not submit Protected Health Information/));
+    fireEvent.click(screen.getByRole('button', { name: /Start the Conversation/ }));
+    await waitFor(() => expect(screen.getByText(/We've received your inquiry/)).toBeTruthy());
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [, options] = fetchMock.mock.calls[0];
+    const lead = JSON.parse(options.body);
+    expect(lead.utm_source).toBe('google');
+    expect(lead.utm_medium).toBe('cpc');
+    expect(lead.utm_campaign).toBeUndefined();
+    expect(lead.utm_content).toBeUndefined();
+    expect(lead._url).toBe(window.location.origin + '/contact/');
+    expect(window.sessionStorage.getItem('root-attribution')).not.toContain('person%40example.com');
+  } finally {
+    window.history.replaceState({}, '', '/');
+    window.sessionStorage.clear();
+  }
+});
