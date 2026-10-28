@@ -10,6 +10,9 @@
 import { ArrowRight, BarChart3, ClipboardCheck, Layers3, ReceiptText, ShieldCheck, Workflow, Activity } from 'lucide-react';
 import { LinkButton } from '@/components/ui/Button';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { BentoGrid, BentoCard } from '@/components/vendor/magicui/BentoGrid';
+import { GridPattern } from '@/components/vendor/magicui/GridPattern';
+import { mediaAssets } from '../../../siteData.js';
 import { Section, SectionHeader } from '@/components/ui/Section';
 
 type Service = { slug: string; title: string; summary: string };
@@ -29,6 +32,12 @@ const featuredServices = [
   { slug: 'reporting-analytics', number: '05', Icon: BarChart3 },
   { slug: 'workflow-automation', number: '06', Icon: Workflow },
 ] as const;
+
+const servicePhotography: Record<string, { src: string; alt: string }> = {
+  'medical-billing': { src: mediaAssets.rcmBillingFinancialOperations, alt: 'Revenue operations workspace with financial reporting tools.' },
+  'denial-management': { src: mediaAssets.practiceAdmin, alt: 'Healthcare practice administrator working at a computer.' },
+  credentialing: { src: mediaAssets.credentialing, alt: 'Provider enrollment and payer documentation workspace.' },
+};
 
 /**
  * A proof-free operational signal rail, not invented client performance KPIs.
@@ -75,28 +84,20 @@ export function CommercialServiceShowcase({ services }: { services: Service[] })
           All services <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </LinkButton>
       </div>
-      <div className="mt-9 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <BentoGrid className="mt-9" data-commercial-service-grid>
         {primaryServices.map(({ slug, title, summary, number, Icon }) => (
-          <GlassCard key={slug} variant="solution" accent="cyan" className="group flex h-full flex-col !p-0">
-            <a
-              href={`/services/${slug}/`}
-              className="flex h-full min-h-56 flex-col p-6 text-text no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data-blue"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-[var(--radius-root)] border border-border bg-panel">
-                  <Icon className="h-6 w-6 text-data-blue" aria-hidden="true" />
-                </span>
-                <span className="text-xs font-semibold tracking-[0.15em] text-muted" aria-hidden="true">{number}</span>
-              </div>
-              <h3 className="mt-5 text-xl font-semibold text-text">{title}</h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{summary}</p>
-              <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-accent">
-                Explore service <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
-              </span>
-            </a>
-          </GlassCard>
+          <BentoCard
+            key={slug}
+            name={title}
+            description={summary}
+            number={number}
+            href={`/services/${slug}/`}
+            cta="Explore service"
+            icon={<Icon className="h-7 w-7" aria-hidden="true" />}
+            media={servicePhotography[slug]}
+          />
         ))}
-      </div>
+      </BentoGrid>
       {remainingServices.length ? (
         <div className="mt-6 rounded-[var(--radius-root)] border border-border bg-panel/50 p-5">
           <p className="text-sm font-semibold text-text">Additional operating capabilities</p>
@@ -148,7 +149,9 @@ export function DirtOperatingBridge() {
             <LinkButton href="/contact/" size="md" variant="outline">Discuss your workflows</LinkButton>
           </div>
         </div>
-        <GlassCard variant="readable" accent="cyan" hover={false} className="p-6 sm:p-8">
+        <GlassCard variant="readable" accent="cyan" hover={false} className="relative isolate p-6 sm:p-8">
+          <GridPattern className="!absolute inset-0 z-0 text-data-blue/10" width={42} height={42} />
+          <div className="relative z-10">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.15em] text-data-blue">How the intelligence loop works</p>
           <ol className="space-y-4">
             {stages.map((stage, index) => (
@@ -162,6 +165,7 @@ export function DirtOperatingBridge() {
             ))}
           </ol>
           <p className="mt-5 text-xs leading-relaxed text-muted">Operating model illustration, not a live client system or product-performance claim.</p>
+          </div>
         </GlassCard>
       </div>
     </Section>
