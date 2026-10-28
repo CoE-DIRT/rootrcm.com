@@ -152,12 +152,17 @@ GA4 is not active until all of these are done and verified.
    period consistent with the owner's needs (2 months or 14 months).
 4. Register event-scoped **custom dimensions** for the parameters this site sends: `cta_id`, `cta_location`, `destination`,
    `engagement_type`, `form_id`, `status`, `percent_scrolled`, `product_id`, `variant`, `experiment_id`.
-5. Key events (conversions): create a derived event `generate_lead` (Events > Create event: `event_name` equals `form_submit`
-   and `status` equals `success`) and mark it a key event; mark `purchase` once Stripe is approved. Decide with the owner
-   whether `cta_click` (`book-diagnostic`) and `phone_click` are key events.
+5. Key events (conversions): **do not create a derived `generate_lead` event** in GA4. ROOT's current website
+   already sends exactly one `generate_lead` event directly after each acknowledged `form_submit` success.
+   **Delete/disable any pre-existing GA4 "Create event" rule that generates `generate_lead` from
+   `form_submit` + `status=success` before enabling the new website version**, or the lead will be
+   double-counted. Mark only the directly emitted `generate_lead` as the primary lead key event
+   after testing. Do not mark the raw `form_submit` event as another lead conversion. Mark
+   `purchase` only once Stripe is approved and verified; treat `cta_click` and `phone_click`
+   as engagement signals, not paid-lead conversions by default.
 6. Admin > Data filters: define internal-traffic rules (office IPs) in GA4 itself. The site never reads IP addresses.
 7. Verify on a preview deployment with **DebugView**: accept analytics in the banner, then confirm `page_view`, `scroll`,
-   `cta_click` and a synthetic `form_submit` arrive once each with the expected parameters, and that **nothing** arrives when analytics
+   `cta_click` and a synthetic `form_submit` plus a single `generate_lead` (on acknowledged success only) arrive with the expected parameters, and that **nothing** arrives when analytics
    is rejected or withdrawn. Only then may anyone say GA4 is active.
 
 Consent Mode: the tag loads only after consent, with `analytics_storage` defaulting to `denied` and updated to `granted`,
