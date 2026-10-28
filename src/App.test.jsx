@@ -77,18 +77,18 @@ describe('ROOT commercial site', () => {
     const headerCta = screen.getAllByRole('link', { name: /^Book a Diagnostic$/i }).find((link) => link.dataset.location === 'header');
     expect(headerCta.getAttribute('href')).toBe('/diagnostic/');
     expect(headerCta.getAttribute('data-cta')).toBe('book-diagnostic');
-    expect(screen.getByRole('heading', { name: /from a revenue signal to a decision/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /one revenue story across every system/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /keep visibility.*keep control/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /getting clarity is as easy as 1–2–3/i })).toBeTruthy();
     expect(screen.getAllByText(/illustrative practice profile|sample metrics/i).length).toBeGreaterThan(0);
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
     expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
-    expect(screen.getByRole('heading', { name: /revenue is lost between disconnected workflows/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /find the cause. own the next action/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /find the financial exposure worth investigating/i })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /DIRT · Data Intelligence for Revenue Transformation/i })).toBeTruthy();
-    expect(screen.getAllByRole('link', { name: /Explore revenue intelligence/i }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /credentialing delays can stop a practice from collecting/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /explore the revenue operating system/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /different specialties. one accountable revenue picture/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /not another billing vendor/i })).toBeTruthy();
+    expect(screen.getAllByRole('link', { name: /Explore credentialing/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Healthcare Revenue Intelligence \+ Operating Infrastructure/i).length).toBeGreaterThan(0);
   });
 
