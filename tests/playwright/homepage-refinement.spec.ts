@@ -21,6 +21,16 @@ test.describe('Reference-led homepage visual refinement', () => {
         await expect(page.locator('[data-commercial-service-grid] a[href="/services/medical-billing/"]')).toHaveCount(1);
         await expect(page.locator('[data-commercial-service-grid] a[href="/services/credentialing/"]')).toHaveCount(1);
 
+        const callout = await page.locator('.root-home-hero-photo-callout').boundingBox();
+        const preview = await page.locator('[data-hero-dirt-preview]').boundingBox();
+        expect(callout).not.toBeNull();
+        expect(preview).not.toBeNull();
+        if (callout && preview) {
+          const overlapX = callout.x < preview.x + preview.width && callout.x + callout.width > preview.x;
+          const overlapY = callout.y < preview.y + preview.height && callout.y + callout.height > preview.y;
+          expect(overlapX && overlapY, 'DIRT preview must not obscure the hero photo callout').toBe(false);
+        }
+
         const viewportWidth = await page.evaluate(() => window.innerWidth);
         for (const selector of ['.root-home-hero-photo', '.home-visual-dirt-preview', '[data-commercial-service-grid]']) {
           const bounds = await page.locator(selector).boundingBox();
