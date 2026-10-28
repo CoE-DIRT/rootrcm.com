@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { V4Shell } from '@/layout/V4Shell';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
 import { RevenueSignalsRail, CommercialServiceShowcase, DirtOperatingBridge } from '@/components/sections/ReferenceCommercialBlocks';
@@ -23,7 +23,7 @@ export function HomePage() {
   return (
     <V4Shell>
       <HeroSection
-        eyebrow="ROOT / Revenue Operations & Outcomes Technology"
+        eyebrow="Healthcare Revenue Intelligence + Operating Infrastructure"
         title={phase2Content['/'].h1}
         description={phase2Content['/'].lead}
         supportLine="Medical billing. Practice operations. Revenue intelligence. Workflow technology. One accountable team."
