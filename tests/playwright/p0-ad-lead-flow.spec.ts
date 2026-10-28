@@ -22,7 +22,7 @@ test('contact: first-touch campaign labels survive, PII in ad parameters does no
   expect(submitted?.utm_campaign).toBeUndefined();
   expect(submitted?.utm_content).toBeUndefined();
   expect(JSON.stringify(submitted)).not.toContain('not-for-form');
-  expect(submitted?._url).toBe('http://127.0.0.1:4173/contact/');
+  expect(submitted?._url).toBe(new URL('/contact/', page.url()).toString());
 });
 
 test('Diagnostic: only delivery-acknowledged submission converts to confirmation', async ({ page }) => {
