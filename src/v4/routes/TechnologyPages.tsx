@@ -52,7 +52,7 @@ export function TechnologyHubPage() {
           </LinkButton>
         </CTAGroup>
       </Section>
-      <EnterpriseDirtWorkbench />
+      <EnterpriseDirtWorkbench location="platform-engagement" />
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.healthcareIt}
