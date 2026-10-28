@@ -76,7 +76,7 @@ const demoViews = {
   },
 } as const;
 
-export function EnterpriseDirtWorkbench() {
+export function EnterpriseDirtWorkbench({ location = 'home-dirt' }: { location?: 'home-dirt' | 'platform-engagement' } = {}) {
   const [tab, setTab] = useState<DemoTab>('revenue');
   const view = demoViews[tab];
   return (
@@ -87,7 +87,7 @@ export function EnterpriseDirtWorkbench() {
           <h2>Explore the revenue operating system. <span>Then put people behind it.</span></h2>
           <p>DIRT connects the data view to actual management and follow-up. Explore three working sample scenarios; production integrations are scoped per engagement.</p>
         </div>
-        <LinkButton href="/technology/dirt/" variant="primary" size="md" data-cta="explore-dirt" data-location="home-dirt" data-destination="/technology/dirt/">Explore DIRT <ArrowRight size={17}/></LinkButton>
+        <LinkButton href="/technology/dirt/" variant="primary" size="md" data-cta="explore-dirt" data-location={location} data-destination="/technology/dirt/">Explore DIRT <ArrowRight size={17}/></LinkButton>
       </div>
       <div className="ent-product-frame" aria-label="Interactive sample revenue intelligence workspace">
         <aside className="ent-product-sidebar">
@@ -125,7 +125,7 @@ export function EnterpriseDirtWorkbench() {
           </div>
         </div>
       </div>
-      <div className="ent-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form" data-cta="talk-to-root" data-location="home-dirt" data-destination="/contact/" data-engagement-type="consultation">Book a free walkthrough <ArrowRight size={17}/></a></div>
+      <div className="ent-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form" data-cta="talk-to-root" data-location={location} data-destination="/contact/" data-engagement-type="consultation">Book a free walkthrough <ArrowRight size={17}/></a></div>
     </Section>
   );
 }
