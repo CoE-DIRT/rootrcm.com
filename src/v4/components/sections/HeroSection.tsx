@@ -83,13 +83,13 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               loading="eager"
               className="root-home-hero-photo-image h-full w-full object-cover"
             />
-            <div className="root-home-hero-photo-overlay" aria-hidden="true" />
+            <div className="home-visual-photo-overlay" aria-hidden="true" />
             <div className="root-home-hero-photo-callout glass-strong absolute inset-x-4 bottom-4 z-10 max-w-[21rem] rounded-[var(--radius-root)] p-4 sm:inset-x-auto sm:left-5 sm:bottom-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-data-blue">Built around your existing systems</p>
               <p className="mt-1 text-sm font-semibold leading-snug text-text">Billing execution + accountable financial intelligence.</p>
             </div>
           </div>
-          <div className="root-home-hero-dirt-preview" data-hero-dirt-preview>
+          <div className="home-visual-dirt-preview" data-hero-dirt-preview>
             {mockup}
           </div>
         </div>
