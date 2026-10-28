@@ -68,6 +68,8 @@ build can run, and describes the bot-protection challenge only for owned contact
 | `cta_click` | a click on an approved `data-cta` element (`src/v4/analytics/approvedCtas.ts`; the ids are listed in `dimensions.js`) | `cta_id`, `cta_location`, `destination`, `engagement_type`, `experiment_id`, `variant` |
 | `phone_click` | a phone CTA or any `tel:` link | `cta_id`, `cta_location` (never the number) |
 | `form_submit` | an inquiry form result, by form id | `form_id` (`contact-inquiry`, `diagnostic-inquiry`, `book-inquiry`), `status` (`success` or `failure`) |
+
+**Paid acquisition conversion bridge (P0):** When GA4 is configured, consented and active, an acknowledged `form_submit` result with `status=success` additionally sends Google's recommended GA4 **`generate_lead`** event with only an allowlisted `form_id` and canonical `page_path`. This is a GA4-only derived event, not an added first-party/Appwrite schema event; the eight-event Appwrite allowlist remains unchanged. Failed, attempted and invalid forms never generate leads. No Measurement ID is configured as of 2026-10-28. Import from a real GA4 key event to Google Ads only after the account is connected, tested and approved. See `docs/ads/P0-LAUNCH-READINESS.md`.
 | `checkout_start` | the visitor starts Stripe test-mode checkout | `product_id`, `value`, `currency` |
 | `purchase` | **only** after the server has verified a paid Checkout Session | `product_id`, `transaction_id` (the server-derived purchase reference), `value`, `currency`, `status` |
 | `experiment_exposure` | an A/B surface renders for an assigned visitor, once per session | `experiment_id`, `variant` |
