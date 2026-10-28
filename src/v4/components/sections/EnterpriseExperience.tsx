@@ -117,7 +117,7 @@ export function EnterpriseDirtWorkbench() {
               <div className="ent-product-chart-heading"><strong>Performance signals</strong><span>Illustrative 7-period trend</span></div>
               <div className="ent-bars">{view.values.map((n,i) => <div key={i} className="ent-bar-column"><span className="ent-bar" style={{height:`${n}%`}}/><small>W{i + 1}</small></div>)}</div>
             </div>
-            <div className="ent-product-insights"><strong>From insight to action</strong>{view.legend.map((line,index) => <div key={line}><span>{index + 1}</span><p>{line}</p><Check size={15}/></div>)}<p className="ent-product-note">Workflow prototype • Not a live client platform</p></div>
+            <div className="ent-product-insights"><strong>From insight to action</strong>{view.legend.map((line,index) => <div key={line}><span>{index + 1}</span><p>{line}</p><Check size={15}/></div>)}<p className="ent-product-note">Priorities remain subject to human review and accountable ownership.</p></div>
           </div>
           <div className="ent-product-workqueue">
             <div className="ent-workqueue-heading"><strong>Action workqueue</strong><span>Illustrative assignments</span></div>
@@ -125,7 +125,7 @@ export function EnterpriseDirtWorkbench() {
           </div>
         </div>
       </div>
-      <div className="ent-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form">Book a free walkthrough <ArrowRight size={17}/></a></div>
+      <div className="ent-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form" data-cta="talk-to-root" data-location="home-dirt" data-destination="/contact/" data-engagement-type="consultation">Book a free walkthrough <ArrowRight size={17}/></a></div>
     </Section>
   );
 }
@@ -147,7 +147,7 @@ export function EnterprisePricingSystem({ compact = false }: { compact?: boolean
         {visible.map((tier) => <GlassCard key={tier.name} as="article" variant="glass" hover={false} className={tier.accent ? 'ent-tier-card ent-tier-featured' : 'ent-tier-card'}>
           <span className="ent-tier-label">{tier.tag}</span><h3>{tier.name}</h3><p className="ent-tier-price">{tier.price}</p><p className="ent-tier-unit">{tier.unit}</p><p className="ent-tier-detail">{tier.detail}</p>
           <ul>{tier.bullets.map((bullet) => <li key={bullet}><Check size={15}/>{bullet}</li>)}</ul>
-          <a href={tier.href} className={tier.accent ? 'ent-tier-button is-featured' : 'ent-tier-button'}>{tier.cta} <ArrowRight size={16}/></a>
+          <a href={tier.href} data-cta={tier.tag === 'DIAGNOSTIC' ? 'book-diagnostic' : tier.tag === 'ENTRY' ? 'talk-to-root' : 'pricing-card'} data-location="home-pricing" data-destination={tier.href} data-engagement-type="pricing" className={tier.accent ? 'ent-tier-button is-featured' : 'ent-tier-button'}>{tier.cta} <ArrowRight size={16}/></a>
         </GlassCard>)}
       </div>
       <p className="ent-pricing-footnote">Indicative published pricing; managed RCM onboarding starts at $1,500 where applicable. DIRT, credentialing, implementation and MSO scopes are agreed in writing. Free consultation is not a free audit or a guarantee of availability.</p>
@@ -169,7 +169,7 @@ export function EnterpriseProofGallery() {
       <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">HOW THE OPERATING MODEL WORKS</p><h2>Proof comes from the process. <span>Never from invented numbers.</span></h2><p>Explore representative engagement scenarios. These are illustrative workflows, not claims of named client results.</p></div><div className="ent-carousel-controls"><button type="button" aria-label="Previous scenario" onClick={() => setIndex((index + scenarios.length - 1) % scenarios.length)}><ChevronLeft size={20}/></button><span>{String(index + 1).padStart(2,'0')} / {String(scenarios.length).padStart(2,'0')}</span><button type="button" aria-label="Next scenario" onClick={() => setIndex((index + 1) % scenarios.length)}><ChevronRight size={20}/></button></div></div>
       <div className="ent-scenario-carousel" aria-live="polite" aria-roledescription="carousel">
         <div className="ent-scenario-visual"><span className="ent-scenario-kicker">SCENARIO {String(index + 1).padStart(2,'0')}</span><div className="ent-scenario-orbit"><Layers3 size={44}/><span>ROOT OPERATIONS</span><div><Zap size={20}/> DIRT SIGNAL</div></div><p>Illustrative operating workflow</p></div>
-        <div className="ent-scenario-copy"><span className="ent-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="ent-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
+        <div className="ent-scenario-copy"><span className="ent-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="ent-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link} data-cta="related-solution" data-location="resource-proof" data-destination={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
       </div>
       <div className="ent-proof-under">
         <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><FileText size={22}/></div><div><h3>Verified client stories</h3><p>Case-study cards and approved client quotations are reserved here. Publication follows client authorization and evidence review.</p></div><span>IN PREPARATION</span></GlassCard>
