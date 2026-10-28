@@ -569,19 +569,22 @@ export const diagnosticFaq = [
  * `menu` marks items that open a mega menu in the desktop header.
  */
 export const primaryNav = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
   { label: 'Services', href: '/services/', menu: 'services' },
   { label: 'Solutions', href: '/solutions/', menu: 'solutions' },
-  { label: 'Technology', href: '/technology/' },
+  { label: 'How We Work', href: '/case-studies/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Resources', href: '/resources/' },
-  { label: 'Company', href: '/about/' },
+  { label: 'Opportunities', href: '/opportunities/' },
+  { label: 'Contact', href: '/contact/' },
 ];
 
 export const primaryCta = {
-  label: 'Free Consultation',
-  href: '/contact/',
-  cta: 'talk-to-root',
-  engagementType: 'consultation',
+  label: 'Book a Diagnostic',
+  href: '/diagnostic/',
+  cta: 'book-diagnostic',
+  engagementType: 'diagnostic',
 };
 
 /** Pages that are not in the primary order but must stay one click from navigation (no orphans). */
