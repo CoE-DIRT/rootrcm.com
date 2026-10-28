@@ -11,6 +11,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { pricingModels, mediaAssets } from '../../siteData.js';
 import { CheckoutButton } from '@/components/CheckoutButton';
 import { useExperiment } from '@/experiments/useExperiment';
+import '../styles/enterprise-experience.css';
 
 type PricingModel = (typeof pricingModels)[number];
 
@@ -44,6 +45,19 @@ export function PricingPage() {
           <p className="mt-4 max-w-2xl measure-body text-lg text-muted">
             {phase2Content['/pricing/'].lead}
           </p>
+        </Section>
+
+        <Section wide dense className="ent-pricing-free-wrap">
+          <div className="ent-pricing-free-card">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">Start without a commitment</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-text sm:text-3xl">A first conversation is on us.</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">Discuss revenue-cycle concerns, your existing technology and whether you need RCM, DIRT intelligence or broader MSO support. A free consultation is distinct from the structured $2,500 Diagnostic.</p>
+            </div>
+            <LinkButton href="/contact/#contact-form" variant="primary" size="lg" data-cta="talk-to-root" data-location="pricing-core" data-destination="/contact/" data-engagement-type="consultation">
+              Request a free consultation
+            </LinkButton>
+          </div>
         </Section>
 
         <Section tone="flow" wide>
