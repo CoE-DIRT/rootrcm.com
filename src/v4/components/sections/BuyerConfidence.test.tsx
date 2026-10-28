@@ -17,7 +17,7 @@ describe('ROOT buyer confidence and enrollment narrative', () => {
 
   it('explains a three-step system-preserving path linked to the existing diagnostic', () => {
     const { container } = render(<ThreeStepTransition />);
-    expect(container.querySelectorAll('.root-transition-step')).toHaveLength(3);
+    expect(container.querySelectorAll('.buyer-transition-step')).toHaveLength(3);
     expect(screen.getByText(/Measure collections, not activity/)).toBeTruthy();
     expect(screen.getByText(/Make aging A\/R traceable/)).toBeTruthy();
     expect(screen.getByText(/Prevent repeat denials upstream/)).toBeTruthy();
