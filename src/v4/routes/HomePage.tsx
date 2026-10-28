@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { phase2Content } from '../../seo/phase2Content.js';
 import { V4Shell } from '@/layout/V4Shell';
-import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
+import { Section, SectionHeader } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { HeroSection } from '@/components/sections/HeroSection';
@@ -9,7 +9,6 @@ import { HeroMockup } from '@/components/sections/HeroMockup';
 import { RevenueSignalsRail, CommercialServiceShowcase } from '@/components/sections/ReferenceCommercialBlocks';
 import { EnterpriseProductNarrative, EnterpriseDirtWorkbench, EnterprisePricingSystem, EnterpriseProofGallery, EnterpriseAssuranceAndOffers } from '@/components/sections/EnterpriseExperience';
 
-import { TrustSignals } from '@/components/TrustSignals';
 import { BuyerConfidence, ThreeStepTransition, CredentialingReadiness } from '@/components/sections/BuyerConfidence';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
 import {
@@ -121,18 +120,6 @@ function HomePageContent() {
 
       <EnterpriseAssuranceAndOffers />
 
-      <Section>
-        <SectionHeader align="center" eyebrow="Trust" title="Financial intelligence needs dependable evidence." />
-        <TrustSignals className="mx-auto mt-8 max-w-3xl" />
-        <CTAGroup className="mt-10 justify-center">
-          <LinkButton href="/diagnostic/" variant="primary" size="lg" data-cta="book-diagnostic" data-location="home-final-cta" data-destination="/diagnostic/">
-            Discover your revenue exposure
-          </LinkButton>
-          <LinkButton href="/contact/" variant="outline" size="lg">
-            Talk to ROOT
-          </LinkButton>
-        </CTAGroup>
-      </Section>
     </>
   );
 }
