@@ -53,6 +53,7 @@ export const phase2Content = {
           "Assess processing stages and timing risks using payer-specific evidence where available.",
           "Track participation decisions, effective dates, revalidations and outstanding follow-up."
         ]
+      }
     ],
     "principle": "Aging A/R is not just a billing backlog. It is a visibility and ownership problem that compounds across the revenue cycle.",
     "definition": "ROOT is a healthcare revenue intelligence and operating partner that connects revenue cycle management, credentialing, and A/R recovery. Its role is to translate fragmented operational evidence into prioritized, auditable financial actions."
