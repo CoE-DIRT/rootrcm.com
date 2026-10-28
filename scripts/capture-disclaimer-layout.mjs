@@ -20,7 +20,12 @@ try {
         const reject = page.getByRole('button', { name: 'Reject non-essential' });
         if (await reject.isVisible()) await reject.click();
         await page.evaluate(() => document.fonts.ready);
-        const frames = page.locator('figure').filter({ has: page.locator('[data-glass-placeholder]') });
+        // A compact homepage can use direct image-backed cards instead of <figure>.
+        // Both retain the same geometry-reserving GlassPlaceholder contract.
+        const figureFrames = page.locator('figure').filter({ has: page.locator('[data-glass-placeholder]') });
+        const frames = await figureFrames.count()
+          ? figureFrames
+          : page.locator('[data-glass-placeholder]').filter({ has: page.locator('img') });
         if (await frames.count() === 0) throw new Error(`No image frames rendered: ${revision} ${route}`);
         for (let index = 0; index < await frames.count(); index++) {
           const frame = frames.nth(index);
