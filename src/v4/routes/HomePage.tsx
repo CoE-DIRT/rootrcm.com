@@ -2,7 +2,6 @@ import { ArrowRight } from 'lucide-react';
 import { phase2Content } from '../../seo/phase2Content.js';
 import { V4Shell } from '@/layout/V4Shell';
 import { Section, SectionHeader } from '@/components/ui/Section';
-import { LinkButton } from '@/components/ui/Button';
 import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
