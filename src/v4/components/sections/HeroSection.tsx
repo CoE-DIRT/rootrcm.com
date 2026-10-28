@@ -50,7 +50,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
           <CTAGroup>
             <LinkButton
               href="/diagnostic/"
-              variant="primary"
+              variant="outline"
               size="lg"
               data-cta="book-diagnostic"
               data-location="home-hero"
@@ -60,8 +60,8 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
             >
               {heroCta.label ?? 'Discover Your Revenue Exposure'} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </LinkButton>
-            <LinkButton href="/contact/" variant="outline" size="lg" data-cta="talk-to-root" data-location="home-hero">
-              Talk to ROOT
+            <LinkButton href="/contact/" variant="primary" size="lg" data-cta="talk-to-root" data-location="home-hero" data-destination="/contact/" data-engagement-type="consultation">
+              Free introductory consultation
             </LinkButton>
           </CTAGroup>
           <NoPhiBanner>

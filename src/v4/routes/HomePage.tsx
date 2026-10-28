@@ -11,6 +11,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
 import { RevenueSignalsRail, CommercialServiceShowcase, DirtOperatingBridge } from '@/components/sections/ReferenceCommercialBlocks';
+import { EnterpriseProductNarrative, EnterpriseDirtWorkbench, EnterprisePricingSystem, EnterpriseProofGallery, EnterpriseAssuranceAndOffers } from '@/components/sections/EnterpriseExperience';
 
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
@@ -26,6 +27,7 @@ import {
 
 import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
 import '../styles/homepage-refinement.css';
+import '../styles/enterprise-experience.css';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
@@ -75,6 +77,7 @@ function HomePageContent() {
       />
 
       <RevenueSignalsRail />
+      <EnterpriseProductNarrative />
 
       <Section tone="soft">
         <SectionHeader
@@ -136,6 +139,7 @@ function HomePageContent() {
       </Section>
 
       <CommercialServiceShowcase services={servicePages} />
+      <EnterpriseDirtWorkbench />
 
       <Section>
         <SectionHeader
@@ -185,6 +189,7 @@ function HomePageContent() {
       </Section>
 
       <DirtOperatingBridge />
+      <EnterprisePricingSystem />
 
       {diagnostic ? (
         <Section tone="flow" wide>
@@ -243,7 +248,10 @@ function HomePageContent() {
         </div>
       </Section>
 
+      <EnterpriseProofGallery />
       <EditorialEvidence path="/" />
+
+      <EnterpriseAssuranceAndOffers />
 
       <Section>
         <SectionHeader align="center" eyebrow="Trust" title="Financial intelligence needs dependable evidence." />

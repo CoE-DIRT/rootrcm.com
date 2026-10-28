@@ -3,6 +3,8 @@ import { phase2Content } from '../../seo/phase2Content.js';
 import { EditorialEvidence } from '@/components/sections/EditorialEvidence';
 import { lazy, Suspense } from 'react';
 import { V4Shell } from '@/layout/V4Shell';
+import { EnterpriseProofGallery } from '@/components/sections/EnterpriseExperience';
+import '../styles/enterprise-experience.css';
 import { Section, SectionHeader, CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { MediaFrame } from '@/components/ui/MediaFrame';
@@ -234,6 +236,7 @@ export function CaseStudiesHubPage() {
           <LinkButton href="/contact/" variant="outline">Talk to ROOT</LinkButton>
         </CTAGroup>
       </Section>
+      <EnterpriseProofGallery />
       <EditorialEvidence path="/case-studies/" />
     </V4Shell>
   );

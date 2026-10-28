@@ -7,6 +7,8 @@ import { lazy, Suspense } from 'react';
 const DirtCommandCenter = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtCommandCenter })));
 const DirtSignalFlow = lazy(() => import('@/components/dirt/DirtCommandCenter').then((module) => ({ default: module.DirtSignalFlow })));
 import { InteractiveMiniDashboard } from '@/components/dirt/InteractiveMiniDashboard';
+import { EnterpriseDirtWorkbench } from '@/components/sections/EnterpriseExperience';
+import '../styles/enterprise-experience.css';
 import { DirtSectionNav } from '@/components/dirt/DirtSectionNav';
 import { InteroperabilityLifecycle } from '@/components/sections/InteroperabilityLifecycle';
 import { CompetitiveTable } from '@/components/sections/CompetitiveTable';
@@ -50,6 +52,7 @@ export function TechnologyHubPage() {
           </LinkButton>
         </CTAGroup>
       </Section>
+      <EnterpriseDirtWorkbench location="platform-engagement" />
       <Section tone="soft">
         <MediaFrame
           src={mediaAssets.healthcareIt}
