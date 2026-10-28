@@ -83,7 +83,7 @@ describe('ROOT commercial site', () => {
     expect(container.querySelector('img[src="/media/images/practice-team-collaboration.jpg"]')).toBeTruthy();
     expect(container.querySelector('.heroWorkstation')).toBeFalsy();
     expect(container.querySelector('.v4-root')).toBeTruthy();
-    expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toBe('/contact/');
+    expect(screen.getAllByRole('link', { name: /Talk to ROOT/i })[0].getAttribute('href')).toMatch(/^\/contact\/(?:#contact-form)?$/);
     expect(screen.getByRole('heading', { name: /credentialing delays can stop a practice from collecting/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /explore the revenue operating system/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /different specialties. one accountable revenue picture/i })).toBeTruthy();
