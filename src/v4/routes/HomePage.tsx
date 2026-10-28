@@ -10,6 +10,7 @@ import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { HeroMockup } from '@/components/sections/HeroMockup';
+import { RevenueSignalsRail, CommercialServiceShowcase, DirtOperatingBridge } from '@/components/sections/ReferenceCommercialBlocks';
 
 import { TrustSignals } from '@/components/TrustSignals';
 import { usePersonalization } from '@/growth/PersonalizationProvider';
@@ -24,6 +25,7 @@ import {
 
 
 import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
+import '../styles/homepage-refinement.css';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
@@ -71,6 +73,8 @@ function HomePageContent() {
           </HeroMockup>
         }
       />
+
+      <RevenueSignalsRail />
 
       <Section tone="soft">
         <SectionHeader
@@ -131,24 +135,7 @@ function HomePageContent() {
         </div>
       </Section>
 
-      <Section tone="soft">
-        <SectionHeader
-          eyebrow="Healthcare operating capabilities"
-          title="Intelligence with people and processes behind it."
-          description="Managed RCM, credentialing, practice operations, data architecture, and automation—connected around financial performance."
-        />
-        <div className="mt-8 flex flex-wrap gap-3">
-          {servicePages.map((service: { slug: string; title: string }) => (
-            <a
-              key={service.slug}
-              href={`/services/${service.slug}/`}
-              className="rounded-full border border-border px-4 py-2 text-sm text-text transition-colors hover:border-data-blue/45 hover:bg-panel hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-data-blue motion-reduce:transition-none"
-            >
-              {service.title}
-            </a>
-          ))}
-        </div>
-      </Section>
+      <CommercialServiceShowcase services={servicePages} />
 
       <Section>
         <SectionHeader
@@ -196,6 +183,8 @@ function HomePageContent() {
           </div>
         </div>
       </Section>
+
+      <DirtOperatingBridge />
 
       {diagnostic ? (
         <Section tone="flow" wide>

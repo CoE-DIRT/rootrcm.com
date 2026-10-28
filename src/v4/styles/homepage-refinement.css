@@ -1,0 +1,237 @@
+/*
+ * ROOT homepage visual refinement | 2026-10-28
+ * Scoped to the homepage: original styling of licensed Magic UI Bento Grid
+ * and an editorial photo + DIRT product-preview hero.
+ * Canonical design tokens remain in src/theme/theme.css and src/v4/styles/tailwind.css.
+ */
+.v4-root .root-home-hero {
+  isolation: isolate;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 80% 8%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 53%),
+    var(--app-bg);
+}
+
+.v4-root .root-home-hero .hero-photo-backdrop {
+  opacity: 0.13;
+}
+
+.v4-root .root-home-hero-layout {
+  padding-top: clamp(1.5rem, 3vw, 3.5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 4.5rem);
+}
+
+.v4-root .root-home-hero .root-hero-content {
+  background: var(--glass-bg);
+  padding: clamp(1rem, 2vw, 1.75rem);
+  box-shadow: var(--shadow-glass-2);
+}
+
+.v4-root .root-home-hero .root-hero-heading {
+  padding: clamp(1.15rem, 2.35vw, 1.95rem);
+}
+
+.v4-root .root-home-hero-title {
+  font-size: clamp(2.35rem, 4.1vw, 4.35rem);
+  line-height: 1.075;
+  font-weight: 700;
+  letter-spacing: -0.052em;
+  max-width: 14ch;
+  overflow-wrap: break-word;
+}
+
+.v4-root .root-home-hero-description {
+  max-width: 56ch;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.65;
+  letter-spacing: -0.008em;
+}
+
+.v4-root .root-home-hero .root-hero-content .hero-support-line {
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.v4-root .root-home-hero-visual {
+  position: relative;
+  align-self: center;
+  min-width: 0;
+  padding-bottom: 0.25rem;
+}
+
+.v4-root .root-home-hero-photo {
+  width: 100%;
+  aspect-ratio: 1.48;
+  min-height: 310px;
+  background: var(--glass-solid);
+  box-shadow: var(--shadow-glass-3);
+}
+
+.v4-root .root-home-hero-photo-image {
+  position: absolute;
+  display: block;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.v4-root .home-visual-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--app-bg-deep) 62%, transparent), transparent 53%);
+  pointer-events: none;
+}
+
+.v4-root .root-home-hero-photo-callout {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-readable);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glass-2);
+}
+
+.v4-root .home-visual-dirt-preview {
+  position: relative;
+  z-index: 2;
+  width: min(95%, 37rem);
+  margin: clamp(-6.25rem, -9vw, -3.5rem) 0 0 auto;
+}
+
+.v4-root .home-visual-dirt-preview .root-dashboard-preview {
+  box-shadow: var(--shadow-glass-3);
+}
+
+.v4-root .root-commercial-bento {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-glass-2);
+}
+
+.v4-root .root-commercial-bento:hover,
+.v4-root .root-commercial-bento:focus-within {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-glass-3);
+}
+
+.v4-root .root-commercial-bento-image {
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.v4-root .root-commercial-bento-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--app-bg-deep) 20%, transparent), transparent 55%);
+  pointer-events: none;
+}
+
+.v4-root .root-commercial-bento-symbol {
+  background:
+    radial-gradient(circle at 80% 5%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 65%),
+    var(--glass-bg);
+}
+
+.v4-root .root-commercial-bento-link {
+  color: var(--accent-text);
+}
+
+:root[data-theme='dark'] .v4-root .root-commercial-bento-link {
+  color: var(--accent);
+}
+
+.v4-root .root-commercial-bento .root-commercial-bento-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 1279px) {
+  .v4-root .root-home-hero-title {
+    font-size: clamp(2.2rem, 4.3vw, 3.3rem);
+    max-width: 19ch;
+  }
+}
+
+@media (max-width: 1023px) {
+  .v4-root .root-home-hero-layout {
+    max-width: 45rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .v4-root .root-home-hero-title {
+    font-size: clamp(2.65rem, 6vw, 4rem);
+    max-width: 20ch;
+  }
+  .v4-root .root-home-hero-photo {
+    aspect-ratio: 1.75;
+    min-height: 250px;
+  }
+  .v4-root .home-visual-dirt-preview {
+    margin-top: -4.5rem;
+    width: min(91%, 36rem);
+  }
+}
+
+@media (max-width: 639px) {
+  .v4-root .root-home-hero-layout {
+    gap: 1.25rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  .v4-root .root-home-hero .root-hero-content {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  .v4-root .root-home-hero .root-hero-heading {
+    padding: 1rem;
+  }
+  .v4-root .root-home-hero-title {
+    font-size: clamp(2.05rem, 9vw, 2.8rem);
+    line-height: 1.09;
+    max-width: 20ch;
+    letter-spacing: -0.045em;
+  }
+  .v4-root .root-home-hero-description {
+    font-size: 1rem;
+    line-height: 1.56;
+  }
+  .v4-root .root-home-hero .root-hero-content .hero-support-line {
+    display: none;
+  }
+  .v4-root .root-home-hero-photo {
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+  .v4-root .root-home-hero-photo-callout {
+    inset: 0.75rem 0.75rem auto;
+    padding: 0.75rem;
+    max-width: 21rem;
+  }
+  .v4-root .home-visual-dirt-preview {
+    width: 100%;
+    margin: 0.75rem 0 0;
+  }
+  .v4-root .root-commercial-bento-image {
+    aspect-ratio: 16/7;
+  }
+  .v4-root .root-commercial-bento .root-commercial-bento-link {
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v4-root .root-commercial-bento,
+  .v4-root .root-commercial-bento img {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .v4-root .root-home-hero .root-hero-content,
+  .v4-root .root-home-hero-photo-callout,
+  .v4-root .root-commercial-bento {
+    background: var(--glass-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

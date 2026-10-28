@@ -16,6 +16,7 @@ export const mediaAssets = {
   homePracticeOperations: '/media/images/home-practice-operations.jpg',
   practiceOperations: '/media/images/practice-operations-workstation.jpg',
   practiceAdmin: '/media/images/practice-admin-workstation.jpg',
+  rcmBillingFinancialOperations: '/media/images/rcm-billing-financial-operations.jpg',
   practiceTeamCollaboration: '/media/images/practice-team-collaboration.jpg',
   physicianNurseCoordination: '/media/images/physician-nurse-coordination.jpg',
   practiceConsultation: '/media/images/practice-consultation-context.jpg',
