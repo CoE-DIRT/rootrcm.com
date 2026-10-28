@@ -19,7 +19,7 @@ export function Section({ className, children, tone = 'default', wide = false, d
     <section
       className={cn(
         'w-full',
-        dense ? 'py-12 md:py-16' : 'py-16 md:py-20 lg:py-24',
+        dense ? 'py-8 md:py-10' : 'py-10 md:py-12 lg:py-14',
         tone === 'soft' && 'bg-bg-soft',
         className,
       )}
@@ -56,11 +56,11 @@ export interface SectionHeaderProps {
 
 export function SectionHeader({ as: Heading = 'h2', eyebrow, title, description, align = 'left', className }: SectionHeaderProps) {
   return (
-    <div className={cn('flex flex-col gap-3', align === 'center' && 'items-center text-center', className)}>
+    <div className={cn('flex flex-col gap-2', align === 'center' && 'items-center text-center', className)}>
       {eyebrow ? (
         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-data-blue">{eyebrow}</span>
       ) : null}
-      <Heading className="measure-exec text-balance text-3xl font-semibold tracking-tight text-text sm:text-4xl">{title}</Heading>
+      <Heading className="measure-exec text-balance text-[1.7rem] leading-[1.18] font-semibold tracking-tight text-text sm:text-[2.1rem]">{title}</Heading>
       {description ? (
         <p className={cn('measure-body text-pretty text-base text-muted', align === 'center' && 'mx-auto')}>
           {description}

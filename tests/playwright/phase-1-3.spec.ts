@@ -40,17 +40,19 @@ test.describe('Phase 1.3 CPO tier assignments and AA', () => {
       }
     });
 
-    test(`${theme}: hero media is decorative and all headline copy is on tiered glass`, async ({ page }) => {
+    test(`${theme}: hero media has descriptive alt and priority; headline is on tiered glass`, async ({ page }) => {
       await prepare(page, theme, '/');
-      await expect(page.locator('[data-hero-image-placeholder] img')).toHaveAttribute('alt', '');
-      await expect(page.locator('[data-hero-image-placeholder] img')).toHaveAttribute('width', '1600');
+      const heroImage = page.locator('.root-home-hero-photo img');
+      await expect(heroImage).toHaveAttribute('alt', /Healthcare practice reception and administrative operations setting/);
+      await expect(heroImage).toHaveAttribute('width', '1600');
+      await expect(heroImage).toHaveAttribute('fetchpriority', 'high');
       await expect(page.locator('.root-hero-content')).toHaveClass(/glass/);
       await expect(page.locator('.root-hero-heading')).toHaveClass(/glass-strong/);
       await expect(page.locator('.root-hero-heading h1')).toBeVisible();
       await expect(page.locator('.root-hero-heading')).toHaveCSS('background-color', theme === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(1, 26, 61, 0.68)');
     });
 
-    test(`${theme}: feature grid has six tiered cards and square imagery`, async ({ page }) => {
+    test(`${theme}: feature grid has six tiered cards and compact imagery`, async ({ page }) => {
       await prepare(page, theme, '/');
       const cards = page.locator('.root-feature-card');
       await expect(cards).toHaveCount(6);
@@ -59,7 +61,8 @@ test.describe('Phase 1.3 CPO tier assignments and AA', () => {
         const image = card.locator('img');
         await expect(image).toHaveAttribute('width', '480');
         await expect(image).toHaveAttribute('height', '480');
-        await expect(image).toHaveAttribute('alt', /not a ROOT client or team photo/);
+        await expect(image).toHaveAttribute('alt', /administrative and clinical operations context/);
+        await expect(card.locator('[data-glass-placeholder]')).toHaveCSS('aspect-ratio', '16 / 9');
         const token = await card.locator('p').first().evaluate((el) => ({
           color: getComputedStyle(el).color,
           expected: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim(),

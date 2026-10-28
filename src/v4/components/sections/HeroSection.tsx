@@ -5,7 +5,6 @@ import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { CTAGroup } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { NoPhiBanner } from '@/components/ui/NoPhiBanner';
-import { GlassPlaceholder } from '@/components/ui/GlassPlaceholder';
 import { useExperiment } from '@/experiments/useExperiment';
 
 export interface HeroSectionProps {
@@ -27,11 +26,6 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
     <section id="hero" className="homeHero root-home-hero relative">
-      <div className="hero-photo-backdrop" data-hero-image-placeholder aria-hidden="true">
-        <GlassPlaceholder aspect="video" className="h-full">
-          <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} loading="eager" fetchPriority="high" decoding="async" />
-        </GlassPlaceholder>
-      </div>
       <div
         aria-hidden="true"
         className="root-mesh pointer-events-none absolute inset-x-0 -top-8 h-72 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
@@ -81,6 +75,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               height={900}
               decoding="async"
               loading="eager"
+              fetchPriority="high"
               className="root-home-hero-photo-image h-full w-full object-cover"
             />
             <div className="home-visual-photo-overlay" aria-hidden="true" />

@@ -13,6 +13,10 @@
 
 **Enforcement:** Do not advance UX-1, edit/rebase/merge PR #62 for implementation, queue UX-1.2+, launch redesign deployments, or restart the modernization campaign without **fresh explicit founder authorization**. This instruction does **not** suspend existing production website operations, ordinary incident response/security/bug fixes, support of live customers, or the already merged UX-0 baseline. On resumption, first validate the current production stack and PR divergence, rerun lint/typecheck/unit/browser/security/accessibility/performance/visual checks, and obtain a new scoped merge and deployment approval. No resume date has been set.
 
+### Scoped founder authorization — PR #72 only (28 October 2026)
+
+The founder issued a newer, explicit request for surgical UI/UX changes and buyer-confidence/credentialing content, confirmed review, and instructed merging and publishing the reviewed changes. This authorizes **PR #72 (`feat/compact-buyer-confidence-20261028`) only**, subject to the existing release checks and Appwrite rollout verification. The earlier modernization hold remains fully active for Path A/B, UX-1.x and PR #62; this exception **does not** restart that program. Before release: record passing CI/browser/screenshots/CLS for the exact head SHA; preserve the previous active Appwrite deployment as rollback, and verify the new live deployment and key conversion paths.
+
 **Canonical hold record:** [Website modernization status](docs/website/ux-modernization-status.md). The existing independently tracked phases below are retained as history; this hold overrides any implication that the UX modernization should proceed.
 
 ## Rules for executing the phases
