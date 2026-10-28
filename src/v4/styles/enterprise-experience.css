@@ -12,7 +12,7 @@
 }
 .v4-root .root-home-hero .root-home-hero-layout { max-width: 86rem; gap: clamp(2rem,3vw,4rem); padding-top: clamp(2.5rem,5vw,6rem); padding-bottom: clamp(4rem,6vw,6rem); }
 .v4-root .root-home-hero .root-hero-content { background: transparent; box-shadow: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none; padding: 0; gap: 1.4rem; }
-.v4-root .root-home-hero .root-hero-heading { padding: 0; background: transparent; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.v4-root .root-home-hero .root-hero-heading { padding: clamp(1.5rem, 2.5vw, 2.35rem); background: var(--glass-bg-strong); border: 1px solid var(--glass-border); border-radius: var(--radius-hero); box-shadow: var(--shadow-glass-2); -webkit-backdrop-filter: blur(var(--glass-blur-lg)); backdrop-filter: blur(var(--glass-blur-lg)); }
 .v4-root .root-home-hero .root-hero-heading > p:first-child { display: inline-flex; align-items: center; gap: 0.55rem; border: 1px solid var(--glass-border); background: var(--glass-bg-strong); padding: 0.55rem 0.85rem; border-radius: 999px; letter-spacing: .12em; }
 .v4-root .root-home-hero .root-home-hero-title { max-width: 15ch; font-size: clamp(2.8rem,4.75vw,5.3rem); letter-spacing: -.055em; line-height: 1.045; }
 .v4-root .root-home-hero .root-home-hero-description { font-size: clamp(1rem,1.4vw,1.17rem); max-width: 53ch; line-height: 1.67; }
