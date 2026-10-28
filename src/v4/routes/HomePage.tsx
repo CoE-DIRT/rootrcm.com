@@ -37,6 +37,7 @@ const healthcareSegments = [
   { name: 'Anesthesia Groups', signal: 'Provider enrollment, professional claims, payer follow-up, and aging A/R.', href: '/solutions/credentialing-bottlenecks/' },
   { name: 'Cardiology & Electrophysiology', signal: 'Complex procedures, authorization workflow, payer behavior, and financial visibility.', href: '/solutions/denials/' },
   { name: 'Multispecialty Practices', signal: 'Revenue intelligence by specialty, provider, payer, and location.', href: '/solutions/scaling-practice-ops/' },
+];
 /* Each specialty links to an existing ROOT solution; imagery is editorial, not claimed client evidence. */
 
 export function HomePage() {
