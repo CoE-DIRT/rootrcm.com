@@ -16,16 +16,25 @@ test.describe('Phase 2 CSO content and semantic markup', () => {
       await page.goto(route);
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('h1')).toHaveText(headline);
-      const editorial = page.locator('[data-cso-route]');
-      await expect(editorial).toBeVisible();
-      await expect(editorial.locator('article')).toHaveCount(3);
-      await expect(editorial.locator('ol')).toHaveCount(3);
-      for (const list of await editorial.locator('ol').all()) {
-        expect(await list.locator('li').count()).toBeGreaterThanOrEqual(2);
+      if (route === '/') {
+        // The approved compact homepage replaces the duplicate editorial section
+        // with buyer concerns, a three-step transition and credentialing readiness.
+        await expect(page.locator('#buyer-confidence')).toBeVisible();
+        await expect(page.locator('#how-transition-works ol li')).toHaveCount(3);
+        await expect(page.locator('#credentialing-readiness')).toBeVisible();
+        await expect(page.locator('.root-home-hero-description')).not.toBeEmpty();
+      } else {
+        const editorial = page.locator('[data-cso-route]');
+        await expect(editorial).toBeVisible();
+        await expect(editorial.locator('article')).toHaveCount(3);
+        await expect(editorial.locator('ol')).toHaveCount(3);
+        for (const list of await editorial.locator('ol').all()) {
+          expect(await list.locator('li').count()).toBeGreaterThanOrEqual(2);
+        }
+        const definition = page.locator('[data-cso-definition]');
+        await expect(definition).toBeVisible();
+        await expect(definition).not.toBeEmpty();
       }
-      const definition = page.locator('[data-cso-definition]');
-      await expect(definition).toBeVisible();
-      await expect(definition).not.toBeEmpty();
       await expect(page.locator('a[href="/diagnostic/"]').last()).toBeVisible();
       await expect(page.locator('a[href="/resources/"]').last()).toBeVisible();
       const canonical = page.locator('head link[rel="canonical"]');
