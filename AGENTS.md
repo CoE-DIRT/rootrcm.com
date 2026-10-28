@@ -8,6 +8,7 @@
 - Our public website is a marketing and commercial-inquiry surface, NOT a clinical application or PHI intake system.
 - Use ROOT company voice ('we', 'our') in marketing copy, subject to normal legal and visitor-specific wording.
 
+- **SCOPED FOUNDER RELEASE AUTHORIZATION — 28 October 2026:** The founder separately requested surgical, compact UI/UX and buyer-confidence improvements, reviewed the changes, and explicitly authorized merging PR #72 and publishing to the ROOT public website. This exception applies **only** to PR #72 (`feat/compact-buyer-confidence-20261028`), its credentialing/ICP content and related test/docs fixes, after release checks. **PR #62 and the broader Path A/B UX-1 modernization program remain ON HOLD**; do not treat this scope as general restart authorization.
 - **FOUNDER PAUSE — 28 October 2026:** ROOT website UX modernization (Path A/B, UX-1.1, and all later UX-1.x redesign tasks) is **ON HOLD until further notice**. UX-0 baseline remains accepted; UX-1.1 [PR #62](https://github.com/CoE-DIRT/rootrcm.com/pull/62) is draft/unmerged. Do not continue, merge, deploy, or resume this program without a new explicit founder instruction. Ordinary production operations/security fixes are not paused. See `PLANS.md` and `docs/website/ux-modernization-status.md`.
 
 ## 2. Actual stack; no speculative rewrite
