@@ -77,7 +77,7 @@
   object-position: center 40%;
 }
 
-.v4-root .root-home-hero-photo-overlay {
+.v4-root .home-visual-photo-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(0deg, color-mix(in srgb, var(--app-bg-deep) 62%, transparent), transparent 53%);
@@ -91,14 +91,14 @@
   box-shadow: var(--shadow-glass-2);
 }
 
-.v4-root .root-home-hero-dirt-preview {
+.v4-root .home-visual-dirt-preview {
   position: relative;
   z-index: 2;
   width: min(95%, 37rem);
   margin: clamp(-6.25rem, -9vw, -3.5rem) 0 0 auto;
 }
 
-.v4-root .root-home-hero-dirt-preview .root-dashboard-preview {
+.v4-root .home-visual-dirt-preview .root-dashboard-preview {
   box-shadow: var(--shadow-glass-3);
 }
 
@@ -165,7 +165,7 @@
     aspect-ratio: 1.75;
     min-height: 250px;
   }
-  .v4-root .root-home-hero-dirt-preview {
+  .v4-root .home-visual-dirt-preview {
     margin-top: -4.5rem;
     width: min(91%, 36rem);
   }
@@ -206,7 +206,7 @@
     padding: 0.75rem;
     max-width: 21rem;
   }
-  .v4-root .root-home-hero-dirt-preview {
+  .v4-root .home-visual-dirt-preview {
     width: 100%;
     margin: 0.75rem 0 0;
   }
