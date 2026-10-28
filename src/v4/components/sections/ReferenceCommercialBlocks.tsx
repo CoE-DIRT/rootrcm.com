@@ -164,7 +164,7 @@ export function DirtOperatingBridge() {
               </li>
             ))}
           </ol>
-          <p className="mt-5 text-xs leading-relaxed text-muted">Operating model illustration, not a live client system or product-performance claim.</p>
+          
           </div>
         </GlassCard>
       </div>
