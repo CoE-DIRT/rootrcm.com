@@ -17,25 +17,25 @@ const workflow = [
 
 export function EnterpriseProductNarrative() {
   return (
-    <Section className="root-enterprise-narrative" wide>
-      <div className="root-enterprise-heading">
+    <Section className="ent-enterprise-narrative" wide>
+      <div className="ent-enterprise-heading">
         <div>
-          <p className="root-enterprise-eyebrow"><span className="root-live-dot" /> ONE OPERATING PLATFORM</p>
+          <p className="ent-enterprise-eyebrow"><span className="ent-live-dot" /> ONE OPERATING PLATFORM</p>
           <h2>Not another billing vendor. <span>One connected operating partner.</span></h2>
           <p>Managed revenue operations, business intelligence, workflow engineering and MSO support—delivered as one accountable relationship, not disconnected handoffs.</p>
         </div>
         <LinkButton href="/solutions/" variant="outline" size="md" data-cta="view-services" data-location="home-capabilities" data-destination="/solutions/">Explore solutions <ArrowUpRight size={16}/></LinkButton>
       </div>
-      <div className="root-workflow-grid">
+      <div className="ent-workflow-grid">
         {workflow.map(({ label, title, description, Icon }, index) => (
-          <GlassCard key={label} as="article" variant="glass" hover={false} className="root-workflow-card">
-            <div className="root-workflow-top"><span>0{index + 1} / {label}</span><Icon size={24} aria-hidden="true" /></div>
+          <GlassCard key={label} as="article" variant="glass" hover={false} className="ent-workflow-card">
+            <div className="ent-workflow-top"><span>0{index + 1} / {label}</span><Icon size={24} aria-hidden="true" /></div>
             <h3>{title}</h3>
             <p>{description}</p>
           </GlassCard>
         ))}
       </div>
-      <div className="root-operating-ribbon">
+      <div className="ent-operating-ribbon">
         <span><CircleCheck size={16} /> Your existing practice systems</span>
         <span><CircleCheck size={16} /> Human-owned actions</span>
         <span><CircleCheck size={16} /> Decision-grade reporting</span>
@@ -80,52 +80,52 @@ export function EnterpriseDirtWorkbench() {
   const [tab, setTab] = useState<DemoTab>('revenue');
   const view = demoViews[tab];
   return (
-    <Section className="root-product-section" wide id="platform-preview">
-      <div className="root-enterprise-heading">
+    <Section className="ent-product-section" wide id="platform-preview">
+      <div className="ent-enterprise-heading">
         <div>
-          <p className="root-enterprise-eyebrow"><span className="root-live-dot" /> THE INTELLIGENCE LAYER</p>
+          <p className="ent-enterprise-eyebrow"><span className="ent-live-dot" /> THE INTELLIGENCE LAYER</p>
           <h2>Explore the revenue operating system. <span>Then put people behind it.</span></h2>
           <p>DIRT connects the data view to actual management and follow-up. Explore three working sample scenarios; production integrations are scoped per engagement.</p>
         </div>
         <LinkButton href="/technology/dirt/" variant="primary" size="md" data-cta="explore-dirt" data-location="home-dirt" data-destination="/technology/dirt/">Explore DIRT <ArrowRight size={17}/></LinkButton>
       </div>
-      <div className="root-product-frame" aria-label="Interactive sample revenue intelligence workspace">
-        <aside className="root-product-sidebar">
-          <div className="root-product-logo"><Command size={23}/><span>ROOT <b>DIRT</b></span></div>
-          <p className="root-sidebar-label">WORKSPACES</p>
-          <div role="tablist" aria-label="Sample DIRT workspace views" className="root-product-tabs">
+      <div className="ent-product-frame" aria-label="Interactive sample revenue intelligence workspace">
+        <aside className="ent-product-sidebar">
+          <div className="ent-product-logo"><Command size={23}/><span>ROOT <b>DIRT</b></span></div>
+          <p className="ent-sidebar-label">WORKSPACES</p>
+          <div role="tablist" aria-label="Sample DIRT workspace views" className="ent-product-tabs">
             {([
               ['revenue', BarChart3, 'Revenue intelligence'],
               ['denials', ClipboardCheck, 'Denial analytics'],
               ['enrollment', BadgeCheck, 'Credentialing'],
             ] as const).map(([id, Icon, name]) => (
-              <button key={id} type="button" role="tab" id={`root-demo-tab-${id}`} aria-controls="root-demo-panel" aria-selected={tab === id} className={tab === id ? 'root-product-tab is-active' : 'root-product-tab'} onClick={() => setTab(id)}>
+              <button key={id} type="button" role="tab" id={`ent-demo-tab-${id}`} aria-controls="ent-demo-panel" aria-selected={tab === id} className={tab === id ? 'ent-product-tab is-active' : 'ent-product-tab'} onClick={() => setTab(id)}>
                 <Icon size={17} aria-hidden="true" /> {name}
               </button>
             ))}
           </div>
-          <div className="root-sidebar-bottom"><LockKeyhole size={15} /> Sample workspace. No client data.</div>
+          <div className="ent-sidebar-bottom"><LockKeyhole size={15} /> Sample workspace. No client data.</div>
         </aside>
-        <div className="root-product-main" role="tabpanel" id="root-demo-panel" aria-labelledby={`root-demo-tab-${tab}`}>
-          <div className="root-product-toolbar">
-            <div><span className="root-product-breadcrumb">Workspace / {view.label}</span><h3>{view.headline}</h3></div>
-            <span className="root-sample-pill"><span className="root-live-dot"/> SAMPLE DATA</span>
+        <div className="ent-product-main" role="tabpanel" id="ent-demo-panel" aria-labelledby={`ent-demo-tab-${tab}`}>
+          <div className="ent-product-toolbar">
+            <div><span className="ent-product-breadcrumb">Workspace / {view.label}</span><h3>{view.headline}</h3></div>
+            <span className="ent-sample-pill"><span className="ent-live-dot"/> SAMPLE DATA</span>
           </div>
-          <div className="root-product-metrics">{view.metrics.map((m) => <div className="root-product-metric" key={m.label}><span>{m.label}</span><strong>{m.value}</strong><small>{view.kicker}</small></div>)}</div>
-          <div className="root-product-middle">
-            <div className="root-product-chart" role="img" aria-label={`Illustrative seven-period trend for ${view.label}; not actual revenue performance`}>
-              <div className="root-product-chart-heading"><strong>Performance signals</strong><span>Illustrative 7-period trend</span></div>
-              <div className="root-bars">{view.values.map((n,i) => <div key={i} className="root-bar-column"><span className="root-bar" style={{height:`${n}%`}}/><small>W{i + 1}</small></div>)}</div>
+          <div className="ent-product-metrics">{view.metrics.map((m) => <div className="ent-product-metric" key={m.label}><span>{m.label}</span><strong>{m.value}</strong><small>{view.kicker}</small></div>)}</div>
+          <div className="ent-product-middle">
+            <div className="ent-product-chart" role="img" aria-label={`Illustrative seven-period trend for ${view.label}; not actual revenue performance`}>
+              <div className="ent-product-chart-heading"><strong>Performance signals</strong><span>Illustrative 7-period trend</span></div>
+              <div className="ent-bars">{view.values.map((n,i) => <div key={i} className="ent-bar-column"><span className="ent-bar" style={{height:`${n}%`}}/><small>W{i + 1}</small></div>)}</div>
             </div>
-            <div className="root-product-insights"><strong>From insight to action</strong>{view.legend.map((line,index) => <div key={line}><span>{index + 1}</span><p>{line}</p><Check size={15}/></div>)}<p className="root-product-note">Workflow prototype • Not a live client platform</p></div>
+            <div className="ent-product-insights"><strong>From insight to action</strong>{view.legend.map((line,index) => <div key={line}><span>{index + 1}</span><p>{line}</p><Check size={15}/></div>)}<p className="ent-product-note">Workflow prototype • Not a live client platform</p></div>
           </div>
-          <div className="root-product-workqueue">
-            <div className="root-workqueue-heading"><strong>Action workqueue</strong><span>Illustrative assignments</span></div>
-            {view.rows.map((row) => <div className="root-workqueue-row" key={row.tag}><span className="root-workqueue-tag">{row.tag}</span><span>{row.issue}</span><span className="root-workqueue-owner">{row.owner}</span><b>{row.status}</b></div>)}
+          <div className="ent-product-workqueue">
+            <div className="ent-workqueue-heading"><strong>Action workqueue</strong><span>Illustrative assignments</span></div>
+            {view.rows.map((row) => <div className="ent-workqueue-row" key={row.tag}><span className="ent-workqueue-tag">{row.tag}</span><span>{row.issue}</span><span className="ent-workqueue-owner">{row.owner}</span><b>{row.status}</b></div>)}
           </div>
         </div>
       </div>
-      <div className="root-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form">Book a free walkthrough <ArrowRight size={17}/></a></div>
+      <div className="ent-platform-lower"><span><Zap size={17} /> Analytics + operating teams + managed workflows</span><a href="/contact/#contact-form">Book a free walkthrough <ArrowRight size={17}/></a></div>
     </Section>
   );
 }
@@ -141,16 +141,16 @@ const tierItems = [
 export function EnterprisePricingSystem({ compact = false }: { compact?: boolean }) {
   const visible = compact ? tierItems.slice(0, 4) : tierItems;
   return (
-    <Section tone="soft" wide className="root-tiers-section" id="engagement-models">
-      <div className="root-enterprise-heading"><div><p className="root-enterprise-eyebrow">ENGAGEMENT MODELS</p><h2>Start small. <span>Scale into one accountable system.</span></h2><p>Free introductions, predefined assessments, ongoing operating models and custom MSO partnerships—without forcing every practice into the same contract.</p></div><LinkButton href="/pricing/" variant="outline" data-cta="compare-pricing" data-location="home-pricing" data-destination="/pricing/">Full pricing details <ArrowUpRight size={17}/></LinkButton></div>
-      <div className="root-tier-grid">
-        {visible.map((tier) => <GlassCard key={tier.name} as="article" variant="glass" hover={false} className={tier.accent ? 'root-tier-card root-tier-featured' : 'root-tier-card'}>
-          <span className="root-tier-label">{tier.tag}</span><h3>{tier.name}</h3><p className="root-tier-price">{tier.price}</p><p className="root-tier-unit">{tier.unit}</p><p className="root-tier-detail">{tier.detail}</p>
+    <Section tone="soft" wide className="ent-tiers-section" id="engagement-models">
+      <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">ENGAGEMENT MODELS</p><h2>Start small. <span>Scale into one accountable system.</span></h2><p>Free introductions, predefined assessments, ongoing operating models and custom MSO partnerships—without forcing every practice into the same contract.</p></div><LinkButton href="/pricing/" variant="outline" data-cta="compare-pricing" data-location="home-pricing" data-destination="/pricing/">Full pricing details <ArrowUpRight size={17}/></LinkButton></div>
+      <div className="ent-tier-grid">
+        {visible.map((tier) => <GlassCard key={tier.name} as="article" variant="glass" hover={false} className={tier.accent ? 'ent-tier-card ent-tier-featured' : 'ent-tier-card'}>
+          <span className="ent-tier-label">{tier.tag}</span><h3>{tier.name}</h3><p className="ent-tier-price">{tier.price}</p><p className="ent-tier-unit">{tier.unit}</p><p className="ent-tier-detail">{tier.detail}</p>
           <ul>{tier.bullets.map((bullet) => <li key={bullet}><Check size={15}/>{bullet}</li>)}</ul>
-          <a href={tier.href} className={tier.accent ? 'root-tier-button is-featured' : 'root-tier-button'}>{tier.cta} <ArrowRight size={16}/></a>
+          <a href={tier.href} className={tier.accent ? 'ent-tier-button is-featured' : 'ent-tier-button'}>{tier.cta} <ArrowRight size={16}/></a>
         </GlassCard>)}
       </div>
-      <p className="root-pricing-footnote">Indicative published pricing; managed RCM onboarding starts at $1,500 where applicable. DIRT, credentialing, implementation and MSO scopes are agreed in writing. Free consultation is not a free audit or a guarantee of availability.</p>
+      <p className="ent-pricing-footnote">Indicative published pricing; managed RCM onboarding starts at $1,500 where applicable. DIRT, credentialing, implementation and MSO scopes are agreed in writing. Free consultation is not a free audit or a guarantee of availability.</p>
     </Section>
   );
 }
@@ -165,15 +165,15 @@ export function EnterpriseProofGallery() {
   const [index, setIndex] = useState(0);
   const selected = scenarios[index];
   return (
-    <Section wide className="root-proof-section">
-      <div className="root-enterprise-heading"><div><p className="root-enterprise-eyebrow">HOW THE OPERATING MODEL WORKS</p><h2>Proof comes from the process. <span>Never from invented numbers.</span></h2><p>Explore representative engagement scenarios. These are illustrative workflows, not claims of named client results.</p></div><div className="root-carousel-controls"><button type="button" aria-label="Previous scenario" onClick={() => setIndex((index + scenarios.length - 1) % scenarios.length)}><ChevronLeft size={20}/></button><span>{String(index + 1).padStart(2,'0')} / {String(scenarios.length).padStart(2,'0')}</span><button type="button" aria-label="Next scenario" onClick={() => setIndex((index + 1) % scenarios.length)}><ChevronRight size={20}/></button></div></div>
-      <div className="root-scenario-carousel" aria-live="polite" aria-roledescription="carousel">
-        <div className="root-scenario-visual"><span className="root-scenario-kicker">SCENARIO {String(index + 1).padStart(2,'0')}</span><div className="root-scenario-orbit"><Layers3 size={44}/><span>ROOT OPERATIONS</span><div><Zap size={20}/> DIRT SIGNAL</div></div><p>Illustrative operating workflow</p></div>
-        <div className="root-scenario-copy"><span className="root-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="root-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
+    <Section wide className="ent-proof-section">
+      <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">HOW THE OPERATING MODEL WORKS</p><h2>Proof comes from the process. <span>Never from invented numbers.</span></h2><p>Explore representative engagement scenarios. These are illustrative workflows, not claims of named client results.</p></div><div className="ent-carousel-controls"><button type="button" aria-label="Previous scenario" onClick={() => setIndex((index + scenarios.length - 1) % scenarios.length)}><ChevronLeft size={20}/></button><span>{String(index + 1).padStart(2,'0')} / {String(scenarios.length).padStart(2,'0')}</span><button type="button" aria-label="Next scenario" onClick={() => setIndex((index + 1) % scenarios.length)}><ChevronRight size={20}/></button></div></div>
+      <div className="ent-scenario-carousel" aria-live="polite" aria-roledescription="carousel">
+        <div className="ent-scenario-visual"><span className="ent-scenario-kicker">SCENARIO {String(index + 1).padStart(2,'0')}</span><div className="ent-scenario-orbit"><Layers3 size={44}/><span>ROOT OPERATIONS</span><div><Zap size={20}/> DIRT SIGNAL</div></div><p>Illustrative operating workflow</p></div>
+        <div className="ent-scenario-copy"><span className="ent-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="ent-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
       </div>
-      <div className="root-proof-under">
-        <GlassCard as="article" variant="glass" hover={false} className="root-proof-pending"><div className="root-proof-icon"><FileText size={22}/></div><div><h3>Verified client stories</h3><p>Case-study cards and approved client quotations are reserved here. Publication follows client authorization and evidence review.</p></div><span>IN PREPARATION</span></GlassCard>
-        <GlassCard as="article" variant="glass" hover={false} className="root-proof-pending"><div className="root-proof-icon"><ShieldCheck size={22}/></div><div><h3>Accreditations & partner credentials</h3><p>Documented licenses, relevant certifications and technology-partner badges will be shown here only after validation.</p></div><span>VERIFICATION PENDING</span></GlassCard>
+      <div className="ent-proof-under">
+        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><FileText size={22}/></div><div><h3>Verified client stories</h3><p>Case-study cards and approved client quotations are reserved here. Publication follows client authorization and evidence review.</p></div><span>IN PREPARATION</span></GlassCard>
+        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><ShieldCheck size={22}/></div><div><h3>Accreditations & partner credentials</h3><p>Documented licenses, relevant certifications and technology-partner badges will be shown here only after validation.</p></div><span>VERIFICATION PENDING</span></GlassCard>
       </div>
     </Section>
   );
@@ -182,17 +182,17 @@ export function EnterpriseProofGallery() {
 export function EnterpriseAssuranceAndOffers() {
   return (
     <>
-      <Section className="root-assurance-section" wide>
-        <div className="root-enterprise-heading"><div><p className="root-enterprise-eyebrow">BUILT FOR ACCOUNTABILITY</p><h2>Serious infrastructure. <span>Clear boundaries.</span></h2><p>A U.S.-incorporated healthcare operations company, with defined work, clear contacts and a public-site privacy boundary.</p></div><LinkButton href="/about/" variant="outline" data-cta="related-solution" data-location="home-outreach" data-destination="/about/">Company details <ArrowUpRight size={16}/></LinkButton></div>
-        <div className="root-assurance-grid">
+      <Section className="ent-assurance-section" wide>
+        <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">BUILT FOR ACCOUNTABILITY</p><h2>Serious infrastructure. <span>Clear boundaries.</span></h2><p>A U.S.-incorporated healthcare operations company, with defined work, clear contacts and a public-site privacy boundary.</p></div><LinkButton href="/about/" variant="outline" data-cta="related-solution" data-location="home-outreach" data-destination="/about/">Company details <ArrowUpRight size={16}/></LinkButton></div>
+        <div className="ent-assurance-grid">
           <div><Building2 size={21}/><strong>U.S. corporate identity</strong><span>ROOT Revenue Operations & Outcomes Technology Incorporated</span></div>
           <div><ShieldCheck size={21}/><strong>Privacy-aware intake</strong><span>Public inquiries do not accept PHI; secure exchange is separately scoped.</span></div>
           <div><SlidersHorizontal size={21}/><strong>Defined commercial scope</strong><span>Written deliverables, owners, pricing terms and change control.</span></div>
           <div><MonitorPlay size={21}/><strong>Demo-first discovery</strong><span>Explore representative data workflows before committing to a project.</span></div>
         </div>
       </Section>
-      <Section className="root-bottom-conversion" wide>
-        <div className="root-conversion-frame"><div><span className="root-conversion-label"><Sparkles size={15}/> YOUR NEXT REVENUE DECISION</span><h2>See the system. <span>Talk to the people behind it.</span></h2><p>Start with a complimentary introductory consultation, a DIRT sample walkthrough or a scoped diagnostic. No practice data required for the first conversation.</p><div className="root-conversion-actions"><LinkButton href="/contact/#contact-form" variant="primary" size="lg" data-cta="talk-to-root" data-location="home-final-cta" data-destination="/contact/">Request a free consultation <ArrowRight size={17}/></LinkButton><LinkButton href="/technology/dirt/" variant="outline" size="lg" data-cta="explore-dirt" data-location="home-final-cta" data-destination="/technology/dirt/"><Play size={16}/> View the DIRT demo</LinkButton></div></div><div className="root-conversion-art" aria-hidden="true"><Command size={62}/><span>ROOT</span><b>OPERATIONS × INTELLIGENCE</b></div></div>
+      <Section className="ent-bottom-conversion" wide>
+        <div className="ent-conversion-frame"><div><span className="ent-conversion-label"><Sparkles size={15}/> YOUR NEXT REVENUE DECISION</span><h2>See the system. <span>Talk to the people behind it.</span></h2><p>Start with a complimentary introductory consultation, a DIRT sample walkthrough or a scoped diagnostic. No practice data required for the first conversation.</p><div className="ent-conversion-actions"><LinkButton href="/contact/#contact-form" variant="primary" size="lg" data-cta="talk-to-root" data-location="home-final-cta" data-destination="/contact/">Request a free consultation <ArrowRight size={17}/></LinkButton><LinkButton href="/technology/dirt/" variant="outline" size="lg" data-cta="explore-dirt" data-location="home-final-cta" data-destination="/technology/dirt/"><Play size={16}/> View the DIRT demo</LinkButton></div></div><div className="ent-conversion-art" aria-hidden="true"><Command size={62}/><span>ROOT</span><b>OPERATIONS × INTELLIGENCE</b></div></div>
       </Section>
     </>
   );
