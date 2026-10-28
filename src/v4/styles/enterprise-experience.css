@@ -129,7 +129,7 @@
 .v4-root .ent-scenario-signal { display:flex; align-items:center; gap:.65rem; font-size:.8rem; font-weight:700; color:var(--text-primary); padding:1.1rem 0; }
 .v4-root .ent-scenario-signal svg { color:var(--success); }
 .v4-root .ent-scenario-copy > a { display:inline-flex; align-items:center; gap:.55rem; color:var(--accent-text); font-size:.86rem; font-weight:750; }
-.v4-root .ent-proof-under { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-top:1rem; }
+.v4-root .ent-proof-under { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:1rem; }
 .v4-root .ent-proof-pending { display:flex; align-items:flex-start; flex-wrap:wrap; gap:1rem; padding:1.3rem; border:1px dashed var(--glass-border); border-radius:1.15rem; background:var(--glass-bg-subtle); }
 .v4-root .ent-proof-icon { display:grid; place-items:center; flex:none; width:2.6rem; height:2.6rem; border-radius:.7rem; background:var(--accent-subtle); color:var(--accent-text); }
 .v4-root .ent-proof-pending > div:nth-child(2) { flex:1; min-width:11rem; }
@@ -159,6 +159,7 @@
  .v4-root .ent-assurance-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 @media (max-width:1023px) {
+ .v4-root .ent-proof-under { grid-template-columns:repeat(2,minmax(0,1fr)); }
  .v4-root .root-home-hero .root-home-hero-layout { grid-template-columns:minmax(0,1fr); max-width:49rem; }
  .v4-root .root-home-hero .root-home-hero-title { max-width:19ch; }
  .v4-root .ent-workflow-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
