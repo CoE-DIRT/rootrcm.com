@@ -173,7 +173,8 @@ export function EnterpriseProofGallery() {
       </div>
       <div className="ent-proof-under">
         <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><FileText size={22}/></div><div><h3>Verified client stories</h3><p>Case-study cards and approved client quotations are reserved here. Publication follows client authorization and evidence review.</p></div><span>IN PREPARATION</span></GlassCard>
-        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><ShieldCheck size={22}/></div><div><h3>Accreditations & partner credentials</h3><p>Documented licenses, relevant certifications and technology-partner badges will be shown here only after validation.</p></div><span>VERIFICATION PENDING</span></GlassCard>
+        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><ShieldCheck size={22}/></div><div><h3>Licensing & certifications</h3><p>Relevant registrations, accreditation records and professional certifications will be listed with issuer and verification evidence.</p></div><span>VERIFICATION PENDING</span></GlassCard>
+        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><Layers3 size={22}/></div><div><h3>Technology ecosystem & partnerships</h3><p>A dedicated approved-partner directory is reserved for validated platform relationships and authorized brand marks.</p></div><span>PARTNER REVIEW IN PROGRESS</span></GlassCard>
       </div>
     </Section>
   );
