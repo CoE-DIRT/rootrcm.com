@@ -25,6 +25,7 @@ import {
 
 
 import { DirtExecutiveMetrics } from '@/components/dirt/DirtExecutiveMetrics';
+import '../styles/homepage-refinement.css';
 
 const diagnostic = pricingModels.find((model: { name: string }) => model.name === 'Revenue Optimization Diagnostic');
 
