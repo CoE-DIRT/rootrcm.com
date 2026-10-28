@@ -22,7 +22,7 @@ test.describe('Reference-led homepage visual refinement', () => {
         await expect(page.locator('[data-commercial-service-grid] a[href="/services/credentialing/"]')).toHaveCount(1);
 
         const viewportWidth = await page.evaluate(() => window.innerWidth);
-        for (const selector of ['.root-home-hero-photo', '.root-home-hero-dirt-preview', '[data-commercial-service-grid]']) {
+        for (const selector of ['.root-home-hero-photo', '.home-visual-dirt-preview', '[data-commercial-service-grid]']) {
           const bounds = await page.locator(selector).boundingBox();
           expect(bounds, `missing bounding box for ${selector}`).not.toBeNull();
           if (bounds) {
