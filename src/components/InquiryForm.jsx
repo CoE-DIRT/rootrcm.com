@@ -10,7 +10,13 @@ import { createInquiryState, inquiryReducer, validateFields, mapLeadError } from
 
 function getAttribution() {
   if (typeof window === 'undefined') return {};
-  return readLeadAttribution(window.location.search, window.sessionStorage);
+  // Some privacy modes throw merely on reading the sessionStorage property.
+  // Attribution must never make the contact/Diagnostic form unavailable.
+  try {
+    return readLeadAttribution(window.location.search, window.sessionStorage);
+  } catch {
+    return readLeadAttribution(window.location.search);
+  }
 }
 
 export default function InquiryForm({ variant = 'contact', formId = '' }) {
