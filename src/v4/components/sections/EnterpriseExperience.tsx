@@ -104,7 +104,7 @@ export function EnterpriseDirtWorkbench({ location = 'home-dirt' }: { location?:
               </button>
             ))}
           </div>
-          <div className="ent-sidebar-bottom"><LockKeyhole size={15} /> Sample workspace. No client data.</div>
+          <div className="ent-sidebar-bottom"><LockKeyhole size={15} /> Sample workspace</div>
         </aside>
         <div className="ent-product-main" role="tabpanel" id="ent-demo-panel" aria-labelledby={`ent-demo-tab-${tab}`}>
           <div className="ent-product-toolbar">
@@ -113,7 +113,7 @@ export function EnterpriseDirtWorkbench({ location = 'home-dirt' }: { location?:
           </div>
           <div className="ent-product-metrics">{view.metrics.map((m) => <div className="ent-product-metric" key={m.label}><span>{m.label}</span><strong>{m.value}</strong><small>{view.kicker}</small></div>)}</div>
           <div className="ent-product-middle">
-            <div className="ent-product-chart" role="img" aria-label={`Illustrative seven-period trend for ${view.label}; not actual revenue performance`}>
+            <div className="ent-product-chart" role="img" aria-label={`Illustrative seven-period trend for ${view.label}`}>
               <div className="ent-product-chart-heading"><strong>Performance signals</strong><span>Illustrative 7-period trend</span></div>
               <div className="ent-bars">{view.values.map((n,i) => <div key={i} className="ent-bar-column"><span className="ent-bar" style={{height:`${n}%`}}/><small>W{i + 1}</small></div>)}</div>
             </div>
@@ -150,7 +150,7 @@ export function EnterprisePricingSystem({ compact = false }: { compact?: boolean
           <a href={tier.href} data-cta={tier.tag === 'DIAGNOSTIC' ? 'book-diagnostic' : tier.tag === 'ENTRY' ? 'talk-to-root' : 'pricing-card'} data-location="home-pricing" data-destination={tier.href} data-engagement-type="pricing" className={tier.accent ? 'ent-tier-button is-featured' : 'ent-tier-button'}>{tier.cta} <ArrowRight size={16}/></a>
         </GlassCard>)}
       </div>
-      <p className="ent-pricing-footnote">Indicative published pricing; managed RCM onboarding starts at $1,500 where applicable. DIRT, credentialing, implementation and MSO scopes are agreed in writing. Free consultation is not a free audit or a guarantee of availability.</p>
+      <p className="ent-pricing-footnote">Indicative published pricing; managed RCM onboarding starts at $1,500 where applicable. DIRT, credentialing, implementation and MSO scopes are agreed in writing. Free introductions cover a scoped initial conversation; comprehensive reviews have a separate, written Diagnostic scope.</p>
     </Section>
   );
 }
@@ -166,7 +166,7 @@ export function EnterpriseProofGallery() {
   const selected = scenarios[index];
   return (
     <Section wide className="ent-proof-section">
-      <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">HOW THE OPERATING MODEL WORKS</p><h2>Proof comes from the process. <span>Never from invented numbers.</span></h2><p>Explore representative engagement scenarios. These are illustrative workflows, not claims of named client results.</p></div><div className="ent-carousel-controls"><button type="button" aria-label="Previous scenario" onClick={() => setIndex((index + scenarios.length - 1) % scenarios.length)}><ChevronLeft size={20}/></button><span>{String(index + 1).padStart(2,'0')} / {String(scenarios.length).padStart(2,'0')}</span><button type="button" aria-label="Next scenario" onClick={() => setIndex((index + 1) % scenarios.length)}><ChevronRight size={20}/></button></div></div>
+      <div className="ent-enterprise-heading"><div><p className="ent-enterprise-eyebrow">HOW THE OPERATING MODEL WORKS</p><h2>See the method. <span>From financial signal to owned action.</span></h2><p>Explore representative scenarios showing the analysis, prioritization and follow-through behind a ROOT engagement.</p></div><div className="ent-carousel-controls"><button type="button" aria-label="Previous scenario" onClick={() => setIndex((index + scenarios.length - 1) % scenarios.length)}><ChevronLeft size={20}/></button><span>{String(index + 1).padStart(2,'0')} / {String(scenarios.length).padStart(2,'0')}</span><button type="button" aria-label="Next scenario" onClick={() => setIndex((index + 1) % scenarios.length)}><ChevronRight size={20}/></button></div></div>
       <div className="ent-scenario-carousel" aria-live="polite" aria-roledescription="carousel">
         <div className="ent-scenario-visual"><span className="ent-scenario-kicker">SCENARIO {String(index + 1).padStart(2,'0')}</span><div className="ent-scenario-orbit"><Layers3 size={44}/><span>ROOT OPERATIONS</span><div><Zap size={20}/> DIRT SIGNAL</div></div><p>Illustrative operating workflow</p></div>
         <div className="ent-scenario-copy"><span className="ent-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="ent-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link} data-cta="related-solution" data-location="resource-proof" data-destination={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
