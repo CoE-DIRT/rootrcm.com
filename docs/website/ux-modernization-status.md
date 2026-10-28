@@ -10,6 +10,10 @@
 - **Preserved work in progress:** [PR #62 — UX-1.1](https://github.com/CoE-DIRT/rootrcm.com/pull/62) in **draft** with `on-hold` label; source branch `codex/ux-1-1-navigation-rebuild`, tests and screenshot comparisons remain in GitHub. **Do not merge or deploy.**
 - **Source of truth:** `AGENTS.md`, `PLANS.md`, this page and the PR's founder decision comment agree on the pause. No target restart date.
 
+## Scoped exception (28 October 2026) — commercial homepage release, not a program restart
+
+After the pause, the founder separately instructed surgical compactness, content, typography and buyer-confidence/credentialing improvements; reviewed the changes; and explicitly approved merging and publishing **PR #72** (`feat/compact-buyer-confidence-20261028`). The exception is limited to that reviewed PR and its release fixes, subject to normal CI and production verification. **PR #62 and the UX-1 Path A/B modernization campaign remain paused**, without a restart date. A broad UX-1 restart still requires a new named founder milestone and separate authorization.
+
 ## Restart gate — explicitly founder-controlled
 
 1. A new direct founder instruction lifts the hold and names the specific UX milestone and constraints.
