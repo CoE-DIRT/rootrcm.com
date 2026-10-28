@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, BarChart3, Building2, Check, Chev
 import { Section } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { publishedEvidenceSlots } from '../../data/enterpriseEvidence';
 
 const workflow = [
   { label: 'CONNECT', title: 'Bring the systems into focus', description: 'EHR/PM, clearinghouse, payer response and operating exports are reconciled against approved scope.', Icon: Database },
@@ -172,9 +173,18 @@ export function EnterpriseProofGallery() {
         <div className="ent-scenario-copy"><span className="ent-tier-label">{selected.industry} · {selected.problem}</span><h3>{selected.title}</h3><p>{selected.detail}</p><div className="ent-scenario-signal"><CircleCheck size={17}/>{selected.signal}</div><a href={selected.link} data-cta="related-solution" data-location="resource-proof" data-destination={selected.link}>Explore related solution <ArrowRight size={17}/></a></div>
       </div>
       <div className="ent-proof-under">
-        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><FileText size={22}/></div><div><h3>Verified client stories</h3><p>Case-study cards and approved client quotations are reserved here. Publication follows client authorization and evidence review.</p></div><span>IN PREPARATION</span></GlassCard>
-        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><ShieldCheck size={22}/></div><div><h3>Licensing & certifications</h3><p>Relevant registrations, accreditation records and professional certifications will be listed with issuer and verification evidence.</p></div><span>VERIFICATION PENDING</span></GlassCard>
-        <GlassCard as="article" variant="glass" hover={false} className="ent-proof-pending"><div className="ent-proof-icon"><Layers3 size={22}/></div><div><h3>Technology ecosystem & partnerships</h3><p>A dedicated approved-partner directory is reserved for validated platform relationships and authorized brand marks.</p></div><span>PARTNER REVIEW IN PROGRESS</span></GlassCard>
+        {publishedEvidenceSlots().map((slot) => {
+          const Icon = slot.kind === 'testimonial' ? FileText : slot.kind === 'partners' ? Layers3 : ShieldCheck;
+          return (
+            <GlassCard key={slot.kind} as="article" variant="glass" hover={false} className="ent-proof-pending">
+              <div className="ent-proof-icon"><Icon size={22} aria-hidden="true" /></div>
+              <div><h3>{slot.title}</h3><p>{slot.status === 'verified' ? slot.verifiedCopy : slot.description}</p></div>
+              {slot.status === 'verified' && slot.evidenceUrl
+                ? <a className="ent-proof-evidence-link" href={slot.evidenceUrl} target="_blank" rel="noopener noreferrer">Verify evidence <ArrowUpRight size={14} aria-hidden="true" /></a>
+                : <span>{slot.statusLabel}</span>}
+            </GlassCard>
+          );
+        })}
       </div>
     </Section>
   );
