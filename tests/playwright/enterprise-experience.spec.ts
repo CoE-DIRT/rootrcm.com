@@ -13,7 +13,7 @@ test.describe('Founder-authorized enterprise launch experience', () => {
         await expect(page.getByRole('link', { name: /Free introductory consultation/i }).first()).toBeVisible();
         await expect(page.locator('.ent-workflow-card').first()).toBeVisible();
         await expect(page.locator('.ent-product-frame')).toHaveCount(1);
-        await expect(page.locator('.ent-tier-card')).toHaveCount(4);
+        await expect(page.locator('.ent-tier-card')).toHaveCount(5);
         await expect(page.locator('.ent-scenario-carousel')).toHaveCount(1);
         const viewportWidth = await page.evaluate(() => window.innerWidth);
         for (const selector of ['.ent-product-frame', '.ent-tier-grid', '.ent-scenario-carousel', '.ent-conversion-frame']) {
@@ -56,10 +56,10 @@ test.describe('Founder-authorized enterprise launch experience', () => {
   test('pricing page includes free consultation, published diagnostic, ongoing and custom paths', async ({ page }) => {
     await page.goto('/pricing/');
     await expect(page.locator('h1')).toHaveCount(1);
-    await expect(page.locator('.ent-tier-card')).toHaveCount(5);
-    await expect(page.getByRole('link', { name: /Free introductory consultation/i }).first()).toHaveAttribute('href','/contact/#contact-form');
+    await expect(page.locator('.ent-pricing-free-card')).toBeVisible();
+    await expect(page.getByRole('link', { name: /Request a free consultation/i }).first()).toHaveAttribute('href','/contact/#contact-form');
     await expect(page.getByText('$2,500').first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Full MSO + Technology' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Full MSO Partnership' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Credentialing' })).toBeVisible();
   });
 });
