@@ -37,7 +37,7 @@ test.describe('Founder-authorized enterprise launch experience', () => {
     await expect(workbench.getByText('Modifier denial cluster')).toBeVisible();
     await workbench.getByRole('tab', { name: 'Credentialing' }).click();
     await expect(workbench.getByText('Effective-date validation')).toBeVisible();
-    await expect(workbench.getByRole('tab', { name: 'Revenue intelligence' }).click();
+    await workbench.getByRole('tab', { name: 'Revenue intelligence' }).click();
     await expect(workbench.getByText('Aging balances by payer')).toBeVisible();
   });
 
