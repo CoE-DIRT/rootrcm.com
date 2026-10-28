@@ -75,6 +75,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
               height={900}
               decoding="async"
               loading="eager"
+              fetchPriority="high"
               className="root-home-hero-photo-image h-full w-full object-cover"
             />
             <div className="home-visual-photo-overlay" aria-hidden="true" />
