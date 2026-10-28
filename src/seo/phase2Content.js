@@ -35,7 +35,24 @@ export const phase2Content = {
           "Map handoff failures to the accountable workflow.",
           "Recheck first-pass acceptance and repeat-denial trends."
         ]
-      }
+      },
+      {
+        "heading": "Keep control when you outsource or change a billing partner",
+        "body": "Healthcare leaders worry about billing becoming a black box, an implementation cash-flow gap, lost A/R history, staff disruption, specialty coding gaps and integrations that do not connect. ROOT begins with existing EHR and practice-management systems, establishes accountable claim follow-up and stages changes rather than requiring a software replacement.",
+        "items": [
+          "Create an owner, evidence trail and due date for outstanding financial exceptions.",
+          "Reconcile open A/R and historical balances before any proposed migration.",
+          "Trace recurring problems back to eligibility, authorization, coding and enrollment handoffs."
+        ]
+      },
+      {
+        "heading": "Credentialing is revenue readiness, not just paperwork",
+        "body": "Provider enrollment errors, missing locations, effective-date ambiguity and missed revalidation can delay collections. ROOT uses controlled pre-submission checks, approved API or electronic exchange where supported, payer-specific follow-up milestones and escalation ownership. Payer acceptance and timing remain with the payer.",
+        "items": [
+          "Validate NPI, licensing, CAQH, group affiliation, locations and required supporting material.",
+          "Assess processing stages and timing risks using payer-specific evidence where available.",
+          "Track participation decisions, effective dates, revalidations and outstanding follow-up."
+        ]
     ],
     "principle": "Aging A/R is not just a billing backlog. It is a visibility and ownership problem that compounds across the revenue cycle.",
     "definition": "ROOT is a healthcare revenue intelligence and operating partner that connects revenue cycle management, credentialing, and A/R recovery. Its role is to translate fragmented operational evidence into prioritized, auditable financial actions."
