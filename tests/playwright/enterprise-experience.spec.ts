@@ -11,12 +11,12 @@ test.describe('Founder-authorized enterprise launch experience', () => {
         await page.goto('/');
         await expect(page.locator('.root-home-hero')).toBeVisible();
         await expect(page.getByRole('link', { name: /Free introductory consultation/i }).first()).toBeVisible();
-        await expect(page.locator('.root-workflow-card').first()).toBeVisible();
-        await expect(page.locator('.root-product-frame')).toHaveCount(1);
-        await expect(page.locator('.root-tier-card')).toHaveCount(4);
-        await expect(page.locator('.root-scenario-carousel')).toHaveCount(1);
+        await expect(page.locator('.ent-workflow-card').first()).toBeVisible();
+        await expect(page.locator('.ent-product-frame')).toHaveCount(1);
+        await expect(page.locator('.ent-tier-card')).toHaveCount(4);
+        await expect(page.locator('.ent-scenario-carousel')).toHaveCount(1);
         const viewportWidth = await page.evaluate(() => window.innerWidth);
-        for (const selector of ['.root-product-frame', '.root-tier-grid', '.root-scenario-carousel', '.root-conversion-frame']) {
+        for (const selector of ['.ent-product-frame', '.ent-tier-grid', '.ent-scenario-carousel', '.ent-conversion-frame']) {
           const rect = await page.locator(selector).boundingBox();
           expect(rect, `No geometry for ${selector}`).not.toBeNull();
           if (rect) {
@@ -30,7 +30,7 @@ test.describe('Founder-authorized enterprise launch experience', () => {
 
   test('DIRT workbench tabs change metrics and human action queue', async ({ page }) => {
     await page.goto('/');
-    const workbench = page.locator('.root-product-frame');
+    const workbench = page.locator('.ent-product-frame');
     await expect(workbench.getByRole('heading', { name: 'An operating view of where cash is held up.' })).toBeVisible();
     await workbench.getByRole('tab', { name: 'Denial analytics' }).click();
     await expect(workbench.getByRole('tab', { name: 'Denial analytics' })).toHaveAttribute('aria-selected','true');
@@ -43,7 +43,7 @@ test.describe('Founder-authorized enterprise launch experience', () => {
 
   test('scenario carousel is actually interactive and does not impersonate a customer', async ({ page }) => {
     await page.goto('/');
-    const gallery = page.locator('.root-proof-section');
+    const gallery = page.locator('.ent-proof-section');
     await expect(gallery.getByRole('heading', { name: /Turn claim exceptions into a prioritized recovery queue/ })).toBeVisible();
     await gallery.getByRole('button', { name: 'Next scenario' }).click();
     await expect(gallery.getByRole('heading', { name: /Give leadership one operating picture across specialties/ })).toBeVisible();
@@ -56,7 +56,7 @@ test.describe('Founder-authorized enterprise launch experience', () => {
   test('pricing page includes free consultation, published diagnostic, ongoing and custom paths', async ({ page }) => {
     await page.goto('/pricing/');
     await expect(page.locator('h1')).toHaveCount(1);
-    await expect(page.locator('.root-tier-card')).toHaveCount(5);
+    await expect(page.locator('.ent-tier-card')).toHaveCount(5);
     await expect(page.getByRole('link', { name: /Free introductory consultation/i }).first()).toHaveAttribute('href','/contact/#contact-form');
     await expect(page.getByText('$2,500').first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Full MSO + Technology' })).toBeVisible();
