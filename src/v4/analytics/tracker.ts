@@ -121,7 +121,15 @@ export function track(name: AnalyticsEventName, rawProperties?: Record<string, u
     const properties = sanitizeProperties(rawProperties);
     const path = sanitizePath(window.location.pathname);
 
-    if (consent.ga4 && (isGa4Active() || startGa4())) sendGa4Event(name, ga4Payload(name, path, properties));
+    if (consent.ga4 && (isGa4Active() || startGa4())) {
+      sendGa4Event(name, ga4Payload(name, path, properties));
+      // GA4's recommended lead event is sent ONLY after the backend/relay acknowledged the form.
+      // Never infer a conversion from a CTA click, attempted submit, thank-you URL or failed response.
+      // This can be imported as a Google Ads conversion once a real GA4 property/account is linked.
+      if (name === 'form_submit' && properties.status === 'success' && typeof properties.form_id === 'string') {
+        sendGa4Event('generate_lead', { form_id: properties.form_id, page_path: path });
+      }
+    }
 
     if (consent.firstParty && getTrackingEndpoint()) {
       const referrer = name === 'page_view' ? referrerHost(document.referrer, window.location.hostname) : '';
