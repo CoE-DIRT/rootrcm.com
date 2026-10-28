@@ -5,7 +5,7 @@
  */
 import { useState } from 'react';
 import { ArrowRight, ArrowUpRight, BadgeCheck, BarChart3, Building2, Check, ChevronLeft, ChevronRight, CircleCheck, ClipboardCheck, Command, Database, FileText, Layers3, LockKeyhole, MonitorPlay, Play, ScanSearch, ShieldCheck, SlidersHorizontal, Sparkles, Workflow, Zap } from 'lucide-react';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { LinkButton } from '@/components/ui/Button';
 import { GlassCard } from '@/components/ui/GlassCard';
 
