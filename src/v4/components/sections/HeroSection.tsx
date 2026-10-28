@@ -26,7 +26,7 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
   const displayDescription = description;
   return (
     // The "homeHero" / "heroCopy" / "lede" class names are styling hooks (legacy CSS and the light theme target them).
-    <section id="hero" className="homeHero relative">
+    <section id="hero" className="homeHero root-home-hero relative">
       <div className="hero-photo-backdrop" data-hero-image-placeholder aria-hidden="true">
         <GlassPlaceholder aspect="video" className="h-full">
           <img src="/media/images/home-practice-operations.jpg" alt="" width={1600} height={900} loading="eager" fetchPriority="high" decoding="async" />
@@ -36,14 +36,14 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
         aria-hidden="true"
         className="root-mesh pointer-events-none absolute inset-x-0 -top-8 h-72 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
       />
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10 lg:px-8">
+      <div className="root-home-hero-layout relative z-10 mx-auto grid w-full max-w-7xl gap-7 px-4 pb-10 pt-8 sm:px-6 md:pb-12 md:pt-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-9 lg:px-8">
         <div className="heroCopy root-hero-content glass flex flex-col gap-5">
           <div className="root-hero-heading glass-strong">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-data-blue">{displayEyebrow}</p>
-            <h1 className="measure-exec mt-3 text-balance text-4xl font-semibold leading-[1.08] text-text sm:text-5xl lg:text-[3.5rem]">
+            <h1 className="root-home-hero-title measure-exec mt-3 text-balance text-4xl font-semibold leading-[1.08] text-text sm:text-5xl lg:text-[3.5rem]">
               {displayTitle}
             </h1>
-            <p className="lede measure-hero-support mt-3 text-pretty text-base text-muted md:text-lg">{displayDescription}</p>
+            <p className="lede root-home-hero-description measure-hero-support mt-3 text-pretty text-base text-muted md:text-lg">{displayDescription}</p>
           </div>
           <p className="text-sm font-medium text-text">Where revenue cycle management meets data intelligence.</p>
           {supportLine ? <p className="max-w-2xl text-sm text-accent/90">{supportLine}</p> : null}
@@ -72,7 +72,27 @@ export function HeroSection({ eyebrow, title, description, supportLine, mockup }
             Healthcare revenue intelligence, managed RCM, credentialing, and operational accountability.
           </p>
         </div>
-        {mockup}
+        <div className="root-home-hero-visual min-w-0" aria-label="ROOT operating experience">
+          <div className="root-home-hero-photo relative isolate overflow-hidden rounded-[var(--radius-hero)] border border-border">
+            <img
+              src="/media/images/home-practice-operations.jpg"
+              alt="Healthcare practice reception and administrative operations setting."
+              width={1600}
+              height={900}
+              decoding="async"
+              loading="eager"
+              className="root-home-hero-photo-image h-full w-full object-cover"
+            />
+            <div className="root-home-hero-photo-overlay" aria-hidden="true" />
+            <div className="root-home-hero-photo-callout glass-strong absolute inset-x-4 bottom-4 z-10 max-w-[21rem] rounded-[var(--radius-root)] p-4 sm:inset-x-auto sm:left-5 sm:bottom-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-data-blue">Built around your existing systems</p>
+              <p className="mt-1 text-sm font-semibold leading-snug text-text">Billing execution + accountable financial intelligence.</p>
+            </div>
+          </div>
+          <div className="root-home-hero-dirt-preview" data-hero-dirt-preview>
+            {mockup}
+          </div>
+        </div>
       </div>
     </section>
   );
