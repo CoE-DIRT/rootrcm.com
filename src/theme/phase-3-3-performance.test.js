@@ -14,8 +14,8 @@ describe('Phase 3.3 performance/CLS architecture contract', () => {
     expect(media).toContain("loading={priority ? 'eager' : 'lazy'}");
     expect(hero).toContain('fetchPriority="high"');
     expect(hero).toContain('loading="eager"');
-    expect(hero).toContain('<GlassPlaceholder aspect="video"');
-    expect(home).toContain('<GlassPlaceholder aspect="square"');
+    expect(hero).toContain('root-home-hero-photo relative');
+    expect(home).toContain('<GlassPlaceholder aspect="video"');
     expect(home).toContain('loading="lazy"');
   });
   it('keeps heavy components in separately loaded chunks and reserves a skeleton', () => {
